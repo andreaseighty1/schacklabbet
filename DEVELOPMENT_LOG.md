@@ -55,3 +55,9 @@ Användaren godkände sedan uttryckligen push till det offentliga repots `main` 
 - Lokal visuell QA är fortfarande inte utförd; de faktiska browserflödena har nu verifierats av Playwright i GitHub Actions. Multiplayer är fortfarande kommande.
 
 Denna dokumentationsuppdatering ändrar inte appens källkod och publiceras med `[skip ci]` för att undvika att upprepa den redan godkända bygg- och testkörningen.
+
+### Rättad publiceringskälla
+
+Efter den första korrekta Actions-publiceringen körde GitHubs separata Jekyll-publicering från `main` och ersatte det byggda spelet med källfiler. Domänen gav då HTTP 200 men laddade `/src/main.tsx` som `application/octet-stream`, vilket gav en vit sida. Det var inte ett Supabase-fel.
+
+Ägaren har därefter meddelat att Pages-källan ändrats enligt instruktionen **Settings → Pages → Build and deployment → Source → GitHub Actions**. En ny vanlig push startar den befintliga test-, bygg- och publiceringskedjan igen. Efterkontrollen ska verifiera en byggd `/assets/*.js`-fil, korrekt MIME och att appen faktiskt visas.
