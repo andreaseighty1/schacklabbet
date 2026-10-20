@@ -7,6 +7,7 @@ React 19, strikt TypeScript, Vite och vanlig CSS. Appen är statisk; ingen Node-
 - `src/App.tsx`: navigation, spel- och övningsflöden, inställningar och visning. `Modal` fångar tangentbordsfokus och återför det när dialogen stängs.
 - `src/components/Board.tsx`: presentation och inmatning. Visar bara de destinationsrutor som regelmotorn levererar. Piltangenter flyttar fokus, Enter väljer. Drag och släpp använder samma anropsväg som klick.
 - `src/components/Piece.tsx`: egna SVG-pjäser. Alla färger och typer har samma formgrammatik.
+- `src/components/LessonArt.tsx` och `AchievementArt.tsx`: dekorativa rörelsediagram och medaljer. Instansunika SVG-ID:n gör att flera illustrationer kan samexistera utan gradient- eller pilkollisioner. Ingen spel- eller poänglogik ligger i grafiken.
 - `src/chess/model.ts`: centrala regeloperationer, korrekt avslutsorsak, UCI-validering, fångade pjäser, riskkontroll och PGN-resultat.
 - `src/chess/engine.ts`: UCI, styrkeinställningar, kandidatval och worker-livscykel.
 - `src/content.ts`: fyra lektioner och två mattproblem, med FEN, lösningsdrag, ledtråd och konkret återkoppling.
