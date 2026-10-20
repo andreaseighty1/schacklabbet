@@ -28,8 +28,15 @@ import {
   Download,
   CheckCircle2,
   Wifi,
-  VolumeX,
 } from "lucide-react";
+import { useVoice, type Voice } from "./audio/useVoice";
+import { exerciseClip } from "./audio/clips";
+import {
+  VoiceControls,
+  VoiceStatus,
+  ListenButton,
+  PlaybackControls,
+} from "./components/VoiceControls";
 import { Board } from "./components/Board";
 import { Piece } from "./components/Piece";
 import { LessonArt } from "./components/LessonArt";
@@ -237,6 +244,8 @@ function HeroArt() {
   );
 }
 export default function App() {
+  const voice = useVoice();
+  const voicePlayer = voice.player;
   const [initial] = useState(loadInitial);
   const gameRef = useRef<Chess | null>(null);
   if (!gameRef.current) {
@@ -300,7 +309,47 @@ export default function App() {
       : [];
   const threatList =
     showThreats && !competition ? threats(game, config.color) : [];
+  useEffect(() => {
+    voicePlayer.setAssistanceAllowed(view !== "play" || !competition);
+  }, [view, competition, voicePlayer]);
+  useEffect(() => {
+    voicePlayer.reset();
+  }, [view, exercise?.id, id, modal, replay, voicePlayer]);
+  useEffect(() => {
+    if (terminal) voicePlayer.reset();
+  }, [terminal, voicePlayer]);
+  const checkCue = useRef("");
+  useEffect(() => {
+    const key = `${id}:${game.fen()}`;
+    if (
+      view !== "play" ||
+      !hasGame ||
+      terminal ||
+      !playerTurn ||
+      competition ||
+      replay !== null
+    ) {
+      checkCue.current = "";
+      return;
+    }
+    if (game.isCheck() && checkCue.current !== key) {
+      checkCue.current = key;
+      voicePlayer.play("game-player-check");
+    }
+  }, [
+    revision,
+    id,
+    view,
+    hasGame,
+    terminal,
+    playerTurn,
+    competition,
+    replay,
+    game,
+    voicePlayer,
+  ]);
   function navigate(next: View) {
+    voicePlayer.reset();
     hintAbort.current?.abort();
     viewRef.current = next;
     setView(next);
@@ -313,6 +362,7 @@ export default function App() {
     const handler = () => {
       const next = initialView();
       if (next !== viewRef.current) {
+        voicePlayer.reset();
         hintAbort.current?.abort();
         viewRef.current = next;
         setView(next);
@@ -322,7 +372,7 @@ export default function App() {
     };
     window.addEventListener("hashchange", handler);
     return () => window.removeEventListener("hashchange", handler);
-  }, []);
+  }, [voicePlayer]);
   useEffect(() => {
     return () => hintAbort.current?.abort();
   }, []);
@@ -403,6 +453,7 @@ export default function App() {
     game,
   ]);
   function newGame() {
+    voicePlayer.reset();
     hintAbort.current?.abort();
     game.reset();
     setConfig(draft);
@@ -424,6 +475,7 @@ export default function App() {
     navigate("play");
   }
   function openNew(profile?: Profile) {
+    voicePlayer.reset();
     setDraft({ ...config, profile: profile ?? config.profile });
     setModal("new");
   }
@@ -434,6 +486,7 @@ export default function App() {
     force = false,
   ) {
     if (!playerTurn || terminal || busy || replay !== null) return;
+    voicePlayer.reset();
     if (!game.moves({ square: from, verbose: true }).some((m) => m.to === to)) {
       setMessage("Det draget går inte. Välj en annan ruta.");
       return;
@@ -448,6 +501,7 @@ export default function App() {
           attackers: assessment.attackers,
         });
         setRiskShown(false);
+        voicePlayer.play("game-move-risk");
         return;
       }
     }
@@ -475,6 +529,7 @@ export default function App() {
       game.moves({ square: from, verbose: true }).some((m) => m.to === square)
     ) {
       if (game.get(from)?.type === "p" && ["1", "8"].includes(square[1])) {
+        voicePlayer.reset();
         setPromotion({ from, to: square });
         return;
       }
@@ -493,6 +548,7 @@ export default function App() {
   }
   function undo() {
     if (competition || terminal || !history.length) return;
+    voicePlayer.reset();
     hintAbort.current?.abort();
     const turn = game.turn();
     game.undo();
@@ -668,6 +724,7 @@ export default function App() {
             <strong>{pageTitle}</strong>
           </div>
           <div className="topbar-right">
+            <VoiceControls voice={voice} />
             <span className="local-status">
               <span className="online-dot" /> Dina framsteg sparas på den här
               datorn
@@ -680,6 +737,7 @@ export default function App() {
         <main
           className={`main-content ${view === "play" && hasGame ? "game-content" : ""}`}
         >
+          <VoiceStatus voice={voice} />
           {warning && (
             <div className="notice warning" role="status">
               {warning}
@@ -746,6 +804,11 @@ export default function App() {
                 </div>
                 <HeroArt />
               </section>
+              <PlaybackControls
+                voice={voice}
+                clip="start-welcome"
+                label="Lyssna på välkomsten"
+              />
               <div className="section-heading">
                 <h2>Vad vill du upptäcka idag?</h2>
                 <span>Det finns inget fel ställe att börja.</span>
@@ -972,9 +1035,6 @@ export default function App() {
                         <Piece key={i} type={p} color={other(config.color)} />
                       ))}
                     </div>
-                    <span className="sound-label">
-                      <VolumeX size={16} /> Ljud av
-                    </span>
                   </div>
                   <div className="board-controls">
                     <button
@@ -1075,6 +1135,18 @@ export default function App() {
                       <h3>
                         <Settings2 size={17} /> Dina hjälpmedel
                       </h3>
+                      <ListenButton
+                        voice={voice}
+                        clip="help-move-piece"
+                        label="Lyssna: så flyttar du"
+                      />
+                      {playerTurn && game.isCheck() && (
+                        <ListenButton
+                          voice={voice}
+                          clip="game-player-check"
+                          label="Lyssna: din kung står i schack"
+                        />
+                      )}
                       <label className="toggle-row">
                         <span>
                           Visa möjliga drag
@@ -1242,6 +1314,7 @@ export default function App() {
                 <ExercisePlayer
                   key={exercise.id}
                   exercise={exercise}
+                  voice={voice}
                   completed={progress.completed.includes(exercise.id)}
                   onComplete={() => completeExercise(exercise)}
                   onBack={() => setExercise(null)}
@@ -1653,6 +1726,25 @@ export default function App() {
             </li>
           </ul>
           <p className="fine-print">
+            Du väljer själv när du vill lyssna. Röst av stoppar all uppläsning.
+            Rösten är av när du öppnar sidan.
+          </p>
+          <PlaybackControls
+            voice={voice}
+            clip="help-audio-controls"
+            label="Lyssna: så styr du rösten"
+          />
+          <ListenButton
+            voice={voice}
+            clip="start-welcome"
+            label="Lyssna på välkomsten"
+          />
+          <ListenButton
+            voice={voice}
+            clip="help-move-piece"
+            label="Lyssna: så flyttar du"
+          />
+          <p className="fine-print">
             Schackmotor: Stockfish.js 19, GPL-3.0.{" "}
             <a
               href="https://github.com/nmrugg/stockfish.js/tree/v19.0.1"
@@ -1688,7 +1780,10 @@ export default function App() {
       {promotion && (
         <Modal
           title="Vad vill din bonde bli?"
-          onClose={() => setPromotion(null)}
+          onClose={() => {
+            voicePlayer.reset();
+            setPromotion(null);
+          }}
         >
           <p className="modal-intro">
             Din bonde har nått sista raden. Välj en ny pjäs.
@@ -1711,7 +1806,13 @@ export default function App() {
         </Modal>
       )}
       {risk && (
-        <Modal title="Stanna upp och ta en titt." onClose={() => setRisk(null)}>
+        <Modal
+          title="Stanna upp och ta en titt."
+          onClose={() => {
+            voicePlayer.reset();
+            setRisk(null);
+          }}
+        >
           <div className="risk-icon">
             <ShieldCheck size={29} />
           </div>
@@ -1725,6 +1826,11 @@ export default function App() {
             Att pjäsen kan slås betyder inte alltid att draget är dåligt. Du kan
             ha en bra plan.
           </p>
+          <PlaybackControls
+            voice={voice}
+            clip="game-move-risk"
+            label="Lyssna på förklaringen"
+          />
           {riskShown && (
             <>
               <div className="risk-preview">
@@ -1752,7 +1858,13 @@ export default function App() {
             <Lightbulb size={17} /> {riskShown ? "Dölj hotet" : "Visa hotet"}
           </button>
           <div className="modal-actions">
-            <button className="button outline" onClick={() => setRisk(null)}>
+            <button
+              className="button outline"
+              onClick={() => {
+                voicePlayer.reset();
+                setRisk(null);
+              }}
+            >
               Välj ett annat drag
             </button>
             <button
@@ -1772,11 +1884,13 @@ export default function App() {
 
 function ExercisePlayer({
   exercise,
+  voice,
   completed,
   onComplete,
   onBack,
 }: {
   exercise: Exercise;
+  voice: Voice;
   completed: boolean;
   onComplete: () => void;
   onBack: () => void;
@@ -1801,17 +1915,28 @@ function ExercisePlayer({
         setSelected(null);
         setSolved(true);
         setFeedback(exercise.success);
+        const clip = exerciseClip(exercise.id, "success");
+        if (clip) voice.player.play(clip);
         onComplete();
       } else {
         setFeedback(
           "Det är ett lagligt drag, men det löser inte just den här uppgiften. Försök med en annan idé.",
         );
         setSelected(null);
+        voice.player.play("exercise-try-again");
       }
       return;
     }
     if (game.get(square)?.color === game.turn()) setSelected(square);
-    else setSelected(null);
+    else {
+      if (from && from !== square) {
+        setFeedback(
+          "Den pjäsen kan inte flytta dit just nu. Välj en annan ruta.",
+        );
+        voice.player.play("exercise-move-not-allowed");
+      }
+      setSelected(null);
+    }
   }
   return (
     <>
@@ -1853,6 +1978,11 @@ function ExercisePlayer({
           </span>
           <h2>{solved ? "En ny upptäckt!" : "Ditt uppdrag"}</h2>
           <p>{exercise.description}</p>
+          <PlaybackControls
+            voice={voice}
+            clip={exerciseClip(exercise.id, solved ? "success" : "intro")}
+            label={solved ? "Lyssna på förklaringen" : "Lyssna på uppdraget"}
+          />
           <div
             className={`exercise-feedback ${solved ? "success" : ""}`}
             role="status"
@@ -1860,12 +1990,27 @@ function ExercisePlayer({
             {solved && <CheckCircle2 size={20} />}
             <p>{feedback}</p>
           </div>
-          {showHint && !solved && <p className="hint-text">{exercise.hint}</p>}
+          {showHint && !solved && (
+            <>
+              <p className="hint-text">{exercise.hint}</p>
+              <ListenButton
+                voice={voice}
+                clip={exerciseClip(exercise.id, "hint")}
+                label="Lyssna på ledtråden"
+              />
+            </>
+          )}
           <div className="exercise-actions">
             {!solved && (
               <button
                 className="button outline"
-                onClick={() => setShowHint((v) => !v)}
+                onClick={() => {
+                  if (!showHint) {
+                    const clip = exerciseClip(exercise.id, "hint");
+                    if (clip) voice.player.play(clip);
+                  } else voice.player.reset();
+                  setShowHint((v) => !v);
+                }}
               >
                 <Lightbulb size={17} />
                 {showHint ? "Dölj ledtråd" : "En liten ledtråd"}
@@ -1879,6 +2024,7 @@ function ExercisePlayer({
                 <button
                   className="text-button"
                   onClick={() => {
+                    voice.player.reset();
                     setGame(new Chess(exercise.fen));
                     setSolved(false);
                     setSelected(null);

@@ -1,6 +1,6 @@
 # Schacklabbet – röstmanus för ElevenLabs
 
-Det här är ett inspelningsunderlag. De 25 P1-filerna har levererats lokalt. Ljuduppspelning är ännu inte inkopplad i appen. Manuset är inte en kontrollerad transkription av de levererade inspelningarna.
+Det här är ett inspelningsunderlag. De 25 P1-filerna är inkopplade i appens ljudspelare. Manuset är inte en kontrollerad transkription av de levererade inspelningarna.
 
 ## Börja här
 

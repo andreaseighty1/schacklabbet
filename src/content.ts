@@ -28,7 +28,7 @@ export const exercises: Exercise[] = [
     title: "Löparens diagonaler",
     tag: "Pjäserna · 2 min",
     description:
-      "Löparen rör sig diagonalt och stannar alltid på samma färg. Ta bonden på g5 med löparen.",
+      "Löparen går snett. Det kallas diagonalt. Den stannar alltid på samma färg. Ta bonden på G5 med löparen.",
     fen: "7k/8/8/6p1/8/8/3B4/K7 w - - 0 1",
     solutions: ["d2g5"],
     hint: "Följ diagonalen från d2: e3, f4, g5.",
@@ -65,7 +65,7 @@ export const exercises: Exercise[] = [
     title: "Stäng den sista vägen",
     tag: "Matt i ett · Lätt",
     description:
-      "Svarts kung står vid kanten. Hitta ett torndrag som ger schackmatt. Vit drar.",
+      "Svarts kung står vid kanten. Nu är det vits tur. Hitta ett torndrag som ger schackmatt.",
     fen: "7k/5K2/8/8/8/8/8/R7 w - - 0 1",
     solutions: ["a1h1"],
     hint: "Din kung täcker g8 och g7. Ge schack längs h-linjen.",
@@ -75,10 +75,10 @@ export const exercises: Exercise[] = [
   {
     id: "mate-queen",
     category: "challenge",
-    title: "Drottningens sista drag",
+    title: "Damens sista drag",
     tag: "Matt i ett · Lätt",
     description:
-      "Damen och kungen kan samarbeta. Sätt matt i ett drag. Vit drar.",
+      "Damen och kungen kan samarbeta. Nu är det vits tur. Hitta ett drag som ger schackmatt.",
     fen: "7k/8/5KQ1/8/8/8/8/8 w - - 0 1",
     solutions: ["g6g7"],
     hint: "Ställ damen precis framför kungen. Din egen kung måste försvara henne.",

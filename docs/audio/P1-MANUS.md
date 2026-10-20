@@ -8,7 +8,7 @@ I ZIP-paketets mapp `p1/` finns en ren textfil per klipp. I repositoryt ligger s
 
 Skriv för elever i årskurs 4. Använd korta meningar, en instruktion i taget och förklara schackorden. Se [språkstödet](SPRAK_OCH_UTTAL.md). Rutnamn skrivs exempelvis `D fyra`, `F fem`, `G sju` och `H-linjen`. Skriv bokstaven, inte en fonetisk omskrivning.
 
-De 25 MP3-filerna har levererats lokalt. Detta manus är inte en kontrollerad transkription av inspelningarna. Ljudspelaren återstår: rösten ska vara av från början, med Röst på/av samt Lyssna, Stoppa och Lyssna igen. Inget ljud ska starta automatiskt när sidan öppnas.
+De 25 MP3-filerna är inkopplade i appen. Detta manus är inte en kontrollerad transkription av inspelningarna. Rösten är av när sidan öppnas. Eleven kan välja Röst på/av och använda Lyssna, Stoppa och Lyssna igen. Ett tryck på Lyssna slår också på rösten. Valet gäller under besöket och återställs till av vid omladdning.
 
 ## start-welcome.mp3
 

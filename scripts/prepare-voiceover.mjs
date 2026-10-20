@@ -40,7 +40,7 @@ for (const clip of manifest.clips.filter((c) => c.lessonId))
 const lines = [
   "# Schacklabbet – röstmanus för ElevenLabs",
   "",
-  "Det här är ett inspelningsunderlag. De 25 P1-filerna har levererats lokalt. Ljuduppspelning är ännu inte inkopplad i appen. Manuset är inte en kontrollerad transkription av de levererade inspelningarna.",
+  "Det här är ett inspelningsunderlag. De 25 P1-filerna är inkopplade i appens ljudspelare. Manuset är inte en kontrollerad transkription av de levererade inspelningarna.",
   "",
   "## Börja här",
   "",
@@ -137,7 +137,7 @@ const firstLines = [
   "",
   "Skriv för elever i årskurs 4. Använd korta meningar, en instruktion i taget och förklara schackorden. Se [språkstödet](SPRAK_OCH_UTTAL.md). Rutnamn skrivs exempelvis `D fyra`, `F fem`, `G sju` och `H-linjen`. Skriv bokstaven, inte en fonetisk omskrivning.",
   "",
-  "De 25 MP3-filerna har levererats lokalt. Detta manus är inte en kontrollerad transkription av inspelningarna. Ljudspelaren återstår: rösten ska vara av från början, med Röst på/av samt Lyssna, Stoppa och Lyssna igen. Inget ljud ska starta automatiskt när sidan öppnas.",
+  "De 25 MP3-filerna är inkopplade i appen. Detta manus är inte en kontrollerad transkription av inspelningarna. Rösten är av när sidan öppnas. Eleven kan välja Röst på/av och använda Lyssna, Stoppa och Lyssna igen. Ett tryck på Lyssna slår också på rösten. Valet gäller under besöket och återställs till av vid omladdning.",
   "",
 ];
 for (const clip of firstBatch) {

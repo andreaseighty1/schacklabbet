@@ -30,6 +30,21 @@ for (const path of [
   "licenses/nn-61e7af4bb97d.nnue",
 ])
   assert.ok((await stat(`dist/${path}`)).size > 0);
+const voiceManifest = JSON.parse(
+  await readFile("docs/audio/manifest.json", "utf8"),
+);
+const voiceClips = voiceManifest.clips.filter((clip) => clip.priority === "P1");
+for (const clip of voiceClips) {
+  const file = `audio/sv-SE/${clip.id}.mp3`;
+  const original = await readFile(`public/${file}`);
+  assert.ok(original.length > 0, `Tom röstfil: ${file}`);
+  const built = await readFile(`dist/${file}`);
+  assert.equal(
+    createHash("sha256").update(built).digest("hex"),
+    createHash("sha256").update(original).digest("hex"),
+    `Ändrad röstfil: ${file}`,
+  );
+}
 console.log(
-  `PASS: statiska resursvägar (${base}), oförändrad motor, giltig WASM och GPL-källfiler.`,
+  `PASS: statiska resursvägar (${base}), oförändrad motor, giltig WASM, GPL-källfiler och ${voiceClips.length} oförändrade röstfiler.`,
 );

@@ -99,3 +99,13 @@ Användaren uppmärksammade att internationell notation som `Nf6`, `Bxd2+` och `
 Hela användarens parti ingår i ett regressionstest, tillsammans med rockad för båda färgerna, en passant och samtliga fyra förvandlingsval. `npm test` passerade med 56 tester. Lint, TypeScript-/produktionsbygge, dist-kontroll och regenerering av de 58 manusen passerade. Ett nytt Playwright-flöde kontrollerar det avslutade partiets svenska draglista, bredd och genomspelning i desktop- och mobilprojekten. Dess körresultat och publiceringen kontrolleras efter push.
 
 Commit `98ad996` publicerades framgångsrikt i [Actions-körning 39481334795](https://github.com/andreaseighty1/schacklabbet/actions/runs/39481334795). Alla byggsteg passerade, inklusive Playwright för desktop och mobil, och deploy slutfördes med success. Domänen levererade därefter den förväntade `/assets/index-Dv-jfHMn.js` med HTTP 200 och JavaScript-MIME; appfilen innehöll de svenska dragbeskrivningarna. De levererade MP3-filerna är fortfarande lokala och ljuduppspelning är ännu inte implementerad.
+
+### Elevstyrd ljuduppspelning
+
+De 25 levererade P1-filerna kopplas nu till välkomst- och hjälprepliker, samtliga sex övningars uppdrag/ledtråd/förklaring, verkliga felaktiga övningsförsök, schack och förhandsvarning om slaghot. Inga framtida P2-/P3-filer efterfrågas. Eleven kan slå på/av rösten och välja Lyssna, Stoppa eller Lyssna igen. Ett manuellt Lyssna slår också på rösten. Valet gäller under besöket; rösten är av efter sidöppning och omladdning och inga ljudfiler hämtas innan eleven väljer.
+
+En gemensam ljudkanal avbryter tidigare uppspelning innan ett nytt klipp startar. Stopp och avstängning avbryter även pågående laddning. Sena play-svar och fel från tidigare klipp kan inte återstarta rösten eller ersätta aktuell status. Sidbyte, ny övning, nytt parti, genomspelning och dialogstängning tömmer gammal uppspelning. Tävlingsprofilen blockerar hjälprepliker även i spelarens centrala uppspelnings- och upprepningsfunktioner. Text, bräde och sparning fungerar vid ljudfel. Ingen ElevenLabs-nyckel eller extern rösttjänst används.
+
+Löparens text förklarar diagonalt med ”snett”, mattuppgifterna säger ”Nu är det vits tur” och damens uppgift använder konsekvent pjäsnamnet dam. Befintliga inspelningar har inte ändrats. Manusens språkstöd gäller fortsatt arbete; pedagogisk lyssningsgranskning med elever återstår.
+
+Lokalt passerade 64 enhetstester, lint, TypeScript-/produktionsbygge och kontroll av att alla 25 MP3-filer kopieras oförändrade till dist. Fem nya Playwright-flöden omfattar verklig uppspelning/stopp/upprepning, övningsrepliker, tävlingsprofilen, ljudfel och webbläsaravkodning av samtliga 25 MP3-filer. CI- och publiceringsresultat redovisas efter körning.
