@@ -1,0 +1,41 @@
+{
+  "name": "schacklabbet",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host 127.0.0.1",
+    "predev": "node scripts/prepare-engine.mjs",
+    "build": "node scripts/prepare-engine.mjs && tsc -b && vite build",
+    "preview": "vite preview --host 127.0.0.1",
+    "test": "vitest run",
+    "test:e2e": "playwright test",
+    "test:engine": "node scripts/live-engine-check.mjs",
+    "check:dist": "node scripts/check-dist.mjs",
+    "lint": "eslint .",
+    "format": "prettier --write src scripts e2e *.json *.md *.ts *.js .github/workflows/*.yml"
+  },
+  "dependencies": {
+    "chess.js": "^1.4.0",
+    "lucide-react": "^0.468.0",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0",
+    "stockfish": "19.0.1"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.0.0",
+    "@playwright/test": "^1.56.0",
+    "@types/node": "^24.0.0",
+    "@types/react": "^19.2.0",
+    "@types/react-dom": "^19.2.0",
+    "@vitejs/plugin-react": "^5.0.0",
+    "eslint": "^9.0.0",
+    "eslint-plugin-react-hooks": "^7.0.0",
+    "globals": "^16.0.0",
+    "prettier": "^3.6.0",
+    "typescript": "^5.9.0",
+    "typescript-eslint": "^8.0.0",
+    "vite": "^7.1.0",
+    "vitest": "^5.0.5"
+  }
+}

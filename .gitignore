@@ -1,0 +1,12 @@
+node_modules/
+dist/
+.env
+.env.local
+* pw.txt
+*password*.txt
+*secret*.txt
+playwright-report/
+test-results/
+public/engine/
+public/CNAME
+*.tsbuildinfo
