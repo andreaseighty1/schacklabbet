@@ -21,10 +21,6 @@ for (const clip of manifest.clips) {
     clip.phase !== "planned" || clip.priority === "P3",
     "Kommande funktioner får inte ingå i första inspelningsomgången",
   );
-  assert.ok(
-    !/[a-h][1-8]\b/.test(clip.text),
-    "Rutor ska skrivas med uttalsvänliga ord i inspelningsmanuset",
-  );
 }
 const content = await readFile("src/content.ts", "utf8");
 const exerciseIds = [...content.matchAll(/\bid:\s*"([^"]+)"/g)].map(
@@ -44,7 +40,7 @@ for (const clip of manifest.clips.filter((c) => c.lessonId))
 const lines = [
   "# Schacklabbet – röstmanus för ElevenLabs",
   "",
-  "Det här är ett inspelningsunderlag. Ljuduppspelning är ännu inte inkopplad i appen och inga ljudfiler har genererats.",
+  "Det här är ett inspelningsunderlag. De 25 P1-filerna har levererats lokalt. Ljuduppspelning är ännu inte inkopplad i appen. Manuset är inte en kontrollerad transkription av de levererade inspelningarna.",
   "",
   "## Börja här",
   "",
@@ -54,7 +50,7 @@ const lines = [
   "",
   "## Röstregi",
   "",
-  "- Svenska, varm och lugn vuxen röst. Tala tydligt till elever omkring nio till tolv år, utan att låta barnslig.",
+  "- Svenska, varm och lugn vuxen röst. Skriv för elever i årskurs 4: korta meningar, en instruktion i taget och konkreta ord. Förklara nya schackord när de används. Se [språkstödet](SPRAK_OCH_UTTAL.md).",
   "- Naturligt och uppmuntrande, med korta pauser mellan tankarna. Varningar ska låta eftertänksamma, inte alarmerande.",
   "- Samma röst och ungefär samma ljudnivå i alla filer. Ingen musik, ljudeffekter, extra hälsningsfras eller påhittad avslutning.",
   "- Leverera MP3, en replik per fil. Inga inledande eller avslutande långa tystnader och inga avklippta ord.",
@@ -62,7 +58,7 @@ const lines = [
   "",
   "## Uttal",
   "",
-  "Rutnamn är utskrivna för uppläsning: `a ett`, `be två`, `se tre`, `de fyra`, `e fem`, `eff sex`, `ge sju`, `hå åtta`. Säg bokstaven och siffran tydligt, med en liten paus. Exempel: `ge sju` betyder rutan `g7`, inte ordet ”gesju”.",
+  "Skriv rutnamn med stor bokstav och talet som ord: `A ett`, `B två`, `C tre`, `D fyra`, `E fem`, `F sex`, `G sju`, `H åtta`. Använd exempelvis `F fyra` och `G fem`, inte fonetiska omskrivningar som ”eff fyra” eller ”ge fem”. Användaren har provat detta i ElevenLabs med bra resultat.",
   "",
   "Använd ”dam”, ”springare”, ”löpare”, ”torn”, ”bonde” och ”kung” konsekvent. ”Remi” betyder oavgjort. ”Patt” är en särskild remiorsak. Kontrollera uttalet av ”Schacklabbet”, ”rockad” och ”remi” i röstproven.",
   "",
@@ -139,9 +135,9 @@ const firstLines = [
   "",
   "I ZIP-paketets mapp `p1/` finns en ren textfil per klipp. I repositoryt ligger samma filer under `docs/audio/elevenlabs-input/p1/`. Byt bara ändelse från `.txt` till `.mp3` när du sparar ljudet. Använd filnamnen exakt. Leverera de 25 MP3-filerna i en ZIP, eller lägg dem i `public/audio/sv-SE/`.",
   "",
-  "Rutnamn skrivs med uttal: `de fyra` = d4, `eff fem` = f5, `ge sju` = g7, `hå-linjen` = h-linjen. Säg bokstav och siffra tydligt. Säg bokstaven L som ”ell”.",
+  "Skriv för elever i årskurs 4. Använd korta meningar, en instruktion i taget och förklara schackorden. Se [språkstödet](SPRAK_OCH_UTTAL.md). Rutnamn skrivs exempelvis `D fyra`, `F fem`, `G sju` och `H-linjen`. Skriv bokstaven, inte en fonetisk omskrivning.",
   "",
-  "Rösten kommer att vara av från början. Eleven får Röst på/av samt Lyssna, Stoppa och Lyssna igen. Inget ljud startar automatiskt när sidan öppnas. Ljudspelaren kopplas in när MP3-filerna levererats.",
+  "De 25 MP3-filerna har levererats lokalt. Detta manus är inte en kontrollerad transkription av inspelningarna. Ljudspelaren återstår: rösten ska vara av från början, med Röst på/av samt Lyssna, Stoppa och Lyssna igen. Inget ljud ska starta automatiskt när sidan öppnas.",
   "",
 ];
 for (const clip of firstBatch) {

@@ -33,6 +33,7 @@ import {
 import { Board } from "./components/Board";
 import { Piece } from "./components/Piece";
 import { LessonArt } from "./components/LessonArt";
+import { MoveLabel } from "./components/MoveLabel";
 import {
   AchievementArt,
   type AchievementKind,
@@ -1163,8 +1164,8 @@ export default function App() {
                           (_, i) => (
                             <div className="move-pair" key={i}>
                               <span>{i + 1}.</span>
-                              <span>{history[i * 2].san}</span>
-                              <span>{history[i * 2 + 1]?.san ?? "—"}</span>
+                              <MoveLabel move={history[i * 2]} />
+                              <MoveLabel move={history[i * 2 + 1]} />
                             </div>
                           ),
                         )

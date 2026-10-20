@@ -1,1 +1,1 @@
-Svarts kung står vid kanten. Vit är på drag. Hitta ett torndrag som ger schackmatt direkt. Titta efter vilka rutor den svarta kungen kan fly till.
+Svarts kung står vid kanten. Nu är det vits tur. Hitta ett torndrag som ger schackmatt direkt. Titta efter vilka rutor den svarta kungen kan fly till.

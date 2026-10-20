@@ -9,6 +9,7 @@
 - [x] Möjliga drag, lagliga hot, valfria förhandsvarningar och stegvisa ledtrådar.
 - [x] Tre stödprofiler, ångra där det är tillåtet, vänd brädet och ge upp.
 - [x] Lokal sparning, full historik, PGN och efterföljande genomspelning.
+- [x] Draglista med utskrivna svenska pjäsnamn, från-/tillruta och orden schack/schackmatt. Standardnotation bevaras i PGN.
 - [x] Fyra lektioner, två verifierade mattproblem och faktabaserade lokala framsteg.
 - [x] Enkel träningsväg inför tävling: rockad, mattproblem, självständigt parti.
 - [x] GitHub Actions för kontroller, Pages och valfri egen domän.
@@ -30,7 +31,8 @@
 - [ ] Sammanhållet 5–15-minuterspass med återkoppling och sparad passhistorik.
 - [ ] Valfri schackklocka, verkliga tidsavslut och återställning.
 - [x] Inspelningsmanus med exakta filnamn för de sex nuvarande övningarna och gemensamma spelhändelser.
-- [ ] ElevenLabs-filer levererade och lyssningsgranskade. Första omgång: P1, 25 filer.
+- [x] Första omgångens 25 P1-filer levererade lokalt med rätt filnamn och innehåll större än noll byte.
+- [ ] Lyssningsgranska P1-filerna och verifiera begriplighet, uttal och ljudnivå. P2 och P3 är senare omgångar.
 - [ ] Koppla lokal ljuduppspelning med Röst på/av, Lyssna, Stoppa och Lyssna igen. Av som standard, ingen automatisk start vid sidöppning och omedelbart stopp vid avstängning.
 - [ ] Verifiera att tävlingsprofilen aldrig läser upp avstängda tips eller hotvarningar och att samtidiga repliker inte överlappar.
 

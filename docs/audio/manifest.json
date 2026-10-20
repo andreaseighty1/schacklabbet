@@ -49,7 +49,7 @@
       "lessonId": "rook",
       "cue": "intro",
       "trigger": "Lyssna på tornlektionen",
-      "text": "Tornet går rakt, längs rader och linjer. Det kan gå flera rutor i samma drag om vägen är fri. Flytta tornet från a ett till a sju och ta den svarta bonden."
+      "text": "Tornet går rakt, längs rader och linjer. Det kan gå flera rutor i samma drag om vägen är fri. Flytta tornet från A ett till A sju och ta den svarta bonden."
     },
     {
       "id": "lesson-rook-hint",
@@ -58,7 +58,7 @@
       "lessonId": "rook",
       "cue": "hint",
       "trigger": "Lyssna på tornlektionens ledtråd",
-      "text": "Tornet kan gå många rutor uppåt om vägen är fri. Följ linjen från a ett till a sju."
+      "text": "Tornet kan gå många rutor uppåt om vägen är fri. Följ linjen från A ett till A sju."
     },
     {
       "id": "lesson-rook-success",
@@ -67,7 +67,7 @@
       "lessonId": "rook",
       "cue": "success",
       "trigger": "Tornlektionen löst",
-      "text": "Precis! Tornet gick rakt upp till a sju och tog bonden. Tornet kan slå en motståndarpjäs på rutan där det landar."
+      "text": "Precis! Tornet gick rakt upp till A sju och tog bonden. Tornet kan slå en motståndarpjäs på rutan där det landar."
     },
     {
       "id": "lesson-bishop-intro",
@@ -76,7 +76,7 @@
       "lessonId": "bishop",
       "cue": "intro",
       "trigger": "Lyssna på löparlektionen",
-      "text": "Löparen rör sig diagonalt och stannar alltid på samma färg. Den kan gå flera rutor om vägen är fri. Ta bonden på ge fem med löparen."
+      "text": "Löparen rör sig diagonalt och stannar alltid på samma färg. Den kan gå flera rutor om vägen är fri. Ta bonden på G fem med löparen."
     },
     {
       "id": "lesson-bishop-hint",
@@ -85,7 +85,7 @@
       "lessonId": "bishop",
       "cue": "hint",
       "trigger": "Lyssna på löparlektionens ledtråd",
-      "text": "Följ diagonalen från de två. Först e tre, sedan eff fyra och till sist ge fem."
+      "text": "Följ diagonalen från D två. Först E tre, sedan F fyra och till sist G fem."
     },
     {
       "id": "lesson-bishop-success",
@@ -94,7 +94,7 @@
       "lessonId": "bishop",
       "cue": "success",
       "trigger": "Löparlektionen löst",
-      "text": "Snyggt! Löparen följde diagonalen hela vägen till ge fem och tog bonden. Den stannade på samma färg hela vägen."
+      "text": "Snyggt! Löparen följde diagonalen hela vägen till G fem och tog bonden. Den stannade på samma färg hela vägen."
     },
     {
       "id": "lesson-knight-intro",
@@ -103,7 +103,7 @@
       "lessonId": "knight",
       "cue": "intro",
       "trigger": "Lyssna på springarlektionen",
-      "text": "Springaren går två rutor åt ett håll och en ruta åt sidan, som bokstaven L. Den kan hoppa över andra pjäser. Ta bonden på eff fem med springaren."
+      "text": "Springaren går två rutor åt ett håll och en ruta åt sidan, som bokstaven L. Den kan hoppa över andra pjäser. Ta bonden på F fem med springaren."
     },
     {
       "id": "lesson-knight-hint",
@@ -112,7 +112,7 @@
       "lessonId": "knight",
       "cue": "hint",
       "trigger": "Lyssna på springarlektionens ledtråd",
-      "text": "Börja på de fyra. Tänk två rutor åt höger och en ruta upp. Var hamnar springaren då?"
+      "text": "Börja på D fyra. Tänk två rutor åt höger och en ruta upp. Var hamnar springaren då?"
     },
     {
       "id": "lesson-knight-success",
@@ -121,7 +121,7 @@
       "lessonId": "knight",
       "cue": "success",
       "trigger": "Springarlektionen löst",
-      "text": "Rätt! Springaren hoppade i ett L från de fyra till eff fem och tog bonden."
+      "text": "Rätt! Springaren hoppade i ett L från D fyra till F fem och tog bonden."
     },
     {
       "id": "lesson-castle-intro",
@@ -130,7 +130,7 @@
       "lessonId": "castle",
       "cue": "intro",
       "trigger": "Lyssna på rockadlektionen",
-      "text": "Rockad är ett specialdrag med kungen och ett torn. Ingen av dem får ha flyttat tidigare, och rutorna mellan dem måste vara tomma. Kungen får inte stå i schack, eller passera eller landa på en ruta som motståndaren angriper. Gör kort rockad genom att flytta kungen från e ett till ge ett."
+      "text": "Rockad är ett specialdrag med kungen och ett torn. Ingen av dem får ha flyttat tidigare, och rutorna mellan dem måste vara tomma. Kungen får inte stå i schack, eller passera eller landa på en ruta som motståndaren angriper. Gör kort rockad genom att flytta kungen från E ett till G ett."
     },
     {
       "id": "lesson-castle-hint",
@@ -148,7 +148,7 @@
       "lessonId": "castle",
       "cue": "success",
       "trigger": "Rockadlektionen löst",
-      "text": "Du gjorde rockad! Kungen står nu på ge ett och tornet har flyttat till eff ett. Två pjäser flyttades i samma drag."
+      "text": "Du gjorde rockad! Kungen står nu på G ett och tornet har flyttat till F ett. Två pjäser flyttades i samma drag."
     },
     {
       "id": "challenge-rook-mate-intro",
@@ -157,7 +157,7 @@
       "lessonId": "mate-rook",
       "cue": "intro",
       "trigger": "Lyssna på mattproblemet med torn",
-      "text": "Svarts kung står vid kanten. Vit är på drag. Hitta ett torndrag som ger schackmatt direkt. Titta efter vilka rutor den svarta kungen kan fly till."
+      "text": "Svarts kung står vid kanten. Nu är det vits tur. Hitta ett torndrag som ger schackmatt direkt. Titta efter vilka rutor den svarta kungen kan fly till."
     },
     {
       "id": "challenge-rook-mate-hint",
@@ -166,7 +166,7 @@
       "lessonId": "mate-rook",
       "cue": "hint",
       "trigger": "Lyssna på mattproblemets ledtråd",
-      "text": "Din kung täcker ge åtta och ge sju. Kan tornet ge schack längs hå-linjen?"
+      "text": "Din kung täcker G åtta och G sju. Kan tornet ge schack längs H-linjen?"
     },
     {
       "id": "challenge-rook-mate-success",
@@ -175,7 +175,7 @@
       "lessonId": "mate-rook",
       "cue": "success",
       "trigger": "Mattproblemet med torn löst",
-      "text": "Schackmatt! Tornet täcker hå-linjen och din kung stänger flyktvägarna. Pjäserna samarbetar."
+      "text": "Schackmatt! Tornet täcker H-linjen och din kung stänger flyktvägarna. Pjäserna samarbetar."
     },
     {
       "id": "challenge-queen-mate-intro",
@@ -184,7 +184,7 @@
       "lessonId": "mate-queen",
       "cue": "intro",
       "trigger": "Lyssna på mattproblemet med dam",
-      "text": "Damen och kungen kan samarbeta. Vit är på drag. Hitta ett drag med damen som sätter svart schackmatt."
+      "text": "Damen och kungen kan samarbeta. Nu är det vits tur. Hitta ett drag med damen som sätter svart schackmatt."
     },
     {
       "id": "challenge-queen-mate-hint",
@@ -202,7 +202,7 @@
       "lessonId": "mate-queen",
       "cue": "success",
       "trigger": "Mattproblemet med dam löst",
-      "text": "Schackmatt! Damen på ge sju täcker flyktvägarna och är försvarad av kungen på eff sex."
+      "text": "Schackmatt! Damen på G sju täcker flyktvägarna och är försvarad av kungen på F sex."
     },
     {
       "id": "game-player-check",
@@ -268,7 +268,7 @@
       "priority": "P2",
       "phase": "current",
       "trigger": "Allmän inledning till en konkret ledtråd på skärmen",
-      "text": "Undersök vilka av dina pjäser som är angripna. Kan du göra en pjäs säkrare, eller få fler av dina pjäser att samarbeta?",
+      "text": "Kan motståndaren ta någon av dina pjäser? Kan du flytta den till en säkrare ruta, eller låta en annan pjäs skydda den?",
       "notes": "Ersätter inte den positionsbundna texten. Använd inte som exakt uppläsning av en specifik pjäs och ruta."
     },
     {
@@ -276,7 +276,7 @@
       "priority": "P2",
       "phase": "current",
       "trigger": "Ett motorförslag har faktiskt laddats på begäran",
-      "text": "Här är motorns förslag. Titta på det markerade draget och fundera på vilka möjligheter det skapar. Du bestämmer själv vilket drag du vill göra.",
+      "text": "Datorn har hittat ett förslag. Titta på det markerade draget. Vad skulle hända om du gjorde det? Du väljer själv.",
       "notes": "Spela först när ett giltigt förslag finns. Påstå inte att förslaget är det säkert bästa draget."
     },
     {
@@ -305,28 +305,28 @@
       "priority": "P2",
       "phase": "current",
       "trigger": "Partiet har slutat med patt",
-      "text": "Det blev patt. Spelaren som är på tur har inget lagligt drag, men kungen står inte i schack. Då blir partiet remi."
+      "text": "Det blev patt. Spelaren som är på tur kan inte göra något tillåtet drag, men kungen står inte i schack. Då blir det remi, alltså oavgjort."
     },
     {
       "id": "game-result-repetition",
       "priority": "P2",
       "phase": "current",
       "trigger": "Remi genom trefaldig upprepning enligt appens regelmodell",
-      "text": "Partiet blev remi eftersom samma ställning upprepades tre gånger."
+      "text": "Det blev remi, alltså oavgjort. Samma ställning på brädet har upprepats tre gånger."
     },
     {
       "id": "game-result-insufficient",
       "priority": "P2",
       "phase": "current",
       "trigger": "Regelmotorn har fastställt otillräckligt material",
-      "text": "Partiet blev remi. Det finns inte tillräckligt med material kvar för att någon ska kunna sätta schackmatt."
+      "text": "Det blev remi, alltså oavgjort. Med de pjäser som finns kvar kan ingen av er sätta schackmatt."
     },
     {
       "id": "game-result-fifty-moves",
       "priority": "P2",
       "phase": "current",
       "trigger": "Remi enligt femtiodragsregeln i appens regelmodell",
-      "text": "Partiet blev remi enligt femtiodragsregeln. Båda spelarna har gjort femtio drag var utan att flytta en bonde eller slå någon pjäs."
+      "text": "Det blev remi, alltså oavgjort. Båda spelarna har gjort femtio drag var utan att flytta en bonde eller ta någon pjäs. Då säger reglerna i spelet att partiet är slut."
     },
     {
       "id": "game-result-draw",
@@ -348,7 +348,7 @@
       "priority": "P2",
       "phase": "current",
       "trigger": "Schackmotorn kunde inte starta eller svara",
-      "text": "Schackmotorn kunde inte svara. Prova att trycka på försök igen."
+      "text": "Datorn kunde inte göra sitt drag. Prova att trycka på försök igen."
     },
     {
       "id": "system-save-unavailable",

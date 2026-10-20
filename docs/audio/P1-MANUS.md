@@ -6,9 +6,9 @@ Välj en varm, lugn svensk vuxenröst, tydlig för nio till tolv år. Samma rös
 
 I ZIP-paketets mapp `p1/` finns en ren textfil per klipp. I repositoryt ligger samma filer under `docs/audio/elevenlabs-input/p1/`. Byt bara ändelse från `.txt` till `.mp3` när du sparar ljudet. Använd filnamnen exakt. Leverera de 25 MP3-filerna i en ZIP, eller lägg dem i `public/audio/sv-SE/`.
 
-Rutnamn skrivs med uttal: `de fyra` = d4, `eff fem` = f5, `ge sju` = g7, `hå-linjen` = h-linjen. Säg bokstav och siffra tydligt. Säg bokstaven L som ”ell”.
+Skriv för elever i årskurs 4. Använd korta meningar, en instruktion i taget och förklara schackorden. Se [språkstödet](SPRAK_OCH_UTTAL.md). Rutnamn skrivs exempelvis `D fyra`, `F fem`, `G sju` och `H-linjen`. Skriv bokstaven, inte en fonetisk omskrivning.
 
-Rösten kommer att vara av från början. Eleven får Röst på/av samt Lyssna, Stoppa och Lyssna igen. Inget ljud startar automatiskt när sidan öppnas. Ljudspelaren kopplas in när MP3-filerna levererats.
+De 25 MP3-filerna har levererats lokalt. Detta manus är inte en kontrollerad transkription av inspelningarna. Ljudspelaren återstår: rösten ska vara av från början, med Röst på/av samt Lyssna, Stoppa och Lyssna igen. Inget ljud ska starta automatiskt när sidan öppnas.
 
 ## start-welcome.mp3
 
@@ -44,61 +44,61 @@ Den pjäsen kan inte flytta dit just nu. Välj en annan ruta.
 
 **Användning – läses inte upp:** Lyssna på tornlektionen.
 
-Tornet går rakt, längs rader och linjer. Det kan gå flera rutor i samma drag om vägen är fri. Flytta tornet från a ett till a sju och ta den svarta bonden.
+Tornet går rakt, längs rader och linjer. Det kan gå flera rutor i samma drag om vägen är fri. Flytta tornet från A ett till A sju och ta den svarta bonden.
 
 ## lesson-rook-hint.mp3
 
 **Användning – läses inte upp:** Lyssna på tornlektionens ledtråd.
 
-Tornet kan gå många rutor uppåt om vägen är fri. Följ linjen från a ett till a sju.
+Tornet kan gå många rutor uppåt om vägen är fri. Följ linjen från A ett till A sju.
 
 ## lesson-rook-success.mp3
 
 **Användning – läses inte upp:** Tornlektionen löst.
 
-Precis! Tornet gick rakt upp till a sju och tog bonden. Tornet kan slå en motståndarpjäs på rutan där det landar.
+Precis! Tornet gick rakt upp till A sju och tog bonden. Tornet kan slå en motståndarpjäs på rutan där det landar.
 
 ## lesson-bishop-intro.mp3
 
 **Användning – läses inte upp:** Lyssna på löparlektionen.
 
-Löparen rör sig diagonalt och stannar alltid på samma färg. Den kan gå flera rutor om vägen är fri. Ta bonden på ge fem med löparen.
+Löparen rör sig diagonalt och stannar alltid på samma färg. Den kan gå flera rutor om vägen är fri. Ta bonden på G fem med löparen.
 
 ## lesson-bishop-hint.mp3
 
 **Användning – läses inte upp:** Lyssna på löparlektionens ledtråd.
 
-Följ diagonalen från de två. Först e tre, sedan eff fyra och till sist ge fem.
+Följ diagonalen från D två. Först E tre, sedan F fyra och till sist G fem.
 
 ## lesson-bishop-success.mp3
 
 **Användning – läses inte upp:** Löparlektionen löst.
 
-Snyggt! Löparen följde diagonalen hela vägen till ge fem och tog bonden. Den stannade på samma färg hela vägen.
+Snyggt! Löparen följde diagonalen hela vägen till G fem och tog bonden. Den stannade på samma färg hela vägen.
 
 ## lesson-knight-intro.mp3
 
 **Användning – läses inte upp:** Lyssna på springarlektionen.
 
-Springaren går två rutor åt ett håll och en ruta åt sidan, som bokstaven L. Den kan hoppa över andra pjäser. Ta bonden på eff fem med springaren.
+Springaren går två rutor åt ett håll och en ruta åt sidan, som bokstaven L. Den kan hoppa över andra pjäser. Ta bonden på F fem med springaren.
 
 ## lesson-knight-hint.mp3
 
 **Användning – läses inte upp:** Lyssna på springarlektionens ledtråd.
 
-Börja på de fyra. Tänk två rutor åt höger och en ruta upp. Var hamnar springaren då?
+Börja på D fyra. Tänk två rutor åt höger och en ruta upp. Var hamnar springaren då?
 
 ## lesson-knight-success.mp3
 
 **Användning – läses inte upp:** Springarlektionen löst.
 
-Rätt! Springaren hoppade i ett L från de fyra till eff fem och tog bonden.
+Rätt! Springaren hoppade i ett L från D fyra till F fem och tog bonden.
 
 ## lesson-castle-intro.mp3
 
 **Användning – läses inte upp:** Lyssna på rockadlektionen.
 
-Rockad är ett specialdrag med kungen och ett torn. Ingen av dem får ha flyttat tidigare, och rutorna mellan dem måste vara tomma. Kungen får inte stå i schack, eller passera eller landa på en ruta som motståndaren angriper. Gör kort rockad genom att flytta kungen från e ett till ge ett.
+Rockad är ett specialdrag med kungen och ett torn. Ingen av dem får ha flyttat tidigare, och rutorna mellan dem måste vara tomma. Kungen får inte stå i schack, eller passera eller landa på en ruta som motståndaren angriper. Gör kort rockad genom att flytta kungen från E ett till G ett.
 
 ## lesson-castle-hint.mp3
 
@@ -110,31 +110,31 @@ Flytta kungen två rutor åt höger, mot tornet. Tornet följer automatiskt med.
 
 **Användning – läses inte upp:** Rockadlektionen löst.
 
-Du gjorde rockad! Kungen står nu på ge ett och tornet har flyttat till eff ett. Två pjäser flyttades i samma drag.
+Du gjorde rockad! Kungen står nu på G ett och tornet har flyttat till F ett. Två pjäser flyttades i samma drag.
 
 ## challenge-rook-mate-intro.mp3
 
 **Användning – läses inte upp:** Lyssna på mattproblemet med torn.
 
-Svarts kung står vid kanten. Vit är på drag. Hitta ett torndrag som ger schackmatt direkt. Titta efter vilka rutor den svarta kungen kan fly till.
+Svarts kung står vid kanten. Nu är det vits tur. Hitta ett torndrag som ger schackmatt direkt. Titta efter vilka rutor den svarta kungen kan fly till.
 
 ## challenge-rook-mate-hint.mp3
 
 **Användning – läses inte upp:** Lyssna på mattproblemets ledtråd.
 
-Din kung täcker ge åtta och ge sju. Kan tornet ge schack längs hå-linjen?
+Din kung täcker G åtta och G sju. Kan tornet ge schack längs H-linjen?
 
 ## challenge-rook-mate-success.mp3
 
 **Användning – läses inte upp:** Mattproblemet med torn löst.
 
-Schackmatt! Tornet täcker hå-linjen och din kung stänger flyktvägarna. Pjäserna samarbetar.
+Schackmatt! Tornet täcker H-linjen och din kung stänger flyktvägarna. Pjäserna samarbetar.
 
 ## challenge-queen-mate-intro.mp3
 
 **Användning – läses inte upp:** Lyssna på mattproblemet med dam.
 
-Damen och kungen kan samarbeta. Vit är på drag. Hitta ett drag med damen som sätter svart schackmatt.
+Damen och kungen kan samarbeta. Nu är det vits tur. Hitta ett drag med damen som sätter svart schackmatt.
 
 ## challenge-queen-mate-hint.mp3
 
@@ -146,7 +146,7 @@ Kan du ge schack med damen på en ruta som din egen kung försvarar? Kontrollera
 
 **Användning – läses inte upp:** Mattproblemet med dam löst.
 
-Schackmatt! Damen på ge sju täcker flyktvägarna och är försvarad av kungen på eff sex.
+Schackmatt! Damen på G sju täcker flyktvägarna och är försvarad av kungen på F sex.
 
 ## game-player-check.mp3
 

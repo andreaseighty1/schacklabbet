@@ -1,1 +1,1 @@
-Det blev patt. Spelaren som är på tur har inget lagligt drag, men kungen står inte i schack. Då blir partiet remi.
+Det blev patt. Spelaren som är på tur kan inte göra något tillåtet drag, men kungen står inte i schack. Då blir det remi, alltså oavgjort.

@@ -85,3 +85,15 @@ Manifestet är källan till individuella textfiler, en komplett manusöversikt o
 Roadmapen har även uppdaterats efter den tidigare regelkontrollen: föreslagen träning med 10 eller 15 minuter per spelare, utan klocka som standard, och 3/2/1 som förslag till Schackfyran-lik poängräkning. Klocka och topplista är fortfarande planerade funktioner.
 
 `npm run prepare:voiceover` passerade valideringen för samtliga 58 manus och alla sex övningar. `npm run lint` passerade. Ett separat P1-paket för användaren skapades och kontrollerades: 25 rena textfiler, ett sammanställt P1-manus och en lista med exakta MP3-filnamn. Paketet innehåller inga ljudfiler och inga framtida P3-repliker. Ingen ny spelkod ändrades, så schack- och webbläsartester upprepades inte för detta dokumentationssteg.
+
+### Levererade ljud och språk för årskurs 4
+
+Alla 25 P1-filer finns nu lokalt med rätt filnamn och storlek större än noll. Själva inspelningarna har inte ändrats. Lyssningsgranskning, publicering av ljudfiler och ljudspelare återstår. Roadmapen skiljer därför på leverans och lyssningsgranskning.
+
+Användaren har provat bokstäver direkt i ElevenLabs. Rutnamn i manus skrivs nu exempelvis `D fyra`, `F fyra` och `G fem`, utan fonetiska omskrivningar. Språkstödet för fortsatt manusarbete kräver korta meningar, en instruktion i taget och förklaringar av nya schackord för elever i årskurs 4. P2 har fått tydligare förklaringar av remi och enklare ord för datorns förslag. De uppdaterade manusen är inte kontrollerade transkriptioner av levererade MP3-filer.
+
+### Begriplig draglista
+
+Användaren uppmärksammade att internationell notation som `Nf6`, `Bxd2+` och `Qxc1#` var svår att förstå. Draglistan skriver nu ut exempelvis ”Springaren till F6”, ”Löparen tar på D2” och ”Damen tar på C1”, med schack och schackmatt som ord. Från- och tillruta visas under beskrivningen. Rockad visar båda pjäsernas flytt; en passant förklarar vilken bonde som tas och bondeförvandling anger den nya pjäsen. Formatteringen utgår från regelmotorns verifierade drag. Sparad PGN och export behåller standardnotation.
+
+Hela användarens parti ingår i ett regressionstest, tillsammans med rockad för båda färgerna, en passant och samtliga fyra förvandlingsval. `npm test` passerade med 56 tester. Lint, TypeScript-/produktionsbygge, dist-kontroll och regenerering av de 58 manusen passerade. Ett nytt Playwright-flöde kontrollerar det avslutade partiets svenska draglista, bredd och genomspelning i desktop- och mobilprojekten. Dess körresultat och publiceringen kontrolleras efter push.

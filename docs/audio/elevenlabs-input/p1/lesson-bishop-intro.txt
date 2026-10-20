@@ -1,1 +1,1 @@
-Löparen rör sig diagonalt och stannar alltid på samma färg. Den kan gå flera rutor om vägen är fri. Ta bonden på ge fem med löparen.
+Löparen rör sig diagonalt och stannar alltid på samma färg. Den kan gå flera rutor om vägen är fri. Ta bonden på G fem med löparen.

@@ -42,15 +42,15 @@ test("ett lagligt drag får svar från verklig Stockfish och återställs efter 
   await page.getByRole("button", { name: /^e4,/ }).click();
   await expect(page.locator(".move-pair")).toHaveCount(1);
   await expect(
-    page.locator(".move-pair").first().locator("span").nth(2),
+    page.locator(".move-pair").first().locator(".move-description").nth(1),
   ).not.toHaveText("—", { timeout: 20000 });
   const fen = await page.evaluate(() =>
     localStorage.getItem("schacklabbet.game.v1"),
   );
   await page.reload();
   await expect(
-    page.locator(".move-pair").first().locator("span").nth(1),
-  ).toHaveText("e4");
+    page.locator(".move-pair").first().locator(".move-action").first(),
+  ).toHaveText("Bonden till E4");
   expect(
     await page.evaluate(() => localStorage.getItem("schacklabbet.game.v1")),
   ).toBe(fen);
@@ -97,7 +97,9 @@ test("tangentbord kan välja pjäs och genomföra ett drag", async ({ page }) =>
   await page.keyboard.press("ArrowUp");
   await page.keyboard.press("ArrowUp");
   await page.keyboard.press("Enter");
-  await expect(page.locator(".move-pair").first()).toContainText("e4");
+  await expect(page.locator(".move-pair").first()).toContainText(
+    "Bonden till E4",
+  );
 });
 test("layout ryms på skärmen utan horisontell scroll", async ({ page }) => {
   await start(page);
@@ -116,7 +118,60 @@ test("drag och släpp flyttar en pjäs", async ({ page }) => {
   await page
     .getByRole("button", { name: /^e2, vit bonde/ })
     .dragTo(page.getByRole("button", { name: /^e4, tom ruta/ }));
-  await expect(page.locator(".move-pair").first()).toContainText("e4");
+  await expect(page.locator(".move-pair").first()).toContainText(
+    "Bonden till E4",
+  );
+});
+
+test("ett avslutat parti visar begripliga drag och ryms även på mobil", async ({
+  page,
+}) => {
+  await page.addInitScript(() => {
+    localStorage.setItem(
+      "schacklabbet.game.v1",
+      JSON.stringify({
+        version: 1,
+        pgn: "1. d4 e6 2. a4 Nf6 3. Nh3 c5 4. Nc3 Nc6 5. dxc5 Bxc5 6. b3 Bb4 7. Qd2 Qa5 8. Nf4 Bxc3 9. b4 Qxb4 10. Ra2 Bxd2+ 11. Bxd2 Qb1+ 12. Bc1 Qxc1# 0-1",
+        color: "w",
+        level: 0,
+        profile: "beginner",
+        ended: null,
+        id: "move-language-example",
+      }),
+    );
+  });
+  await page.goto("/#play");
+  await expect(
+    page.getByRole("heading", { name: "Svart vinner med schackmatt" }),
+  ).toBeVisible();
+  await expect(page.locator(".move-pair")).toHaveCount(12);
+  await expect(page.locator(".move-pair").nth(1)).toContainText(
+    "Springaren till F6",
+  );
+  const last = page.locator(".move-pair").last();
+  await last.scrollIntoViewIfNeeded();
+  await expect(last).toContainText("Damen tar på C1");
+  await expect(last).toContainText("Schackmatt");
+  await expect(last).toContainText("B1 → C1");
+  await expect(last).not.toContainText("Qxc1#");
+  expect(
+    await page.evaluate(
+      () => document.documentElement.scrollWidth <= innerWidth,
+    ),
+  ).toBe(true);
+  expect(
+    await page
+      .locator(".move-table")
+      .evaluate((el) => el.scrollWidth <= el.clientWidth),
+  ).toBe(true);
+  await page.getByRole("button", { name: "Föregående drag" }).click();
+  await expect(
+    page.getByRole("button", { name: /^b1, svart dam/ }),
+  ).toBeVisible();
+  await page.getByRole("button", { name: "Nästa drag" }).click();
+  await expect(
+    page.getByRole("button", { name: /^c1, svart dam/ }),
+  ).toBeVisible();
 });
 test("ge upp avslutar partiet och räknas en gång", async ({ page }) => {
   await start(page);

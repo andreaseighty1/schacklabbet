@@ -1225,7 +1225,7 @@ a {
   font-size: 9px;
 }
 .move-table {
-  max-height: 142px;
+  max-height: 240px;
   overflow: auto;
   border: 1px solid #ebeee2;
   border-radius: 6px;
@@ -1234,21 +1234,40 @@ a {
 .move-table-head,
 .move-pair {
   display: grid;
-  grid-template-columns: 35px 1fr 1fr;
-  font-size: 10px;
+  grid-template-columns: 22px minmax(0, 1fr) minmax(0, 1fr);
+  font-size: 12px;
   padding: 8px 12px;
   gap: 8px;
 }
 .move-table-head {
   background: #f3f5eb;
-  color: #939d86;
-  font-size: 8px;
+  color: #56614b;
+  font-size: 11px;
+  position: sticky;
+  top: 0;
 }
 .move-pair:nth-child(odd) {
   background: #f8f9f2;
 }
 .move-pair > span:first-child {
-  color: #a3aa97;
+  color: #69755c;
+}
+.move-description {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+  line-height: 1.45;
+  overflow-wrap: anywhere;
+}
+.move-route {
+  font-size: 10px;
+  color: #59664f;
+}
+.move-result {
+  color: #315d44;
+  font-size: 11px;
 }
 .moves-empty {
   padding: 16px;

@@ -1,6 +1,6 @@
 # Schacklabbet – röstmanus för ElevenLabs
 
-Det här är ett inspelningsunderlag. Ljuduppspelning är ännu inte inkopplad i appen och inga ljudfiler har genererats.
+Det här är ett inspelningsunderlag. De 25 P1-filerna har levererats lokalt. Ljuduppspelning är ännu inte inkopplad i appen. Manuset är inte en kontrollerad transkription av de levererade inspelningarna.
 
 ## Börja här
 
@@ -10,7 +10,7 @@ Varje textfil i `elevenlabs-input/` innehåller endast orden som ska sägas. Lad
 
 ## Röstregi
 
-- Svenska, varm och lugn vuxen röst. Tala tydligt till elever omkring nio till tolv år, utan att låta barnslig.
+- Svenska, varm och lugn vuxen röst. Skriv för elever i årskurs 4: korta meningar, en instruktion i taget och konkreta ord. Förklara nya schackord när de används. Se [språkstödet](SPRAK_OCH_UTTAL.md).
 - Naturligt och uppmuntrande, med korta pauser mellan tankarna. Varningar ska låta eftertänksamma, inte alarmerande.
 - Samma röst och ungefär samma ljudnivå i alla filer. Ingen musik, ljudeffekter, extra hälsningsfras eller påhittad avslutning.
 - Leverera MP3, en replik per fil. Inga inledande eller avslutande långa tystnader och inga avklippta ord.
@@ -18,7 +18,7 @@ Varje textfil i `elevenlabs-input/` innehåller endast orden som ska sägas. Lad
 
 ## Uttal
 
-Rutnamn är utskrivna för uppläsning: `a ett`, `be två`, `se tre`, `de fyra`, `e fem`, `eff sex`, `ge sju`, `hå åtta`. Säg bokstaven och siffran tydligt, med en liten paus. Exempel: `ge sju` betyder rutan `g7`, inte ordet ”gesju”.
+Skriv rutnamn med stor bokstav och talet som ord: `A ett`, `B två`, `C tre`, `D fyra`, `E fem`, `F sex`, `G sju`, `H åtta`. Använd exempelvis `F fyra` och `G fem`, inte fonetiska omskrivningar som ”eff fyra” eller ”ge fem”. Användaren har provat detta i ElevenLabs med bra resultat.
 
 Använd ”dam”, ”springare”, ”löpare”, ”torn”, ”bonde” och ”kung” konsekvent. ”Remi” betyder oavgjort. ”Patt” är en särskild remiorsak. Kontrollera uttalet av ”Schacklabbet”, ”rockad” och ”remi” i röstproven.
 
@@ -81,61 +81,61 @@ Den pjäsen kan inte flytta dit just nu. Välj en annan ruta.
 
 **Användning:** Lyssna på tornlektionen.
 
-Tornet går rakt, längs rader och linjer. Det kan gå flera rutor i samma drag om vägen är fri. Flytta tornet från a ett till a sju och ta den svarta bonden.
+Tornet går rakt, längs rader och linjer. Det kan gå flera rutor i samma drag om vägen är fri. Flytta tornet från A ett till A sju och ta den svarta bonden.
 
 ### lesson-rook-hint.mp3
 
 **Användning:** Lyssna på tornlektionens ledtråd.
 
-Tornet kan gå många rutor uppåt om vägen är fri. Följ linjen från a ett till a sju.
+Tornet kan gå många rutor uppåt om vägen är fri. Följ linjen från A ett till A sju.
 
 ### lesson-rook-success.mp3
 
 **Användning:** Tornlektionen löst.
 
-Precis! Tornet gick rakt upp till a sju och tog bonden. Tornet kan slå en motståndarpjäs på rutan där det landar.
+Precis! Tornet gick rakt upp till A sju och tog bonden. Tornet kan slå en motståndarpjäs på rutan där det landar.
 
 ### lesson-bishop-intro.mp3
 
 **Användning:** Lyssna på löparlektionen.
 
-Löparen rör sig diagonalt och stannar alltid på samma färg. Den kan gå flera rutor om vägen är fri. Ta bonden på ge fem med löparen.
+Löparen rör sig diagonalt och stannar alltid på samma färg. Den kan gå flera rutor om vägen är fri. Ta bonden på G fem med löparen.
 
 ### lesson-bishop-hint.mp3
 
 **Användning:** Lyssna på löparlektionens ledtråd.
 
-Följ diagonalen från de två. Först e tre, sedan eff fyra och till sist ge fem.
+Följ diagonalen från D två. Först E tre, sedan F fyra och till sist G fem.
 
 ### lesson-bishop-success.mp3
 
 **Användning:** Löparlektionen löst.
 
-Snyggt! Löparen följde diagonalen hela vägen till ge fem och tog bonden. Den stannade på samma färg hela vägen.
+Snyggt! Löparen följde diagonalen hela vägen till G fem och tog bonden. Den stannade på samma färg hela vägen.
 
 ### lesson-knight-intro.mp3
 
 **Användning:** Lyssna på springarlektionen.
 
-Springaren går två rutor åt ett håll och en ruta åt sidan, som bokstaven L. Den kan hoppa över andra pjäser. Ta bonden på eff fem med springaren.
+Springaren går två rutor åt ett håll och en ruta åt sidan, som bokstaven L. Den kan hoppa över andra pjäser. Ta bonden på F fem med springaren.
 
 ### lesson-knight-hint.mp3
 
 **Användning:** Lyssna på springarlektionens ledtråd.
 
-Börja på de fyra. Tänk två rutor åt höger och en ruta upp. Var hamnar springaren då?
+Börja på D fyra. Tänk två rutor åt höger och en ruta upp. Var hamnar springaren då?
 
 ### lesson-knight-success.mp3
 
 **Användning:** Springarlektionen löst.
 
-Rätt! Springaren hoppade i ett L från de fyra till eff fem och tog bonden.
+Rätt! Springaren hoppade i ett L från D fyra till F fem och tog bonden.
 
 ### lesson-castle-intro.mp3
 
 **Användning:** Lyssna på rockadlektionen.
 
-Rockad är ett specialdrag med kungen och ett torn. Ingen av dem får ha flyttat tidigare, och rutorna mellan dem måste vara tomma. Kungen får inte stå i schack, eller passera eller landa på en ruta som motståndaren angriper. Gör kort rockad genom att flytta kungen från e ett till ge ett.
+Rockad är ett specialdrag med kungen och ett torn. Ingen av dem får ha flyttat tidigare, och rutorna mellan dem måste vara tomma. Kungen får inte stå i schack, eller passera eller landa på en ruta som motståndaren angriper. Gör kort rockad genom att flytta kungen från E ett till G ett.
 
 ### lesson-castle-hint.mp3
 
@@ -147,31 +147,31 @@ Flytta kungen två rutor åt höger, mot tornet. Tornet följer automatiskt med.
 
 **Användning:** Rockadlektionen löst.
 
-Du gjorde rockad! Kungen står nu på ge ett och tornet har flyttat till eff ett. Två pjäser flyttades i samma drag.
+Du gjorde rockad! Kungen står nu på G ett och tornet har flyttat till F ett. Två pjäser flyttades i samma drag.
 
 ### challenge-rook-mate-intro.mp3
 
 **Användning:** Lyssna på mattproblemet med torn.
 
-Svarts kung står vid kanten. Vit är på drag. Hitta ett torndrag som ger schackmatt direkt. Titta efter vilka rutor den svarta kungen kan fly till.
+Svarts kung står vid kanten. Nu är det vits tur. Hitta ett torndrag som ger schackmatt direkt. Titta efter vilka rutor den svarta kungen kan fly till.
 
 ### challenge-rook-mate-hint.mp3
 
 **Användning:** Lyssna på mattproblemets ledtråd.
 
-Din kung täcker ge åtta och ge sju. Kan tornet ge schack längs hå-linjen?
+Din kung täcker G åtta och G sju. Kan tornet ge schack längs H-linjen?
 
 ### challenge-rook-mate-success.mp3
 
 **Användning:** Mattproblemet med torn löst.
 
-Schackmatt! Tornet täcker hå-linjen och din kung stänger flyktvägarna. Pjäserna samarbetar.
+Schackmatt! Tornet täcker H-linjen och din kung stänger flyktvägarna. Pjäserna samarbetar.
 
 ### challenge-queen-mate-intro.mp3
 
 **Användning:** Lyssna på mattproblemet med dam.
 
-Damen och kungen kan samarbeta. Vit är på drag. Hitta ett drag med damen som sätter svart schackmatt.
+Damen och kungen kan samarbeta. Nu är det vits tur. Hitta ett drag med damen som sätter svart schackmatt.
 
 ### challenge-queen-mate-hint.mp3
 
@@ -183,7 +183,7 @@ Kan du ge schack med damen på en ruta som din egen kung försvarar? Kontrollera
 
 **Användning:** Mattproblemet med dam löst.
 
-Schackmatt! Damen på ge sju täcker flyktvägarna och är försvarad av kungen på eff sex.
+Schackmatt! Damen på G sju täcker flyktvägarna och är försvarad av kungen på F sex.
 
 ### game-player-check.mp3
 
@@ -245,7 +245,7 @@ Börja med att leta efter schackar, möjliga slag och hot. Vad har motståndaren
 
 **Användning:** Allmän inledning till en konkret ledtråd på skärmen.
 
-Undersök vilka av dina pjäser som är angripna. Kan du göra en pjäs säkrare, eller få fler av dina pjäser att samarbeta?
+Kan motståndaren ta någon av dina pjäser? Kan du flytta den till en säkrare ruta, eller låta en annan pjäs skydda den?
 
 **Notering – läses inte upp:** Ersätter inte den positionsbundna texten. Använd inte som exakt uppläsning av en specifik pjäs och ruta.
 
@@ -253,7 +253,7 @@ Undersök vilka av dina pjäser som är angripna. Kan du göra en pjäs säkrare
 
 **Användning:** Ett motorförslag har faktiskt laddats på begäran.
 
-Här är motorns förslag. Titta på det markerade draget och fundera på vilka möjligheter det skapar. Du bestämmer själv vilket drag du vill göra.
+Datorn har hittat ett förslag. Titta på det markerade draget. Vad skulle hända om du gjorde det? Du väljer själv.
 
 **Notering – läses inte upp:** Spela först när ett giltigt förslag finns. Påstå inte att förslaget är det säkert bästa draget.
 
@@ -279,25 +279,25 @@ Motståndaren vann det här partiet. Du kan fortfarande lära dig mycket av det.
 
 **Användning:** Partiet har slutat med patt.
 
-Det blev patt. Spelaren som är på tur har inget lagligt drag, men kungen står inte i schack. Då blir partiet remi.
+Det blev patt. Spelaren som är på tur kan inte göra något tillåtet drag, men kungen står inte i schack. Då blir det remi, alltså oavgjort.
 
 ### game-result-repetition.mp3
 
 **Användning:** Remi genom trefaldig upprepning enligt appens regelmodell.
 
-Partiet blev remi eftersom samma ställning upprepades tre gånger.
+Det blev remi, alltså oavgjort. Samma ställning på brädet har upprepats tre gånger.
 
 ### game-result-insufficient.mp3
 
 **Användning:** Regelmotorn har fastställt otillräckligt material.
 
-Partiet blev remi. Det finns inte tillräckligt med material kvar för att någon ska kunna sätta schackmatt.
+Det blev remi, alltså oavgjort. Med de pjäser som finns kvar kan ingen av er sätta schackmatt.
 
 ### game-result-fifty-moves.mp3
 
 **Användning:** Remi enligt femtiodragsregeln i appens regelmodell.
 
-Partiet blev remi enligt femtiodragsregeln. Båda spelarna har gjort femtio drag var utan att flytta en bonde eller slå någon pjäs.
+Det blev remi, alltså oavgjort. Båda spelarna har gjort femtio drag var utan att flytta en bonde eller ta någon pjäs. Då säger reglerna i spelet att partiet är slut.
 
 ### game-result-draw.mp3
 
@@ -317,7 +317,7 @@ Du har avslutat partiet genom att ge upp. Du kan fortfarande gå igenom dragen o
 
 **Användning:** Schackmotorn kunde inte starta eller svara.
 
-Schackmotorn kunde inte svara. Prova att trycka på försök igen.
+Datorn kunde inte göra sitt drag. Prova att trycka på försök igen.
 
 ### system-save-unavailable.mp3
 
