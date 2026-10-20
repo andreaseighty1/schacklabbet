@@ -1,5 +1,9 @@
 import { test, expect } from "@playwright/test";
-import manifest from "../docs/audio/manifest.json";
+import { readFileSync } from "node:fs";
+
+const manifest = JSON.parse(
+  readFileSync(new URL("../docs/audio/manifest.json", import.meta.url), "utf8"),
+) as { clips: { id: string; priority: string }[] };
 
 test("rösten kräver elevens val och kan stoppas, upprepas och stängas av", async ({
   page,
