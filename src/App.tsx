@@ -45,7 +45,7 @@ import {
   AchievementArt,
   type AchievementKind,
 } from "./components/AchievementArt";
-import { levels, search } from "./chess/engine";
+import { levels, EngineSession, enginePosition } from "./chess/engine";
 import {
   capturedPieces,
   concreteClue,
@@ -244,6 +244,8 @@ function HeroArt() {
   );
 }
 export default function App() {
+  const [engine] = useState(() => new EngineSession());
+  const engineAbort = useRef<AbortController | null>(null);
   const voice = useVoice();
   const voicePlayer = voice.player;
   const [initial] = useState(loadInitial);
@@ -376,6 +378,20 @@ export default function App() {
   useEffect(() => {
     return () => hintAbort.current?.abort();
   }, []);
+  useEffect(
+    () => () => {
+      engineAbort.current?.abort();
+      engine.reset();
+    },
+    [engine],
+  );
+  useEffect(() => {
+    if (view !== "play" || !hasGame || terminal) {
+      engineAbort.current?.abort();
+      hintAbort.current?.abort();
+      engine.reset();
+    }
+  }, [view, hasGame, terminal, engine]);
   useEffect(() => {
     if (!hasGame) return;
     try {
@@ -420,10 +436,12 @@ export default function App() {
       return;
     }
     const controller = new AbortController();
+    engineAbort.current = controller;
     const fen = game.fen();
     setBusy(true);
     setEngineError("");
-    search(fen, config.level, controller.signal)
+    engine
+      .search(enginePosition(game), config.level, controller.signal)
       .then((move) => {
         if (controller.signal.aborted || game.fen() !== fen) return;
         playUci(game, move);
@@ -451,8 +469,11 @@ export default function App() {
     replay,
     config.level,
     game,
+    engine,
   ]);
   function newGame() {
+    engineAbort.current?.abort();
+    engine.reset();
     voicePlayer.reset();
     hintAbort.current?.abort();
     game.reset();
@@ -575,7 +596,11 @@ export default function App() {
     const fen = game.fen();
     setHintBusy(true);
     try {
-      const move = await search(fen, 4, controller.signal);
+      const move = await engine.search(
+        enginePosition(game),
+        4,
+        controller.signal,
+      );
       if (!controller.signal.aborted && game.fen() === fen)
         setHint({ level: 3, move });
     } catch (error) {
@@ -656,7 +681,7 @@ export default function App() {
       : hint.level === 2
         ? concreteClue(game, config.color)
         : hint.move
-          ? `Motorns förslag: ${hint.move.slice(0, 2)} → ${hint.move.slice(2, 4)}. Prova att se vilka rutor pjäsen får kontakt med. Analysen är kort och förslaget är ingen garanti.`
+          ? `Datorns förslag: ${hint.move.slice(0, 2)} → ${hint.move.slice(2, 4)}. Prova att se vilka rutor pjäsen får kontakt med. Analysen är kort och förslaget är ingen garanti.`
           : "";
   const pageTitle = navItems.find((n) => n.id === view)?.label ?? "Översikt";
   const riskPosition = risk ? new Chess(game.fen()) : null;
@@ -1193,7 +1218,7 @@ export default function App() {
                             : hint.level === 1
                               ? "En tydligare ledtråd"
                               : hint.level === 2
-                                ? "Visa motorns förslag"
+                                ? "Visa datorns förslag"
                                 : "Förslag visas"}
                         <span>{Math.min(hint.level + 1, 3)}/3</span>
                       </button>

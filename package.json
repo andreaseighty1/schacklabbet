@@ -11,6 +11,7 @@
     "test": "vitest run",
     "test:e2e": "playwright test",
     "test:engine": "node scripts/live-engine-check.mjs",
+    "benchmark:engine": "node scripts/benchmark-engine.mjs",
     "check:dist": "node scripts/check-dist.mjs",
     "prepare:voiceover": "node scripts/prepare-voiceover.mjs",
     "lint": "eslint .",

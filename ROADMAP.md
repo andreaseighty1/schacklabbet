@@ -6,6 +6,7 @@
 - [x] Grafisk identitet, egen logotyp, favicon, SVG-pjäser och responsiv navigation.
 - [x] Fullständig schackregelmotor, båda spelarfärgerna, förvandlingsval och korrekt slutorsak.
 - [x] Fem parametriserade Stockfish-nivåer i lokal Worker med timeout och avbrytning.
+- [x] Full motorhistorik, återanvändning mellan färdiga sökningar, säker omstart vid avbrott och rensning av analys vid nivåbyte.
 - [x] Möjliga drag, lagliga hot, valfria förhandsvarningar och stegvisa ledtrådar.
 - [x] Tre stödprofiler, ångra där det är tillåtet, vänd brädet och ge upp.
 - [x] Lokal sparning, full historik, PGN och efterföljande genomspelning.
@@ -20,6 +21,7 @@
 - [ ] Fullständig visuell QA i mobil och på elevdatorer. Publicerad startsida och spelrum har granskats visuellt på desktop efter att Pages-källan rättats.
 - [x] Godkända Playwright-flöden för desktop och mobil med verklig browser-Worker i GitHub Actions den 20 oktober 2026.
 - [ ] Kontrollera spelet med målgruppen och kalibrera de två lättaste nivåerna.
+- [x] Lokal teknisk motorgenomgång med upprepade WASM-sökningar, mätning av startkostnad och prov av alla fem nivåer. Elevdatorer och faktisk svårighetsgrad återstår.
 - [x] GitHub Pages-publicering, DNS, HTTPS och leverans av app-, Worker- och WASM-filer verifierade på subdomänen.
 
 ## Fas 2 – pedagogik

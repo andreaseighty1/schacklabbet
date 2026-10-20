@@ -1,0 +1,96 @@
+{
+  "environment": {
+    "runtime": "v24.14.1",
+    "platform": "win32",
+    "architecture": "x64",
+    "browser": false
+  },
+  "limits": "Lokalt Node/WASM-prov med sex öppningssökningar. Första återanvända sökningen inkluderar uppstart. Ingen mätning på elevdator, ingen Elo-kalibrering och ingen generell hastighetsgaranti.",
+  "workers": {
+    "fresh": 6,
+    "reused": 1
+  },
+  "medianFollowingFirstMs": {
+    "fresh": 264,
+    "reused": 6.6
+  },
+  "samples": [
+    {
+      "pgn": "1. e4 *",
+      "freshMs": 294.5,
+      "reusedMs": 257.5
+    },
+    {
+      "pgn": "1. e4 e5 2. Nf3 *",
+      "freshMs": 251.2,
+      "reusedMs": 7.4
+    },
+    {
+      "pgn": "1. e4 e5 2. Nf3 Nc6 3. Bb5 *",
+      "freshMs": 278.2,
+      "reusedMs": 9.3
+    },
+    {
+      "pgn": "1. e4 *",
+      "freshMs": 264,
+      "reusedMs": 6.6
+    },
+    {
+      "pgn": "1. e4 e5 2. Nf3 *",
+      "freshMs": 273.9,
+      "reusedMs": 6
+    },
+    {
+      "pgn": "1. e4 e5 2. Nf3 Nc6 3. Bb5 *",
+      "freshMs": 261,
+      "reusedMs": 6.6
+    }
+  ],
+  "levelChecks": [
+    {
+      "name": "Nybörjare",
+      "skill": 0,
+      "maxDepth": 3,
+      "searchBudgetMs": 180,
+      "totalIncludingStartupMs": 271.4,
+      "move": "d8f6",
+      "legal": true
+    },
+    {
+      "name": "Lätt",
+      "skill": 2,
+      "maxDepth": 5,
+      "searchBudgetMs": 240,
+      "totalIncludingStartupMs": 264.2,
+      "move": "g8e7",
+      "legal": true
+    },
+    {
+      "name": "Medel",
+      "skill": 6,
+      "maxDepth": 8,
+      "searchBudgetMs": 400,
+      "totalIncludingStartupMs": 391,
+      "move": "g8e7",
+      "legal": true
+    },
+    {
+      "name": "Svår",
+      "skill": 12,
+      "maxDepth": 11,
+      "searchBudgetMs": 650,
+      "totalIncludingStartupMs": 720.7,
+      "move": "a7a6",
+      "legal": true
+    },
+    {
+      "name": "Expert",
+      "skill": 20,
+      "maxDepth": 15,
+      "searchBudgetMs": 1000,
+      "totalIncludingStartupMs": 683.8,
+      "move": "a7a6",
+      "legal": true
+    }
+  ]
+}
