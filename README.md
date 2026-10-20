@@ -47,25 +47,25 @@ Playwright kör flöden med desktopstorlek 1366 × 768 och mobilstorlek. GitHub 
 Workflow: `.github/workflows/pages.yml`. Push till `main` kör lint, enhetstester, Playwright och produktionsbygge och publicerar därefter `dist`.
 
 1. I repositoryt: **Settings → Pages → Build and deployment → Source → GitHub Actions**.
-2. Standardadress: <https://andreaseighty1.github.io/schacklabbet/>. Workflow använder `/schacklabbet/` som bas för JS, CSS, WASM, licenser och Worker.
+2. Ange **Custom domain**: `schacklabbet.42improbableowls.com`. Workflow använder `/` som bas för JS, CSS, WASM, licenser och Worker och genererar motsvarande `CNAME`.
 3. Supabase-projektets URL och publishable-nyckel har offentliga standardvärden i workflow. De kan ersättas med repository-variablerna `VITE_SUPABASE_URL` och `VITE_SUPABASE_PUBLISHABLE_KEY`.
 4. Avvakta grön Actions-körning och verifiera sedan det publika spelet. Misslyckade tester stoppar publicering.
 
-### Planerad subdomän
+### Egen subdomän
 
-Mål: **schacklabbet.42improbableowls.com**. Domänen är inte automatiskt aktiverad och inga DNS-poster har ändrats.
+Adress: **schacklabbet.42improbableowls.com**. Ägaren meddelade den 20 oktober 2026 att subdomänen är skapad. DNS ska peka på `andreaseighty1.github.io`. Inga DNS-poster har ändrats av utvecklingsverktygen.
 
-När du är redo:
+Inställningar:
 
 1. Skapa DNS-posten `CNAME`, namn `schacklabbet`, mål `andreaseighty1.github.io` (ingen `https://` och ingen sökväg).
 2. Lägg in domänen under GitHub **Settings → Pages → Custom domain** och låt DNS-kontrollen slutföras.
-3. Skapa repository-variabler under **Settings → Secrets and variables → Actions → Variables**:
+3. Workflow har redan dessa standardvärden. Vid behov kan de ersättas med repository-variabler under **Settings → Secrets and variables → Actions → Variables**:
    - `PAGES_BASE_PATH` = `/`
    - `PAGES_CUSTOM_DOMAIN` = `schacklabbet.42improbableowls.com`
-4. Kör workflow igen. Byggskriptet skapar `CNAME` först när `PAGES_CUSTOM_DOMAIN` är satt.
+4. Kör workflow igen efter att Pages aktiverats. Byggskriptet genererar `CNAME` från domäninställningen.
 5. Aktivera **Enforce HTTPS** när GitHub har utfärdat certifikatet.
 
-Utan egen domän lämnas båda variablerna tomma. Standardbasen `/schacklabbet/` används då.
+För framtida byte till vanlig repository-Pages utan egen domän: ändra workflow så att `VITE_BASE_PATH` är `/schacklabbet/` och `VITE_CUSTOM_DOMAIN` är tom. Ta även bort Custom domain i Pages-inställningarna.
 
 ## Supabase
 

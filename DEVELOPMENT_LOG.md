@@ -38,4 +38,8 @@ Playwright-tester för desktop och mobil har skrivits och ingår i GitHub Action
 
 Publik GitHub-metadata visade `has_pages: false`. Pages måste aktiveras med GitHub Actions som källa. Automatisk godkännandekontroll nekade hämtning av sparade GitHub-inloggningsuppgifter för en administrativ API-kontroll; den vägen avbröts och en offentlig metadataförfrågan användes i stället.
 
-Första implementationen sparades i lokal commit `96bce4e`. `git push -u origin main` stoppades därefter av automatisk godkännandekontroll eftersom publicering till det offentliga repots standardgren och start av CI kräver tydligare användargodkännande. Ingen kod har därför skickats till GitHub och inga CI-resultat eller Pages-publicering påstås vara verifierade.
+Första implementationen sparades i lokal commit `96bce4e`. `git push -u origin main` stoppades först av automatisk godkännandekontroll i väntan på tydligare användargodkännande.
+
+### Förberedelse för godkänd publicering
+
+Användaren godkände sedan uttryckligen push till det offentliga repots `main` och start av CI samt meddelade att subdomänen är skapad. Workflow uppdaterades till `/` och `schacklabbet.42improbableowls.com` som standardvärden. Pages aktiveras av ägaren i GitHub. CI- och publiceringsresultat redovisas först när de är kontrollerade.
