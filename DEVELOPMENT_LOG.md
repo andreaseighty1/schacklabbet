@@ -37,3 +37,5 @@ Lokal devserver startade på `127.0.0.1:5173`. In-app-förhandsvisning begärdes
 Playwright-tester för desktop och mobil har skrivits och ingår i GitHub Actions. Lokalt skrivna tester räknas inte som körda. DNS och HTTPS för den kommande domänen har inte ändrats. Motorstyrkan behöver kalibreras med målgruppen.
 
 Publik GitHub-metadata visade `has_pages: false`. Pages måste aktiveras med GitHub Actions som källa. Automatisk godkännandekontroll nekade hämtning av sparade GitHub-inloggningsuppgifter för en administrativ API-kontroll; den vägen avbröts och en offentlig metadataförfrågan användes i stället.
+
+Första implementationen sparades i lokal commit `96bce4e`. `git push -u origin main` stoppades därefter av automatisk godkännandekontroll eftersom publicering till det offentliga repots standardgren och start av CI kräver tydligare användargodkännande. Ingen kod har därför skickats till GitHub och inga CI-resultat eller Pages-publicering påstås vara verifierade.
