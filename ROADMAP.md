@@ -31,10 +31,10 @@
 - [ ] Sammanhållet 5–15-minuterspass med återkoppling och sparad passhistorik.
 - [ ] Valfri schackklocka, verkliga tidsavslut och återställning.
 - [x] Inspelningsmanus med exakta filnamn för de sex nuvarande övningarna och gemensamma spelhändelser.
-- [x] Första omgångens 25 P1-filer levererade lokalt med rätt filnamn och innehåll större än noll byte.
+- [x] Första omgångens 25 P1-filer levererade, inkopplade och publicerade med appen.
 - [ ] Lyssningsgranska P1-filerna och verifiera begriplighet, uttal och ljudnivå. P2 och P3 är senare omgångar.
 - [x] Koppla lokal ljuduppspelning med Röst på/av, Lyssna, Stoppa och Lyssna igen. Av vid sidöppning och omladdning, ingen automatisk start och omedelbart stopp vid avstängning.
-- [ ] Verifiera att tävlingsprofilen aldrig läser upp avstängda tips eller hotvarningar och att samtidiga repliker inte överlappar.
+- [x] Verifiera att tävlingsprofilen blockerar talade tips och hotvarningar även vid upprepning, och att tidigare uppspelning avbryts före nästa klipp. Enhetstester och webbläsartester godkända.
 
 Klockförslag: utan klocka som standard, 15 minuter per spelare för lugn introduktion och 10 minuter per spelare för tävlingsträning. De publicerade Schackfyran-regler som kontrollerats är för 2025/26; riksfinalen använder 10 minuter per spelare. Lokala upplägg och kommande säsongsregler kontrolleras mot arrangörens aktuella inbjudan före tävling.
 
