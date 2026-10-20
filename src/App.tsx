@@ -32,6 +32,11 @@ import {
 } from "lucide-react";
 import { Board } from "./components/Board";
 import { Piece } from "./components/Piece";
+import { LessonArt } from "./components/LessonArt";
+import {
+  AchievementArt,
+  type AchievementKind,
+} from "./components/AchievementArt";
 import { levels, search } from "./chess/engine";
 import {
   capturedPieces,
@@ -552,30 +557,35 @@ export default function App() {
   const challengeDone = exercises.filter(
     (e) => e.category === "challenge" && progress.completed.includes(e.id),
   ).length;
-  const badges = [
+  const badges: {
+    title: string;
+    description: string;
+    earned: boolean;
+    kind: AchievementKind;
+  }[] = [
     {
       title: "Första partiet",
       description: "Spela ett helt parti",
       earned: progress.games > 0,
-      icon: Swords,
+      kind: "game",
     },
     {
       title: "Första vinsten",
       description: "Besegra datorn",
       earned: progress.wins > 0,
-      icon: Trophy,
+      kind: "win",
     },
     {
       title: "Nyfiken upptäckare",
       description: "Klara din första lektion",
       earned: schoolDone > 0,
-      icon: BookOpen,
+      kind: "explore",
     },
     {
       title: "Mattdetektiv",
       description: "Lös båda mattproblemen",
       earned: challengeDone === 2,
-      icon: Target,
+      kind: "mate",
     },
   ];
   let displayedGame = game;
@@ -1270,20 +1280,7 @@ export default function App() {
                           onClick={() => setExercise(e)}
                         >
                           <div className="lesson-art">
-                            <Piece
-                              type={
-                                e.id === "knight"
-                                  ? "n"
-                                  : e.id === "bishop"
-                                    ? "b"
-                                    : e.id === "castle"
-                                      ? "k"
-                                      : e.id === "mate-queen"
-                                        ? "q"
-                                        : "r"
-                              }
-                              color="w"
-                            />
+                            <LessonArt lesson={e.id} />
                             <span className="lesson-number">
                               {String(i + 1).padStart(2, "0")}
                             </span>
@@ -1435,14 +1432,13 @@ export default function App() {
                 <span>Små steg värda att fira.</span>
               </div>
               <div className="badge-grid">
-                {badges.map(({ title, description, earned, icon: Icon }) => (
+                {badges.map(({ title, description, earned, kind }) => (
                   <div
                     className={`badge-card ${earned ? "earned" : ""}`}
                     key={title}
                   >
                     <div className="medal">
-                      <Icon size={33} />
-                      <span>✦</span>
+                      <AchievementArt kind={kind} earned={earned} />
                     </div>
                     <h3>{title}</h3>
                     <p>{description}</p>

@@ -65,3 +65,9 @@ Efter den första korrekta Actions-publiceringen körde GitHubs separata Jekyll-
 Ompubliceringen från commit `62d1f13` slutfördes med **success** i [Actions-körning 39411746709](https://github.com/andreaseighty1/schacklabbet/actions/runs/39411746709). Ingen ny Jekyll-körning startade för den pushen. Den publika sidan laddade därefter `/assets/index-1wNjC2Qe.js` med HTTP 200 och `application/javascript`.
 
 Den publicerade startsidan och spelrummet öppnades också i en riktig webbläsare och granskades visuellt. Ett nytt nybörjarparti startades: elevdraget `e4` följdes av motorns `c6`, och status återgick till elevens tur. Felet med den vita sidan är därmed åtgärdat och verifierat i produktion. Ingen Supabase-ändring behövdes.
+
+### Grafik och planerade topplistor
+
+Nästa grafiska uppdatering ger alla sex pjäser en mer genomarbetad form, gemensam sockel och subtil materialskuggning. Brädet får en tydligare ram. Fyra lektionskort och två utmaningskort får egna rörelsediagram, och framstegssidan får fyra specialritade medaljer med olika motiv och separata färger för låst/upplåst. All grafik är lokal SVG/CSS och kräver inga nya beroenden eller externa bildtjänster. Spelregler och sparformat ändras inte.
+
+Användaren föreslog även topplistor. Roadmapen beskriver därför ett förslag till privata klassgrupper, 3/1/0 i en matchserie med lika många matcher och en separat veckolista för gemensamma uppgifter. Antal drag är extra statistik. Resultat måste verifieras på servern; ingen topplista är ännu aktiverad i appen.

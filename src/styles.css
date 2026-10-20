@@ -834,7 +834,7 @@ a {
 }
 .board-frame {
   padding: 7px;
-  background: #38564a;
+  background: linear-gradient(135deg, #6e8b72 0%, #385b49 20%, #244438 100%);
   border-radius: 6px;
   box-shadow:
     0 5px 0 #223c33,
@@ -860,11 +860,11 @@ a {
   border-radius: 0;
 }
 .square.light {
-  background: #e9e6cf;
+  background: linear-gradient(140deg, #f1eedb, #e4dfc5);
   color: #6c846b;
 }
 .square.dark {
-  background: #7e9a7d;
+  background: linear-gradient(140deg, #8ba585, #779471);
   color: #d9e4c8;
 }
 .square .piece {
@@ -873,6 +873,12 @@ a {
   position: relative;
   z-index: 2;
   filter: drop-shadow(0 2px 1px #223e392b);
+  transition: transform 0.15s ease;
+}
+@media (hover: hover) {
+  .square[aria-disabled="false"]:hover .piece {
+    transform: translateY(-2px);
+  }
 }
 .square.last:after {
   content: "";
@@ -1290,22 +1296,24 @@ a {
   box-shadow: 0 7px 22px #193f3718;
 }
 .lesson-art {
-  height: 160px;
-  background: repeating-conic-gradient(#dce5cf 0% 25%, #e9eedf 0% 50%) 0 0/80px
-    80px;
+  height: 185px;
+  background: #e1e8d5;
   position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 .lesson-card:nth-child(2n) .lesson-art {
-  background: repeating-conic-gradient(#e9e0ce 0% 25%, #f1ebde 0% 50%) 0 0/80px
-    80px;
+  background: #eae1ce;
 }
-.lesson-art > .piece {
-  width: 110px;
-  height: 120px;
-  filter: drop-shadow(4px 9px 2px #3c564533);
+.lesson-scene {
+  width: 100%;
+  height: 100%;
+  display: block;
+  transition: transform 0.3s ease;
+}
+.lesson-card:hover .lesson-scene {
+  transform: translateY(-2px);
 }
 .lesson-number {
   position: absolute;
@@ -1314,6 +1322,11 @@ a {
   font-size: 11px;
   color: #8e9e7d;
   font-weight: 650;
+  z-index: 1;
+  background: #fffdf0e6;
+  border: 1px solid #fffdf0;
+  padding: 5px 7px;
+  border-radius: 6px;
 }
 .lesson-copy {
   padding: 20px;
@@ -1343,6 +1356,7 @@ a {
   color: #668452;
   border-radius: 20px;
   padding: 5px 9px;
+  z-index: 1;
 }
 .catalog-note {
   margin-top: 25px;
@@ -1493,34 +1507,19 @@ a {
   background: #fffef9;
 }
 .medal {
-  width: 78px;
-  height: 78px;
-  border-radius: 50%;
-  border: 4px double #dfe2d6;
-  background: #f2f3ec;
-  margin: 0 auto 20px;
-  color: #c0c6b2;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
+  width: 120px;
+  height: 133px;
+  margin: 0 auto 15px;
 }
-.medal > span {
-  position: absolute;
-  bottom: -11px;
-  color: #c0c6b2;
-  background: #f2f3ec;
-  padding: 0 6px;
+.achievement-art {
+  width: 100%;
+  height: 100%;
+  display: block;
 }
-.earned .medal {
-  border-color: #c8ac63;
-  background: #f6ecd0;
-  color: #b09143;
-  box-shadow: 0 0 0 6px #f7f2df;
-}
-.earned .medal > span {
-  background: #f6ecd0;
-  color: #b09143;
+.badge-card.earned {
+  background:
+    radial-gradient(ellipse at 50% 28%, #faf0d3, transparent 67%), #fffef9;
+  border-color: #ded2ac;
 }
 .badge-card h3 {
   font-size: 14px;

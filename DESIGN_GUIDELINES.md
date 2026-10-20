@@ -19,6 +19,10 @@ Systemtypsnittet Segoe UI används i första hand, följt av Arial och sans-seri
 
 Samtliga sex pjäser är egna vektorer, med gemensam bas och tydlig silhuett. Vita pjäser är benvita med mörk kontur, svarta är mörkgröna med ljusare detalj. Springaren har hästprofil, löparen snitt, tornet tinnar och kungen kors. Favicon och logotyp bygger på springaren. Lucide ger konsekventa funktionsikoner. Startsidan illustreras med CSS-bräde och samma pjäser.
 
+Pjäserna har nu en gemensam sockel, diskret materialskuggning och konturer som läses även på små rutor. Gradienternas ID:n är unika per SVG-instans, så flera bräden och illustrationer kan finnas på samma sida utan färgkollisioner. Den uppdaterade faviconen följer springarens silhuett.
+
+Lektionskorten har egna rörelsediagram med ett beskuret bräde, pjäser och guldtonade pilar. De är dekorativa illustrationer; det interaktiva övningsbrädet visar uppgiftens faktiska position. Medaljerna är egna vektorer med band, präglad kant och fyra motiv: korsade svärd, pokal, kompass och mattdetektiv. Låsta medaljer är salviagröna och upplåsta får varm guldton, med text som också anger status.
+
 ## Layout
 
 Desktop har fast sidomeny, tunn toppmeny och luftig innehållsyta. Spelläget prioriterar brädet, med mindre panel för status, stöd och drag. Brädstorleken följer tillgänglig skärmhöjd. På mindre skärm flyttas panelen under brädet och menyn blir kompakt eller öppningsbar.
