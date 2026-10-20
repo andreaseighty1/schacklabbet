@@ -32,3 +32,5 @@ Nivåerna behåller sina tidigare gränser för skicklighet, sökdjup, söktid o
 ## Kontroller
 
 Enhetstester täcker historik/upprepning, PGN-startställning/förvandling, lagliga resultat, kandidatgrupper, återanvändning, nivåbyte, överlappning, avbrott, sena callbacks, timeout, startfel och motorfel i vila. Webbläsartester kontrollerar den verkliga motorns antal starter, historikkommandon, experttips, sidbyte, nytt parti och ett avsiktligt försenat svar från ett avbrutet parti. Körresultat för CI och publicering dokumenteras i utvecklingsloggen.
+
+[Actions-körning 39493724428](https://github.com/andreaseighty1/schacklabbet/actions/runs/39493724428) passerade med 77 enhetstester, verklig WASM-kontroll, 34 webbläsartester, bygge och publicering. Den byggda versionen verifierades därefter på den publika domänen.
