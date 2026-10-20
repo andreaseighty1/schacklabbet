@@ -29,6 +29,12 @@
 - [ ] Personliga träningsförslag utifrån riktiga analysresultat.
 - [ ] Sammanhållet 5–15-minuterspass med återkoppling och sparad passhistorik.
 - [ ] Valfri schackklocka, verkliga tidsavslut och återställning.
+- [x] Inspelningsmanus med exakta filnamn för de sex nuvarande övningarna och gemensamma spelhändelser.
+- [ ] ElevenLabs-filer levererade och lyssningsgranskade. Första omgång: P1, 25 filer.
+- [ ] Koppla lokal ljuduppspelning med Röst på/av, Lyssna, Stoppa och Lyssna igen. Av som standard, ingen automatisk start vid sidöppning och omedelbart stopp vid avstängning.
+- [ ] Verifiera att tävlingsprofilen aldrig läser upp avstängda tips eller hotvarningar och att samtidiga repliker inte överlappar.
+
+Klockförslag: utan klocka som standard, 15 minuter per spelare för lugn introduktion och 10 minuter per spelare för tävlingsträning. De publicerade Schackfyran-regler som kontrollerats är för 2025/26; riksfinalen använder 10 minuter per spelare. Lokala upplägg och kommande säsongsregler kontrolleras mot arrangörens aktuella inbjudan före tävling.
 
 ## Fas 3 – multiplayer
 
@@ -44,7 +50,7 @@ Användaren har önskat en topplista. Föreslagen utformning, ännu inte impleme
 
 - Privat klass-/gruppkod och automatiska smeknamn; ingen offentlig lista över identifierbara elever.
 - Två separata listor: en matchserie och veckans gemensamma schackutmaningar.
-- Matchserie: 3 poäng för vinst, 1 för remi, 0 för förlust. Lika många schemalagda matcher per deltagare ger en rättvisare jämförelse än fria ommatcher.
+- Föreslaget poängsystem efter avstämning mot Schackfyran: 3 för vinst, 2 för remi och 1 för en spelad förlust. Ospelat parti ger 0. Det ersätter det tidigare egna förslaget 3/1/0 och följer de [publicerade reglerna för 2025/26](https://schack.se/wp-content/uploads/2025/09/Regler-for-Schackfyran-2025-26.pdf). Lika många schemalagda matcher per deltagare ger en rättvisare jämförelse än fria ommatcher.
 - Utmaningar: samma uppgifter för alla, fast poäng per löst uppgift och poäng bara en gång. Hjälpmedel sänker inte poängen.
 - Antal drag och betänketid får visas som statistik; de avgör inte huvudrankingen. Kortast parti är inte ett tillförlitligt mått på spelstyrka.
 - Gruppens poäng börjar om varje vecka eller serie. Egna framsteg och personliga medaljer bevaras separat.

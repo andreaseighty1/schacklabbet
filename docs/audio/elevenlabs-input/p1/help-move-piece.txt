@@ -1,0 +1,1 @@
+Klicka på en av dina pjäser och sedan på rutan du vill flytta till. Du kan också dra pjäsen dit. När draghjälpen är på visar punkterna vilka drag som är möjliga.

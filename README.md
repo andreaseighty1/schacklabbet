@@ -93,3 +93,11 @@ Inga namn, e-postadresser, annonser, analysverktyg eller chattfunktioner. Spel o
 ## Grafik och motorlicens
 
 Logotyp, favicon och samtliga pjäser är egna SVG-former. Ikoner: Lucide, ISC. Stockfish är GPL-3.0. Oförändrade motorfiler kopieras från den låsta npm-versionen vid bygge. Licenstext, motsvarande källkodsarkiv och nödvändig nätverksfil distribueras tillsammans med webbplatsen. Se `THIRD_PARTY_NOTICES.md` och `public/licenses/README.md`.
+
+## Röstinstruktioner – förberett inspelningsunderlag
+
+Manus och filnamn finns i [`docs/audio/ROSTMANUS.md`](docs/audio/ROSTMANUS.md). Första omgången P1 innehåller 25 klipp. Varje replik finns som en egen UTF-8-textfil under `docs/audio/elevenlabs-input/`. Spara det genererade ljudet med samma basnamn och `.mp3`, och lägg färdiga ljud i `public/audio/sv-SE/`.
+
+`docs/audio/manifest.json` är källan för manuset. Kör `npm run prepare:voiceover` efter ändringar för att validera filnamn, prioritering och täckning av de sex övningarna och återskapa textfilerna. P2 innehåller senare spelhändelser och P3 avser klocka och multiplayer som ännu inte är implementerade.
+
+Inga ljudfiler eller ljudspelare är inkopplade ännu. Den planerade spelaren är av som standard, med egen Röst på/av-kontroll och Lyssna/Stoppa/Lyssna igen per lektion. Ingen uppspelning börjar automatiskt när sidan öppnas. ElevenLabs-nycklar behövs inte i frontend; den ska använda färdiga lokala MP3-filer.

@@ -1,0 +1,462 @@
+{
+  "schemaVersion": 1,
+  "locale": "sv-SE",
+  "audioDirectory": "public/audio/sv-SE/",
+  "format": "mp3",
+  "defaultVoiceEnabled": false,
+  "playbackRequiresUserChoice": true,
+  "clips": [
+    {
+      "id": "start-welcome",
+      "priority": "P1",
+      "phase": "current",
+      "trigger": "Frivillig välkomstuppläsning",
+      "text": "Välkommen till Schacklabbet! Här får du spela, prova idéer och lära dig schack i din egen takt. Nästa drag är ditt."
+    },
+    {
+      "id": "help-move-piece",
+      "priority": "P1",
+      "phase": "current",
+      "trigger": "Hjälp med att flytta en pjäs",
+      "text": "Klicka på en av dina pjäser och sedan på rutan du vill flytta till. Du kan också dra pjäsen dit. När draghjälpen är på visar punkterna vilka drag som är möjliga."
+    },
+    {
+      "id": "help-audio-controls",
+      "priority": "P1",
+      "phase": "current",
+      "trigger": "Frivillig förklaring av röstkontrollerna",
+      "text": "Du väljer själv när du vill lyssna. Tryck på stopp om du vill avbryta. Med lyssna igen hör du förklaringen från början. Du kan stänga av rösten när du vill."
+    },
+    {
+      "id": "exercise-try-again",
+      "priority": "P1",
+      "phase": "current",
+      "trigger": "Ett lagligt drag löser inte övningen",
+      "text": "Det är ett möjligt drag, men det löser inte just den här uppgiften. Ta en titt till och prova en annan idé."
+    },
+    {
+      "id": "exercise-move-not-allowed",
+      "priority": "P1",
+      "phase": "current",
+      "trigger": "Ett försök till drag har avvisats av regelmotorn",
+      "text": "Den pjäsen kan inte flytta dit just nu. Välj en annan ruta.",
+      "notes": "Spela bara efter ett faktiskt avvisat drag. Ett klick på en tom ruta är inte i sig ett feldrag."
+    },
+    {
+      "id": "lesson-rook-intro",
+      "priority": "P1",
+      "phase": "current",
+      "lessonId": "rook",
+      "cue": "intro",
+      "trigger": "Lyssna på tornlektionen",
+      "text": "Tornet går rakt, längs rader och linjer. Det kan gå flera rutor i samma drag om vägen är fri. Flytta tornet från a ett till a sju och ta den svarta bonden."
+    },
+    {
+      "id": "lesson-rook-hint",
+      "priority": "P1",
+      "phase": "current",
+      "lessonId": "rook",
+      "cue": "hint",
+      "trigger": "Lyssna på tornlektionens ledtråd",
+      "text": "Tornet kan gå många rutor uppåt om vägen är fri. Följ linjen från a ett till a sju."
+    },
+    {
+      "id": "lesson-rook-success",
+      "priority": "P1",
+      "phase": "current",
+      "lessonId": "rook",
+      "cue": "success",
+      "trigger": "Tornlektionen löst",
+      "text": "Precis! Tornet gick rakt upp till a sju och tog bonden. Tornet kan slå en motståndarpjäs på rutan där det landar."
+    },
+    {
+      "id": "lesson-bishop-intro",
+      "priority": "P1",
+      "phase": "current",
+      "lessonId": "bishop",
+      "cue": "intro",
+      "trigger": "Lyssna på löparlektionen",
+      "text": "Löparen rör sig diagonalt och stannar alltid på samma färg. Den kan gå flera rutor om vägen är fri. Ta bonden på ge fem med löparen."
+    },
+    {
+      "id": "lesson-bishop-hint",
+      "priority": "P1",
+      "phase": "current",
+      "lessonId": "bishop",
+      "cue": "hint",
+      "trigger": "Lyssna på löparlektionens ledtråd",
+      "text": "Följ diagonalen från de två. Först e tre, sedan eff fyra och till sist ge fem."
+    },
+    {
+      "id": "lesson-bishop-success",
+      "priority": "P1",
+      "phase": "current",
+      "lessonId": "bishop",
+      "cue": "success",
+      "trigger": "Löparlektionen löst",
+      "text": "Snyggt! Löparen följde diagonalen hela vägen till ge fem och tog bonden. Den stannade på samma färg hela vägen."
+    },
+    {
+      "id": "lesson-knight-intro",
+      "priority": "P1",
+      "phase": "current",
+      "lessonId": "knight",
+      "cue": "intro",
+      "trigger": "Lyssna på springarlektionen",
+      "text": "Springaren går två rutor åt ett håll och en ruta åt sidan, som bokstaven L. Den kan hoppa över andra pjäser. Ta bonden på eff fem med springaren."
+    },
+    {
+      "id": "lesson-knight-hint",
+      "priority": "P1",
+      "phase": "current",
+      "lessonId": "knight",
+      "cue": "hint",
+      "trigger": "Lyssna på springarlektionens ledtråd",
+      "text": "Börja på de fyra. Tänk två rutor åt höger och en ruta upp. Var hamnar springaren då?"
+    },
+    {
+      "id": "lesson-knight-success",
+      "priority": "P1",
+      "phase": "current",
+      "lessonId": "knight",
+      "cue": "success",
+      "trigger": "Springarlektionen löst",
+      "text": "Rätt! Springaren hoppade i ett L från de fyra till eff fem och tog bonden."
+    },
+    {
+      "id": "lesson-castle-intro",
+      "priority": "P1",
+      "phase": "current",
+      "lessonId": "castle",
+      "cue": "intro",
+      "trigger": "Lyssna på rockadlektionen",
+      "text": "Rockad är ett specialdrag med kungen och ett torn. Ingen av dem får ha flyttat tidigare, och rutorna mellan dem måste vara tomma. Kungen får inte stå i schack, eller passera eller landa på en ruta som motståndaren angriper. Gör kort rockad genom att flytta kungen från e ett till ge ett."
+    },
+    {
+      "id": "lesson-castle-hint",
+      "priority": "P1",
+      "phase": "current",
+      "lessonId": "castle",
+      "cue": "hint",
+      "trigger": "Lyssna på rockadlektionens ledtråd",
+      "text": "Flytta kungen två rutor åt höger, mot tornet. Tornet följer automatiskt med."
+    },
+    {
+      "id": "lesson-castle-success",
+      "priority": "P1",
+      "phase": "current",
+      "lessonId": "castle",
+      "cue": "success",
+      "trigger": "Rockadlektionen löst",
+      "text": "Du gjorde rockad! Kungen står nu på ge ett och tornet har flyttat till eff ett. Två pjäser flyttades i samma drag."
+    },
+    {
+      "id": "challenge-rook-mate-intro",
+      "priority": "P1",
+      "phase": "current",
+      "lessonId": "mate-rook",
+      "cue": "intro",
+      "trigger": "Lyssna på mattproblemet med torn",
+      "text": "Svarts kung står vid kanten. Vit är på drag. Hitta ett torndrag som ger schackmatt direkt. Titta efter vilka rutor den svarta kungen kan fly till."
+    },
+    {
+      "id": "challenge-rook-mate-hint",
+      "priority": "P1",
+      "phase": "current",
+      "lessonId": "mate-rook",
+      "cue": "hint",
+      "trigger": "Lyssna på mattproblemets ledtråd",
+      "text": "Din kung täcker ge åtta och ge sju. Kan tornet ge schack längs hå-linjen?"
+    },
+    {
+      "id": "challenge-rook-mate-success",
+      "priority": "P1",
+      "phase": "current",
+      "lessonId": "mate-rook",
+      "cue": "success",
+      "trigger": "Mattproblemet med torn löst",
+      "text": "Schackmatt! Tornet täcker hå-linjen och din kung stänger flyktvägarna. Pjäserna samarbetar."
+    },
+    {
+      "id": "challenge-queen-mate-intro",
+      "priority": "P1",
+      "phase": "current",
+      "lessonId": "mate-queen",
+      "cue": "intro",
+      "trigger": "Lyssna på mattproblemet med dam",
+      "text": "Damen och kungen kan samarbeta. Vit är på drag. Hitta ett drag med damen som sätter svart schackmatt."
+    },
+    {
+      "id": "challenge-queen-mate-hint",
+      "priority": "P1",
+      "phase": "current",
+      "lessonId": "mate-queen",
+      "cue": "hint",
+      "trigger": "Lyssna på mattproblemets ledtråd",
+      "text": "Kan du ge schack med damen på en ruta som din egen kung försvarar? Kontrollera också motståndarens flyktvägar."
+    },
+    {
+      "id": "challenge-queen-mate-success",
+      "priority": "P1",
+      "phase": "current",
+      "lessonId": "mate-queen",
+      "cue": "success",
+      "trigger": "Mattproblemet med dam löst",
+      "text": "Schackmatt! Damen på ge sju täcker flyktvägarna och är försvarad av kungen på eff sex."
+    },
+    {
+      "id": "game-player-check",
+      "priority": "P1",
+      "phase": "current",
+      "trigger": "Spelarens kung står i schack, men partiet är inte matt",
+      "text": "Din kung står i schack. Du måste skydda den. Kan du flytta kungen, slå pjäsen som ger schack, eller ställa en pjäs emellan?",
+      "notes": "De tre alternativen är saker att undersöka, inte löften om att alla är lagliga i ställningen. Spela inte denna efter schackmatt."
+    },
+    {
+      "id": "game-move-risk",
+      "priority": "P1",
+      "phase": "current",
+      "trigger": "Förhandsvarning efter ett verkligt lagligt slaghot i nybörjarprofilen",
+      "text": "Stanna upp och ta en titt. Din pjäs kan bli tagen om du gör det draget. Det betyder inte alltid att draget är dåligt. Du kan undersöka hotet, välja ett annat drag eller göra draget ändå.",
+      "notes": "Pjäs, angripare och rutor visas i text och på brädet. Den här fasta repliken läser inte upp variabla rutnamn."
+    },
+    {
+      "id": "game-turn-player",
+      "priority": "P2",
+      "phase": "current",
+      "trigger": "Tur övergår till eleven",
+      "text": "Din tur. Ta en titt på motståndarens senaste drag innan du väljer ditt eget.",
+      "notes": "Spela högst en gång per tur. Inte efter varje rendering eller pjäsval."
+    },
+    {
+      "id": "game-turn-computer",
+      "priority": "P2",
+      "phase": "current",
+      "trigger": "Tur övergår till datorn",
+      "text": "Nu är det datorns tur att tänka."
+    },
+    {
+      "id": "game-opponent-check",
+      "priority": "P2",
+      "phase": "current",
+      "trigger": "Elevens drag ger schack, men inte matt",
+      "text": "Schack! Nu måste motståndaren skydda sin kung."
+    },
+    {
+      "id": "game-promotion",
+      "priority": "P2",
+      "phase": "current",
+      "trigger": "Dialog för bondeförvandling",
+      "text": "Din bonde har nått sista raden. Nu får du välja en ny pjäs. Vill du ha en dam, ett torn, en löpare eller en springare?"
+    },
+    {
+      "id": "game-undo",
+      "priority": "P2",
+      "phase": "current",
+      "trigger": "Ångra har genomförts i tillåten profil",
+      "text": "Prova en annan idé. Det är så man lär sig."
+    },
+    {
+      "id": "game-hint-general",
+      "priority": "P2",
+      "phase": "current",
+      "trigger": "Första ledtråden på begäran",
+      "text": "Börja med att leta efter schackar, möjliga slag och hot. Vad har motståndaren just ändrat?"
+    },
+    {
+      "id": "game-hint-safety",
+      "priority": "P2",
+      "phase": "current",
+      "trigger": "Allmän inledning till en konkret ledtråd på skärmen",
+      "text": "Undersök vilka av dina pjäser som är angripna. Kan du göra en pjäs säkrare, eller få fler av dina pjäser att samarbeta?",
+      "notes": "Ersätter inte den positionsbundna texten. Använd inte som exakt uppläsning av en specifik pjäs och ruta."
+    },
+    {
+      "id": "game-hint-engine",
+      "priority": "P2",
+      "phase": "current",
+      "trigger": "Ett motorförslag har faktiskt laddats på begäran",
+      "text": "Här är motorns förslag. Titta på det markerade draget och fundera på vilka möjligheter det skapar. Du bestämmer själv vilket drag du vill göra.",
+      "notes": "Spela först när ett giltigt förslag finns. Påstå inte att förslaget är det säkert bästa draget."
+    },
+    {
+      "id": "game-risk-explainer",
+      "priority": "P2",
+      "phase": "current",
+      "trigger": "Eleven väljer att visa ett slaghot",
+      "text": "En angripen pjäs är inte automatiskt förlorad. Den kan vara försvarad, eller du kan ha en annan plan. Tänk igenom vad som händer om motståndaren tar den."
+    },
+    {
+      "id": "game-result-win",
+      "priority": "P2",
+      "phase": "current",
+      "trigger": "Verifierad vinst för eleven",
+      "text": "Du vann partiet. Bra tänkt! Spela gärna igenom dragen och upptäck vad som hjälpte dig att vinna."
+    },
+    {
+      "id": "game-result-loss",
+      "priority": "P2",
+      "phase": "current",
+      "trigger": "Verifierad förlust för eleven",
+      "text": "Motståndaren vann det här partiet. Du kan fortfarande lära dig mycket av det. Spela gärna igenom dragen och leta efter en idé att prova nästa gång."
+    },
+    {
+      "id": "game-result-stalemate",
+      "priority": "P2",
+      "phase": "current",
+      "trigger": "Partiet har slutat med patt",
+      "text": "Det blev patt. Spelaren som är på tur har inget lagligt drag, men kungen står inte i schack. Då blir partiet remi."
+    },
+    {
+      "id": "game-result-repetition",
+      "priority": "P2",
+      "phase": "current",
+      "trigger": "Remi genom trefaldig upprepning enligt appens regelmodell",
+      "text": "Partiet blev remi eftersom samma ställning upprepades tre gånger."
+    },
+    {
+      "id": "game-result-insufficient",
+      "priority": "P2",
+      "phase": "current",
+      "trigger": "Regelmotorn har fastställt otillräckligt material",
+      "text": "Partiet blev remi. Det finns inte tillräckligt med material kvar för att någon ska kunna sätta schackmatt."
+    },
+    {
+      "id": "game-result-fifty-moves",
+      "priority": "P2",
+      "phase": "current",
+      "trigger": "Remi enligt femtiodragsregeln i appens regelmodell",
+      "text": "Partiet blev remi enligt femtiodragsregeln. Båda spelarna har gjort femtio drag var utan att flytta en bonde eller slå någon pjäs."
+    },
+    {
+      "id": "game-result-draw",
+      "priority": "P2",
+      "phase": "current",
+      "trigger": "Annat fastställt remiavslut",
+      "text": "Partiet blev remi. Det betyder oavgjort. Spela gärna igenom dragen och se vad ni kan lära er av partiet."
+    },
+    {
+      "id": "game-result-resigned",
+      "priority": "P2",
+      "phase": "current",
+      "trigger": "Eleven har bekräftat att ge upp",
+      "text": "Du har avslutat partiet genom att ge upp. Du kan fortfarande gå igenom dragen och upptäcka något att prova nästa gång.",
+      "notes": "Spela efter bekräftelsen, inte när dialogen för att ge upp öppnas."
+    },
+    {
+      "id": "system-engine-unavailable",
+      "priority": "P2",
+      "phase": "current",
+      "trigger": "Schackmotorn kunde inte starta eller svara",
+      "text": "Schackmotorn kunde inte svara. Prova att trycka på försök igen."
+    },
+    {
+      "id": "system-save-unavailable",
+      "priority": "P2",
+      "phase": "current",
+      "trigger": "Lokal sparning misslyckades",
+      "text": "Det gick inte att spara ditt parti på den här datorn. Du kan fortsätta spela så länge fliken är öppen."
+    },
+    {
+      "id": "progress-first-lesson",
+      "priority": "P2",
+      "phase": "current",
+      "trigger": "Medaljen Nyfiken upptäckare låses upp för första gången",
+      "text": "Din första lektion är klar. Du har låst upp medaljen nyfiken upptäckare!"
+    },
+    {
+      "id": "progress-first-game",
+      "priority": "P2",
+      "phase": "current",
+      "trigger": "Medaljen Första partiet låses upp för första gången",
+      "text": "Ditt första parti är avslutat. Du har låst upp din första partimedalj!"
+    },
+    {
+      "id": "progress-first-win",
+      "priority": "P2",
+      "phase": "current",
+      "trigger": "Medaljen Första vinsten låses upp för första gången",
+      "text": "Din första vinst! Du har låst upp en ny medalj. Vad vill du prova härnäst?"
+    },
+    {
+      "id": "progress-mate-detective",
+      "priority": "P2",
+      "phase": "current",
+      "trigger": "Båda nuvarande mattproblem är lösta och medaljen låses upp",
+      "text": "Du har löst båda mattproblemen och blivit en mattdetektiv. Din nya medalj finns bland dina framsteg."
+    },
+    {
+      "id": "clock-start-ten-minutes",
+      "priority": "P3",
+      "phase": "planned",
+      "trigger": "Framtida tidsläge med tio minuter per spelare",
+      "text": "Varje spelare har tio minuter på sig. Din klocka går bara när det är din tur. Försök att använda tiden till att tänka igenom dina drag."
+    },
+    {
+      "id": "clock-start-fifteen-minutes",
+      "priority": "P3",
+      "phase": "planned",
+      "trigger": "Framtida tidsläge med femton minuter per spelare",
+      "text": "Varje spelare har femton minuter på sig. Din klocka går bara när det är din tur. Ta tid på dig att undersöka brädet innan du flyttar."
+    },
+    {
+      "id": "clock-player-one-minute",
+      "priority": "P3",
+      "phase": "planned",
+      "trigger": "Framtida valbar tidsvarning, en gång när en minut återstår",
+      "text": "En minut kvar på din klocka."
+    },
+    {
+      "id": "clock-player-thirty-seconds",
+      "priority": "P3",
+      "phase": "planned",
+      "trigger": "Framtida valbar tidsvarning, en gång när trettio sekunder återstår",
+      "text": "Trettio sekunder kvar på din klocka."
+    },
+    {
+      "id": "clock-player-expired",
+      "priority": "P3",
+      "phase": "planned",
+      "trigger": "Framtida verifierat tidsavslut för eleven",
+      "text": "Din tid är slut. Partiet är avslutat. Du kan gå igenom dragen och prova igen.",
+      "notes": "Läs upp den verkliga slutorsaken separat. Påstå inte automatiskt att det är förlust; reglerna kan ge remi."
+    },
+    {
+      "id": "clock-opponent-expired",
+      "priority": "P3",
+      "phase": "planned",
+      "trigger": "Framtida verifierat tidsavslut för motståndaren",
+      "text": "Motståndarens tid är slut. Partiet är avslutat.",
+      "notes": "Påstå inte automatiskt att eleven vann; använd det fastställda resultatet."
+    },
+    {
+      "id": "multiplayer-waiting",
+      "priority": "P3",
+      "phase": "planned",
+      "trigger": "Framtida privat lobby har faktiskt skapats",
+      "text": "Partiet är skapat. Dela spelkoden med din kompis. Vi väntar på att din kompis ska ansluta."
+    },
+    {
+      "id": "multiplayer-connected",
+      "priority": "P3",
+      "phase": "planned",
+      "trigger": "Framtida verifierad anslutning av motspelare",
+      "text": "Din kompis har anslutit till partiet."
+    },
+    {
+      "id": "multiplayer-connection-lost",
+      "priority": "P3",
+      "phase": "planned",
+      "trigger": "Framtida avbruten anslutning",
+      "text": "Anslutningen är bruten. Spelet försöker ansluta igen.",
+      "notes": "Påstå inte att partiet eller klockan har pausats om servern inte faktiskt har gjort det."
+    },
+    {
+      "id": "multiplayer-reconnected",
+      "priority": "P3",
+      "phase": "planned",
+      "trigger": "Framtida anslutning och serverställning har återställts",
+      "text": "Anslutningen är tillbaka. Titta på brädet innan du gör ditt nästa drag."
+    }
+  ]
+}

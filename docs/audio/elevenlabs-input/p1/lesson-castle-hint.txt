@@ -1,0 +1,1 @@
+Flytta kungen två rutor åt höger, mot tornet. Tornet följer automatiskt med.

@@ -75,3 +75,13 @@ Användaren föreslog även topplistor. Roadmapen beskriver därför ett försla
 Grafikcommitten `2ec7fcf` publicerades framgångsrikt i [Actions-körning 39415043082](https://github.com/andreaseighty1/schacklabbet/actions/runs/39415043082). Lokalt passerade lint, samtliga 46 enhetstester, TypeScript-/produktionsbygge och dist-kontroll. CI passerade även motor- och Playwright-tester samt Pages-deploy.
 
 Den publicerade lektionskatalogen, medaljsidan och spelbrädet granskades visuellt på desktop. Lektionskatalog och medaljsida granskades också vid 390 × 844; katalogen hade sidbredd 375 px inom en viewport på 390 px och ingen horisontell överströmning. Tornlektionen slutfördes i den publicerade appen och låste upp upptäckarmedaljen med guldgrafik och textstatus. Ingen ny schemaläggning, poängräkning eller multiplayerfunktion implementerades i detta grafiksteg.
+
+### Inspelningsunderlag för röstinstruktioner
+
+Användaren spelar själv in/genererar rösten med ElevenLabs och behöver manus och filnamn. Ett svenskt underlag med 58 korta repliker har därför förberetts: 25 i första omgången P1, 23 senare spelhändelser i P2 och 10 framtida klock-/multiplayerrepliker i P3. De sex nuvarande övningarna har vardera intro, ledtråd och korrekt återkoppling. Rutnamn är utskrivna med svenskt uttal.
+
+Manifestet är källan till individuella textfiler, en komplett manusöversikt och en filnamnslista. Generatorn validerar unika filnamn, prioriteringar och full täckning av de faktiska övnings-ID:na. Röstregin, leveransmappen och kraven på avstängd standard, aktivt val, omedelbart stopp och ingen överlappning dokumenteras i manuset. Dynamiska rutor, pjäsnamn och spelkoder hålls utanför de fasta ljudklippen. Inga ljudfiler genererades och ingen ljudspelare eller ElevenLabs-tjänst kopplades in i detta steg.
+
+Roadmapen har även uppdaterats efter den tidigare regelkontrollen: föreslagen träning med 10 eller 15 minuter per spelare, utan klocka som standard, och 3/2/1 som förslag till Schackfyran-lik poängräkning. Klocka och topplista är fortfarande planerade funktioner.
+
+`npm run prepare:voiceover` passerade valideringen för samtliga 58 manus och alla sex övningar. `npm run lint` passerade. Ett separat P1-paket för användaren skapades och kontrollerades: 25 rena textfiler, ett sammanställt P1-manus och en lista med exakta MP3-filnamn. Paketet innehåller inga ljudfiler och inga framtida P3-repliker. Ingen ny spelkod ändrades, så schack- och webbläsartester upprepades inte för detta dokumentationssteg.

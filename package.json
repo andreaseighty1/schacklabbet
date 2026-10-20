@@ -12,6 +12,7 @@
     "test:e2e": "playwright test",
     "test:engine": "node scripts/live-engine-check.mjs",
     "check:dist": "node scripts/check-dist.mjs",
+    "prepare:voiceover": "node scripts/prepare-voiceover.mjs",
     "lint": "eslint .",
     "format": "prettier --write src scripts e2e *.json *.md *.ts *.js .github/workflows/*.yml"
   },
