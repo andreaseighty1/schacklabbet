@@ -2,6 +2,8 @@
 
 Ett gratis, reklamfritt schackspel på svenska för nyfikna elever, framför allt 9–12 år. Enspelarversionen fungerar utan elevkonto och utan Supabase. Projektet är fristående från Schackfyran.
 
+**Spela:** <https://schacklabbet.42improbableowls.com/>
+
 ## Fungerar i version 0.1
 
 - Komplett regelmotor med chess.js: schack, matt, patt, rockad, en passant, valfri förvandling och remiavslut.

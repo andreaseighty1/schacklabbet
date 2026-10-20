@@ -17,9 +17,9 @@
 ## Kvalitet före första publika godkännande
 
 - [ ] Genomförd visuell QA i desktop och mobil; verktygspolicyn blockerade lokal browseråtkomst under utvecklingen.
-- [ ] Godkända Playwright-flöden med verklig browser-Worker i GitHub Actions.
+- [x] Godkända Playwright-flöden för desktop och mobil med verklig browser-Worker i GitHub Actions den 20 oktober 2026.
 - [ ] Kontrollera spelet med målgruppen och kalibrera de två lättaste nivåerna.
-- [ ] Slutligt verifierad GitHub Pages-publicering och DNS när subdomänen skapats.
+- [x] GitHub Pages-publicering, DNS, HTTPS och leverans av app-, Worker- och WASM-filer verifierade på subdomänen.
 
 ## Fas 2 – pedagogik
 
