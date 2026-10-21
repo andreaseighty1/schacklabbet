@@ -10,7 +10,7 @@ async function open(page: Page, title: string) {
   await page.getByRole("button", { name: new RegExp(title) }).click();
   await expect(
     page.getByRole("heading", { name: title, exact: true }),
-  ).toBeVisible();
+  ).toBeInViewport();
 }
 async function move(page: Page, from: string, to: string) {
   await page.getByRole("button", { name: new RegExp(`^${from},`) }).click();
@@ -91,6 +91,11 @@ for (const [name, type] of [
     await expect(
       page.getByRole("group", { name: "Välj bondens nya pjäs" }),
     ).toBeVisible();
+    await expect(
+      page
+        .getByRole("group", { name: "Välj bondens nya pjäs" })
+        .getByRole("button", { name: "dam", exact: true }),
+    ).toBeFocused();
     expect(await ids(page)).toEqual([]);
     await page
       .getByRole("group", { name: "Välj bondens nya pjäs" })

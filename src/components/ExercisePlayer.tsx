@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Chess, type Square } from "chess.js";
 import {
   ArrowLeft,
@@ -46,6 +46,15 @@ export function ExercisePlayer({
     from: Square;
     to: Square;
   } | null>(null);
+  const heading = useRef<HTMLHeadingElement>(null);
+  const promotionChoices = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    heading.current?.focus({ preventScroll: true });
+    window.scrollTo(0, 0);
+  }, [exercise.id]);
+  useEffect(() => {
+    if (promotion) promotionChoices.current?.querySelector("button")?.focus();
+  }, [promotion]);
   const clip = exerciseClip(exercise.id, solved ? "success" : "intro");
   function finish() {
     voice.player.reset();
@@ -111,7 +120,9 @@ export function ExercisePlayer({
       <div className="page-heading">
         <div>
           <div className="eyebrow">{exercise.tag}</div>
-          <h1>{exercise.title}</h1>
+          <h1 ref={heading} tabIndex={-1}>
+            {exercise.title}
+          </h1>
         </div>
         {completed && (
           <span className="completed-tag">
@@ -160,6 +171,7 @@ export function ExercisePlayer({
           {promotion && (
             <div
               className="lesson-promotion"
+              ref={promotionChoices}
               role="group"
               aria-label="Välj bondens nya pjäs"
             >
