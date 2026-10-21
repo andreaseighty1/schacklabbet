@@ -43,6 +43,7 @@ import {
 import { Piece } from "./components/Piece";
 import { LessonCatalog } from "./components/LessonCatalog";
 import { MoveLabel } from "./components/MoveLabel";
+import { PostGameReview } from "./components/PostGameReview";
 import {
   AchievementArt,
   type AchievementKind,
@@ -314,7 +315,7 @@ export default function App() {
   const [engineError, setEngineError] = useState("");
   const [warning, setWarning] = useState(initial.warning);
   const [message, setMessage] = useState(
-    "Klicka på en pjäs för att upptäcka dina möjligheter.",
+    "Tryck eller klicka på en pjäs för att upptäcka dina möjligheter.",
   );
   const [modal, setModal] = useState<"new" | "resign" | "help" | null>(null);
   const [promotion, setPromotion] = useState<{
@@ -1450,8 +1451,8 @@ export default function App() {
                         Du gjorde{" "}
                         {history.filter((m) => m.color === config.color).length}{" "}
                         drag och tog {capturedPieces(game, config.color).length}{" "}
-                        pjäser. Spela igenom partiet och se vad som hände. Ingen
-                        motorbedömning av misstag har gjorts.
+                        pjäser. Spela igenom partiet eller starta en kort
+                        genomgång under brädet.
                       </p>
                       <div className="replay-controls">
                         <button
@@ -1505,6 +1506,13 @@ export default function App() {
                   </div>
                 </aside>
               </div>
+              {terminal && (
+                <PostGameReview
+                  key={id}
+                  pgn={game.pgn()}
+                  color={config.color}
+                />
+              )}
             </>
           )}
           {view === "session" && (
@@ -1920,7 +1928,10 @@ export default function App() {
             schackskolan eller spela mot datorn på en nivå som passar dig.
           </p>
           <ul className="help-list">
-            <li>Klicka på en pjäs och sedan en ruta, eller dra pjäsen.</li>
+            <li>
+              Tryck eller klicka först på en pjäs och sedan på målrutan. Med mus
+              kan du också dra pjäsen.
+            </li>
             <li>Med tangentbord: använd piltangenter och Enter på brädet.</li>
             <li>
               En punkt visar ett lagligt drag. En ring visar ett möjligt slag.

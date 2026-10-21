@@ -102,6 +102,14 @@ export function preparePosition(position: EnginePosition) {
   };
 }
 
+export interface EngineAnalysis {
+  move: string;
+  /** From the side to move's perspective; positive means an advantage. */
+  score: { kind: "cp" | "mate"; value: number };
+  depth: number;
+  pv: string[];
+}
+
 export interface WorkerPort {
   onmessage: ((event: MessageEvent) => void) | null;
   onerror: ((event: ErrorEvent) => void) | null;
@@ -147,6 +155,24 @@ export class EngineSession {
     level: number,
     signal: AbortSignal,
   ): Promise<string> {
+    return this.run(position, level, signal).then((result) => result.move);
+  }
+
+  async analyze(
+    position: EnginePosition,
+    signal: AbortSignal,
+  ): Promise<EngineAnalysis> {
+    const result = await this.run(position, 4, signal);
+    if (!result.analysis)
+      throw new Error("Motorn hann inte bedöma ställningen. Försök igen.");
+    return result.analysis;
+  }
+
+  private run(
+    position: EnginePosition,
+    level: number,
+    signal: AbortSignal,
+  ): Promise<{ move: string; analysis?: EngineAnalysis }> {
     return new Promise((resolve, reject) => {
       if (signal.aborted) {
         reject(new DOMException("Avbruten", "AbortError"));
@@ -181,6 +207,7 @@ export class EngineSession {
       let currentDepth = -1;
       let batch = new Map<number, Candidate>();
       let completed: Candidate[] = [];
+      let analysis: EngineAnalysis | undefined;
       const finish = (error?: Error, move?: string) => {
         if (settled) return;
         settled = true;
@@ -195,7 +222,10 @@ export class EngineSession {
           worker.onerror = () => {
             if (this.worker === worker) this.drop(worker);
           };
-          resolve(move!);
+          resolve({
+            move: move!,
+            analysis: analysis?.move === move ? analysis : undefined,
+          });
         }
       };
       const abort = () => finish(new DOMException("Avbruten", "AbortError"));
@@ -266,6 +296,36 @@ export class EngineSession {
                 depth < currentDepth
               )
                 continue;
+              if (
+                slot === 1 &&
+                index === 4 &&
+                Number.isSafeInteger(Number(score[2]))
+              ) {
+                // Only expose legal continuations as teaching examples.
+                const moves = line.split(/\bpv /)[1]?.trim().split(/\s+/) ?? [];
+                const replay = new Chess(position.initialFen);
+                try {
+                  for (const uci of [...position.moves, ...moves]) {
+                    if (!uciMove.test(uci)) throw new Error("Invalid PV");
+                    replay.move({
+                      from: uci.slice(0, 2),
+                      to: uci.slice(2, 4),
+                      promotion: uci[4],
+                    });
+                  }
+                  analysis = {
+                    move: pv[1],
+                    score: {
+                      kind: score[1] as "cp" | "mate",
+                      value: Number(score[2]),
+                    },
+                    depth,
+                    pv: moves,
+                  };
+                } catch {
+                  /* Ignore incomplete or illegal engine variations. */
+                }
+              }
               if (depth > currentDepth) {
                 currentDepth = depth;
                 batch = new Map();

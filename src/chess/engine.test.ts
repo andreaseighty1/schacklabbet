@@ -27,6 +27,60 @@ function ready(worker: WorkerPort) {
   emit(worker, "readyok");
 }
 
+describe("bedömningar till efteranalys", () => {
+  it("läser perspektiv, djup och en laglig variant utan att låta ett grundare svar ersätta den", async () => {
+    const worker = fakeWorker();
+    const engine = new EngineSession(() => worker);
+    const task = engine.analyze(initial(), new AbortController().signal);
+    ready(worker);
+    emit(worker, "info depth 11 score cp 32 pv e2e4 e7e5 g1f3");
+    emit(worker, "info depth 9 score cp -50 pv d2d4 d7d5");
+    emit(worker, "info depth 12 score cp 60 lowerbound pv e2e4 e7e5");
+    emit(worker, "bestmove e2e4");
+    await expect(task).resolves.toEqual({
+      move: "e2e4",
+      score: { kind: "cp", value: 32 },
+      depth: 11,
+      pv: ["e2e4", "e7e5", "g1f3"],
+    });
+    engine.reset();
+  });
+  it("avvisar saknad bedömning, olaglig fortsättning och poäng för annat bästdrag", async () => {
+    for (const info of [
+      "",
+      "info depth 12 score cp 20 pv e2e4 e7e4",
+      "info depth 12 score cp 20 pv d2d4 d7d5",
+    ]) {
+      const worker = fakeWorker();
+      const engine = new EngineSession(() => worker);
+      const task = engine.analyze(initial(), new AbortController().signal);
+      const rejection = expect(task).rejects.toThrow("hann inte bedöma");
+      ready(worker);
+      emit(worker, info);
+      emit(worker, "bestmove e2e4");
+      await rejection;
+      engine.reset();
+    }
+  });
+  it("behåller matt separat och avbryter även en analys", async () => {
+    const worker = fakeWorker();
+    const engine = new EngineSession(() => worker);
+    const task = engine.analyze(initial(), new AbortController().signal);
+    ready(worker);
+    emit(worker, "info depth 10 score mate -3 pv e2e4 e7e5");
+    emit(worker, "bestmove e2e4");
+    expect((await task).score).toEqual({ kind: "mate", value: -3 });
+    const controller = new AbortController();
+    const pending = engine.analyze(initial(), controller.signal);
+    const rejection = expect(pending).rejects.toMatchObject({
+      name: "AbortError",
+    });
+    controller.abort();
+    await rejection;
+    expect(worker.terminate).toHaveBeenCalledOnce();
+  });
+});
+
 describe("fullständig motorhistorik", () => {
   it("bevarar upprepade ställningar och gör en fristående kopia", () => {
     const game = new Chess();

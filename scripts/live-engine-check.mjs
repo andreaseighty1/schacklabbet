@@ -60,8 +60,25 @@ try {
     apply(mate, await engine.search(enginePosition(mate), level, signal()));
     assert.ok(mate.isCheckmate(), `Matt i ett ska hittas på nivå ${level}`);
   }
+  engine.reset();
+  const reviewBoard = new Chess();
+  reviewBoard.loadPgn("1. e4 e5 2. Qh5 Nc6 *");
+  const before = await engine.analyze(enginePosition(reviewBoard), signal());
+  assert.ok(before.depth >= 8);
+  assert.equal(before.score.kind, "cp");
+  const variation = new Chess(reviewBoard.fen());
+  before.pv.forEach((move) => apply(variation, move));
+  reviewBoard.move("Qxe5+");
+  const after = await engine.analyze(enginePosition(reviewBoard), signal());
+  assert.equal(after.score.kind, "cp");
+  assert.ok(after.depth >= 8);
+  assert.ok(
+    before.score.value + after.score.value >= 180,
+    "Verklig motor ska upptäcka damförlusten från spelarens perspektiv",
+  );
+  assert.equal(after.move, "c6e5");
   console.log(
-    "PASS: verklig Stockfish 19 WASM – lagliga drag, full historik, återanvändning, experttips, avbrott/återstart och matt i ett på tre nivåer.",
+    "PASS: verklig Stockfish 19 WASM – lagliga drag, historik, återanvändning, avbrott, matt samt analys med laglig variant och upptäckt damförlust.",
   );
 } finally {
   engine.reset();

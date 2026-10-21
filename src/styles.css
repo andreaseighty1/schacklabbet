@@ -942,6 +942,17 @@ a {
   min-width: 0;
   aspect-ratio: 1;
   border-radius: 0;
+  touch-action: manipulation;
+}
+@media (pointer: coarse) {
+  .button,
+  .icon-button,
+  .text-button,
+  .nav-item {
+    min-height: 44px;
+    min-width: 44px;
+    touch-action: manipulation;
+  }
 }
 .square.light {
   background: linear-gradient(140deg, #f1eedb, #e4dfc5);
@@ -1564,6 +1575,65 @@ a {
   grid-template-columns: minmax(300px, 530px) minmax(260px, 1fr);
   gap: 35px;
   align-items: start;
+}
+.post-game-review {
+  margin-top: 30px;
+  padding: clamp(18px, 3vw, 32px);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  background: #fffef9;
+  line-height: 1.7;
+}
+.review-intro {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+.review-intro h2 {
+  margin: 6px 0;
+}
+.review-status:empty,
+.review-retry .exercise-feedback:empty {
+  display: none;
+}
+.review-good {
+  margin-top: 18px;
+  padding: 18px;
+  background: #edf3e5;
+  border-radius: 10px;
+}
+.review-retry {
+  margin-top: 24px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 460px);
+  gap: 28px;
+  align-items: start;
+}
+.review-retry p {
+  margin: 14px 0;
+}
+.review-comparison {
+  display: flex;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+.review-comparison h4 {
+  margin-bottom: 8px;
+}
+.review-board {
+  min-width: 0;
+}
+@media (max-width: 760px) {
+  .review-retry {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .review-board {
+    max-width: 460px;
+    width: 100%;
+    margin: auto;
+  }
 }
 .exercise-board {
   width: 100%;
