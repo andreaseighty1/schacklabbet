@@ -105,7 +105,7 @@ Logotyp, favicon och samtliga pjäser är egna SVG-former. Ikoner: Lucide, ISC. 
 
 Manus och filnamn finns i [`docs/audio/ROSTMANUS.md`](docs/audio/ROSTMANUS.md). Första omgången P1 innehåller 25 klipp. Varje replik finns som en egen UTF-8-textfil under `docs/audio/elevenlabs-input/`. Spara det genererade ljudet med samma basnamn och `.mp3`, och lägg färdiga ljud i `public/audio/sv-SE/`.
 
-`docs/audio/manifest.json` är källan för manuset. Kör `npm run prepare:voiceover` efter ändringar för att validera filnamn, prioritering och täckning av de sex övningarna och återskapa textfilerna. P2 innehåller senare spelhändelser och P3 avser klocka och multiplayer som ännu inte är implementerade.
+`docs/audio/manifest.json` är källan för manuset. Kör `npm run prepare:voiceover` efter ändringar för att validera filnamn, prioritering och täckning av de sex övningarna och återskapa textfilerna. P2 innehåller senare spelhändelser. P3 avser klocka och multiplayer; klockan fungerar nu i text men P3-replikerna är ännu inte inkopplade. Multiplayer återstår.
 
 De 25 P1-filerna är inkopplade: välkomst- och hjälprepliker, intro/ledtråd/återkoppling för alla sex övningar samt förklaringar om schack och dragvarningar i tillåtna spelprofiler. Eleven kan välja Röst på/av, Lyssna, Stoppa och Lyssna igen. Ett tryck på Lyssna slår på rösten och spelar det valda klippet. Efter det kan övningsåterkoppling spelas vid elevens drag. Rösten är alltid av när sidan öppnas eller laddas om; inget ljud hämtas före elevens val.
 

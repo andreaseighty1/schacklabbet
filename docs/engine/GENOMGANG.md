@@ -4,7 +4,7 @@ Schacklabbet använder oförändrad Stockfish.js 19.0.1 Lite single-threaded. Ä
 
 ## Åtgärder
 
-- En lyckad sökning lämnar motorn redo för nästa drag. Nytt parti, avslutat parti och byte från spelrummet frigör den. Avbrott, fel och timeout dödar alltid den berörda motorn; nästa försök får en ny instans. Gamla callbacks kan inte påverka nästa sökning.
+- En lyckad sökning lämnar motorn redo för nästa drag. Nytt parti, avslutat parti och byte från spelrummet frigör den. Tillägg den 21 oktober: i ett parti på tid fortsätter motorn vid sidbyte så att datorns klocka inte förbrukas av navigationen. Avbrott, fel och timeout dödar alltid den berörda motorn; nästa försök får en ny instans. Gamla callbacks kan inte påverka nästa sökning.
 - Startställning och hela draghistoriken skickas med UCI `position … moves …`. Det bevarar informationen om upprepade ställningar, även från sparad PGN och annan startställning. Detta följer [Stockfishs rekommendation för position-kommandot](https://official-stockfish.github.io/docs/stockfish-wiki/UCI-Protocol-and-Stockfish-Commands.html#position).
 - Datorns drag och experttips delar en kanal. Nivåbyte rensar hashminnet så att djup ledtrådsanalys inte påverkar nybörjarmotorns nästa sökning. Sökminnet är fortfarande 16 MB; det är inte ett mått på hela processens minnesåtgång.
 - Nybörjarval jämför bara en komplett kandidatgrupp från samma sökdjup. Halvfärdiga grupper, gränsvärden och ogiltiga drag används inte för jämförelsen. Om jämförbara kandidater saknas används motorns lagliga bestmove.
