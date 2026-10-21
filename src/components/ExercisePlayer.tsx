@@ -184,6 +184,8 @@ export function ExercisePlayer({
             <p className="board-help-legend">
               Välj en pjäs. Punkter visar möjliga drag. En ring visar var du kan
               ta en pjäs.
+              {exercise.tryAgain &&
+                " Markeringarna visar hur pjäsen får gå. Undersök själv om den kan tas efteråt."}
             </p>
           )}
         </div>
