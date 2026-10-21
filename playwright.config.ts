@@ -22,7 +22,11 @@ export default defineConfig({
     },
     {
       name: "touchscreen",
-      testMatch: ["**/touch.spec.ts", "**/review.spec.ts"],
+      testMatch: [
+        "**/touch.spec.ts",
+        "**/review.spec.ts",
+        "**/appearance.spec.ts",
+      ],
       use: {
         ...devices["Desktop Chrome"],
         viewport: { width: 1366, height: 768 },

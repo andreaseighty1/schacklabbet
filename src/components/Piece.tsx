@@ -13,8 +13,10 @@ export function Piece({
 }) {
   const gradientId = useId();
   const ivory = color === "w";
-  const edge = ivory ? "#526154" : "#102e2b";
-  const shine = ivory ? "#fffef5" : "#91b8a3";
+  const edge = ivory
+    ? "var(--piece-light-edge, #715b3c)"
+    : "var(--piece-dark-edge, #24160e)";
+  const shine = ivory ? "#fffef5" : "var(--piece-dark-shine, #d6aa79)";
   return (
     <svg
       className={`piece ${className}`}
@@ -31,9 +33,18 @@ export function Piece({
           y2=".8"
           gradientUnits="objectBoundingBox"
         >
-          <stop offset="0" stopColor={ivory ? "#fffef3" : "#557a6b"} />
-          <stop offset=".42" stopColor={ivory ? "#fff5db" : "#2b5147"} />
-          <stop offset="1" stopColor={ivory ? "#d1c5a7" : "#132f2c"} />
+          <stop
+            offset="0"
+            stopColor={ivory ? "#fffef3" : "var(--piece-dark-top, #986744)"}
+          />
+          <stop
+            offset=".42"
+            stopColor={ivory ? "#fff5db" : "var(--piece-dark-mid, #613b24)"}
+          />
+          <stop
+            offset="1"
+            stopColor={ivory ? "#d1c5a7" : "var(--piece-dark-bottom, #362015)"}
+          />
         </linearGradient>
       </defs>
       <ellipse cx="40" cy="74" rx="23" ry="3" fill="#183b32" opacity=".15" />

@@ -41,6 +41,7 @@ import {
   useSquareNames,
 } from "./components/SquareNamesToggle";
 import { Piece } from "./components/Piece";
+import { ChessThemePicker, useChessTheme } from "./components/ChessTheme";
 import { LessonCatalog } from "./components/LessonCatalog";
 import { MoveLabel } from "./components/MoveLabel";
 import { PostGameReview } from "./components/PostGameReview";
@@ -277,6 +278,7 @@ export default function App() {
   const [engine] = useState(() => new EngineSession());
   const engineAbort = useRef<AbortController | null>(null);
   const voice = useVoice();
+  const [chessTheme, setChessTheme] = useChessTheme();
   const voicePlayer = voice.player;
   const [initial] = useState(loadInitial);
   const gameRef = useRef<Chess | null>(null);
@@ -804,7 +806,7 @@ export default function App() {
       promotion: risk.promotion,
     });
   return (
-    <div className="app-shell">
+    <div className="app-shell" data-chess-theme={chessTheme}>
       <aside className={`sidebar ${mobileMenu ? "is-open" : ""}`}>
         <a
           href="#home"
@@ -1781,6 +1783,13 @@ export default function App() {
             </>
           )}
         </main>
+        <footer className="site-credit">
+          <p>
+            Skapat av <strong>Andreas Jonsson</strong> · För nyfikna
+            schackspelare
+          </p>
+          <ChessThemePicker theme={chessTheme} onChange={setChessTheme} />
+        </footer>
       </div>
       {modal === "new" && (
         <Modal
@@ -1928,6 +1937,10 @@ export default function App() {
             schackskolan eller spela mot datorn på en nivå som passar dig.
           </p>
           <ul className="help-list">
+            <li>
+              Längst ned på sidan kan du välja bräde och pjäser. I trätemat är
+              svarts pjäser bruna. Spelarna heter fortfarande vit och svart.
+            </li>
             <li>
               Tryck eller klicka först på en pjäs och sedan på målrutan. Med mus
               kan du också dra pjäsen.

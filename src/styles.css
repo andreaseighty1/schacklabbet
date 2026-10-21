@@ -73,6 +73,53 @@ a {
   display: flex;
   min-height: 100dvh;
 }
+.app-shell[data-chess-theme="green"] {
+  --piece-light-edge: #526154;
+  --piece-dark-edge: #102e2b;
+  --piece-dark-shine: #91b8a3;
+  --piece-dark-top: #557a6b;
+  --piece-dark-mid: #2b5147;
+  --piece-dark-bottom: #132f2c;
+  --board-frame: linear-gradient(135deg, #6e8b72 0%, #385b49 20%, #244438 100%);
+  --board-base: #223c33;
+  --square-light: linear-gradient(140deg, #f1eedb, #e4dfc5);
+  --square-dark: linear-gradient(140deg, #8ba585, #779471);
+  --square-light-ink: #6c846b;
+  --square-dark-ink: #d9e4c8;
+}
+.chess-theme-picker {
+  display: grid;
+  gap: 8px;
+  width: min(100%, 255px);
+  font-size: 11px;
+  color: #526147;
+}
+.chess-theme-picker select {
+  width: 100%;
+  min-width: 0;
+  min-height: 44px;
+  padding: 8px 5px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: #fffef9;
+  color: #344b3c;
+}
+.site-credit {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 16px 30px;
+  padding: 18px 24px 25px;
+  text-align: center;
+  font-size: 12px;
+  line-height: 1.8;
+  color: #596956;
+  border-top: 1px solid var(--border);
+}
+.site-credit strong {
+  font-weight: 600;
+}
 .sidebar {
   width: 238px;
   flex: 0 0 238px;
@@ -918,10 +965,13 @@ a {
 }
 .board-frame {
   padding: 7px;
-  background: linear-gradient(135deg, #6e8b72 0%, #385b49 20%, #244438 100%);
+  background: var(
+    --board-frame,
+    linear-gradient(135deg, #b08b5a, #735031 25%, #4b321f)
+  );
   border-radius: 6px;
   box-shadow:
-    0 5px 0 #223c33,
+    0 5px 0 var(--board-base, #3e2a1c),
     0 12px 23px #193f3712;
 }
 .board {
@@ -955,12 +1005,12 @@ a {
   }
 }
 .square.light {
-  background: linear-gradient(140deg, #f1eedb, #e4dfc5);
-  color: #6c846b;
+  background: var(--square-light, linear-gradient(140deg, #f7e8c9, #eddbb5));
+  color: var(--square-light-ink, #74543c);
 }
 .square.dark {
-  background: linear-gradient(140deg, #8ba585, #779471);
-  color: #d9e4c8;
+  background: var(--square-dark, linear-gradient(140deg, #bd9870, #aa8159));
+  color: var(--square-dark-ink, #fff1d4);
 }
 .square .piece {
   width: 90%;
