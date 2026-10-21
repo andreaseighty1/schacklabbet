@@ -125,3 +125,13 @@ Ett reproducerbart prov av samma sessionskod jämför sex nya starter med en åt
 Lokalt passerade 77 enhetstester, lint, TypeScript-/produktionsbygge och dist-kontroll. Den verkliga WASM-motorn klarade återanvändning, full historik, experttips, nivåbyte, avbrott/återstart och matt i ett på Nybörjare, Lätt och Expert genom den nya sessionskoden. Playwright hittar 34 flöden, inklusive nya kontroller av verkligt antal motorstarter, historik, nivåbyte, sidbyte och ett avsiktligt försenat motorsvar efter nytt parti. CI och publicering verifieras efter push.
 
 Commit `c0a4c3e` publicerades framgångsrikt i [Actions-körning 39493724428](https://github.com/andreaseighty1/schacklabbet/actions/runs/39493724428). Lint, samtliga 77 enhetstester, verkliga motorprov, samtliga 34 webbläsartester för desktop/mobil, produktionsbygge, dist-kontroll och deploy passerade. Domänen levererade därefter den förväntade appfilen `/assets/index-C5BKnocw.js` med HTTP 200 och JavaScript-MIME. Appfilen innehöll den nya sessionskodens kommandon för ny motor och rensad analys. Mätning på enklare elevdatorer och pedagogisk nivåkalibrering är fortsatt öppna punkter.
+
+### Valfri schackklocka
+
+Klockvalen utan tid, 15 minuter var och 10 minuter var är implementerade. Utan tid är standard för första partiet. Tidsstämplar avgör förbrukningen; intervall uppdaterar bara visningen och upptäcker tidsavslut. Den aktiva klockan fortsätter under dialoger, sidbyte och omladdning. Datorns sökning fortsätter när eleven går till en annan appsida i ett parti på tid. Ångra återbetalar ingen tid. Avslut fryser klockorna och nytt parti återställer båda.
+
+Tidsgränsen kontrolleras även innan ett drag eller motorsvar godtas. Tidsavslut avbryter motorn och ljud, stänger speldialoger och blockerar sena svar. PGN får tid och resultat; tidsvinster räknas en gång i framstegen. Äldre sparade partier öppnas utan klocka. Återläsning avgör redan passerade tidsgränser innan datorn startas. Ingen ny ljudfil eller Supabase-ändring krävs.
+
+Remi vid tidsavslut kontrolleras utifrån båda sidors mattmaterial. Detta omfattar ensam kung, springare och löparnas rutfärger men är ingen fullständig lösare för alla fästningar eller tvingade dragföljder. Beteende, begränsningar och källa finns i docs/CLOCK.md.
+
+Lokalt passerade 100 enhetstester, lint, TypeScript-/produktionsbygge och verkliga Stockfish/WASM-prov. Sex nya Playwright-flöden per skärmstorlek omfattar tidsval, layout, omladdning, dialoger, ett drag efter tidsgränsen före nästa tick, sena motorsvar, sidbyte, ångra, remi, framsteg och återställning. CI och publicering verifieras efter push.

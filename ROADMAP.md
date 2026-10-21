@@ -31,14 +31,14 @@
 - [ ] Motorbaserad efteranalys med dokumenterade gränser för misstag och materialtapp.
 - [ ] Personliga träningsförslag utifrån riktiga analysresultat.
 - [ ] Sammanhållet 5–15-minuterspass med återkoppling och sparad passhistorik.
-- [ ] Valfri schackklocka, verkliga tidsavslut och återställning.
+- [x] Valfri schackklocka (utan tid, 15 eller 10 minuter var), tidsavslut, sparad tid och återställning. Materialbaserad remikontroll; fullständiga ställningsspecifika specialfall återstår, se docs/CLOCK.md.
 - [x] Inspelningsmanus med exakta filnamn för de sex nuvarande övningarna och gemensamma spelhändelser.
 - [x] Första omgångens 25 P1-filer levererade, inkopplade och publicerade med appen.
 - [ ] Lyssningsgranska P1-filerna och verifiera begriplighet, uttal och ljudnivå. P2 och P3 är senare omgångar.
 - [x] Koppla lokal ljuduppspelning med Röst på/av, Lyssna, Stoppa och Lyssna igen. Av vid sidöppning och omladdning, ingen automatisk start och omedelbart stopp vid avstängning.
 - [x] Verifiera att tävlingsprofilen blockerar talade tips och hotvarningar även vid upprepning, och att tidigare uppspelning avbryts före nästa klipp. Enhetstester och webbläsartester godkända.
 
-Klockförslag: utan klocka som standard, 15 minuter per spelare för lugn introduktion och 10 minuter per spelare för tävlingsträning. De publicerade Schackfyran-regler som kontrollerats är för 2025/26; riksfinalen använder 10 minuter per spelare. Lokala upplägg och kommande säsongsregler kontrolleras mot arrangörens aktuella inbjudan före tävling.
+Implementerade klockval: utan klocka som standard, 15 minuter per spelare för lugn introduktion och 10 minuter per spelare för tävlingsträning. De publicerade Schackfyran-regler som kontrollerats är för 2025/26; riksfinalen använder 10 minuter per spelare. Lokala upplägg och kommande säsongsregler kontrolleras mot arrangörens aktuella inbjudan före tävling.
 
 ## Fas 3 – multiplayer
 

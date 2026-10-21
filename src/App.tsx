@@ -46,6 +46,10 @@ import {
   type AchievementKind,
 } from "./components/AchievementArt";
 import { levels, EngineSession, enginePosition } from "./chess/engine";
+import { useClock } from "./chess/useClock";
+import type { TimeControl } from "./chess/clock";
+import { timeoutOutcome } from "./chess/timeOutcome";
+import { PlayerClock } from "./components/PlayerClock";
 import {
   capturedPieces,
   concreteClue,
@@ -78,7 +82,12 @@ type View =
   | "tournament"
   | "progress"
   | "friends";
-type Config = { color: Color; level: number; profile: Profile };
+type Config = {
+  color: Color;
+  level: number;
+  profile: Profile;
+  timeControl: TimeControl;
+};
 type Risk = {
   from: Square;
   to: Square;
@@ -261,6 +270,7 @@ export default function App() {
     color: initial.saved?.color ?? "w",
     level: initial.saved?.level ?? 0,
     profile: initial.saved?.profile ?? "beginner",
+    timeControl: initial.saved?.clock?.minutes ?? 0,
   });
   const [draft, setDraft] = useState<Config>(config);
   const [id, setId] = useState(initial.saved?.id ?? crypto.randomUUID());
@@ -269,6 +279,12 @@ export default function App() {
   const [ended, setEnded] = useState<string | null>(
     initial.saved?.ended ?? null,
   );
+  const { timer, state: clockState } = useClock(
+    initial.saved?.clock ?? null,
+    (color) => finishTime(color),
+  );
+  const checkTimeRef = useRef<(at?: number) => boolean>(() => true);
+  checkTimeRef.current = checkTime;
   const [orientation, setOrientation] = useState<Color>(config.color);
   const [selected, setSelected] = useState<Square | null>(null);
   const [showMoves, setShowMoves] = useState(true);
@@ -302,6 +318,7 @@ export default function App() {
   } | null>(null);
   const [connectionBusy, setConnectionBusy] = useState(false);
   const terminal = ended || resultText(game);
+  const engineAllowed = view === "play" || Boolean(clockState?.running);
   const competition = config.profile === "competition";
   const history = game.history({ verbose: true });
   const playerTurn = game.turn() === config.color;
@@ -318,8 +335,11 @@ export default function App() {
     voicePlayer.reset();
   }, [view, exercise?.id, id, modal, replay, voicePlayer]);
   useEffect(() => {
-    if (terminal) voicePlayer.reset();
-  }, [terminal, voicePlayer]);
+    if (terminal) {
+      voicePlayer.reset();
+      timer.stop();
+    }
+  }, [terminal, voicePlayer, timer]);
   const checkCue = useRef("");
   useEffect(() => {
     const key = `${id}:${game.fen()}`;
@@ -386,19 +406,22 @@ export default function App() {
     [engine],
   );
   useEffect(() => {
-    if (view !== "play" || !hasGame || terminal) {
+    if (!engineAllowed || !hasGame || terminal) {
       engineAbort.current?.abort();
       hintAbort.current?.abort();
       engine.reset();
     }
-  }, [view, hasGame, terminal, engine]);
+  }, [engineAllowed, hasGame, terminal, engine]);
   useEffect(() => {
     if (!hasGame) return;
     try {
       const saved: SavedGame = {
         version: 1,
         pgn: game.pgn(),
-        ...config,
+        color: config.color,
+        level: config.level,
+        profile: config.profile,
+        clock: clockState,
         ended,
         id,
       };
@@ -408,7 +431,7 @@ export default function App() {
         "Webbläsaren kunde inte spara ditt parti. Behåll fliken öppen för att fortsätta spela.",
       );
     }
-  }, [revision, hasGame, config, ended, id, game]);
+  }, [revision, hasGame, config, ended, id, game, clockState]);
   useEffect(() => {
     try {
       localStorage.setItem(
@@ -421,12 +444,13 @@ export default function App() {
   }, [progress]);
   useEffect(() => {
     if (!hasGame || !terminal) return;
-    const won = game.isCheckmate() && game.turn() !== config.color;
+    const won =
+      game.getHeaders().Result === (config.color === "w" ? "1-0" : "0-1");
     setProgress((p) => recordGame(p, id, won));
   }, [terminal, hasGame, id, config.color, game]);
   useEffect(() => {
     if (
-      view !== "play" ||
+      !engineAllowed ||
       !hasGame ||
       terminal ||
       playerTurn ||
@@ -444,8 +468,12 @@ export default function App() {
       .search(enginePosition(game), config.level, controller.signal)
       .then((move) => {
         if (controller.signal.aborted || game.fen() !== fen) return;
+        const at = timer.now();
+        if (!checkTimeRef.current(at)) return;
         playUci(game, move);
         updateResultHeader(game);
+        if (resultText(game)) timer.stop(at);
+        else timer.switchTurn(game.turn(), at);
         setRevision((r) => r + 1);
         setMessage(
           game.isCheck()
@@ -461,7 +489,7 @@ export default function App() {
       });
     return () => controller.abort();
   }, [
-    view,
+    engineAllowed,
     revision,
     hasGame,
     terminal,
@@ -470,13 +498,46 @@ export default function App() {
     config.level,
     game,
     engine,
+    timer,
   ]);
+  function finishTime(color: Color, at = timer.now()) {
+    if (ended || resultText(game) || timer.expired(at) !== color) return;
+    engineAbort.current?.abort();
+    hintAbort.current?.abort();
+    engine.reset();
+    voicePlayer.reset();
+    timer.stop(at);
+    const text = timeoutOutcome(game, color);
+    setEnded(text);
+    setBusy(false);
+    setHintBusy(false);
+    setSelected(null);
+    setRisk(null);
+    setPromotion(null);
+    setModal(null);
+    setHint({ level: 0 });
+    setEngineError("");
+    setRevision((value) => value + 1);
+  }
+  function checkTime(at = timer.now()) {
+    const color = timer.expired(at);
+    if (color) {
+      finishTime(color, at);
+      return false;
+    }
+    return true;
+  }
   function newGame() {
     engineAbort.current?.abort();
     engine.reset();
     voicePlayer.reset();
     hintAbort.current?.abort();
     game.reset();
+    game.setHeader(
+      "TimeControl",
+      draft.timeControl ? String(draft.timeControl * 60) : "-",
+    );
+    timer.start(draft.timeControl, game.turn());
     setConfig(draft);
     setId(crypto.randomUUID());
     setHasGame(true);
@@ -507,6 +568,8 @@ export default function App() {
     force = false,
   ) {
     if (!playerTurn || terminal || busy || replay !== null) return;
+    const at = timer.now();
+    if (!checkTime(at)) return;
     voicePlayer.reset();
     if (!game.moves({ square: from, verbose: true }).some((m) => m.to === to)) {
       setMessage("Det draget går inte. Välj en annan ruta.");
@@ -529,6 +592,8 @@ export default function App() {
     hintAbort.current?.abort();
     game.move({ from, to, promotion: promote });
     updateResultHeader(game);
+    if (resultText(game)) timer.stop(at);
+    else timer.switchTurn(game.turn(), at);
     setSelected(null);
     setRisk(null);
     setPromotion(null);
@@ -542,6 +607,7 @@ export default function App() {
   }
   function selectSquare(square: Square, dragFrom?: Square) {
     if (!playerTurn || terminal || busy || replay !== null) return;
+    if (!checkTime()) return;
     const from = dragFrom ?? selected;
     const piece = game.get(square);
     if (
@@ -569,11 +635,15 @@ export default function App() {
   }
   function undo() {
     if (competition || terminal || !history.length) return;
+    const at = timer.now();
+    if (!checkTime(at)) return;
+    engineAbort.current?.abort();
     voicePlayer.reset();
     hintAbort.current?.abort();
     const turn = game.turn();
     game.undo();
     if (turn === config.color && game.history().length) game.undo();
+    timer.switchTurn(game.turn(), at);
     setSelected(null);
     setHint({ level: 0 });
     setEngineError("");
@@ -582,6 +652,7 @@ export default function App() {
   }
   async function requestHint() {
     if (competition || !playerTurn || terminal || hintBusy) return;
+    if (!checkTime()) return;
     if (hint.level === 0) {
       setHint({ level: 1 });
       return;
@@ -601,7 +672,7 @@ export default function App() {
         4,
         controller.signal,
       );
-      if (!controller.signal.aborted && game.fen() === fen)
+      if (!controller.signal.aborted && game.fen() === fen && checkTime())
         setHint({ level: 3, move });
     } catch (error) {
       if ((error as Error).name !== "AbortError")
@@ -763,6 +834,14 @@ export default function App() {
           className={`main-content ${view === "play" && hasGame ? "game-content" : ""}`}
         >
           <VoiceStatus voice={voice} />
+          {view !== "play" && clockState?.running && !terminal && (
+            <div className="notice">
+              <p>Partiet på tid fortsätter.</p>
+              <button className="text-button" onClick={() => navigate("play")}>
+                Tillbaka till partiet
+              </button>
+            </div>
+          )}
           {warning && (
             <div className="notice warning" role="status">
               {warning}
@@ -987,7 +1066,10 @@ export default function App() {
                 </button>
               </div>
               <div className="game-layout">
-                <section className="board-column" aria-label="Partiet">
+                <section
+                  className={`board-column ${clockState ? "has-clock" : ""}`}
+                  aria-label="Partiet"
+                >
                   <div className="player-row">
                     <span className="player-icon computer">
                       <Zap size={21} />
@@ -1011,6 +1093,11 @@ export default function App() {
                         <span className="online-dot" /> Tänker…
                       </span>
                     )}
+                    <PlayerClock
+                      timer={timer}
+                      color={other(config.color)}
+                      label="Datorns tid"
+                    />
                   </div>
                   <Board
                     game={displayedGame}
@@ -1060,6 +1147,11 @@ export default function App() {
                         <Piece key={i} type={p} color={other(config.color)} />
                       ))}
                     </div>
+                    <PlayerClock
+                      timer={timer}
+                      color={config.color}
+                      label="Din tid"
+                    />
                   </div>
                   <div className="board-controls">
                     <button
@@ -1325,9 +1417,11 @@ export default function App() {
                   )}
                   <div className="panel-bottom">
                     <ShieldCheck size={15} />{" "}
-                    {competition
-                      ? "Tävlingsprofil · utan schackklocka"
-                      : "Ditt parti sparas automatiskt på datorn"}
+                    {clockState
+                      ? `${clockState.minutes} minuter per spelare · ${clockState.running ? "klockan fortsätter vid sidbyte" : "klockorna är stoppade"}`
+                      : competition
+                        ? "Tävlingsprofil · utan schackklocka"
+                        : "Ditt parti sparas automatiskt på datorn"}
                   </div>
                 </aside>
               </div>
@@ -1472,8 +1566,8 @@ export default function App() {
                 <CircleHelp size={20} />
                 <p>
                   Träningen är fristående och följer inte ett officiellt
-                  Schackfyran-program. Tävlingsprofilen har i denna version
-                  ingen schackklocka.
+                  Schackfyran-program. Välj gärna 10 minuter per spelare när du
+                  vill öva med klocka. Du väljer tiden när du startar partiet.
                 </p>
               </div>
             </>
@@ -1665,6 +1759,31 @@ export default function App() {
               </button>
             ))}
           </div>
+          <label className="field-label" htmlFor="time-control">
+            Vill du spela med klocka?
+          </label>
+          <div className="select-wrap">
+            <select
+              id="time-control"
+              value={draft.timeControl}
+              onChange={(event) =>
+                setDraft((value) => ({
+                  ...value,
+                  timeControl: Number(event.target.value) as TimeControl,
+                }))
+              }
+            >
+              <option value={0}>Utan tid – tänk i lugn och ro</option>
+              <option value={15}>15 minuter var – öva med klocka</option>
+              <option value={10}>10 minuter var – träna inför tävling</option>
+            </select>
+            <ChevronDown size={17} />
+          </div>
+          <p className="fine-print">
+            {draft.timeControl
+              ? "Din klocka går när det är din tur. Den fortsätter vid tips, dialoger, sidbyte och omladdning. Ångra ger inte tillbaka använd tid."
+              : "Ingen klocka räknar ner. Du kan ta den tid du behöver."}
+          </p>
           <label className="field-label" htmlFor="profile">
             Hur mycket hjälp vill du ha?
           </label>
@@ -1693,7 +1812,7 @@ export default function App() {
               ? "Om en pjäs kan slås efter ditt drag får du en varning. Du bestämmer alltid själv."
               : draft.profile === "training"
                 ? "Välj själv när du vill ha en ledtråd. Förhandsvarningar är avstängda."
-                : "Inga möjliga drag visas. Tips och ångra är avstängda. Ingen klocka i denna version."}
+                : "Inga möjliga drag visas. Tips och ångra är avstängda."}
           </p>
           <button className="button primary full-width" onClick={newGame}>
             Nu spelar vi <ArrowRight size={18} />
@@ -1713,6 +1832,9 @@ export default function App() {
             <button
               className="button primary"
               onClick={() => {
+                const at = timer.now();
+                if (!checkTime(at)) return;
+                timer.stop(at);
                 updateResultHeader(game, config.color);
                 setEnded(
                   `${config.color === "w" ? "Svart" : "Vit"} vinner – du gav upp`,

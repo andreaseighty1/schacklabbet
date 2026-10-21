@@ -11,10 +11,11 @@ Ett gratis, reklamfritt schackspel på svenska för nyfikna elever, framför all
 - Klick, drag och släpp, tangentbord, vändning, draglista, slagna pjäser och förra draget.
 - Tre stödprofiler. Lagliga drag, lagligt slagbara pjäser, frivilliga förhandsvarningar inklusive en passant och tre steg av ledtrådar.
 - Pågående parti och historik sparas lokalt. Ångra i stödprofiler, ge upp, slutresultat, genomspelning och PGN-export.
+- Valfri schackklocka: utan tid som standard, 15 eller 10 minuter per spelare. Tidsavslut, sparad tid och återställning vid nytt parti. Se [klockans beteende och regelgränser](docs/CLOCK.md).
 - Fyra interaktiva lektioner, två verifierade mattproblem, lokala medaljer och en enkel väg genom tävlingsträningen.
 - Supabase-inställningar kan kontrolleras på kompis-sidan, utan att något elevkonto skapas.
 
-Privata nätpartier, schackklocka och motorbaserad efteranalys av misstag är **inte implementerade**. Kompis-sidan märker multiplayer som kommande. Ingen klient kan skriva speldata till Supabase i denna version.
+Privata nätpartier och motorbaserad efteranalys av misstag är **inte implementerade**. Kompis-sidan märker multiplayer som kommande. Ingen klient kan skriva speldata till Supabase i denna version.
 
 ## Starta lokalt
 
@@ -46,7 +47,7 @@ Playwright kör flöden med desktopstorlek 1366 × 768 och mobilstorlek. GitHub 
 
 ## Motor och prestanda
 
-En motorinstans återanvänds efter färdiga sökningar. Nytt parti, sidbyte, avslutat parti, avbrott och fel avslutar den. Expertledtrådar och datorns drag delar en kanal; ett nivåbyte rensar tidigare analys. Bara lagliga svar accepteras. Motorn får startställning plus hela draghistoriken, även efter laddning av ett sparat parti. Nybörjarval använder jämförbara kandidatbedömningar från samma färdiga sökdjup.
+En motorinstans återanvänds efter färdiga sökningar. Nytt parti, avslutat parti, avbrott och fel avslutar den. Sidbyte avslutar den vid spel utan tid; i ett parti på tid fortsätter datorn att spela. Expertledtrådar och datorns drag delar en kanal; ett nivåbyte rensar tidigare analys. Bara lagliga svar accepteras. Motorn får startställning plus hela draghistoriken, även efter laddning av ett sparat parti. Nybörjarval använder jämförbara kandidatbedömningar från samma färdiga sökdjup.
 
 `npm run test:engine` kontrollerar den verkliga WASM-motorn genom samma sessionskod som appen. `npm run benchmark:engine` jämför sex nya motorstarter med en återanvänd motor och gör laglighetsprov på alla fem nivåer. Det senare är ett lokalt Node-prov, ingen mätning på elevdator och ingen Elo-kalibrering. Resultat och kvarstående elevtester finns i [motorgenomgången](docs/engine/GENOMGANG.md).
 

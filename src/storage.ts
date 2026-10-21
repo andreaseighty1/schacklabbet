@@ -1,5 +1,12 @@
 import { Chess, type Color } from "chess.js";
 import type { Profile } from "./chess/model";
+import {
+  validClock,
+  settleClock,
+  expiredColor,
+  type ClockSnapshot,
+} from "./chess/clock";
+import { timeoutOutcome } from "./chess/timeOutcome";
 export interface SavedGame {
   version: 1;
   pgn: string;
@@ -8,6 +15,7 @@ export interface SavedGame {
   profile: Profile;
   ended: string | null;
   id: string;
+  clock?: ClockSnapshot | null;
 }
 export interface Progress {
   version: 1;
@@ -44,7 +52,25 @@ export function readGame(storage: StoragePort): SavedGame | null {
     !(value.ended === null || typeof value.ended === "string")
   )
     throw new Error("Den sparade matchen kunde inte läsas.");
-  new Chess().loadPgn(value.pgn);
+  const board = new Chess();
+  board.loadPgn(value.pgn);
+  if (value.clock !== undefined && value.clock !== null) {
+    if (!validClock(value.clock))
+      throw new Error("Den sparade schackklockan kunde inte läsas.");
+    if (value.ended || board.isGameOver())
+      value.clock = { ...value.clock, running: null };
+    else {
+      if (value.clock.running !== board.turn())
+        throw new Error("Schackklockan har fel spelare på tur.");
+      value.clock = settleClock(value.clock, Date.now());
+      const loser = expiredColor(value.clock);
+      if (loser) {
+        value.ended = timeoutOutcome(board, loser);
+        value.pgn = board.pgn();
+        value.clock = { ...value.clock, running: null };
+      }
+    }
+  }
   return value;
 }
 export function readProgress(storage: StoragePort): Progress {

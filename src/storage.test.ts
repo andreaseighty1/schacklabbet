@@ -1,5 +1,6 @@
 import { describe, it, expect } from "vitest";
 import { Chess } from "chess.js";
+import { newClock } from "./chess/clock";
 import {
   readGame,
   readProgress,
@@ -21,6 +22,72 @@ function memory(): StoragePort {
   };
 }
 describe("lokal sparning", () => {
+  it("debiterar tiden mellan sparning och omladdning", () => {
+    const s = memory(),
+      now = Date.now();
+    s.setItem(
+      "schacklabbet.game.v1",
+      JSON.stringify({
+        version: 1,
+        pgn: new Chess().pgn(),
+        color: "w",
+        level: 0,
+        profile: "training",
+        ended: null,
+        id: "clock",
+        clock: newClock(10, "w", now - 5000),
+      }),
+    );
+    const saved = readGame(s)!;
+    expect(saved.clock!.whiteMs).toBeLessThanOrEqual(595000);
+    expect(saved.clock!.blackMs).toBe(600000);
+  });
+  it("avgör ett parti vars tid tog slut medan sidan var stängd", () => {
+    const s = memory();
+    s.setItem(
+      "schacklabbet.game.v1",
+      JSON.stringify({
+        version: 1,
+        pgn: new Chess().pgn(),
+        color: "w",
+        level: 0,
+        profile: "training",
+        ended: null,
+        id: "flag",
+        clock: newClock(10, "w", Date.now() - 610000),
+      }),
+    );
+    const saved = readGame(s)!;
+    expect(saved.ended).toContain("Svart vinner på tid");
+    expect(saved.pgn).toContain('[Result "0-1"]');
+    expect(saved.clock).toMatchObject({
+      whiteMs: 0,
+      blackMs: 600000,
+      running: null,
+    });
+  });
+  it("en redan registrerad matt ersätts inte av tid vid omladdning", () => {
+    const s = memory(),
+      game = new Chess();
+    game.loadPgn("1. f3 e5 2. g4 Qh4# 0-1");
+    s.setItem(
+      "schacklabbet.game.v1",
+      JSON.stringify({
+        version: 1,
+        pgn: game.pgn(),
+        color: "w",
+        level: 0,
+        profile: "training",
+        ended: null,
+        id: "mate",
+        clock: newClock(10, "w", 1),
+      }),
+    );
+    const saved = readGame(s)!;
+    expect(saved.ended).toBeNull();
+    expect(saved.pgn).toContain("Qh4#");
+    expect(saved.clock!.running).toBeNull();
+  });
   it("återställer hela draghistoriken, inte bara FEN", () => {
     const s = memory(),
       g = new Chess();
