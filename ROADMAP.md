@@ -26,13 +26,13 @@
 
 ## Fas 2 – pedagogik
 
-- [ ] Bonde, dam, kung, schack, patt, en passant och fler korta lektioner.
+- [x] 17 korta lektioner: bonden i fem steg, alla övriga pjäser, tre sätt att komma ur schack, rockad, matt, patt och en passant. Startregler och ordnad lärväg.
 - [ ] Fler kuraterade uppgifter, alternativa korrekta lösningar och flerstegsproblem.
 - [ ] Motorbaserad efteranalys med dokumenterade gränser för misstag och materialtapp.
 - [ ] Personliga träningsförslag utifrån riktiga analysresultat.
 - [ ] Sammanhållet 5–15-minuterspass med återkoppling och sparad passhistorik.
 - [x] Valfri schackklocka (utan tid, 15 eller 10 minuter var), tidsavslut, sparad tid och återställning. Materialbaserad remikontroll; fullständiga ställningsspecifika specialfall återstår, se docs/CLOCK.md.
-- [x] Inspelningsmanus med exakta filnamn för de sex nuvarande övningarna och gemensamma spelhändelser.
+- [x] Inspelningsmanus med exakta filnamn för de ursprungliga sex övningarna och gemensamma spelhändelser. Ytterligare 39 manus finns för de 13 nya grundlektionerna.
 - [x] Första omgångens 25 P1-filer levererade, inkopplade och publicerade med appen.
 - [ ] Lyssningsgranska P1-filerna och verifiera begriplighet, uttal och ljudnivå. P2 och P3 är senare omgångar.
 - [x] Koppla lokal ljuduppspelning med Röst på/av, Lyssna, Stoppa och Lyssna igen. Av vid sidöppning och omladdning, ingen automatisk start och omedelbart stopp vid avstängning.

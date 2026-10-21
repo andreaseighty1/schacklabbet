@@ -1715,6 +1715,73 @@ a {
   color: #849373;
   margin: 24px 0;
 }
+.school-basics {
+  background: #fffef9;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 30px;
+  font-size: 14px;
+  line-height: 1.8;
+  max-width: 900px;
+}
+.school-basics summary {
+  cursor: pointer;
+  font-weight: 650;
+}
+.school-basics p {
+  margin-top: 12px;
+}
+.school-section {
+  margin-bottom: 38px;
+}
+.school-section-heading {
+  margin-bottom: 16px;
+}
+.school-section-heading h2 {
+  font-size: 21px;
+  margin-bottom: 6px;
+}
+.school-section-heading p {
+  font-size: 13px;
+  line-height: 1.7;
+}
+.school-section-heading > span {
+  display: block;
+  margin-top: 6px;
+  font-size: 12px;
+  color: #526147;
+}
+.board-perspective {
+  font-size: 12px;
+  text-align: center;
+  margin-top: 12px;
+  color: #526147;
+}
+.lesson-answers {
+  display: grid;
+  gap: 10px;
+  margin: 20px 0;
+}
+.lesson-answers .button {
+  white-space: normal;
+  text-align: left;
+  justify-content: flex-start;
+  line-height: 1.6;
+}
+.lesson-answers .button[aria-pressed="true"] {
+  border-color: #526147;
+  background: #eaf0df;
+}
+.lesson-promotion {
+  margin: 20px 0;
+}
+.lesson-promotion h3 {
+  margin-bottom: 12px;
+}
+.exercise-actions .button {
+  white-space: normal;
+}
 .notice > svg {
   margin-top: 2px;
 }

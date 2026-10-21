@@ -1,0 +1,1 @@
+Kungen går en ruta åt valfritt håll, men aldrig till en ruta som motståndaren hotar. Svarts torn hotar rutorna längs D-linjen. Flytta kungen från E ett till den säkra rutan E två. Kungarna får inte stå intill varandra.

@@ -167,7 +167,16 @@ describe("elevstyrd röst", () => {
     const p1 = manifest.clips
       .filter((clip) => clip.priority === "P1")
       .map((clip) => clip.id);
-    expect(new Set(mapped)).toEqual(new Set(p1));
+    expect(new Set(mapped.filter((clip) => clip !== null))).toEqual(
+      new Set(p1),
+    );
+    for (const clip of manifest.clips.filter(
+      (clip) => clip.priority === "SKOLA",
+    )) {
+      expect(
+        exerciseClip(clip.lessonId!, clip.cue as "intro" | "hint" | "success"),
+      ).toBeNull();
+    }
     expect(exerciseClip("unknown", "intro")).toBeNull();
     expect(exerciseClip("constructor", "intro")).toBeNull();
     expect(isAssistance("game-player-check")).toBe(true);

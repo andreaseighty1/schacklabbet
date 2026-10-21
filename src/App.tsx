@@ -2,7 +2,6 @@ import { useEffect, useRef, useState, type ReactNode } from "react";
 import { Chess, type Color, type Square, type Move } from "chess.js";
 import {
   ArrowRight,
-  ArrowLeft,
   ArrowUpRight,
   BookOpen,
   Check,
@@ -26,11 +25,10 @@ import {
   X,
   Zap,
   Download,
-  CheckCircle2,
   Wifi,
 } from "lucide-react";
-import { useVoice, type Voice } from "./audio/useVoice";
-import { exerciseClip } from "./audio/clips";
+import { useVoice } from "./audio/useVoice";
+import { ExercisePlayer } from "./components/ExercisePlayer";
 import {
   VoiceControls,
   VoiceStatus,
@@ -39,7 +37,7 @@ import {
 } from "./components/VoiceControls";
 import { Board } from "./components/Board";
 import { Piece } from "./components/Piece";
-import { LessonArt } from "./components/LessonArt";
+import { LessonCatalog } from "./components/LessonCatalog";
 import { MoveLabel } from "./components/MoveLabel";
 import {
   AchievementArt,
@@ -703,7 +701,16 @@ export default function App() {
       setConnectionBusy(false);
     }
   }
-  const played = progress.completed.length;
+  const categoryLessons = exercises.filter(
+    (e) => e.category === exercise?.category,
+  );
+  const nextLesson =
+    categoryLessons[
+      categoryLessons.findIndex((e) => e.id === exercise?.id) + 1
+    ];
+  const played = progress.completed.filter((id) =>
+    exercises.some((e) => e.id === id),
+  ).length;
   const schoolDone = exercises.filter(
     (e) => e.category === "school" && progress.completed.includes(e.id),
   ).length;
@@ -932,7 +939,10 @@ export default function App() {
                     <br className="desktop-break" /> hur de kan samarbeta.
                   </p>
                   <span className="card-bottom">
-                    <span>4 interaktiva lektioner</span>
+                    <span>
+                      {exercises.filter((e) => e.category === "school").length}{" "}
+                      interaktiva lektioner
+                    </span>
                     <span className="round-arrow">
                       <ArrowUpRight size={19} />
                     </span>
@@ -1437,6 +1447,10 @@ export default function App() {
                   completed={progress.completed.includes(exercise.id)}
                   onComplete={() => completeExercise(exercise)}
                   onBack={() => setExercise(null)}
+                  nextExercise={nextLesson}
+                  onNext={() => {
+                    if (nextLesson) setExercise(nextLesson);
+                  }}
                 />
               ) : (
                 <>
@@ -1459,43 +1473,11 @@ export default function App() {
                       </p>
                     </div>
                   </div>
-                  <div className="lesson-grid">
-                    {exercises
-                      .filter(
-                        (e) =>
-                          e.category ===
-                          (view === "school" ? "school" : "challenge"),
-                      )
-                      .map((e, i) => (
-                        <button
-                          key={e.id}
-                          className="lesson-card"
-                          onClick={() => setExercise(e)}
-                        >
-                          <div className="lesson-art">
-                            <LessonArt lesson={e.id} />
-                            <span className="lesson-number">
-                              {String(i + 1).padStart(2, "0")}
-                            </span>
-                            {progress.completed.includes(e.id) && (
-                              <span className="lesson-complete">
-                                <CheckCircle2 size={21} /> Klar
-                              </span>
-                            )}
-                          </div>
-                          <div className="lesson-copy">
-                            <span className="card-kicker">{e.tag}</span>
-                            <h3>{e.title}</h3>
-                            <span className="lesson-link">
-                              {progress.completed.includes(e.id)
-                                ? "Prova igen"
-                                : "Börja upptäcka"}
-                              <ArrowRight size={18} />
-                            </span>
-                          </div>
-                        </button>
-                      ))}
-                  </div>
+                  <LessonCatalog
+                    category={view === "school" ? "school" : "challenge"}
+                    completed={progress.completed}
+                    onSelect={setExercise}
+                  />
                   <p className="fine-print catalog-note">
                     Varje övning har en kontrollerad ställning och en verifierad
                     lösning. Fler lektioner kommer efterhand.
@@ -2026,168 +2008,5 @@ export default function App() {
         </Modal>
       )}
     </div>
-  );
-}
-
-function ExercisePlayer({
-  exercise,
-  voice,
-  completed,
-  onComplete,
-  onBack,
-}: {
-  exercise: Exercise;
-  voice: Voice;
-  completed: boolean;
-  onComplete: () => void;
-  onBack: () => void;
-}) {
-  const [game, setGame] = useState(() => new Chess(exercise.fen));
-  const [selected, setSelected] = useState<Square | null>(null);
-  const [feedback, setFeedback] = useState("Prova en idé på brädet.");
-  const [solved, setSolved] = useState(false);
-  const [showHint, setShowHint] = useState(false);
-  function move(square: Square, fromDrag?: Square) {
-    if (solved) return;
-    const from = fromDrag ?? selected;
-    if (
-      from &&
-      game.moves({ square: from, verbose: true }).some((m) => m.to === square)
-    ) {
-      const uci = `${from}${square}`;
-      if (exercise.solutions.includes(uci)) {
-        const copy = new Chess(game.fen());
-        copy.move({ from, to: square, promotion: "q" });
-        setGame(copy);
-        setSelected(null);
-        setSolved(true);
-        setFeedback(exercise.success);
-        const clip = exerciseClip(exercise.id, "success");
-        if (clip) voice.player.play(clip);
-        onComplete();
-      } else {
-        setFeedback(
-          "Det är ett lagligt drag, men det löser inte just den här uppgiften. Försök med en annan idé.",
-        );
-        setSelected(null);
-        voice.player.play("exercise-try-again");
-      }
-      return;
-    }
-    if (game.get(square)?.color === game.turn()) setSelected(square);
-    else {
-      if (from && from !== square) {
-        setFeedback(
-          "Den pjäsen kan inte flytta dit just nu. Välj en annan ruta.",
-        );
-        voice.player.play("exercise-move-not-allowed");
-      }
-      setSelected(null);
-    }
-  }
-  return (
-    <>
-      <button className="text-button back-link" onClick={onBack}>
-        <ArrowLeft size={17} /> Tillbaka till{" "}
-        {exercise.category === "school" ? "schackskolan" : "utmaningarna"}
-      </button>
-      <div className="page-heading">
-        <div>
-          <div className="eyebrow">{exercise.tag}</div>
-          <h1>{exercise.title}</h1>
-        </div>
-        {completed && (
-          <span className="completed-tag">
-            <CheckCircle2 size={18} /> Avklarad
-          </span>
-        )}
-      </div>
-      <div className="exercise-layout">
-        <div className="exercise-board">
-          <Board
-            game={game}
-            selected={selected}
-            legal={
-              selected
-                ? game
-                    .moves({ square: selected, verbose: true })
-                    .map((m) => m.to)
-                : []
-            }
-            last={game.history({ verbose: true }).at(-1)}
-            onSquare={move}
-            disabled={solved}
-          />
-        </div>
-        <section className="exercise-panel">
-          <span className="card-icon sage">
-            {solved ? <CheckCircle2 /> : <Lightbulb />}
-          </span>
-          <h2>{solved ? "En ny upptäckt!" : "Ditt uppdrag"}</h2>
-          <p>{exercise.description}</p>
-          <PlaybackControls
-            voice={voice}
-            clip={exerciseClip(exercise.id, solved ? "success" : "intro")}
-            label={solved ? "Lyssna på förklaringen" : "Lyssna på uppdraget"}
-          />
-          <div
-            className={`exercise-feedback ${solved ? "success" : ""}`}
-            role="status"
-          >
-            {solved && <CheckCircle2 size={20} />}
-            <p>{feedback}</p>
-          </div>
-          {showHint && !solved && (
-            <>
-              <p className="hint-text">{exercise.hint}</p>
-              <ListenButton
-                voice={voice}
-                clip={exerciseClip(exercise.id, "hint")}
-                label="Lyssna på ledtråden"
-              />
-            </>
-          )}
-          <div className="exercise-actions">
-            {!solved && (
-              <button
-                className="button outline"
-                onClick={() => {
-                  if (!showHint) {
-                    const clip = exerciseClip(exercise.id, "hint");
-                    if (clip) voice.player.play(clip);
-                  } else voice.player.reset();
-                  setShowHint((v) => !v);
-                }}
-              >
-                <Lightbulb size={17} />
-                {showHint ? "Dölj ledtråd" : "En liten ledtråd"}
-              </button>
-            )}
-            {solved && (
-              <>
-                <button className="button primary" onClick={onBack}>
-                  Fortsätt upptäcka <ArrowRight size={17} />
-                </button>
-                <button
-                  className="text-button"
-                  onClick={() => {
-                    voice.player.reset();
-                    setGame(new Chess(exercise.fen));
-                    setSolved(false);
-                    setSelected(null);
-                    setShowHint(false);
-                    setFeedback(
-                      "Prova igen. Kan du förklara varför draget fungerar?",
-                    );
-                  }}
-                >
-                  <RotateCcw size={16} /> Prova igen
-                </button>
-              </>
-            )}
-          </div>
-        </section>
-      </div>
-    </>
   );
 }

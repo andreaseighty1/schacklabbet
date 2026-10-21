@@ -1,0 +1,1 @@
+Från sin startruta får bonden välja mellan en och två rutor framåt. Båda rutorna måste vara tomma om den går två steg. Flytta bonden från D två till D fyra.

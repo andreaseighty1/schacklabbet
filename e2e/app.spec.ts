@@ -16,7 +16,7 @@ async function start(
     await page.getByRole("button", { name: "Svart · datorn börjar" }).click();
   await page.getByRole("button", { name: "Nu spelar vi" }).click();
 }
-test("startsidan har sex övningar och inga fel i konsolen", async ({
+test("startsidan visar den utökade schackskolan utan fel i konsolen", async ({
   page,
 }) => {
   const errors: string[] = [];
@@ -28,7 +28,7 @@ test("startsidan har sex övningar och inga fel i konsolen", async ({
   await page.getByRole("button", { name: /FRÅN FÖRSTA DRAGET/ }).click();
   await expect(
     page.getByRole("button", { name: /Börja upptäcka/ }),
-  ).toHaveCount(4);
+  ).toHaveCount(17);
   expect(errors).toEqual([]);
 });
 test("ett lagligt drag får svar från verklig Stockfish och återställs efter omladdning", async ({

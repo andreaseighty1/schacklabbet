@@ -2,6 +2,8 @@
 
 Det här är ett inspelningsunderlag. De 25 P1-filerna är inkopplade i appens ljudspelare. Manuset är inte en kontrollerad transkription av de levererade inspelningarna.
 
+De 13 nya grundlektionerna har ett separat paket med 39 repliker: GRUNDLEKTIONER-MANUS.md, GRUNDLEKTIONER-FILNAMN.txt och rena textfiler i elevenlabs-input/skola/. Dessa ljud är ännu inte levererade eller inkopplade.
+
 ## Börja här
 
 Gör först ett röstprov med `start-welcome.mp3`, `lesson-knight-intro.mp3` och `game-player-check.mp3`. När röst och uttal känns rätt, fortsätt med P1. P2 kan göras därefter. Vänta med P3 tills nästa ljudomgång: schackklockan fungerar nu i text, men dess repliker är inte inkopplade. Multiplayer återstår.
@@ -416,3 +418,317 @@ Anslutningen är bruten. Spelet försöker ansluta igen.
 **Användning:** Framtida anslutning och serverställning har återställts.
 
 Anslutningen är tillbaka. Titta på brädet innan du gör ditt nästa drag.
+
+## SKOLA – nya grundlektioner – färdigt för inspelning (39 filer)
+
+### lesson-pawn-forward-intro.mp3
+
+**Användning:** Uppdrag: Bonden går framåt.
+
+En bonde går en ruta rakt fram till en tom ruta. Den kan inte gå bakåt. Här spelar du vit. Flytta bonden från D tre till D fyra.
+
+**Notering – läses inte upp:** Ny grundlektion. Manus klart; ljudfilen är ännu inte levererad eller inkopplad.
+
+### lesson-pawn-forward-hint.mp3
+
+**Användning:** Ledtråd: Bonden går framåt.
+
+Välj bonden på D tre. Rutan D fyra är precis framför den.
+
+**Notering – läses inte upp:** Ny grundlektion. Manus klart; ljudfilen är ännu inte levererad eller inkopplad.
+
+### lesson-pawn-forward-success.mp3
+
+**Användning:** Förklaring efter rätt svar: Bonden går framåt.
+
+Rätt! Bonden gick en ruta framåt. Den måste gå till en tom ruta när den går rakt fram.
+
+**Notering – läses inte upp:** Ny grundlektion. Manus klart; ljudfilen är ännu inte levererad eller inkopplad.
+
+### lesson-pawn-double-intro.mp3
+
+**Användning:** Uppdrag: Bondens första dubbelsteg.
+
+Från sin startruta får bonden välja mellan en och två rutor framåt. Båda rutorna måste vara tomma om den går två steg. Flytta bonden från D två till D fyra.
+
+**Notering – läses inte upp:** Ny grundlektion. Manus klart; ljudfilen är ännu inte levererad eller inkopplad.
+
+### lesson-pawn-double-hint.mp3
+
+**Användning:** Ledtråd: Bondens första dubbelsteg.
+
+D tre och D fyra är tomma. Bonden står kvar på sin startruta D två.
+
+**Notering – läses inte upp:** Ny grundlektion. Manus klart; ljudfilen är ännu inte levererad eller inkopplad.
+
+### lesson-pawn-double-success.mp3
+
+**Användning:** Förklaring efter rätt svar: Bondens första dubbelsteg.
+
+Två steg! Bonden får göra dubbelsteget från sin startruta. Den kan inte hoppa över en pjäs.
+
+**Notering – läses inte upp:** Ny grundlektion. Manus klart; ljudfilen är ännu inte levererad eller inkopplad.
+
+### lesson-pawn-capture-intro.mp3
+
+**Användning:** Uppdrag: Bonden tar snett.
+
+Bonden går rakt fram men tar en motståndarpjäs en ruta snett framåt. Bonden på D fem blockerar vägen rakt fram. Ta i stället bonden på E fem med din bonde på D fyra.
+
+**Notering – läses inte upp:** Ny grundlektion. Manus klart; ljudfilen är ännu inte levererad eller inkopplad.
+
+### lesson-pawn-capture-hint.mp3
+
+**Användning:** Ledtråd: Bonden tar snett.
+
+E fem ligger en ruta snett framför D fyra. Där står en svart bonde som du får ta.
+
+**Notering – läses inte upp:** Ny grundlektion. Manus klart; ljudfilen är ännu inte levererad eller inkopplad.
+
+### lesson-pawn-capture-success.mp3
+
+**Användning:** Förklaring efter rätt svar: Bonden tar snett.
+
+Precis! Din bonde tog snett framåt. Den svarta bonden på D fem står kvar: en bonde kan inte ta rakt fram.
+
+**Notering – läses inte upp:** Ny grundlektion. Manus klart; ljudfilen är ännu inte levererad eller inkopplad.
+
+### lesson-pawn-black-intro.mp3
+
+**Användning:** Uppdrag: Framåt för svart.
+
+Nu är det svarts tur och du spelar svart. Svarta bönder går mot rad 1. Brädet är vänt så att dina pjäser är närmast dig. Flytta bonden från D sex till D fem.
+
+**Notering – läses inte upp:** Ny grundlektion. Manus klart; ljudfilen är ännu inte levererad eller inkopplad.
+
+### lesson-pawn-black-hint.mp3
+
+**Användning:** Ledtråd: Framåt för svart.
+
+För svart går radnumren nedåt: från rad 6 till rad 5. Välj D sex och sedan D fem.
+
+**Notering – läses inte upp:** Ny grundlektion. Manus klart; ljudfilen är ännu inte levererad eller inkopplad.
+
+### lesson-pawn-black-success.mp3
+
+**Användning:** Förklaring efter rätt svar: Framåt för svart.
+
+Bra! Den svarta bonden gick framåt mot rad 1. Vita bönder går åt andra hållet, mot rad 8.
+
+**Notering – läses inte upp:** Ny grundlektion. Manus klart; ljudfilen är ännu inte levererad eller inkopplad.
+
+### lesson-pawn-promotion-intro.mp3
+
+**Användning:** Uppdrag: Bonden blir en ny pjäs.
+
+När bonden når sista raden ska den bytas till en dam, ett torn, en löpare eller en springare i samma färg. Det kallas förvandling. Flytta bonden från A sju till A åtta och välj en ny pjäs.
+
+**Notering – läses inte upp:** Ny grundlektion. Manus klart; ljudfilen är ännu inte levererad eller inkopplad.
+
+### lesson-pawn-promotion-hint.mp3
+
+**Användning:** Ledtråd: Bonden blir en ny pjäs.
+
+A åtta är sista raden för en vit bonde. Efter flytten får du välja vilken av de fyra pjäserna bonden ska bli.
+
+**Notering – läses inte upp:** Ny grundlektion. Manus klart; ljudfilen är ännu inte levererad eller inkopplad.
+
+### lesson-pawn-promotion-success.mp3
+
+**Användning:** Förklaring efter rätt svar: Bonden blir en ny pjäs.
+
+Du förvandlade bonden! Alla fyra valen är tillåtna. Du får välja en dam även om din första dam finns kvar på brädet.
+
+**Notering – läses inte upp:** Ny grundlektion. Manus klart; ljudfilen är ännu inte levererad eller inkopplad.
+
+### lesson-queen-intro.mp3
+
+**Användning:** Uppdrag: Damen går rakt och snett.
+
+Damen kan gå rakt som ett torn och snett som en löpare. Den får gå flera rutor om vägen är fri, men inte hoppa över pjäser. Ta bonden på G fem med damen på D två.
+
+**Notering – läses inte upp:** Ny grundlektion. Manus klart; ljudfilen är ännu inte levererad eller inkopplad.
+
+### lesson-queen-hint.mp3
+
+**Användning:** Ledtråd: Damen går rakt och snett.
+
+Följ den sneda vägen från D två: E tre, F fyra, G fem.
+
+**Notering – läses inte upp:** Ny grundlektion. Manus klart; ljudfilen är ännu inte levererad eller inkopplad.
+
+### lesson-queen-success.mp3
+
+**Användning:** Förklaring efter rätt svar: Damen går rakt och snett.
+
+Rätt! Damen tog bonden på G fem. Den kan gå både rakt och snett, men får inte byta riktning mitt i draget.
+
+**Notering – läses inte upp:** Ny grundlektion. Manus klart; ljudfilen är ännu inte levererad eller inkopplad.
+
+### lesson-king-intro.mp3
+
+**Användning:** Uppdrag: Kungen tar ett säkert steg.
+
+Kungen går en ruta åt valfritt håll, men aldrig till en ruta som motståndaren hotar. Svarts torn hotar rutorna längs D-linjen. Flytta kungen från E ett till den säkra rutan E två. Kungarna får inte stå intill varandra.
+
+**Notering – läses inte upp:** Ny grundlektion. Manus klart; ljudfilen är ännu inte levererad eller inkopplad.
+
+### lesson-king-hint.mp3
+
+**Användning:** Ledtråd: Kungen tar ett säkert steg.
+
+E två är en ruta framför kungen. D två är hotad av tornet, så dit får kungen inte gå.
+
+**Notering – läses inte upp:** Ny grundlektion. Manus klart; ljudfilen är ännu inte levererad eller inkopplad.
+
+### lesson-king-success.mp3
+
+**Användning:** Förklaring efter rätt svar: Kungen tar ett säkert steg.
+
+Kungen står säkert på E två! Den måste alltid undvika hotade rutor. I schack tar man aldrig kungen: spelet slutar vid schackmatt.
+
+**Notering – läses inte upp:** Ny grundlektion. Manus klart; ljudfilen är ännu inte levererad eller inkopplad.
+
+### lesson-check-escape-intro.mp3
+
+**Användning:** Uppdrag: Schack: flytta kungen.
+
+Schack betyder att kungen är hotad. Då måste du skydda den direkt. Svarts torn på E åtta hotar din kung på E ett. Flytta kungen till F ett, där tornet inte når den.
+
+**Notering – läses inte upp:** Ny grundlektion. Manus klart; ljudfilen är ännu inte levererad eller inkopplad.
+
+### lesson-check-escape-hint.mp3
+
+**Användning:** Ledtråd: Schack: flytta kungen.
+
+Tornet hotar E-linjen. F ett ligger bredvid kungen och utanför den linjen.
+
+**Notering – läses inte upp:** Ny grundlektion. Manus klart; ljudfilen är ännu inte levererad eller inkopplad.
+
+### lesson-check-escape-success.mp3
+
+**Användning:** Förklaring efter rätt svar: Schack: flytta kungen.
+
+Du kom ur schacken! Ett sätt är att flytta kungen till en säker ruta. Du får inte göra ett drag som lämnar din kung i schack.
+
+**Notering – läses inte upp:** Ny grundlektion. Manus klart; ljudfilen är ännu inte levererad eller inkopplad.
+
+### lesson-check-capture-intro.mp3
+
+**Användning:** Uppdrag: Schack: ta den hotande pjäsen.
+
+Du kan ibland komma ur schack genom att ta pjäsen som hotar kungen. Svarts torn på E två ger schack. Tornet är inte skyddat. Ta det med kungen på E ett.
+
+**Notering – läses inte upp:** Ny grundlektion. Manus klart; ljudfilen är ännu inte levererad eller inkopplad.
+
+### lesson-check-capture-hint.mp3
+
+**Användning:** Ledtråd: Schack: ta den hotande pjäsen.
+
+Kungen får ta en pjäs en ruta bort om rutan inte hotas av någon annan motståndarpjäs.
+
+**Notering – läses inte upp:** Ny grundlektion. Manus klart; ljudfilen är ännu inte levererad eller inkopplad.
+
+### lesson-check-capture-success.mp3
+
+**Användning:** Förklaring efter rätt svar: Schack: ta den hotande pjäsen.
+
+Hotet är borta! Du tog tornet med kungen. Det gick eftersom ingen annan svart pjäs hotade rutan E två.
+
+**Notering – läses inte upp:** Ny grundlektion. Manus klart; ljudfilen är ännu inte levererad eller inkopplad.
+
+### lesson-check-block-intro.mp3
+
+**Användning:** Uppdrag: Schack: ställ en pjäs emellan.
+
+Ibland kan en annan pjäs skydda kungen genom att ställa sig i vägen. Tornet på E åtta ger schack längs E-linjen. Flytta löparen från C ett till E tre så att den stoppar tornets väg till kungen.
+
+**Notering – läses inte upp:** Ny grundlektion. Manus klart; ljudfilen är ännu inte levererad eller inkopplad.
+
+### lesson-check-block-hint.mp3
+
+**Användning:** Ledtråd: Schack: ställ en pjäs emellan.
+
+Löparen går snett från C ett via D två till E tre. Då hamnar den mellan tornet och kungen.
+
+**Notering – läses inte upp:** Ny grundlektion. Manus klart; ljudfilen är ännu inte levererad eller inkopplad.
+
+### lesson-check-block-success.mp3
+
+**Användning:** Förklaring efter rätt svar: Schack: ställ en pjäs emellan.
+
+Löparen skyddar kungen! Mot schack kan du ibland flytta kungen, ta den hotande pjäsen eller ställa något emellan. En springares hopp går inte att stoppa genom att ställa en pjäs i vägen.
+
+**Notering – läses inte upp:** Ny grundlektion. Manus klart; ljudfilen är ännu inte levererad eller inkopplad.
+
+### lesson-checkmate-intro.mp3
+
+**Användning:** Uppdrag: Vad betyder schackmatt?.
+
+Nu är det svarts tur. Svarts kung på H åtta är i schack. Den kan inte fly, ta damen eller få hjälp av en annan pjäs. Vad betyder det för partiet?
+
+**Notering – läses inte upp:** Ny grundlektion. Manus klart; ljudfilen är ännu inte levererad eller inkopplad.
+
+### lesson-checkmate-hint.mp3
+
+**Användning:** Ledtråd: Vad betyder schackmatt?.
+
+Damen ger schack och den vita kungen skyddar damen. Svart har inget lagligt drag som tar bort schacken.
+
+**Notering – läses inte upp:** Ny grundlektion. Manus klart; ljudfilen är ännu inte levererad eller inkopplad.
+
+### lesson-checkmate-success.mp3
+
+**Användning:** Förklaring efter rätt svar: Vad betyder schackmatt?.
+
+Det är schackmatt och vit vinner! Schackmatt betyder att kungen är i schack och att inget lagligt drag kan rädda den. Kungen står kvar på brädet.
+
+**Notering – läses inte upp:** Ny grundlektion. Manus klart; ljudfilen är ännu inte levererad eller inkopplad.
+
+### lesson-stalemate-intro.mp3
+
+**Användning:** Uppdrag: Patt: ingen kan vinna.
+
+Nu är det svarts tur. Kungen på H åtta är inte i schack, men svart har inget lagligt drag. Vad händer med partiet?
+
+**Notering – läses inte upp:** Ny grundlektion. Manus klart; ljudfilen är ännu inte levererad eller inkopplad.
+
+### lesson-stalemate-hint.mp3
+
+**Användning:** Ledtråd: Patt: ingen kan vinna.
+
+Kungen står säkert på H åtta. Men G åtta, G sju och H sju är hotade, och svart har inga andra pjäser att flytta.
+
+**Notering – läses inte upp:** Ny grundlektion. Manus klart; ljudfilen är ännu inte levererad eller inkopplad.
+
+### lesson-stalemate-success.mp3
+
+**Användning:** Förklaring efter rätt svar: Patt: ingen kan vinna.
+
+Det är patt! Den som är på drag har inget lagligt drag och kungen är inte i schack. Partiet slutar remi, alltså oavgjort. Ingen vinner.
+
+**Notering – läses inte upp:** Ny grundlektion. Manus klart; ljudfilen är ännu inte levererad eller inkopplad.
+
+### lesson-en-passant-intro.mp3
+
+**Användning:** Uppdrag: Extra: en passant.
+
+Svart har precis flyttat sin bonde två rutor, från D sju till D fem, bredvid din bonde på E fem. Just nu får du ta den som om den bara gått till D sex. Flytta från E fem till D sex. Det kallas en passant och måste göras direkt i nästa drag.
+
+**Notering – läses inte upp:** Ny grundlektion. Manus klart; ljudfilen är ännu inte levererad eller inkopplad.
+
+### lesson-en-passant-hint.mp3
+
+**Användning:** Ledtråd: Extra: en passant.
+
+Din bonde landar på den tomma rutan D sex. Den svarta bonden tas bort från D fem.
+
+**Notering – läses inte upp:** Ny grundlektion. Manus klart; ljudfilen är ännu inte levererad eller inkopplad.
+
+### lesson-en-passant-success.mp3
+
+**Användning:** Förklaring efter rätt svar: Extra: en passant.
+
+Du gjorde en passant! Din bonde står på D sex och bonden på D fem är borta. Om du väljer ett annat drag försvinner chansen att ta just den bonden på det här sättet.
+
+**Notering – läses inte upp:** Ny grundlektion. Manus klart; ljudfilen är ännu inte levererad eller inkopplad.

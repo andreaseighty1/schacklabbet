@@ -1,0 +1,1 @@
+Rätt! Bonden gick en ruta framåt. Den måste gå till en tom ruta när den går rakt fram.

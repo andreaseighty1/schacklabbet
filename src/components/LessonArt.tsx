@@ -24,18 +24,36 @@ function ScenePiece({
 export function LessonArt({ lesson }: { lesson: string }) {
   const id = useId();
   const sand = ["bishop", "mate-queen"].includes(lesson);
-  const arrow =
-    lesson === "rook"
-      ? "M94 161V49"
-      : lesson === "bishop"
-        ? "M105 163 218 50"
-        : lesson === "knight"
-          ? "M106 174H182V139"
-          : lesson === "castle"
-            ? "M103 158Q138 103 178 158"
-            : lesson === "mate-rook"
-              ? "M65 174H254"
-              : "M226 116V97";
+  const pawn = lesson.startsWith("pawn-") || lesson === "en-passant";
+  const rule = lesson.startsWith("check-");
+  const question = lesson === "checkmate" || lesson === "stalemate";
+  const arrow = question
+    ? "M226 86V86"
+    : lesson === "pawn-black"
+      ? "M94 75V130"
+      : lesson === "pawn-capture" || lesson === "en-passant"
+        ? "M105 161L138 130"
+        : pawn
+          ? `M94 161V${lesson === "pawn-double" ? 86 : 130}`
+          : lesson === "queen"
+            ? "M105 163 218 50"
+            : lesson === "king" || lesson === "check-escape"
+              ? "M150 174H182"
+              : lesson === "check-capture"
+                ? "M138 161V130"
+                : lesson === "check-block"
+                  ? "M63 161 138 86"
+                  : lesson === "rook"
+                    ? "M94 161V49"
+                    : lesson === "bishop"
+                      ? "M105 163 218 50"
+                      : lesson === "knight"
+                        ? "M106 174H182V139"
+                        : lesson === "castle"
+                          ? "M103 158Q138 103 178 158"
+                          : lesson === "mate-rook"
+                            ? "M65 174H254"
+                            : "M226 116V97";
   return (
     <svg
       className="lesson-scene"
@@ -142,6 +160,38 @@ export function LessonArt({ lesson }: { lesson: string }) {
           <ScenePiece x={182} y={130} type="k" />
         </>
       )}
+      {question && (
+        <>
+          <circle
+            cx="270"
+            cy="42"
+            r="23"
+            fill={lesson === "checkmate" ? "#c77c5e" : "#8caa7c"}
+            opacity=".22"
+          />
+          <ScenePiece x={270} y={42} type="k" color="b" />
+          <ScenePiece x={lesson === "checkmate" ? 226 : 182} y={86} type="q" />
+          <ScenePiece x={182} y={130} type="k" />
+        </>
+      )}
+      {rule && (
+        <>
+          <path
+            d="M138 62V150"
+            stroke="#b4634c"
+            strokeWidth="3"
+            strokeDasharray="4 5"
+          />
+          <ScenePiece
+            x={138}
+            y={lesson === "check-capture" ? 130 : 42}
+            type="r"
+            color="b"
+          />
+          <ScenePiece x={138} y={174} type="k" />
+          {lesson === "check-block" && <ScenePiece x={50} y={174} type="b" />}
+        </>
+      )}
       <path
         d={arrow}
         stroke="#f9f2d5"
@@ -184,6 +234,25 @@ export function LessonArt({ lesson }: { lesson: string }) {
       )}
       {lesson === "mate-rook" && <ScenePiece x={50} y={174} type="r" />}
       {lesson === "mate-queen" && <ScenePiece x={226} y={130} type="q" />}
+      {pawn && (
+        <>
+          <ScenePiece
+            x={94}
+            y={lesson === "pawn-black" ? 64 : 174}
+            type="p"
+            color={lesson === "pawn-black" ? "b" : "w"}
+          />
+          {lesson === "pawn-capture" && (
+            <ScenePiece x={138} y={130} type="p" color="b" />
+          )}
+          {lesson === "en-passant" && (
+            <ScenePiece x={138} y={174} type="p" color="b" />
+          )}
+          {lesson === "pawn-promotion" && <ScenePiece x={94} y={86} type="q" />}
+        </>
+      )}
+      {lesson === "queen" && <ScenePiece x={94} y={174} type="q" />}
+      {lesson === "king" && <ScenePiece x={138} y={174} type="k" />}
       <path
         d="m289 189 3 5 5 2-5 2-3 5-2-5-5-2 5-2Z"
         fill="#fffaf0"

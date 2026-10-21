@@ -1,6 +1,7 @@
 import { readFile, writeFile, mkdir, readdir } from "node:fs/promises";
 import path from "node:path";
 import assert from "node:assert/strict";
+import { exercises } from "../src/content.ts";
 
 const root = "docs/audio";
 const manifest = JSON.parse(
@@ -14,7 +15,7 @@ for (const clip of manifest.clips) {
   assert.match(clip.id, /^[a-z0-9]+(?:-[a-z0-9]+)*$/);
   assert.ok(!ids.has(clip.id), `Duplicerat filnamn: ${clip.id}`);
   ids.add(clip.id);
-  assert.ok(["P1", "P2", "P3"].includes(clip.priority));
+  assert.ok(["P1", "P2", "P3", "SKOLA"].includes(clip.priority));
   assert.ok(["current", "planned"].includes(clip.phase));
   assert.ok(clip.text.trim().length > 0 && clip.trigger.trim().length > 0);
   assert.ok(
@@ -22,10 +23,7 @@ for (const clip of manifest.clips) {
     "Kommande funktioner får inte ingå i första inspelningsomgången",
   );
 }
-const content = await readFile("src/content.ts", "utf8");
-const exerciseIds = [...content.matchAll(/\bid:\s*"([^"]+)"/g)].map(
-  (m) => m[1],
-);
+const exerciseIds = exercises.map((e) => e.id);
 for (const id of exerciseIds) {
   for (const cue of ["intro", "hint", "success"])
     assert.equal(
@@ -41,6 +39,8 @@ const lines = [
   "# Schacklabbet – röstmanus för ElevenLabs",
   "",
   "Det här är ett inspelningsunderlag. De 25 P1-filerna är inkopplade i appens ljudspelare. Manuset är inte en kontrollerad transkription av de levererade inspelningarna.",
+  "",
+  "De 13 nya grundlektionerna har ett separat paket med 39 repliker: GRUNDLEKTIONER-MANUS.md, GRUNDLEKTIONER-FILNAMN.txt och rena textfiler i elevenlabs-input/skola/. Dessa ljud är ännu inte levererade eller inkopplade.",
   "",
   "## Börja här",
   "",
@@ -86,7 +86,7 @@ const lines = [
 ];
 
 const counts = {};
-for (const priority of ["P1", "P2", "P3"]) {
+for (const priority of ["P1", "P2", "P3", "SKOLA"]) {
   const clips = manifest.clips.filter((c) => c.priority === priority);
   counts[priority] = clips.length;
   const folder = path.join(root, "elevenlabs-input", priority.toLowerCase());
@@ -98,7 +98,7 @@ for (const priority of ["P1", "P2", "P3"]) {
       `Gammalt eller främmande manus i paketet: ${filename}`,
     );
   lines.push(
-    `## ${priority} – ${priority === "P1" ? "första inspelningsomgången" : priority === "P2" ? "fler spelhändelser och belöningar" : "senare ljudomgång – vänta med inspelning"} (${clips.length} filer)`,
+    `## ${priority} – ${priority === "P1" ? "första inspelningsomgången" : priority === "P2" ? "fler spelhändelser och belöningar" : priority === "SKOLA" ? "nya grundlektioner – färdigt för inspelning" : "senare ljudomgång – vänta med inspelning"} (${clips.length} filer)`,
     "",
   );
   for (const clip of clips) {
@@ -154,6 +154,25 @@ await writeFile(path.join(root, "P1-MANUS.md"), firstLines.join("\n"), "utf8");
 await writeFile(
   path.join(root, "P1-FILNAMN.txt"),
   firstBatch.map((clip) => `${clip.id}.mp3`).join("\n") + "\n",
+  "utf8",
+);
+const schoolBatch = manifest.clips.filter((clip) => clip.priority === "SKOLA");
+await writeFile(
+  path.join(root, "GRUNDLEKTIONER-MANUS.md"),
+  [
+    "# Nya grundlektioner – manus för ElevenLabs",
+    "",
+    `${schoolBatch.length} nya MP3-filer. Lektionerna fungerar redan med text. Ljuden kopplas in när filerna har levererats. Befintliga P1-filer behöver inte spelas in igen.`,
+    "",
+    "Använd samma lugna svenska röst som tidigare. Läs bara repliken under filnamnet. Spara med exakt filnamn och ändelsen .mp3. Rutnamn skrivs till exempel F fyra och G fem, utan fonetiska omskrivningar. Rena textfiler finns i elevenlabs-input/skola/.",
+    "",
+    ...schoolBatch.flatMap((c) => [`## ${c.id}.mp3`, "", c.text, ""]),
+  ].join("\n"),
+  "utf8",
+);
+await writeFile(
+  path.join(root, "GRUNDLEKTIONER-FILNAMN.txt"),
+  schoolBatch.map((c) => `${c.id}.mp3`).join("\n") + "\n",
   "utf8",
 );
 console.log(
