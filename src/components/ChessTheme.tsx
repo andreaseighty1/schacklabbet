@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useId, useState } from "react";
 
 export type ChessTheme = "classic" | "green";
 const key = "schacklabbet.chess-theme.v1";
@@ -28,10 +28,12 @@ export function ChessThemePicker({
   theme: ChessTheme;
   onChange: (theme: ChessTheme) => void;
 }) {
+  const id = useId();
   return (
-    <label className="chess-theme-picker">
-      <span>Bräde och pjäser</span>
+    <div className="chess-theme-picker">
+      <label htmlFor={id}>Bräde och pjäser</label>
       <select
+        id={id}
         value={theme}
         onChange={(event) =>
           onChange(event.target.value === "green" ? "green" : "classic")
@@ -40,6 +42,6 @@ export function ChessThemePicker({
         <option value="classic">Klassiskt trä · vita och bruna</option>
         <option value="green">Grönt · ljusa och mörkgröna</option>
       </select>
-    </label>
+    </div>
   );
 }
