@@ -29,7 +29,7 @@
 - [x] 17 korta lektioner: bonden i fem steg, alla övriga pjäser, tre sätt att komma ur schack, rockad, matt, patt och en passant. Startregler och ordnad lärväg.
 - [ ] Fler kuraterade uppgifter, alternativa korrekta lösningar och flerstegsproblem.
 - [x] Kort motorbaserad efteranalys av högst åtta egna drag, ett positivt exempel och högst ett förbättringstips att prova på separat bräde. Gränser och begränsningar i docs/POST_GAME_REVIEW.md; ingen fullständig materialtappsanalys.
-- [ ] Personliga träningsförslag utifrån riktiga analysresultat.
+- [x] Ett relevant repetitionsförslag från efteranalysens granskade förbättringsexempel, med konkret orsak, lektionslänk och återgång till samma analys. Ingen långsiktig färdighetsprofil ännu.
 - [x] Nybörjarpass med tre uppdrag, ungefär 10 minuter utan nedräkning, återkoppling, paus/återupptagning och sparad passhistorik.
 - [x] Valfri schackklocka (utan tid, 15 eller 10 minuter var), tidsavslut, sparad tid och återställning. Materialbaserad remikontroll; fullständiga ställningsspecifika specialfall återstår, se docs/CLOCK.md.
 - [x] Inspelningsmanus med exakta filnamn för de ursprungliga sex övningarna och gemensamma spelhändelser. Ytterligare 39 manus finns för de 13 nya grundlektionerna.

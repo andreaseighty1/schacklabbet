@@ -120,6 +120,92 @@ a {
 .site-credit strong {
   font-weight: 600;
 }
+.settings-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 24px;
+  max-width: 1000px;
+}
+.settings-card {
+  padding: clamp(18px, 3vw, 28px);
+  background: #fffef9;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  line-height: 1.75;
+}
+.settings-card h2 {
+  font-size: 20px;
+  margin-bottom: 10px;
+}
+.settings-card p {
+  margin: 12px 0;
+}
+.settings-card .chess-theme-picker {
+  font-size: 13px;
+  margin: 20px 0;
+  width: 100%;
+}
+.settings-stack {
+  display: grid;
+  gap: 24px;
+  align-content: start;
+}
+.settings-check {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 48px;
+  cursor: pointer;
+}
+.settings-check input {
+  width: 20px;
+  height: 20px;
+  accent-color: var(--green);
+}
+.theme-preview {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  max-width: 300px;
+  border: 6px solid var(--board-base, #3e2a1c);
+  border-radius: 5px;
+  margin: 20px auto;
+}
+.theme-preview-cell {
+  aspect-ratio: 1;
+  display: grid;
+  place-items: center;
+  min-width: 0;
+}
+.theme-preview-cell .piece {
+  width: 85%;
+  height: 85%;
+}
+.review-training,
+.review-lesson-note {
+  margin-top: 24px;
+  padding: 22px;
+  border: 1px solid #d8e1cb;
+  border-radius: 12px;
+  background: #f0f4e8;
+  line-height: 1.8;
+}
+.review-training p,
+.review-lesson-note p {
+  margin: 12px 0;
+}
+.review-training .button {
+  margin-top: 12px;
+  white-space: normal;
+  text-align: left;
+}
+.review-lesson-note {
+  margin: 0 0 24px;
+}
+@media (max-width: 760px) {
+  .settings-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
 .sidebar {
   width: 238px;
   flex: 0 0 238px;
@@ -1004,11 +1090,13 @@ a {
     touch-action: manipulation;
   }
 }
-.square.light {
+.square.light,
+.theme-preview-cell.light {
   background: var(--square-light, linear-gradient(140deg, #f7e8c9, #eddbb5));
   color: var(--square-light-ink, #74543c);
 }
-.square.dark {
+.square.dark,
+.theme-preview-cell.dark {
   background: var(--square-dark, linear-gradient(140deg, #bd9870, #aa8159));
   color: var(--square-dark-ink, #fff1d4);
 }

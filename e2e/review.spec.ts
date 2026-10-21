@@ -150,6 +150,62 @@ test("prova förslag med hjälprutor utan att ändra parti eller framsteg", asyn
   await expect(
     retry.getByRole("button", { name: /^h5, vit dam/ }),
   ).toBeVisible();
+  const training = page.getByRole("region", {
+    name: "Träningstips från ditt parti",
+    exact: true,
+  });
+  await expect(training).toContainText("ta din dam på E5");
+  await press(
+    training.getByRole("button", {
+      name: "Öva: Damen går rakt och snett",
+      exact: true,
+    }),
+    Boolean(hasTouch),
+  );
+  await expect(
+    page.getByRole("region", { name: "Tips från ditt parti", exact: true }),
+  ).toContainText("ta din dam på E5");
+  expect(await stored(page)).toEqual(saved);
+  await press(
+    page.getByRole("button", { name: /^d2, vit dam/ }),
+    Boolean(hasTouch),
+  );
+  await press(
+    page.getByRole("button", { name: /^g5, svart bonde/ }),
+    Boolean(hasTouch),
+  );
+  await expect(
+    page.getByRole("heading", { name: "En ny upptäckt!" }),
+  ).toBeVisible();
+  await press(
+    page.getByRole("button", {
+      name: "Klar – tillbaka till partiet",
+      exact: true,
+    }),
+    Boolean(hasTouch),
+  );
+  await expect(training).toBeVisible();
+  await expect(
+    page.getByRole("button", { name: "Gå igenom mitt parti", exact: true }),
+  ).toHaveCount(0);
+  const afterPractice = await stored(page);
+  expect(afterPractice[0]).toBe(saved[0]);
+  expect(JSON.parse(afterPractice[1]!).completed).toContain("queen");
+  await press(
+    training.getByRole("button", {
+      name: "Öva: Damen går rakt och snett",
+      exact: true,
+    }),
+    Boolean(hasTouch),
+  );
+  await expect(
+    page.getByRole("heading", { name: "Ditt uppdrag", exact: true }),
+  ).toBeVisible();
+  await press(
+    page.getByRole("button", { name: "Tillbaka till partiet", exact: true }),
+    Boolean(hasTouch),
+  );
+  expect(await stored(page)).toEqual(afterPractice);
   expect(
     await page.evaluate(
       () => document.documentElement.scrollWidth <= window.innerWidth,

@@ -26,6 +26,7 @@ export function ExercisePlayer({
   onNext,
   savedSolution,
   backLabel,
+  doneLabel,
 }: {
   exercise: Exercise;
   voice: Voice;
@@ -36,6 +37,7 @@ export function ExercisePlayer({
   onNext: () => void;
   savedSolution?: string;
   backLabel?: string;
+  doneLabel?: string;
 }) {
   const restoredSolution = exercise.solutions.includes(savedSolution ?? "")
     ? savedSolution
@@ -292,7 +294,7 @@ export function ExercisePlayer({
                 >
                   {nextExercise
                     ? `Nästa: ${nextExercise.title}`
-                    : "Fortsätt upptäcka"}
+                    : (doneLabel ?? "Fortsätt upptäcka")}
                   <ArrowRight size={17} />
                 </button>
                 <button

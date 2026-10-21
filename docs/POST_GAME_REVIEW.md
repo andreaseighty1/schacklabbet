@@ -19,7 +19,17 @@ Centipawn-bedömningar avser spelaren på drag. Därför är uppskattad förlust
 
 Övningsbrädet är en separat kopia av ställningen före elevens drag. Instruktionen är uttryckligen att prova datorns förslag, inklusive eventuellt förvandlingsval. Andra lagliga drag får neutral återkoppling, eftersom alla alternativ inte granskats. Eleven kan upprepa försöket. PGN, slutresultat, klocka, vunna partier och lektions-/passframsteg ändras inte. Rutnamn och lagliga hjälprutor fungerar som i lektionerna. Efteranalysen har textinstruktioner; inga ännu oinspelade ljud används.
 
-Genomgången finns bara efter avslutat parti, även i tävlingsprofil. Den sparas inte vid sidbyte/omladdning. Inga personliga träningsrekommendationer eller automatisk helanalys ingår ännu.
+Genomgången finns bara efter avslutat parti, även i tävlingsprofil. En färdig genomgång bevaras vid sidbyte under samma besök och knyts till partiets ID. Omladdning kräver en ny analys. Pågående analys avbryts fortfarande vid sidbyte. Automatisk helanalys ingår inte.
+
+## Träningstips efter analysen
+
+När ett förbättringsexempel finns kan en befintlig kort lektion föreslås. Orsaken är konkret och bygger på den verifierade ställningen: förvandling, föreslagen rockad, sättet att komma ur schack, möjlig motståndarcapture eller vilken pjäs som ingick i motorförslaget. Att ta schackaren verifieras mot ställningens verkliga angripare; ett kungsslag på en annan pjäs beskrivs som att flytta kungen. En passant använder bondens faktiska slagruta.
+
+Förslaget är en tematisk repetition, inte en diagnos av elevens kunskaper eller ett påstående att en viss lektion ensam förklarar positionsförlusten. Utan förbättringsexempel ges inget personligt tips. Vi använder ingen historisk färdighetsprofil eller ny serverlagring. Eleven kan öppna lektionen, få samma skäl återgivet, göra uppgiften med befintlig röst och återvända till samma analys utan ny motorsökning. Öppnande räknas inte som lösning. Vanliga framstegsregler gäller efter faktisk lösning, även vid repetition av en redan avklarad lektion. Partiets PGN, resultat och klocka ändras inte.
+
+## Inställningar
+
+Färgvalet ligger under Inställningar i huvudmenyn. Sidan visar en förhandsvisning och samlar val för bräde/pjäser, rutnamn i partier respektive lektioner och röst. Inställningarna använder de befintliga lokala sparnycklarna. Rösten förblir av vid omladdning. Skaparnamnet ligger kvar i sidfoten.
 
 ## Pekskärm
 

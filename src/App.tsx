@@ -41,7 +41,10 @@ import {
   useSquareNames,
 } from "./components/SquareNamesToggle";
 import { Piece } from "./components/Piece";
-import { ChessThemePicker, useChessTheme } from "./components/ChessTheme";
+import { useChessTheme } from "./components/ChessTheme";
+import { SettingsPage } from "./components/SettingsPage";
+import type { GameReview } from "./chess/review";
+import type { TrainingRecommendation } from "./chess/recommendation";
 import { LessonCatalog } from "./components/LessonCatalog";
 import { MoveLabel } from "./components/MoveLabel";
 import { PostGameReview } from "./components/PostGameReview";
@@ -93,6 +96,7 @@ type View =
   | "tournament"
   | "progress"
   | "session"
+  | "settings"
   | "friends";
 type Config = {
   color: Color;
@@ -120,6 +124,7 @@ const navItems: { id: View; label: string; icon: typeof Home }[] = [
   { id: "friends", label: "Spela med en kompis", icon: Users },
   { id: "tournament", label: "Schackfyran-träning", icon: Trophy },
   { id: "progress", label: "Mina framsteg", icon: Sparkles },
+  { id: "settings", label: "Inställningar", icon: Settings2 },
 ];
 function initialView(): View {
   const id = location.hash.slice(1);
@@ -334,6 +339,12 @@ export default function App() {
   const [progress, setProgress] = useState<Progress>(initial.progress);
   const [training, setTraining] = useState<TrainingState>(initial.training);
   const [exercise, setExercise] = useState<Exercise | null>(null);
+  const [completedReview, setCompletedReview] = useState<{
+    id: string;
+    result: GameReview;
+  } | null>(null);
+  const [reviewLesson, setReviewLesson] =
+    useState<TrainingRecommendation | null>(null);
   const [replay, setReplay] = useState<number | null>(null);
   const [mobileMenu, setMobileMenu] = useState(false);
   const [connection, setConnection] = useState<{
@@ -396,6 +407,7 @@ export default function App() {
     voicePlayer,
   ]);
   function navigate(next: View) {
+    setReviewLesson(null);
     voicePlayer.reset();
     hintAbort.current?.abort();
     viewRef.current = next;
@@ -409,6 +421,7 @@ export default function App() {
     const handler = () => {
       const next = initialView();
       if (next !== viewRef.current) {
+        setReviewLesson(null);
         voicePlayer.reset();
         hintAbort.current?.abort();
         viewRef.current = next;
@@ -1513,6 +1526,23 @@ export default function App() {
                   key={id}
                   pgn={game.pgn()}
                   color={config.color}
+                  result={
+                    completedReview?.id === id ? completedReview.result : null
+                  }
+                  onResult={(result) =>
+                    setCompletedReview(result ? { id, result } : null)
+                  }
+                  onPractice={(recommendation) => {
+                    const target = exercises.find(
+                      (exercise) => exercise.id === recommendation.exerciseId,
+                    );
+                    if (!target) return;
+                    navigate(
+                      target.category === "school" ? "school" : "challenges",
+                    );
+                    setExercise(target);
+                    setReviewLesson(recommendation);
+                  }}
                 />
               )}
             </>
@@ -1529,18 +1559,37 @@ export default function App() {
           {(view === "school" || view === "challenges") && (
             <>
               {exercise ? (
-                <ExercisePlayer
-                  key={exercise.id}
-                  exercise={exercise}
-                  voice={voice}
-                  completed={progress.completed.includes(exercise.id)}
-                  onComplete={() => completeExercise(exercise)}
-                  onBack={() => setExercise(null)}
-                  nextExercise={nextLesson}
-                  onNext={() => {
-                    if (nextLesson) setExercise(nextLesson);
-                  }}
-                />
+                <>
+                  {reviewLesson && (
+                    <section
+                      className="review-lesson-note"
+                      aria-label="Tips från ditt parti"
+                    >
+                      <strong>Du övar vidare från ditt parti</strong>
+                      <p>{reviewLesson.reason}</p>
+                    </section>
+                  )}
+                  <ExercisePlayer
+                    key={exercise.id}
+                    exercise={exercise}
+                    voice={voice}
+                    completed={progress.completed.includes(exercise.id)}
+                    onComplete={() => completeExercise(exercise)}
+                    onBack={() =>
+                      reviewLesson ? navigate("play") : setExercise(null)
+                    }
+                    backLabel={
+                      reviewLesson ? "Tillbaka till partiet" : undefined
+                    }
+                    doneLabel={
+                      reviewLesson ? "Klar – tillbaka till partiet" : undefined
+                    }
+                    nextExercise={reviewLesson ? undefined : nextLesson}
+                    onNext={() => {
+                      if (nextLesson) setExercise(nextLesson);
+                    }}
+                  />
+                </>
               ) : (
                 <>
                   <div className="page-heading">
@@ -1642,6 +1691,15 @@ export default function App() {
                 </p>
               </div>
             </>
+          )}
+          {view === "settings" && (
+            <SettingsPage
+              theme={chessTheme}
+              onTheme={setChessTheme}
+              gameNames={showSquareNames}
+              onGameNames={toggleSquareNames}
+              voice={voice}
+            />
           )}
           {view === "progress" && (
             <>
@@ -1788,7 +1846,6 @@ export default function App() {
             Skapat av <strong>Andreas Jonsson</strong> · För nyfikna
             schackspelare
           </p>
-          <ChessThemePicker theme={chessTheme} onChange={setChessTheme} />
         </footer>
       </div>
       {modal === "new" && (
@@ -1938,8 +1995,9 @@ export default function App() {
           </p>
           <ul className="help-list">
             <li>
-              Längst ned på sidan kan du välja bräde och pjäser. I trätemat är
-              svarts pjäser bruna. Spelarna heter fortfarande vit och svart.
+              Under Inställningar i menyn kan du välja bräde och pjäser. I
+              trätemat är svarts pjäser bruna. Spelarna heter fortfarande vit
+              och svart.
             </li>
             <li>
               Tryck eller klicka först på en pjäs och sedan på målrutan. Med mus

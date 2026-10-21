@@ -12,13 +12,36 @@ import { describeMove } from "../chess/moveDescription";
 import { Board } from "./Board";
 import { MoveLabel } from "./MoveLabel";
 import { SquareNamesToggle, useSquareNames } from "./SquareNamesToggle";
+import {
+  recommendTraining,
+  type TrainingRecommendation,
+} from "../chess/recommendation";
+import { exercises } from "../content";
 
-export function PostGameReview({ pgn, color }: { pgn: string; color: Color }) {
+export function PostGameReview({
+  pgn,
+  color,
+  result,
+  onResult,
+  onPractice,
+}: {
+  pgn: string;
+  color: Color;
+  result: GameReview | null;
+  onResult: (result: GameReview | null) => void;
+  onPractice: (recommendation: TrainingRecommendation) => void;
+}) {
   const engine = useRef<EngineSession | null>(null);
   const task = useRef<AbortController | null>(null);
-  const [result, setResult] = useState<GameReview | null>(null);
   const [busy, setBusy] = useState(false);
   const [status, setStatus] = useState("");
+  const heading = useRef<HTMLHeadingElement>(null);
+  useEffect(() => {
+    if (result) {
+      heading.current?.focus({ preventScroll: true });
+      heading.current?.scrollIntoView({ block: "start" });
+    }
+  }, [result]);
   useEffect(
     () => () => {
       task.current?.abort();
@@ -35,7 +58,7 @@ export function PostGameReview({ pgn, color }: { pgn: string; color: Color }) {
     engine.current ??= new EngineSession();
     const session = engine.current;
     setBusy(true);
-    setResult(null);
+    onResult(null);
     try {
       const review = await reviewGame(
         pgn,
@@ -45,7 +68,7 @@ export function PostGameReview({ pgn, color }: { pgn: string; color: Color }) {
         (done, total) => setStatus(`Granskar dina drag: ${done} av ${total}.`),
       );
       if (task.current !== controller || controller.signal.aborted) return;
-      setResult(review);
+      onResult(review);
       setStatus("");
     } catch (error) {
       if (task.current !== controller || controller.signal.aborted) return;
@@ -68,12 +91,18 @@ export function PostGameReview({ pgn, color }: { pgn: string; color: Color }) {
     setBusy(false);
     setStatus("Genomgången är stoppad. Du kan starta den igen.");
   }
+  const recommendation = result ? recommendTraining(result) : null;
+  const lesson = exercises.find(
+    (exercise) => exercise.id === recommendation?.exerciseId,
+  );
   return (
     <section className="post-game-review" aria-labelledby="review-heading">
       <div className="review-intro">
         <div>
           <span className="eyebrow">Efter partiet</span>
-          <h2 id="review-heading">Upptäck ett drag</h2>
+          <h2 id="review-heading" ref={heading} tabIndex={-1}>
+            Upptäck ett drag
+          </h2>
           <p>
             Se ett drag som fungerade bra och prova högst ett förslag att lära
             av.
@@ -125,6 +154,26 @@ export function PostGameReview({ pgn, color }: { pgn: string; color: Color }) {
               Inget tydligt förbättringstips hittades bland de granskade dragen.
               Det betyder inte att alla drag var bäst.
             </p>
+          )}
+          {recommendation && lesson && (
+            <section
+              className="review-training"
+              aria-labelledby="training-tip-heading"
+            >
+              <span className="eyebrow">ETT NÄSTA STEG</span>
+              <h3 id="training-tip-heading">Träningstips från ditt parti</h3>
+              <p>{recommendation.reason}</p>
+              <p className="fine-print">
+                Övningen är en repetition. Du kan göra den igen även om den
+                redan är avklarad.
+              </p>
+              <button
+                className="button primary"
+                onClick={() => onPractice(recommendation)}
+              >
+                Öva: {lesson.title}
+              </button>
+            </section>
           )}
         </>
       )}
