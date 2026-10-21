@@ -15,7 +15,7 @@ for (const clip of manifest.clips) {
   assert.match(clip.id, /^[a-z0-9]+(?:-[a-z0-9]+)*$/);
   assert.ok(!ids.has(clip.id), `Duplicerat filnamn: ${clip.id}`);
   ids.add(clip.id);
-  assert.ok(["P1", "P2", "P3", "SKOLA"].includes(clip.priority));
+  assert.ok(["P1", "P2", "P3", "SKOLA", "TAKTIK"].includes(clip.priority));
   assert.ok(["current", "planned"].includes(clip.phase));
   assert.ok(clip.text.trim().length > 0 && clip.trigger.trim().length > 0);
   assert.ok(
@@ -41,6 +41,7 @@ const lines = [
   "Det här är ett inspelningsunderlag. De 25 P1-filerna är inkopplade i appens ljudspelare. Manuset är inte en kontrollerad transkription av de levererade inspelningarna.",
   "",
   "De 13 nya grundlektionerna har ett separat paket med 39 repliker: GRUNDLEKTIONER-MANUS.md, GRUNDLEKTIONER-FILNAMN.txt och rena textfiler i elevenlabs-input/skola/. Alla 39 nya ljudfiler är levererade och inkopplade.",
+  "De fem övningarna om hot, räddning och säkra slag har 15 nya manus i TAKTIK-MANUS.md och elevenlabs-input/taktik/. Dessa ljudfiler är ännu inte levererade eller inkopplade; uppgifterna fungerar med text.",
   "",
   "## Börja här",
   "",
@@ -86,7 +87,7 @@ const lines = [
 ];
 
 const counts = {};
-for (const priority of ["P1", "P2", "P3", "SKOLA"]) {
+for (const priority of ["P1", "P2", "P3", "SKOLA", "TAKTIK"]) {
   const clips = manifest.clips.filter((c) => c.priority === priority);
   counts[priority] = clips.length;
   const folder = path.join(root, "elevenlabs-input", priority.toLowerCase());
@@ -98,7 +99,7 @@ for (const priority of ["P1", "P2", "P3", "SKOLA"]) {
       `Gammalt eller främmande manus i paketet: ${filename}`,
     );
   lines.push(
-    `## ${priority} – ${priority === "P1" ? "första inspelningsomgången" : priority === "P2" ? "fler spelhändelser och belöningar" : priority === "SKOLA" ? "nya grundlektioner – färdigt för inspelning" : "senare ljudomgång – vänta med inspelning"} (${clips.length} filer)`,
+    `## ${priority} – ${priority === "P1" ? "första inspelningsomgången" : priority === "P2" ? "fler spelhändelser och belöningar" : priority === "SKOLA" ? "nya grundlektioner – levererade" : priority === "TAKTIK" ? "hot och säkra drag – redo för inspelning" : "senare ljudomgång – vänta med inspelning"} (${clips.length} filer)`,
     "",
   );
   for (const clip of clips) {
@@ -181,4 +182,27 @@ console.log(
     .join(
       ", ",
     )}. Alla ${exerciseIds.length} övningar har intro, ledtråd och återkoppling.`,
+);
+const tacticsBatch = manifest.clips.filter(
+  (clip) => clip.priority === "TAKTIK",
+);
+await writeFile(
+  path.join(root, "TAKTIK-MANUS.md"),
+  [
+    "# Hot, räddning och säkra slag – manus för ElevenLabs",
+    "",
+    "15 nya MP3-filer, tre per lektion. Använd samma lugna svenska röst som tidigare. Läs bara repliken under filnamnet. Språket är skrivet för årskurs 4. Rutnamn skrivs F fyra och G fem, utan fonetiska omskrivningar.",
+    "",
+    "Dessa ljud är ännu inte levererade eller inkopplade. Lektionerna fungerar med text. Befintliga 64 ljudfiler ska inte spelas in igen.",
+    "",
+    "Spara med exakt filnamn. Lägg MP3-filerna direkt i public/audio/sv-SE/. Rena texter finns i elevenlabs-input/taktik/ och alla filnamn i TAKTIK-FILNAMN.txt.",
+    "",
+    ...tacticsBatch.flatMap((clip) => [`## ${clip.id}.mp3`, "", clip.text, ""]),
+  ].join("\n"),
+  "utf8",
+);
+await writeFile(
+  path.join(root, "TAKTIK-FILNAMN.txt"),
+  tacticsBatch.map((clip) => `${clip.id}.mp3`).join("\n") + "\n",
+  "utf8",
 );

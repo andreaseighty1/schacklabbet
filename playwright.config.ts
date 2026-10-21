@@ -26,6 +26,7 @@ export default defineConfig({
         "**/touch.spec.ts",
         "**/review.spec.ts",
         "**/appearance.spec.ts",
+        "**/tactics.spec.ts",
       ],
       use: {
         ...devices["Desktop Chrome"],

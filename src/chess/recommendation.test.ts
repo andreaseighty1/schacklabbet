@@ -27,12 +27,27 @@ describe("träningstips från granskad ställning", () => {
   it("hittar inte på ett behov utan förbättringsexempel", () => {
     expect(recommendTraining({ total: 12, checked: 8 })).toBeNull();
   });
-  it("kopplar en konkret hotad dam till damlektionen", () => {
+  it("kopplar ett slag med möjlig återslagning till säkra slag", () => {
     const board = new Chess();
     board.loadPgn("1. e4 e5 2. Qh5 Nc6 *");
     const tip = recommendTraining(example(board.fen(), "h5e5", "h5f3", "c6e5"));
-    expect(tip?.exerciseId).toBe("queen");
+    expect(tip?.exerciseId).toBe("safe-capture");
     expect(tip?.reason).toContain("ta din dam på E5");
+  });
+  it("föreslår räddningsövningar för hotade pjäser och anger svarts perspektiv", () => {
+    const queen = recommendTraining(
+      example("k7/8/2n5/5Q2/8/8/8/7K w - - 0 1", "f5e5", "f5f3", "c6e5"),
+    );
+    expect(queen?.exerciseId).toBe("rescue-queen");
+    const rook = recommendTraining(
+      example("7k/6b1/8/8/8/8/8/1R5K w - - 0 1", "b1a1", "b1c1", "g7a1"),
+    );
+    expect(rook?.exerciseId).toBe("rescue-rook");
+    const knight = recommendTraining(
+      example("k7/8/7p/8/8/5N2/8/7K w - - 0 1", "f3g5", "f3d4", "h6g5"),
+    );
+    expect(knight?.exerciseId).toBe("rescue-knight");
+    expect(knight?.reason).toContain("spelar du svart");
   });
   it("skiljer att ta schackaren, blockera och flytta kungen", () => {
     const fen = "k3r3/8/8/1B6/8/8/8/4K3 w - - 0 1";

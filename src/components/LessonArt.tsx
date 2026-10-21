@@ -27,33 +27,41 @@ export function LessonArt({ lesson }: { lesson: string }) {
   const pawn = lesson.startsWith("pawn-") || lesson === "en-passant";
   const rule = lesson.startsWith("check-");
   const question = lesson === "checkmate" || lesson === "stalemate";
-  const arrow = question
-    ? "M226 86V86"
-    : lesson === "pawn-black"
-      ? "M94 75V130"
-      : lesson === "pawn-capture" || lesson === "en-passant"
-        ? "M105 161L138 130"
-        : pawn
-          ? `M94 161V${lesson === "pawn-double" ? 86 : 130}`
-          : lesson === "queen"
-            ? "M105 163 218 50"
-            : lesson === "king" || lesson === "check-escape"
-              ? "M150 174H182"
-              : lesson === "check-capture"
-                ? "M138 161V130"
-                : lesson === "check-block"
-                  ? "M63 161 138 86"
-                  : lesson === "rook"
-                    ? "M94 161V49"
-                    : lesson === "bishop"
-                      ? "M105 163 218 50"
-                      : lesson === "knight"
-                        ? "M106 174H182V139"
-                        : lesson === "castle"
-                          ? "M103 158Q138 103 178 158"
-                          : lesson === "mate-rook"
-                            ? "M65 174H254"
-                            : "M226 116V97";
+  const tactic = [
+    "spot-threat",
+    "rescue-rook",
+    "rescue-queen",
+    "rescue-knight",
+    "safe-capture",
+  ].includes(lesson);
+  const arrow =
+    question || tactic
+      ? "M226 86V86"
+      : lesson === "pawn-black"
+        ? "M94 75V130"
+        : lesson === "pawn-capture" || lesson === "en-passant"
+          ? "M105 161L138 130"
+          : pawn
+            ? `M94 161V${lesson === "pawn-double" ? 86 : 130}`
+            : lesson === "queen"
+              ? "M105 163 218 50"
+              : lesson === "king" || lesson === "check-escape"
+                ? "M150 174H182"
+                : lesson === "check-capture"
+                  ? "M138 161V130"
+                  : lesson === "check-block"
+                    ? "M63 161 138 86"
+                    : lesson === "rook"
+                      ? "M94 161V49"
+                      : lesson === "bishop"
+                        ? "M105 163 218 50"
+                        : lesson === "knight"
+                          ? "M106 174H182V139"
+                          : lesson === "castle"
+                            ? "M103 158Q138 103 178 158"
+                            : lesson === "mate-rook"
+                              ? "M65 174H254"
+                              : "M226 116V97";
   return (
     <svg
       className="lesson-scene"
@@ -190,6 +198,50 @@ export function LessonArt({ lesson }: { lesson: string }) {
           />
           <ScenePiece x={138} y={174} type="k" />
           {lesson === "check-block" && <ScenePiece x={50} y={174} type="b" />}
+        </>
+      )}
+      {tactic && (
+        <>
+          <circle cx="138" cy="130" r="32" fill="#e6ba65" opacity=".4" />
+          <ScenePiece
+            x={138}
+            y={130}
+            type={
+              lesson === "rescue-rook"
+                ? "r"
+                : lesson === "rescue-knight"
+                  ? "n"
+                  : lesson === "safe-capture"
+                    ? "b"
+                    : "q"
+            }
+            color={lesson === "rescue-knight" ? "b" : "w"}
+          />
+          <ScenePiece
+            x={226}
+            y={42}
+            type={
+              lesson === "rescue-rook"
+                ? "r"
+                : lesson === "rescue-knight"
+                  ? "p"
+                  : lesson === "safe-capture"
+                    ? "k"
+                    : "n"
+            }
+            color={lesson === "rescue-knight" ? "w" : "b"}
+          />
+          <circle cx="226" cy="130" r="17" fill="#ad573e" />
+          <text
+            x="226"
+            y="137"
+            textAnchor="middle"
+            fill="#fffaf0"
+            fontSize="23"
+            fontWeight="700"
+          >
+            !
+          </text>
         </>
       )}
       <path

@@ -93,7 +93,8 @@ export function ExercisePlayer({
       finish(uci);
     } else {
       setFeedback(
-        "Det är ett lagligt drag, men det löser inte just den här uppgiften. Försök med en annan idé.",
+        exercise.tryAgain ??
+          "Det är ett lagligt drag, men det löser inte just den här uppgiften. Försök med en annan idé.",
       );
       setSelected(null);
       setPromotion(null);
@@ -192,6 +193,12 @@ export function ExercisePlayer({
           </span>
           <h2>{solved ? "En ny upptäckt!" : "Ditt uppdrag"}</h2>
           <p>{exercise.description}</p>
+          {!clip && (
+            <p className="fine-print">
+              Den här övningen har textinstruktioner. Uppläsning av uppdraget
+              finns inte ännu.
+            </p>
+          )}
           {clip && (
             <PlaybackControls
               voice={voice}

@@ -12,6 +12,7 @@ export interface Exercise {
   };
   hint: string;
   success: string;
+  tryAgain?: string;
 }
 const existingExercises: Exercise[] = [
   {
@@ -309,6 +310,124 @@ const extraLessons: Exercise[] = [
   },
 ];
 
+export const tacticsLessons: Exercise[] = [
+  {
+    id: "spot-threat",
+    category: "school",
+    title: "Vem hotar damen?",
+    tag: "Upptäck hot · 2 min",
+    fen: "k7/8/2n5/4Q3/8/8/8/7K w - - 0 1",
+    description:
+      "Nu är det vits tur. Din dam står på E5. Vilken svart pjäs kan ta damen om du låter henne stå kvar? Välj ett svar under brädet.",
+    solutions: [],
+    hint: "Följ springarens hopp från C6: två rutor åt ett håll och en åt sidan. Kan den nå E5?",
+    success:
+      "Springaren på C6 hotar damen! Den kan hoppa till E5. Titta efter motståndarens hot innan du väljer ditt drag.",
+    question: {
+      choices: [
+        { label: "Springaren på C6", correct: true, feedback: "" },
+        {
+          label: "Kungen på A8",
+          correct: false,
+          feedback:
+            "Kungen går bara en ruta. A8 ligger för långt från E5. Titta på den andra svarta pjäsen.",
+        },
+        {
+          label: "Ingen pjäs hotar damen",
+          correct: false,
+          feedback:
+            "En springare kan hoppa över andra pjäser. Följ hoppet från C6 och undersök E5 igen.",
+        },
+      ],
+    },
+  },
+  {
+    id: "rescue-rook",
+    category: "school",
+    title: "Rädda tornet",
+    tag: "Rädda en pjäs · 2 min",
+    fen: "r6k/8/8/8/8/8/8/R6K w - - 0 1",
+    description:
+      "Svarts torn på A8 hotar ditt torn på A1. Rädda ditt torn så att svart inte kan ta det direkt efter ditt drag. Du kan flytta undan eller ta pjäsen som hotar. Det finns flera lösningar.",
+    solutions: ["a1a8", "a1b1", "a1c1", "a1d1", "a1e1", "a1f1", "a1g1"],
+    hint: "På A-linjen kan svarts torn fortfarande nå ditt torn. Undersök en annan linje, eller ta tornet på A8.",
+    success:
+      "Ditt torn kan inte tas direkt! Du kan rädda en pjäs genom att flytta undan eller ta pjäsen som hotar, om din egen pjäs står säkert efteråt.",
+    tryAgain:
+      "Svarts torn kan fortfarande ta ditt torn. Prova att flytta ditt torn åt sidan, eller ta tornet på A8.",
+  },
+  {
+    id: "rescue-queen",
+    category: "school",
+    title: "Rädda damen",
+    tag: "Rädda en pjäs · 2 min",
+    fen: "k7/8/2n5/4Q3/8/8/8/7K w - - 0 1",
+    description:
+      "Springaren på C6 hotar din dam på E5. Flytta damen till en ruta där ingen svart pjäs kan ta henne direkt efteråt. Titta efter både springarens hopp och kungens närmaste rutor. Det finns flera lösningar.",
+    solutions: [
+      "e5d6",
+      "e5c7",
+      "e5e6",
+      "e5e8",
+      "e5f6",
+      "e5g7",
+      "e5h8",
+      "e5f5",
+      "e5g5",
+      "e5h5",
+      "e5f4",
+      "e5g3",
+      "e5h2",
+      "e5e4",
+      "e5e3",
+      "e5e2",
+      "e5e1",
+      "e5c3",
+      "e5b2",
+      "e5a1",
+      "e5d5",
+      "e5c5",
+      "e5b5",
+    ],
+    hint: "Damen kan till exempel flytta rakt nedåt längs E-linjen. Kontrollera om springaren eller kungen kan nå rutan du väljer.",
+    success:
+      "Damen kom undan hotet! Ingen svart pjäs kan ta henne direkt på den nya rutan. Efter en flytt behöver du undersöka hoten igen.",
+    tryAgain:
+      "Damen kan fortfarande tas direkt. Titta efter springarens hopp och rutorna intill den svarta kungen. Prova en annan ruta för damen.",
+  },
+  {
+    id: "rescue-knight",
+    category: "school",
+    title: "Rädda svarts springare",
+    tag: "Spela svart · 2 min",
+    orientation: "b",
+    fen: "7k/8/5n2/4P3/8/5K2/8/8 b - - 0 1",
+    description:
+      "Nu spelar du svart. Vits bonde på E5 hotar din springare på F6. Flytta springaren så att ingen vit pjäs kan ta den direkt efteråt. Se också upp för den vita kungen på F3. Det finns flera lösningar.",
+    solutions: ["f6d7", "f6e8", "f6g8", "f6h7", "f6h5", "f6d5"],
+    hint: "Springaren hoppar i ett L. E4 och G4 ligger intill vits kung. Undersök en annan landningsruta.",
+    success:
+      "Springaren står säkert efter hoppet! Bonden når den inte längre, och den står inte intill vits kung. Även när du spelar svart behöver du leta efter motståndarens hot.",
+    tryAgain:
+      "Springaren kan fortfarande tas. Den vita kungen hotar rutorna precis intill sig, och bonden tar snett framåt. Prova en annan ruta för springaren.",
+  },
+  {
+    id: "safe-capture",
+    category: "school",
+    title: "Ta en pjäs – men se upp",
+    tag: "Undersök ett slag · 2 min",
+    fen: "6k1/7r/8/8/2p5/3B4/8/K7 w - - 0 1",
+    description:
+      "Din löpare på D3 kan ta bonden på C4 eller tornet på H7. Ta den pjäs som löparen kan ta utan att själv kunna tas direkt efteråt. Titta på svarts kung innan du väljer.",
+    solutions: ["d3c4"],
+    hint: "Kungen på G8 skyddar tornet på H7. Vem skyddar bonden på C4?",
+    success:
+      "Du tog bonden på C4! Ingen svart pjäs kan ta löparen direkt där. Tornet på H7 var skyddat av kungen. Undersök motståndarens svar innan du tar en pjäs.",
+    tryAgain:
+      "Uppgiften är att ta en pjäs och behålla löparen. Tornet på H7 skyddas av kungen. Prova att ta en annan pjäs.",
+  },
+];
+
 export const exercises: Exercise[] = [
   ...pawnLessons,
   ...existingExercises.filter((e) =>
@@ -318,6 +437,7 @@ export const exercises: Exercise[] = [
   ...ruleLessons.slice(0, 3),
   existingExercises.find((e) => e.id === "castle")!,
   ...ruleLessons.slice(3),
+  ...tacticsLessons,
   ...extraLessons,
   ...existingExercises.filter((e) => e.category === "challenge"),
 ];
@@ -346,7 +466,13 @@ export const schoolSections = [
     ],
   },
   {
-    title: "4. En extra regel",
+    title: "4. Upptäck hot och rädda pjäser",
+    description:
+      "Se vad motståndaren hotar. Undersök en säker flytt eller ett slag.",
+    ids: tacticsLessons.map((e) => e.id),
+  },
+  {
+    title: "5. En extra regel",
     description: "Ta den här när du känner dig trygg med bönderna.",
     ids: extraLessons.map((e) => e.id),
   },

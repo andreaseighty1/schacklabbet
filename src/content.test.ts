@@ -1,7 +1,7 @@
 import { describe, it, expect } from "vitest";
 import { Chess, validateFen } from "chess.js";
-import { exercises, schoolSections } from "./content";
-import { playUci } from "./chess/model";
+import { exercises, schoolSections, tacticsLessons } from "./content";
+import { captureSquare, playUci } from "./chess/model";
 describe("kontrollerat undervisningsinnehåll", () => {
   it("har unika identifierare", () =>
     expect(new Set(exercises.map((e) => e.id)).size).toBe(exercises.length));
@@ -21,11 +21,15 @@ describe("kontrollerat undervisningsinnehåll", () => {
         expect(exercise.question.choices.filter((c) => c.correct)).toHaveLength(
           1,
         );
-        expect(
-          exercise.id === "checkmate"
-            ? initial.isCheckmate()
-            : initial.isStalemate(),
-        ).toBe(true);
+        if (exercise.id === "checkmate")
+          expect(initial.isCheckmate()).toBe(true);
+        else if (exercise.id === "stalemate")
+          expect(initial.isStalemate()).toBe(true);
+        else {
+          expect(exercise.id).toBe("spot-threat");
+          expect(initial.isGameOver()).toBe(false);
+          expect(initial.attackers("e5", "b")).toEqual(["c6"]);
+        }
         return;
       }
       expect(exercise.solutions.length).toBeGreaterThan(0);
@@ -70,6 +74,51 @@ describe("kontrollerat undervisningsinnehåll", () => {
         exercises.filter((e) => e.category === "school").map((e) => e.id),
       ),
     );
+  });
+  it("godtar alla och endast säkra flyttar i räddningsuppgifterna, med verkliga hot före draget", () => {
+    const starts = {
+      "rescue-rook": "a1",
+      "rescue-queen": "e5",
+      "rescue-knight": "f6",
+    } as const;
+    for (const [id, from] of Object.entries(starts)) {
+      const exercise = tacticsLessons.find((e) => e.id === id)!;
+      const board = new Chess(exercise.fen);
+      expect(board.isCheck()).toBe(false);
+      expect(
+        board.attackers(from, board.turn() === "w" ? "b" : "w").length,
+      ).toBeGreaterThan(0);
+      const safe = board
+        .moves({ square: from, verbose: true })
+        .filter((move) => {
+          const after = new Chess(exercise.fen);
+          after.move(move);
+          return !after
+            .moves({ verbose: true })
+            .some(
+              (reply) => reply.captured && captureSquare(reply) === move.to,
+            );
+        })
+        .map((move) => `${move.from}${move.to}${move.promotion ?? ""}`);
+      expect(new Set(exercise.solutions)).toEqual(new Set(safe));
+      expect(safe.length).toBeGreaterThan(1);
+    }
+  });
+  it("skiljer ett säkert slag från ett torn som skyddas av kungen", () => {
+    const exercise = tacticsLessons.find((e) => e.id === "safe-capture")!;
+    expect(exercise.solutions).toEqual(["d3c4"]);
+    const safe = new Chess(exercise.fen);
+    playUci(safe, "d3c4");
+    expect(
+      safe.moves({ verbose: true }).some((m) => m.captured && m.to === "c4"),
+    ).toBe(false);
+    const trap = new Chess(exercise.fen);
+    playUci(trap, "d3h7");
+    expect(
+      trap
+        .moves({ verbose: true })
+        .some((m) => m.from === "g8" && m.to === "h7" && m.captured === "b"),
+    ).toBe(true);
   });
   it("låter eleven välja alla fyra korrekta förvandlingar", () => {
     expect(exercises.find((e) => e.id === "pawn-promotion")!.solutions).toEqual(

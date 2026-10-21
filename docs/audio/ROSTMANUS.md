@@ -3,6 +3,7 @@
 Det här är ett inspelningsunderlag. De 25 P1-filerna är inkopplade i appens ljudspelare. Manuset är inte en kontrollerad transkription av de levererade inspelningarna.
 
 De 13 nya grundlektionerna har ett separat paket med 39 repliker: GRUNDLEKTIONER-MANUS.md, GRUNDLEKTIONER-FILNAMN.txt och rena textfiler i elevenlabs-input/skola/. Alla 39 nya ljudfiler är levererade och inkopplade.
+De fem övningarna om hot, räddning och säkra slag har 15 nya manus i TAKTIK-MANUS.md och elevenlabs-input/taktik/. Dessa ljudfiler är ännu inte levererade eller inkopplade; uppgifterna fungerar med text.
 
 ## Börja här
 
@@ -419,7 +420,7 @@ Anslutningen är bruten. Spelet försöker ansluta igen.
 
 Anslutningen är tillbaka. Titta på brädet innan du gör ditt nästa drag.
 
-## SKOLA – nya grundlektioner – färdigt för inspelning (39 filer)
+## SKOLA – nya grundlektioner – levererade (39 filer)
 
 ### lesson-pawn-forward-intro.mp3
 
@@ -732,3 +733,95 @@ Din bonde landar på den tomma rutan D sex. Den svarta bonden tas bort från D f
 Du gjorde en passant! Din bonde står på D sex och bonden på D fem är borta. Om du väljer ett annat drag försvinner chansen att ta just den bonden på det här sättet.
 
 **Notering – läses inte upp:** Ljudfilen är levererad och inkopplad. Manuset är inte en verifierad transkription av inspelningen.
+
+## TAKTIK – hot och säkra drag – redo för inspelning (15 filer)
+
+### lesson-spot-threat-intro.mp3
+
+**Användning:** Vem hotar damen?: uppdrag.
+
+Nu är det vits tur. Din dam står på E fem. Vilken svart pjäs kan ta damen om du låter henne stå kvar? Välj ett svar under brädet.
+
+### lesson-spot-threat-hint.mp3
+
+**Användning:** Vem hotar damen?: ledtråd.
+
+Följ springarens hopp från C sex: två rutor åt ett håll och en åt sidan. Kan den nå E fem?
+
+### lesson-spot-threat-success.mp3
+
+**Användning:** Vem hotar damen?: förklaring efter rätt svar.
+
+Springaren på C sex hotar damen! Den kan hoppa till E fem. Titta efter motståndarens hot innan du väljer ditt drag.
+
+### lesson-rescue-rook-intro.mp3
+
+**Användning:** Rädda tornet: uppdrag.
+
+Svarts torn på A åtta hotar ditt torn på A ett. Rädda ditt torn så att svart inte kan ta det direkt efter ditt drag. Du kan flytta undan eller ta pjäsen som hotar. Det finns flera lösningar.
+
+### lesson-rescue-rook-hint.mp3
+
+**Användning:** Rädda tornet: ledtråd.
+
+På A-linjen kan svarts torn fortfarande nå ditt torn. Undersök en annan linje, eller ta tornet på A åtta.
+
+### lesson-rescue-rook-success.mp3
+
+**Användning:** Rädda tornet: förklaring efter rätt svar.
+
+Ditt torn kan inte tas direkt! Du kan rädda en pjäs genom att flytta undan eller ta pjäsen som hotar, om din egen pjäs står säkert efteråt.
+
+### lesson-rescue-queen-intro.mp3
+
+**Användning:** Rädda damen: uppdrag.
+
+Springaren på C sex hotar din dam på E fem. Flytta damen till en ruta där ingen svart pjäs kan ta henne direkt efteråt. Titta efter både springarens hopp och kungens närmaste rutor. Det finns flera lösningar.
+
+### lesson-rescue-queen-hint.mp3
+
+**Användning:** Rädda damen: ledtråd.
+
+Damen kan till exempel flytta rakt nedåt längs E-linjen. Kontrollera om springaren eller kungen kan nå rutan du väljer.
+
+### lesson-rescue-queen-success.mp3
+
+**Användning:** Rädda damen: förklaring efter rätt svar.
+
+Damen kom undan hotet! Ingen svart pjäs kan ta henne direkt på den nya rutan. Efter en flytt behöver du undersöka hoten igen.
+
+### lesson-rescue-knight-intro.mp3
+
+**Användning:** Rädda svarts springare: uppdrag.
+
+Nu spelar du svart. Vits bonde på E fem hotar din springare på F sex. Flytta springaren så att ingen vit pjäs kan ta den direkt efteråt. Se också upp för den vita kungen på F tre. Det finns flera lösningar.
+
+### lesson-rescue-knight-hint.mp3
+
+**Användning:** Rädda svarts springare: ledtråd.
+
+Springaren hoppar i ett L. E fyra och G fyra ligger intill vits kung. Undersök en annan landningsruta.
+
+### lesson-rescue-knight-success.mp3
+
+**Användning:** Rädda svarts springare: förklaring efter rätt svar.
+
+Springaren står säkert efter hoppet! Bonden når den inte längre, och den står inte intill vits kung. Även när du spelar svart behöver du leta efter motståndarens hot.
+
+### lesson-safe-capture-intro.mp3
+
+**Användning:** Ta en pjäs – men se upp: uppdrag.
+
+Din löpare på D tre kan ta bonden på C fyra eller tornet på H sju. Ta den pjäs som löparen kan ta utan att själv kunna tas direkt efteråt. Titta på svarts kung innan du väljer.
+
+### lesson-safe-capture-hint.mp3
+
+**Användning:** Ta en pjäs – men se upp: ledtråd.
+
+Kungen på G åtta skyddar tornet på H sju. Vem skyddar bonden på C fyra?
+
+### lesson-safe-capture-success.mp3
+
+**Användning:** Ta en pjäs – men se upp: förklaring efter rätt svar.
+
+Du tog bonden på C fyra! Ingen svart pjäs kan ta löparen direkt där. Tornet på H sju var skyddat av kungen. Undersök motståndarens svar innan du tar en pjäs.

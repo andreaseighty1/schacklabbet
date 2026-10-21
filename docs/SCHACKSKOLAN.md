@@ -1,6 +1,6 @@
 # Schackskolan
 
-Schackskolan har 17 korta lektioner och två separata mattutmaningar. Alla sex pjäsers rörelser introduceras. En öppningsbar text förklarar brädets riktning, startuppställning, rutnamn, vits första drag, turordning, egna pjäser och slag. Eleven kan välja fritt eller följa knappen till nästa lektion efter ett rätt svar.
+Schackskolan har 22 korta lektioner och två separata mattutmaningar. Alla sex pjäsers rörelser introduceras. En öppningsbar text förklarar brädets riktning, startuppställning, rutnamn, vits första drag, turordning, egna pjäser och slag. Eleven kan välja fritt eller följa knappen till nästa lektion efter ett rätt svar.
 
 | Del           | Lektioner                                                                            |
 | ------------- | ------------------------------------------------------------------------------------ |
@@ -27,3 +27,13 @@ Elevernas begriplighet och inspelningarnas uttal behöver fortsatt provas med m�
 ## Rutnamn på brädet
 
 I lektioner och utmaningar visas rutnamn som D4 direkt i varje ruta från början. Eleven kan slå av och på dem med knappen Rutnamn på/av. Valet sparas mellan lektioner och omladdningar. Vanliga partier har ett separat val, med rutnamnen av som standard. Det fungerar även i tävlingsprofilen eftersom rutnamn inte ger dragförslag. Etiketterna följer de faktiska rutorna när brädet vänds, släpper igenom klick och drag och upprepas inte för skärmläsaren. När de är av syns kantens bokstäver och siffror som tidigare.
+
+## Upptäck hot och rädda pjäser
+
+Fem nya uppgifter ligger i en egen fjärde del: Vem hotar damen?, Rädda tornet, Rädda damen, Rädda svarts springare och Ta en pjäs – men se upp. En passant flyttas till del fem. Alla gamla ID:n och avklarade uppgifter behålls.
+
+Räddningsuppgifterna anger uttryckligen att den flyttade pjäsen inte ska kunna tas direkt efter draget. Samtliga drag som uppfyller det målet godtas: 7 för tornet, 23 för damen och 6 för springaren. Det är inte en motorbedömning av hela ställningen eller en garanti för senare drag. I tornuppgiften kan eleven också ta angriparen. Säkert slag-uppgiften jämför en oskyddad bonde med ett torn som skyddas av kungen. Frågeuppgiften godtar endast springaren som verklig angripare av damen.
+
+Ställningar, samtliga svar och frånvaron av direkta lagliga återslag verifieras med regelmotorn. Felaktiga lagliga försök lämnar brädet oförändrat och ger en förklaring för just uppgiften. Svarts springare visas från svarts sida. Rutnamn, ledtrådar, hjälppunkter, slagringar, tangentbord och pekskärm fungerar som tidigare. Upprepad lösning ger inte dubbla framsteg och ordinarie parti behålls.
+
+De nya lektionerna använder tills vidare text. 15 färdiga inspelningsmanus finns i audio/TAKTIK-MANUS.md, med exakta filnamn och rena texter i audio/elevenlabs-input/taktik/. Inga saknade MP3-filer anropas. De 64 levererade ljuden behålls oförändrade.

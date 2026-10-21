@@ -157,7 +157,7 @@ test("prova förslag med hjälprutor utan att ändra parti eller framsteg", asyn
   await expect(training).toContainText("ta din dam på E5");
   await press(
     training.getByRole("button", {
-      name: "Öva: Damen går rakt och snett",
+      name: "Öva: Ta en pjäs – men se upp",
       exact: true,
     }),
     Boolean(hasTouch),
@@ -167,11 +167,11 @@ test("prova förslag med hjälprutor utan att ändra parti eller framsteg", asyn
   ).toContainText("ta din dam på E5");
   expect(await stored(page)).toEqual(saved);
   await press(
-    page.getByRole("button", { name: /^d2, vit dam/ }),
+    page.getByRole("button", { name: /^d3, vit löpare/ }),
     Boolean(hasTouch),
   );
   await press(
-    page.getByRole("button", { name: /^g5, svart bonde/ }),
+    page.getByRole("button", { name: /^c4, svart bonde/ }),
     Boolean(hasTouch),
   );
   await expect(
@@ -190,10 +190,10 @@ test("prova förslag med hjälprutor utan att ändra parti eller framsteg", asyn
   ).toHaveCount(0);
   const afterPractice = await stored(page);
   expect(afterPractice[0]).toBe(saved[0]);
-  expect(JSON.parse(afterPractice[1]!).completed).toContain("queen");
+  expect(JSON.parse(afterPractice[1]!).completed).toContain("safe-capture");
   await press(
     training.getByRole("button", {
-      name: "Öva: Damen går rakt och snett",
+      name: "Öva: Ta en pjäs – men se upp",
       exact: true,
     }),
     Boolean(hasTouch),

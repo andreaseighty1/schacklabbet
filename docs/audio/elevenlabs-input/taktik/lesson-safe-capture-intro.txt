@@ -1,0 +1,1 @@
+Din löpare på D tre kan ta bonden på C fyra eller tornet på H sju. Ta den pjäs som löparen kan ta utan att själv kunna tas direkt efteråt. Titta på svarts kung innan du väljer.

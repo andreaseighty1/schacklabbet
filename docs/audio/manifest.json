@@ -847,6 +847,141 @@
       "trigger": "Förklaring efter rätt svar: Extra: en passant",
       "text": "Du gjorde en passant! Din bonde står på D sex och bonden på D fem är borta. Om du väljer ett annat drag försvinner chansen att ta just den bonden på det här sättet.",
       "notes": "Ljudfilen är levererad och inkopplad. Manuset är inte en verifierad transkription av inspelningen."
+    },
+    {
+      "id": "lesson-spot-threat-intro",
+      "priority": "TAKTIK",
+      "phase": "current",
+      "lessonId": "spot-threat",
+      "cue": "intro",
+      "trigger": "Vem hotar damen?: uppdrag",
+      "text": "Nu är det vits tur. Din dam står på E fem. Vilken svart pjäs kan ta damen om du låter henne stå kvar? Välj ett svar under brädet."
+    },
+    {
+      "id": "lesson-spot-threat-hint",
+      "priority": "TAKTIK",
+      "phase": "current",
+      "lessonId": "spot-threat",
+      "cue": "hint",
+      "trigger": "Vem hotar damen?: ledtråd",
+      "text": "Följ springarens hopp från C sex: två rutor åt ett håll och en åt sidan. Kan den nå E fem?"
+    },
+    {
+      "id": "lesson-spot-threat-success",
+      "priority": "TAKTIK",
+      "phase": "current",
+      "lessonId": "spot-threat",
+      "cue": "success",
+      "trigger": "Vem hotar damen?: förklaring efter rätt svar",
+      "text": "Springaren på C sex hotar damen! Den kan hoppa till E fem. Titta efter motståndarens hot innan du väljer ditt drag."
+    },
+    {
+      "id": "lesson-rescue-rook-intro",
+      "priority": "TAKTIK",
+      "phase": "current",
+      "lessonId": "rescue-rook",
+      "cue": "intro",
+      "trigger": "Rädda tornet: uppdrag",
+      "text": "Svarts torn på A åtta hotar ditt torn på A ett. Rädda ditt torn så att svart inte kan ta det direkt efter ditt drag. Du kan flytta undan eller ta pjäsen som hotar. Det finns flera lösningar."
+    },
+    {
+      "id": "lesson-rescue-rook-hint",
+      "priority": "TAKTIK",
+      "phase": "current",
+      "lessonId": "rescue-rook",
+      "cue": "hint",
+      "trigger": "Rädda tornet: ledtråd",
+      "text": "På A-linjen kan svarts torn fortfarande nå ditt torn. Undersök en annan linje, eller ta tornet på A åtta."
+    },
+    {
+      "id": "lesson-rescue-rook-success",
+      "priority": "TAKTIK",
+      "phase": "current",
+      "lessonId": "rescue-rook",
+      "cue": "success",
+      "trigger": "Rädda tornet: förklaring efter rätt svar",
+      "text": "Ditt torn kan inte tas direkt! Du kan rädda en pjäs genom att flytta undan eller ta pjäsen som hotar, om din egen pjäs står säkert efteråt."
+    },
+    {
+      "id": "lesson-rescue-queen-intro",
+      "priority": "TAKTIK",
+      "phase": "current",
+      "lessonId": "rescue-queen",
+      "cue": "intro",
+      "trigger": "Rädda damen: uppdrag",
+      "text": "Springaren på C sex hotar din dam på E fem. Flytta damen till en ruta där ingen svart pjäs kan ta henne direkt efteråt. Titta efter både springarens hopp och kungens närmaste rutor. Det finns flera lösningar."
+    },
+    {
+      "id": "lesson-rescue-queen-hint",
+      "priority": "TAKTIK",
+      "phase": "current",
+      "lessonId": "rescue-queen",
+      "cue": "hint",
+      "trigger": "Rädda damen: ledtråd",
+      "text": "Damen kan till exempel flytta rakt nedåt längs E-linjen. Kontrollera om springaren eller kungen kan nå rutan du väljer."
+    },
+    {
+      "id": "lesson-rescue-queen-success",
+      "priority": "TAKTIK",
+      "phase": "current",
+      "lessonId": "rescue-queen",
+      "cue": "success",
+      "trigger": "Rädda damen: förklaring efter rätt svar",
+      "text": "Damen kom undan hotet! Ingen svart pjäs kan ta henne direkt på den nya rutan. Efter en flytt behöver du undersöka hoten igen."
+    },
+    {
+      "id": "lesson-rescue-knight-intro",
+      "priority": "TAKTIK",
+      "phase": "current",
+      "lessonId": "rescue-knight",
+      "cue": "intro",
+      "trigger": "Rädda svarts springare: uppdrag",
+      "text": "Nu spelar du svart. Vits bonde på E fem hotar din springare på F sex. Flytta springaren så att ingen vit pjäs kan ta den direkt efteråt. Se också upp för den vita kungen på F tre. Det finns flera lösningar."
+    },
+    {
+      "id": "lesson-rescue-knight-hint",
+      "priority": "TAKTIK",
+      "phase": "current",
+      "lessonId": "rescue-knight",
+      "cue": "hint",
+      "trigger": "Rädda svarts springare: ledtråd",
+      "text": "Springaren hoppar i ett L. E fyra och G fyra ligger intill vits kung. Undersök en annan landningsruta."
+    },
+    {
+      "id": "lesson-rescue-knight-success",
+      "priority": "TAKTIK",
+      "phase": "current",
+      "lessonId": "rescue-knight",
+      "cue": "success",
+      "trigger": "Rädda svarts springare: förklaring efter rätt svar",
+      "text": "Springaren står säkert efter hoppet! Bonden når den inte längre, och den står inte intill vits kung. Även när du spelar svart behöver du leta efter motståndarens hot."
+    },
+    {
+      "id": "lesson-safe-capture-intro",
+      "priority": "TAKTIK",
+      "phase": "current",
+      "lessonId": "safe-capture",
+      "cue": "intro",
+      "trigger": "Ta en pjäs – men se upp: uppdrag",
+      "text": "Din löpare på D tre kan ta bonden på C fyra eller tornet på H sju. Ta den pjäs som löparen kan ta utan att själv kunna tas direkt efteråt. Titta på svarts kung innan du väljer."
+    },
+    {
+      "id": "lesson-safe-capture-hint",
+      "priority": "TAKTIK",
+      "phase": "current",
+      "lessonId": "safe-capture",
+      "cue": "hint",
+      "trigger": "Ta en pjäs – men se upp: ledtråd",
+      "text": "Kungen på G åtta skyddar tornet på H sju. Vem skyddar bonden på C fyra?"
+    },
+    {
+      "id": "lesson-safe-capture-success",
+      "priority": "TAKTIK",
+      "phase": "current",
+      "lessonId": "safe-capture",
+      "cue": "success",
+      "trigger": "Ta en pjäs – men se upp: förklaring efter rätt svar",
+      "text": "Du tog bonden på C fyra! Ingen svart pjäs kan ta löparen direkt där. Tornet på H sju var skyddat av kungen. Undersök motståndarens svar innan du tar en pjäs."
     }
   ]
 }

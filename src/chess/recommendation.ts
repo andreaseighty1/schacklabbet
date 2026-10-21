@@ -58,10 +58,22 @@ export function recommendTraining(
   };
   const possessive = (piece: keyof typeof lessons) =>
     piece === "r" ? "ditt" : "din";
+  if (reply?.captured && played.captured && captureSquare(reply) === played.to)
+    return {
+      exerciseId: "safe-capture",
+      reason: `Du tog en pjäs. Motståndaren kunde sedan ta ${possessive(reply.captured)} ${pieceNames[reply.captured]} på ${captureSquare(reply).toUpperCase()}. Öva på att undersöka om din pjäs står säkert efter ett slag.`,
+    };
   if (reply?.captured)
     return {
-      exerciseId: lessons[reply.captured],
-      reason: `Efter ditt drag kunde motståndaren ta ${possessive(reply.captured)} ${pieceNames[reply.captured]} på ${captureSquare(reply).toUpperCase()}. Repetera hur den pjäsen kan röra sig och titta efter hot innan du flyttar.`,
+      exerciseId:
+        (
+          {
+            q: "rescue-queen",
+            r: "rescue-rook",
+            n: "rescue-knight",
+          } as Partial<Record<keyof typeof lessons, string>>
+        )[reply.captured] ?? lessons[reply.captured],
+      reason: `Efter ditt drag kunde motståndaren ta ${possessive(reply.captured)} ${pieceNames[reply.captured]} på ${captureSquare(reply).toUpperCase()}. Öva på att leta efter hot och en säker ruta.${reply.captured === "n" ? " I den här övningen spelar du svart." : ""}`,
     };
   return {
     exerciseId: lessons[suggested.piece],
