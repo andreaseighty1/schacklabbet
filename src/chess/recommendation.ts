@@ -56,13 +56,15 @@ export function recommendTraining(
     q: "queen",
     k: "king",
   };
+  const possessive = (piece: keyof typeof lessons) =>
+    piece === "r" ? "ditt" : "din";
   if (reply?.captured)
     return {
       exerciseId: lessons[reply.captured],
-      reason: `Efter ditt drag kunde motståndaren ta din ${pieceNames[reply.captured]} på ${captureSquare(reply).toUpperCase()}. Repetera hur den pjäsen kan röra sig och titta efter hot innan du flyttar.`,
+      reason: `Efter ditt drag kunde motståndaren ta ${possessive(reply.captured)} ${pieceNames[reply.captured]} på ${captureSquare(reply).toUpperCase()}. Repetera hur den pjäsen kan röra sig och titta efter hot innan du flyttar.`,
     };
   return {
     exerciseId: lessons[suggested.piece],
-    reason: `Datorn hittade ett annat drag med din ${pieceNames[suggested.piece]}. Repetera hur den pjäsen kan röra sig och jämför med förslaget från partiet.`,
+    reason: `Datorn hittade ett annat drag med ${possessive(suggested.piece)} ${pieceNames[suggested.piece]}. Repetera hur den pjäsen kan röra sig och jämför med förslaget från partiet.`,
   };
 }

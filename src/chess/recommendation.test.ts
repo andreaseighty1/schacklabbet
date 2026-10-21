@@ -76,5 +76,9 @@ describe("träningstips från granskad ställning", () => {
     );
     expect(tip?.exerciseId).toBe("knight");
     expect(tip?.reason).toContain("springare");
+    const rook = recommendTraining(
+      example("7k/6b1/8/8/8/8/8/1R5K w - - 0 1", "b1a1", "b1c1", "g7a1"),
+    );
+    expect(rook?.reason).toContain("ta ditt torn på A1");
   });
 });
