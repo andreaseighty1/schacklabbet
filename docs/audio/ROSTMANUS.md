@@ -4,7 +4,7 @@ Det här är ett inspelningsunderlag. De 25 P1-filerna är inkopplade i appens l
 
 ## Börja här
 
-Gör först ett röstprov med `start-welcome.mp3`, `lesson-knight-intro.mp3` och `game-player-check.mp3`. När röst och uttal känns rätt, fortsätt med P1. P2 kan göras därefter. Vänta med P3: funktionerna för klocka och multiplayer är ännu inte implementerade.
+Gör först ett röstprov med `start-welcome.mp3`, `lesson-knight-intro.mp3` och `game-player-check.mp3`. När röst och uttal känns rätt, fortsätt med P1. P2 kan göras därefter. Vänta med P3 tills nästa ljudomgång: schackklockan fungerar nu i text, men dess repliker är inte inkopplade. Multiplayer återstår.
 
 Varje textfil i `elevenlabs-input/` innehåller endast orden som ska sägas. Ladda upp eller klistra in innehållet i ElevenLabs och spara ljudet med samma basnamn, men ändelsen `.mp3`. Exempel: `lesson-rook-intro.txt` → `lesson-rook-intro.mp3`.
 
@@ -349,7 +349,7 @@ Din första vinst! Du har låst upp en ny medalj. Vad vill du prova härnäst?
 
 Du har löst båda mattproblemen och blivit en mattdetektiv. Din nya medalj finns bland dina framsteg.
 
-## P3 – framtida funktioner – vänta med inspelning (10 filer)
+## P3 – senare ljudomgång – vänta med inspelning (10 filer)
 
 ### clock-start-ten-minutes.mp3
 

@@ -1781,7 +1781,7 @@ export default function App() {
           </div>
           <p className="fine-print">
             {draft.timeControl
-              ? "Din klocka går när det är din tur. Den fortsätter vid tips, dialoger, sidbyte och omladdning. Ångra ger inte tillbaka använd tid."
+              ? "Klockan går när det är din tur, även när du läser tips eller lämnar spelsidan. Att ladda om spelet eller ångra ett drag ger inte tillbaka tid."
               : "Ingen klocka räknar ner. Du kan ta den tid du behöver."}
           </p>
           <label className="field-label" htmlFor="profile">
