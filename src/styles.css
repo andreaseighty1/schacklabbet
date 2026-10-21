@@ -944,7 +944,7 @@ a {
   border-radius: 0;
   touch-action: manipulation;
 }
-@media (pointer: coarse) {
+@media (any-pointer: coarse) {
   .button,
   .icon-button,
   .text-button,
