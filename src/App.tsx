@@ -75,6 +75,13 @@ import {
 } from "./storage";
 import { exercises, type Exercise } from "./content";
 import { checkSupabase } from "./supabase";
+import { TrainingSession, TrainingHistory } from "./components/TrainingSession";
+import {
+  emptyTraining,
+  readTraining,
+  trainingKey,
+  type TrainingState,
+} from "./training";
 
 type View =
   | "home"
@@ -83,6 +90,7 @@ type View =
   | "challenges"
   | "tournament"
   | "progress"
+  | "session"
   | "friends";
 type Config = {
   color: Color;
@@ -105,6 +113,7 @@ const navItems: { id: View; label: string; icon: typeof Home }[] = [
   { id: "home", label: "Översikt", icon: Home },
   { id: "play", label: "Spela schack", icon: Swords },
   { id: "school", label: "Schackskolan", icon: BookOpen },
+  { id: "session", label: "Ditt nybörjarpass", icon: Lightbulb },
   { id: "challenges", label: "Utmaningar", icon: Target },
   { id: "friends", label: "Spela med en kompis", icon: Users },
   { id: "tournament", label: "Schackfyran-träning", icon: Trophy },
@@ -117,10 +126,12 @@ function initialView(): View {
 function loadInitial(): {
   saved: SavedGame | null;
   progress: Progress;
+  training: TrainingState;
   warning: string;
 } {
   let saved: SavedGame | null = null;
   let progress = emptyProgress();
+  let training = emptyTraining();
   const errors: string[] = [];
   try {
     saved = readGame(localStorage);
@@ -134,7 +145,14 @@ function loadInitial(): {
   } catch {
     errors.push("Sparade framsteg kunde inte läsas.");
   }
-  return { saved, progress, warning: errors.join(" ") };
+  try {
+    training = readTraining(localStorage);
+  } catch {
+    errors.push(
+      "Det sparade träningspasset kunde inte läsas. Du kan börja ett nytt.",
+    );
+  }
+  return { saved, progress, training, warning: errors.join(" ") };
 }
 function Logo() {
   return (
@@ -311,6 +329,7 @@ export default function App() {
   const [hintBusy, setHintBusy] = useState(false);
   const hintAbort = useRef<AbortController | null>(null);
   const [progress, setProgress] = useState<Progress>(initial.progress);
+  const [training, setTraining] = useState<TrainingState>(initial.training);
   const [exercise, setExercise] = useState<Exercise | null>(null);
   const [replay, setReplay] = useState<number | null>(null);
   const [mobileMenu, setMobileMenu] = useState(false);
@@ -445,6 +464,15 @@ export default function App() {
       setWarning("Framstegen kunde inte sparas i den här webbläsaren.");
     }
   }, [progress]);
+  useEffect(() => {
+    try {
+      localStorage.setItem(trainingKey, JSON.stringify(training));
+    } catch {
+      setWarning(
+        "Träningspasset kunde inte sparas i den här webbläsaren. Behåll fliken öppen för att fortsätta.",
+      );
+    }
+  }, [training]);
   useEffect(() => {
     if (!hasGame || !terminal) return;
     const won =
@@ -925,6 +953,38 @@ export default function App() {
                 clip="start-welcome"
                 label="Lyssna på välkomsten"
               />
+              <section
+                className="session-home-card"
+                aria-label="Ett nybörjarpass i din takt"
+              >
+                <span className="card-icon sage">
+                  <Lightbulb />
+                </span>
+                <div>
+                  <span className="card-kicker">UNGEFÄR 10 MINUTER</span>
+                  <h2>Tre små schackuppdrag</h2>
+                  <p>
+                    Upptäck tornet, skydda kungen och hitta schackmatt. Du kan
+                    pausa och fortsätta senare.
+                  </p>
+                  {training.current && (
+                    <p>
+                      {training.current.solutions.length} av 3 uppdrag klara.
+                    </p>
+                  )}
+                </div>
+                <button
+                  className="button primary"
+                  onClick={() => navigate("session")}
+                >
+                  {training.current
+                    ? training.current.finishedAt !== null
+                      ? "Visa ditt senaste pass"
+                      : "Fortsätt nybörjarpasset"
+                    : "Starta nybörjarpass"}
+                  <ArrowRight size={17} />
+                </button>
+              </section>
               <div className="section-heading">
                 <h2>Vad vill du upptäcka idag?</h2>
                 <span>Det finns inget fel ställe att börja.</span>
@@ -1447,6 +1507,15 @@ export default function App() {
               </div>
             </>
           )}
+          {view === "session" && (
+            <TrainingSession
+              state={training}
+              update={setTraining}
+              voice={voice}
+              onCompleteExercise={completeExercise}
+              onPause={() => navigate("home")}
+            />
+          )}
           {(view === "school" || view === "challenges") && (
             <>
               {exercise ? (
@@ -1580,7 +1649,7 @@ export default function App() {
                   {
                     label: "Lektioner klara",
                     value: schoolDone,
-                    total: "av 4",
+                    total: `av ${exercises.filter((e) => e.category === "school").length}`,
                     icon: BookOpen,
                   },
                   {
@@ -1639,6 +1708,7 @@ export default function App() {
                   </div>
                 ))}
               </div>
+              <TrainingHistory state={training} />
               <div className="notice">
                 <ShieldCheck size={21} />
                 <p>

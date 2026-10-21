@@ -84,6 +84,8 @@ a {
   z-index: 20;
   display: flex;
   flex-direction: column;
+  overflow-y: auto;
+  scrollbar-width: thin;
 }
 .brand-link {
   text-decoration: none;
@@ -1792,6 +1794,153 @@ a {
   text-align: center;
   margin-top: 12px;
   color: #526147;
+}
+.board-help-legend {
+  font-size: 12px;
+  line-height: 1.7;
+  margin-top: 8px;
+  color: #526147;
+}
+.session-home-card {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
+  border: 1px solid #dce4ce;
+  border-radius: 14px;
+  padding: 24px;
+  margin: 24px 0;
+  background: #f0f4e6;
+}
+.session-home-card > div {
+  flex: 1;
+  min-width: 210px;
+}
+.session-home-card h2 {
+  font-size: 22px;
+  margin: 6px 0;
+}
+.session-home-card p {
+  font-size: 13px;
+  line-height: 1.7;
+}
+.session-home-card .button {
+  white-space: normal;
+}
+.beginner-session,
+.session-history {
+  max-width: 850px;
+  padding: 28px;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  background: #fffef9;
+}
+.beginner-session h2,
+.session-history h2 {
+  font-size: 23px;
+  margin-bottom: 12px;
+}
+.session-step-list {
+  list-style: none;
+  padding: 0;
+  margin: 22px 0;
+  display: grid;
+  gap: 18px;
+}
+.session-step-list li {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 14px;
+  background: #f4f6ed;
+  border-radius: 10px;
+}
+.session-step-list li[aria-current="step"] {
+  box-shadow: inset 0 0 0 2px #799260;
+}
+.session-step-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: #e3ebd6;
+  font-weight: 650;
+}
+.session-step-icon.done {
+  background: #31543d;
+  color: white;
+}
+.session-step-list h3 {
+  font-size: 16px;
+  margin: 0 0 5px;
+}
+.session-step-list p,
+.session-guidance,
+.session-history p {
+  font-size: 14px;
+  line-height: 1.8;
+}
+.session-step-list li div > span {
+  display: block;
+  font-size: 12px;
+  color: #526147;
+  margin-top: 5px;
+}
+.session-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  align-items: center;
+  margin-top: 24px;
+}
+.training-step-status {
+  background: #edf2e3;
+  border-radius: 8px;
+  padding: 12px 16px;
+  margin-bottom: 18px;
+  font-size: 13px;
+  line-height: 1.7;
+}
+.session-history {
+  margin-top: 28px;
+}
+.session-history ol {
+  list-style: none;
+  padding: 0;
+  margin: 16px 0 0;
+}
+.session-history li {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+  border-top: 1px solid var(--border);
+  padding: 14px 0;
+  font-size: 13px;
+}
+.session-history time {
+  margin-left: auto;
+  color: #526147;
+}
+@media (max-width: 690px) {
+  .session-home-card,
+  .beginner-session,
+  .session-history {
+    padding: 18px;
+  }
+  .session-step-list li {
+    padding: 12px;
+    gap: 10px;
+  }
+  .session-home-card .button,
+  .session-actions .button {
+    width: 100%;
+    justify-content: center;
+    white-space: normal;
+  }
 }
 .lesson-answers {
   display: grid;

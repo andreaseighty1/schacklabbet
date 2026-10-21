@@ -30,6 +30,14 @@ export function Board({
   const ranks =
     orientation === "w" ? [8, 7, 6, 5, 4, 3, 2, 1] : [1, 2, 3, 4, 5, 6, 7, 8];
   const check = game.isCheck() ? kingSquare(game, game.turn()) : undefined;
+  const captures = new Set(
+    selected
+      ? game
+          .moves({ square: selected, verbose: true })
+          .filter((move) => move.isCapture() || move.isEnPassant())
+          .map((move) => move.to)
+      : [],
+  );
   return (
     <div className="board-frame">
       <div
@@ -112,7 +120,13 @@ export function Board({
                 {col === 0 && <span className="rank-label">{rank}</span>}
                 {row === 7 && <span className="file-label">{file}</span>}
                 {p && <Piece type={p.type} color={p.color} />}
-                {isLegal && <span className={p ? "capture-dot" : "move-dot"} />}
+                {isLegal && (
+                  <span
+                    className={
+                      captures.has(square) ? "capture-dot" : "move-dot"
+                    }
+                  />
+                )}
                 {danger && <span className="danger-mark">!</span>}
               </button>
             );

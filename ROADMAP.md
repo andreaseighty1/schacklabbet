@@ -30,7 +30,7 @@
 - [ ] Fler kuraterade uppgifter, alternativa korrekta lösningar och flerstegsproblem.
 - [ ] Motorbaserad efteranalys med dokumenterade gränser för misstag och materialtapp.
 - [ ] Personliga träningsförslag utifrån riktiga analysresultat.
-- [ ] Sammanhållet 5–15-minuterspass med återkoppling och sparad passhistorik.
+- [x] Nybörjarpass med tre uppdrag, ungefär 10 minuter utan nedräkning, återkoppling, paus/återupptagning och sparad passhistorik.
 - [x] Valfri schackklocka (utan tid, 15 eller 10 minuter var), tidsavslut, sparad tid och återställning. Materialbaserad remikontroll; fullständiga ställningsspecifika specialfall återstår, se docs/CLOCK.md.
 - [x] Inspelningsmanus med exakta filnamn för de ursprungliga sex övningarna och gemensamma spelhändelser. Ytterligare 39 manus finns för de 13 nya grundlektionerna.
 - [x] Första omgångens 25 P1-filer och de nya grundlektionernas 39 SKOLA-filer levererade och inkopplade.

@@ -13,6 +13,7 @@ Ett gratis, reklamfritt schackspel på svenska för nyfikna elever, framför all
 - Pågående parti och historik sparas lokalt. Ångra i stödprofiler, ge upp, slutresultat, genomspelning och PGN-export.
 - Valfri schackklocka: utan tid som standard, 15 eller 10 minuter per spelare. Tidsavslut, sparad tid och återställning vid nytt parti. Se [klockans beteende och regelgränser](docs/CLOCK.md).
 - 17 korta lektioner om alla sex pjäser, schack, rockad, matt, patt och en passant, två verifierade mattproblem, lokala medaljer och en enkel väg genom tävlingsträningen.
+- Nybörjarpass med tre uppdrag, paus/återupptagning, återkoppling och lokal passhistorik. Se [nybörjarpasset](docs/NYBORJARPASS.md).
 - Supabase-inställningar kan kontrolleras på kompis-sidan, utan att något elevkonto skapas.
 
 Privata nätpartier och motorbaserad efteranalys av misstag är **inte implementerade**. Kompis-sidan märker multiplayer som kommande. Ingen klient kan skriva speldata till Supabase i denna version.

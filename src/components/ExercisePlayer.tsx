@@ -10,7 +10,7 @@ import {
 import type { Exercise } from "../content";
 import type { Voice } from "../audio/useVoice";
 import { exerciseClip } from "../audio/clips";
-import { pieceNames, type Promotion } from "../chess/model";
+import { pieceNames, playUci, type Promotion } from "../chess/model";
 import { Board } from "./Board";
 import { Piece } from "./Piece";
 import { ListenButton, PlaybackControls } from "./VoiceControls";
@@ -24,24 +24,37 @@ export function ExercisePlayer({
   onBack,
   nextExercise,
   onNext,
+  savedSolution,
+  backLabel,
 }: {
   exercise: Exercise;
   voice: Voice;
   completed: boolean;
-  onComplete: () => void;
+  onComplete: (solution?: string) => void;
   onBack: () => void;
   nextExercise?: Exercise;
   onNext: () => void;
+  savedSolution?: string;
+  backLabel?: string;
 }) {
-  const [game, setGame] = useState(() => new Chess(exercise.fen));
+  const restoredSolution = exercise.solutions.includes(savedSolution ?? "")
+    ? savedSolution
+    : undefined;
+  const [game, setGame] = useState(() => {
+    const initial = new Chess(exercise.fen);
+    if (restoredSolution) playUci(initial, restoredSolution);
+    return initial;
+  });
   const [showSquareNames, toggleSquareNames] = useSquareNames("lesson");
   const [selected, setSelected] = useState<Square | null>(null);
   const [feedback, setFeedback] = useState(
-    exercise.question
-      ? "Titta på brädet och välj ett svar."
-      : "Prova en idé på brädet.",
+    restoredSolution
+      ? exercise.success
+      : exercise.question
+        ? "Titta på brädet och välj ett svar."
+        : "Prova en idé på brädet.",
   );
-  const [solved, setSolved] = useState(false);
+  const [solved, setSolved] = useState(Boolean(restoredSolution));
   const [showHint, setShowHint] = useState(false);
   const [answer, setAnswer] = useState<number | null>(null);
   const [promotion, setPromotion] = useState<{
@@ -58,7 +71,7 @@ export function ExercisePlayer({
     if (promotion) promotionChoices.current?.querySelector("button")?.focus();
   }, [promotion]);
   const clip = exerciseClip(exercise.id, solved ? "success" : "intro");
-  function finish() {
+  function finish(solution?: string) {
     voice.player.reset();
     setSolved(true);
     setSelected(null);
@@ -66,7 +79,7 @@ export function ExercisePlayer({
     setFeedback(exercise.success);
     const successClip = exerciseClip(exercise.id, "success");
     if (successClip) voice.player.play(successClip);
-    onComplete();
+    onComplete(solution);
   }
   function apply(from: Square, to: Square, promote?: Promotion) {
     if (solved) return;
@@ -75,7 +88,7 @@ export function ExercisePlayer({
       const copy = new Chess(game.fen());
       copy.move({ from, to, promotion: promote });
       setGame(copy);
-      finish();
+      finish(uci);
     } else {
       setFeedback(
         "Det är ett lagligt drag, men det löser inte just den här uppgiften. Försök med en annan idé.",
@@ -116,8 +129,8 @@ export function ExercisePlayer({
     <>
       <button className="text-button back-link" onClick={onBack}>
         <ArrowLeft size={17} />
-        Tillbaka till{" "}
-        {exercise.category === "school" ? "schackskolan" : "utmaningarna"}
+        {backLabel ??
+          `Tillbaka till ${exercise.category === "school" ? "schackskolan" : "utmaningarna"}`}
       </button>
       <div className="page-heading">
         <div>
@@ -164,6 +177,12 @@ export function ExercisePlayer({
               ? "Du ser brädet från svarts sida."
               : "Du ser brädet från vits sida."}
           </p>
+          {!exercise.question && !solved && (
+            <p className="board-help-legend">
+              Välj en pjäs. Punkter visar möjliga drag. En ring visar var du kan
+              ta en pjäs.
+            </p>
+          )}
         </div>
         <section className="exercise-panel">
           <span className="card-icon sage">

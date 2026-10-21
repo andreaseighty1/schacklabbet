@@ -221,6 +221,10 @@ test("en passant tar bort bonden från rätt ruta och nybörjarhjälpen förklar
     "ljus ruta längst ner till höger",
   );
   await page.getByRole("button", { name: /Extra: en passant/ }).click();
+  await page.getByRole("button", { name: /^e5, vit bonde/ }).click();
+  await expect(
+    page.getByRole("button", { name: /^d6,/ }).locator(".capture-dot"),
+  ).toBeVisible();
   await move(page, "e5", "d6");
   await complete(page);
   await expect(
