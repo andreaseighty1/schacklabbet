@@ -50,7 +50,10 @@ test("inställningar nås i menyn, minns färger och behåller parti och framste
   await expect(
     page.getByRole("img", { name: "Förhandsvisning av valt bräde och pjäser" }),
   ).toBeVisible();
-  const picker = page.getByLabel("Bräde och pjäser", { exact: true });
+  const picker = page.getByRole("combobox", {
+    name: "Bräde och pjäser",
+    exact: true,
+  });
   await expect(picker).toHaveValue("classic");
   await picker.selectOption("green");
   await page.reload();
