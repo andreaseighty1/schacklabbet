@@ -36,6 +36,10 @@ import {
   PlaybackControls,
 } from "./components/VoiceControls";
 import { Board } from "./components/Board";
+import {
+  SquareNamesToggle,
+  useSquareNames,
+} from "./components/SquareNamesToggle";
 import { Piece } from "./components/Piece";
 import { LessonCatalog } from "./components/LessonCatalog";
 import { MoveLabel } from "./components/MoveLabel";
@@ -286,6 +290,7 @@ export default function App() {
   const [orientation, setOrientation] = useState<Color>(config.color);
   const [selected, setSelected] = useState<Square | null>(null);
   const [showMoves, setShowMoves] = useState(true);
+  const [showSquareNames, toggleSquareNames] = useSquareNames("game");
   const [showThreats, setShowThreats] = useState(false);
   const [busy, setBusy] = useState(false);
   const [engineError, setEngineError] = useState("");
@@ -1111,6 +1116,7 @@ export default function App() {
                   </div>
                   <Board
                     game={displayedGame}
+                    showSquareNames={showSquareNames}
                     orientation={orientation}
                     selected={selected}
                     legal={legal}
@@ -1170,6 +1176,10 @@ export default function App() {
                     >
                       <FlipVertical2 size={17} /> Vänd brädet
                     </button>
+                    <SquareNamesToggle
+                      enabled={showSquareNames}
+                      onToggle={toggleSquareNames}
+                    />
                     {!competition && (
                       <button
                         className="text-button"
@@ -1965,6 +1975,7 @@ export default function App() {
               <div className="risk-preview">
                 <Board
                   game={riskPosition!}
+                  showSquareNames={showSquareNames}
                   orientation={config.color}
                   selected={risk.attackers[0].from}
                   highlight={[risk.attackers[0].to]}

@@ -995,6 +995,40 @@ a {
   z-index: 3;
   pointer-events: none;
 }
+.square-name {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  z-index: 4;
+  pointer-events: none;
+  background: #fffdf0ed;
+  color: #213d32;
+  padding: 2px 3px;
+  border-radius: 3px;
+  font-size: clamp(9px, 1.05vw, 12px);
+  font-weight: 750;
+  line-height: 1;
+}
+.with-square-names .rank-label,
+.with-square-names .file-label {
+  display: none;
+}
+.lesson-board-options {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 5px 12px;
+  margin-bottom: 10px;
+}
+.lesson-board-options > span {
+  font-size: 11px;
+  color: #526147;
+}
+.square-names-toggle[aria-pressed="true"] {
+  color: #31543d;
+  font-weight: 650;
+}
 .file-label {
   bottom: 2px;
   right: 3px;
@@ -1172,7 +1206,8 @@ a {
 .board-controls {
   display: flex;
   align-items: center;
-  gap: 18px;
+  gap: 12px;
+  flex-wrap: wrap;
   padding-top: 12px;
   min-height: 35px;
 }

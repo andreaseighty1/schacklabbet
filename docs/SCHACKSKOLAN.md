@@ -20,6 +20,10 @@ Regelförklaringarna gäller grundläggande spelregler enligt [FIDE:s schackregl
 
 De gamla övnings-ID:na är bevarade. Tidigare avklarade lektioner, medaljer, spelade partier och vinster behålls. Andelen avklarade övningar räknas mot den utökade katalogen. Ingen databas eller nytt konto behövs.
 
-De ursprungliga sex övningarna har fortsatt sina 18 inspelade repliker. De 13 nya har **39 nya manus** i paketet `SKOLA`: ett uppdrag, en ledtråd och en förklaring per lektion. Filnamn och repliker finns i [inspelningsmanuset](audio/GRUNDLEKTIONER-MANUS.md). Rutnamn skrivs exempelvis ”D fyra”. De nya ljuden hämtas inte innan filerna levererats och kopplats in. Gemensamma befintliga felrepliker kan användas om eleven har slagit på rösten.
+De ursprungliga sex övningarna har fortsatt sina 18 inspelade repliker. De 13 nya har **39 nya manus** i paketet `SKOLA`: ett uppdrag, en ledtråd och en förklaring per lektion. Filnamn och repliker finns i [inspelningsmanuset](audio/GRUNDLEKTIONER-MANUS.md). Rutnamn skrivs exempelvis ”D fyra”. Alla 39 nya ljud är levererade och inkopplade, med samma elevstyrda uppspelning som tidigare. Inga ljud hämtas innan eleven väljer att lyssna. Gemensamma befintliga felrepliker kan användas om eleven har slagit på rösten.
 
 Elevernas begriplighet och inspelningarnas uttal behöver fortsatt provas med målgruppen. Faktiska tekniska testresultat och publicering dokumenteras i utvecklingsloggen.
+
+## Rutnamn på brädet
+
+I lektioner och utmaningar visas rutnamn som D4 direkt i varje ruta från början. Eleven kan slå av och på dem med knappen Rutnamn på/av. Valet sparas mellan lektioner och omladdningar. Vanliga partier har ett separat val, med rutnamnen av som standard. Det fungerar även i tävlingsprofilen eftersom rutnamn inte ger dragförslag. Etiketterna följer de faktiska rutorna när brädet vänds, släpper igenom klick och drag och upprepas inte för skärmläsaren. När de är av syns kantens bokstäver och siffror som tidigare.

@@ -40,7 +40,7 @@ const lines = [
   "",
   "Det här är ett inspelningsunderlag. De 25 P1-filerna är inkopplade i appens ljudspelare. Manuset är inte en kontrollerad transkription av de levererade inspelningarna.",
   "",
-  "De 13 nya grundlektionerna har ett separat paket med 39 repliker: GRUNDLEKTIONER-MANUS.md, GRUNDLEKTIONER-FILNAMN.txt och rena textfiler i elevenlabs-input/skola/. Dessa ljud är ännu inte levererade eller inkopplade.",
+  "De 13 nya grundlektionerna har ett separat paket med 39 repliker: GRUNDLEKTIONER-MANUS.md, GRUNDLEKTIONER-FILNAMN.txt och rena textfiler i elevenlabs-input/skola/. Alla 39 nya ljudfiler är levererade och inkopplade.",
   "",
   "## Börja här",
   "",
@@ -162,7 +162,7 @@ await writeFile(
   [
     "# Nya grundlektioner – manus för ElevenLabs",
     "",
-    `${schoolBatch.length} nya MP3-filer. Lektionerna fungerar redan med text. Ljuden kopplas in när filerna har levererats. Befintliga P1-filer behöver inte spelas in igen.`,
+    `${schoolBatch.length} nya MP3-filer. Ljudfilerna är levererade och inkopplade. Manuset är inte en verifierad transkription av inspelningarna. Befintliga P1-filer behöver inte spelas in igen.`,
     "",
     "Använd samma lugna svenska röst som tidigare. Läs bara repliken under filnamnet. Spara med exakt filnamn och ändelsen .mp3. Rutnamn skrivs till exempel F fyra och G fem, utan fonetiska omskrivningar. Rena textfiler finns i elevenlabs-input/skola/.",
     "",

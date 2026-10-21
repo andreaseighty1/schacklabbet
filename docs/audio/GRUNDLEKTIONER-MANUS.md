@@ -1,6 +1,6 @@
 # Nya grundlektioner – manus för ElevenLabs
 
-39 nya MP3-filer. Lektionerna fungerar redan med text. Ljuden kopplas in när filerna har levererats. Befintliga P1-filer behöver inte spelas in igen.
+39 nya MP3-filer. Ljudfilerna är levererade och inkopplade. Manuset är inte en verifierad transkription av inspelningarna. Befintliga P1-filer behöver inte spelas in igen.
 
 Använd samma lugna svenska röst som tidigare. Läs bara repliken under filnamnet. Spara med exakt filnamn och ändelsen .mp3. Rutnamn skrivs till exempel F fyra och G fem, utan fonetiska omskrivningar. Rena textfiler finns i elevenlabs-input/skola/.
 

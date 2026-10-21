@@ -14,6 +14,7 @@ import { pieceNames, type Promotion } from "../chess/model";
 import { Board } from "./Board";
 import { Piece } from "./Piece";
 import { ListenButton, PlaybackControls } from "./VoiceControls";
+import { SquareNamesToggle, useSquareNames } from "./SquareNamesToggle";
 
 export function ExercisePlayer({
   exercise,
@@ -33,6 +34,7 @@ export function ExercisePlayer({
   onNext: () => void;
 }) {
   const [game, setGame] = useState(() => new Chess(exercise.fen));
+  const [showSquareNames, toggleSquareNames] = useSquareNames("lesson");
   const [selected, setSelected] = useState<Square | null>(null);
   const [feedback, setFeedback] = useState(
     exercise.question
@@ -132,8 +134,16 @@ export function ExercisePlayer({
       </div>
       <div className="exercise-layout">
         <div className="exercise-board">
+          <div className="lesson-board-options">
+            <SquareNamesToggle
+              enabled={showSquareNames}
+              onToggle={toggleSquareNames}
+            />
+            <span>D4 betyder D-linjen, rad 4.</span>
+          </div>
           <Board
             game={game}
+            showSquareNames={showSquareNames}
             orientation={exercise.orientation ?? "w"}
             selected={selected}
             legal={

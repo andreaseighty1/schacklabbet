@@ -12,6 +12,7 @@ export function Board({
   highlight = [],
   onSquare,
   disabled = false,
+  showSquareNames = false,
 }: {
   game: Chess;
   orientation?: Color;
@@ -22,6 +23,7 @@ export function Board({
   highlight?: Square[];
   onSquare: (square: Square, from?: Square) => void;
   disabled?: boolean;
+  showSquareNames?: boolean;
 }) {
   const buttons = useRef<(HTMLButtonElement | null)[]>([]);
   const files = (orientation === "w" ? "abcdefgh" : "hgfedcba").split("");
@@ -31,7 +33,7 @@ export function Board({
   return (
     <div className="board-frame">
       <div
-        className="board"
+        className={`board ${showSquareNames ? "with-square-names" : ""}`}
         role="group"
         aria-label="Schackbräde. Använd piltangenter för att flytta fokus och Enter för att välja pjäs och destination."
       >
@@ -102,6 +104,11 @@ export function Board({
                   }
                 }}
               >
+                {showSquareNames && (
+                  <span className="square-name" aria-hidden="true">
+                    {square.toUpperCase()}
+                  </span>
+                )}
                 {col === 0 && <span className="rank-label">{rank}</span>}
                 {row === 7 && <span className="file-label">{file}</span>}
                 {p && <Piece type={p.type} color={p.color} />}

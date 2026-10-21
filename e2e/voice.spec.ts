@@ -122,12 +122,58 @@ test("ljudfel lämnar text och övning användbara", async ({ page }) => {
   ).toBeVisible();
 });
 
-test("alla 25 MP3-filer kan läsas av webbläsarens ljudavkodare", async ({
+test("nya bondlektionen spelar upp uppdrag, ledtråd och förklaring och kan stängas av", async ({
+  page,
+}) => {
+  const requests: string[] = [];
+  page.on("request", (request) => {
+    if (request.url().endsWith(".mp3")) requests.push(request.url());
+  });
+  await page.goto("/#school");
+  await page.getByRole("button", { name: /Bonden går framåt/ }).click();
+  expect(requests).toEqual([]);
+  await page
+    .getByRole("button", { name: "Lyssna på uppdraget", exact: true })
+    .click();
+  await expect(page.locator(".voice-status")).toHaveText("Spelar: Uppdraget");
+  expect(
+    requests.some((url) => url.endsWith("/lesson-pawn-forward-intro.mp3")),
+  ).toBe(true);
+  await page
+    .getByRole("button", { name: "En liten ledtråd", exact: true })
+    .click();
+  await expect(page.locator(".voice-status")).toHaveText("Spelar: Ledtråden");
+  expect(
+    requests.some((url) => url.endsWith("/lesson-pawn-forward-hint.mp3")),
+  ).toBe(true);
+  await page.getByRole("button", { name: /^d3, vit bonde/ }).click();
+  await page.getByRole("button", { name: /^d4,/ }).click();
+  await expect(page.locator(".voice-status")).toHaveText(
+    "Spelar: Förklaringen",
+  );
+  expect(
+    requests.some((url) => url.endsWith("/lesson-pawn-forward-success.mp3")),
+  ).toBe(true);
+  await page
+    .getByRole("group", { name: "Röstkontroller" })
+    .getByRole("button", { name: "Röst på", exact: true })
+    .click();
+  await expect(page.locator(".voice-status")).toBeEmpty();
+  await page.getByRole("button", { name: /^Nästa:/ }).click();
+  await expect(
+    page.getByRole("button", { name: "Röst av", exact: true }),
+  ).toBeVisible();
+  expect(
+    requests.some((url) => url.endsWith("/lesson-pawn-double-intro.mp3")),
+  ).toBe(false);
+});
+
+test("alla 64 MP3-filer kan läsas av webbläsarens ljudavkodare", async ({
   page,
 }) => {
   await page.goto("/");
   const files = manifest.clips
-    .filter((clip) => clip.priority === "P1")
+    .filter((clip) => ["P1", "SKOLA"].includes(clip.priority))
     .map((clip) => `${clip.id}.mp3`);
   const durations = await page.evaluate(
     async (files) =>
@@ -158,7 +204,7 @@ test("alla 25 MP3-filer kan läsas av webbläsarens ljudavkodare", async ({
       ),
     files,
   );
-  expect(durations).toHaveLength(25);
+  expect(durations).toHaveLength(64);
   expect(
     durations.every((duration) => Number.isFinite(duration) && duration > 0),
   ).toBe(true);

@@ -33,8 +33,9 @@
 - [ ] Sammanhållet 5–15-minuterspass med återkoppling och sparad passhistorik.
 - [x] Valfri schackklocka (utan tid, 15 eller 10 minuter var), tidsavslut, sparad tid och återställning. Materialbaserad remikontroll; fullständiga ställningsspecifika specialfall återstår, se docs/CLOCK.md.
 - [x] Inspelningsmanus med exakta filnamn för de ursprungliga sex övningarna och gemensamma spelhändelser. Ytterligare 39 manus finns för de 13 nya grundlektionerna.
-- [x] Första omgångens 25 P1-filer levererade, inkopplade och publicerade med appen.
-- [ ] Lyssningsgranska P1-filerna och verifiera begriplighet, uttal och ljudnivå. P2 och P3 är senare omgångar.
+- [x] Första omgångens 25 P1-filer och de nya grundlektionernas 39 SKOLA-filer levererade och inkopplade.
+- [x] Valfria rutnamn direkt på alla rutor, på som standard i lektioner med separat sparat val för partier.
+- [ ] Lyssningsgranska P1- och SKOLA-filerna och verifiera begriplighet, uttal och ljudnivå. P2 och P3 är senare omgångar.
 - [x] Koppla lokal ljuduppspelning med Röst på/av, Lyssna, Stoppa och Lyssna igen. Av vid sidöppning och omladdning, ingen automatisk start och omedelbart stopp vid avstängning.
 - [x] Verifiera att tävlingsprofilen blockerar talade tips och hotvarningar även vid upprepning, och att tidigare uppspelning avbryts före nästa klipp. Enhetstester och webbläsartester godkända.
 

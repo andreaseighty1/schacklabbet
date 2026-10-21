@@ -8,7 +8,7 @@ Ett gratis, reklamfritt schackspel på svenska för nyfikna elever, framför all
 
 - Komplett regelmotor med chess.js: schack, matt, patt, rockad, en passant, valfri förvandling och remiavslut.
 - Lokal Stockfish.js 19 lite single-threaded med återanvändbar Web Worker och full draghistorik. Fem konfigurerade nivåer; ingen betald AI-tjänst.
-- Klick, drag och släpp, tangentbord, vändning, draglista, slagna pjäser och förra draget.
+- Klick, drag och släpp, tangentbord, vändning, draglista, slagna pjäser och förra draget. Valfria rutnamn på alla 64 rutor: på som standard i lektioner, eget sparat val för lektioner och partier.
 - Tre stödprofiler. Lagliga drag, lagligt slagbara pjäser, frivilliga förhandsvarningar inklusive en passant och tre steg av ledtrådar.
 - Pågående parti och historik sparas lokalt. Ångra i stödprofiler, ge upp, slutresultat, genomspelning och PGN-export.
 - Valfri schackklocka: utan tid som standard, 15 eller 10 minuter per spelare. Tidsavslut, sparad tid och återställning vid nytt parti. Se [klockans beteende och regelgränser](docs/CLOCK.md).
@@ -109,6 +109,6 @@ Manus och filnamn finns i [`docs/audio/ROSTMANUS.md`](docs/audio/ROSTMANUS.md). 
 
 De 25 P1-filerna är inkopplade: välkomst- och hjälprepliker, intro/ledtråd/återkoppling för de ursprungliga sex övningarna samt förklaringar om schack och dragvarningar i tillåtna spelprofiler. Eleven kan välja Röst på/av, Lyssna, Stoppa och Lyssna igen. Ett tryck på Lyssna slår på rösten och spelar det valda klippet. Efter det kan övningsåterkoppling spelas vid elevens drag. Rösten är alltid av när sidan öppnas eller laddas om; inget ljud hämtas före elevens val.
 
-Ett klipp spelas åt gången. Sidbyte, nytt parti, avslutat parti och stängda dialoger avbryter gammalt ljud. Tävlingsprofilen blockerar talade tips och hotvarningar även vid återuppspelning. Ett ljudfel lämnar text och bräde användbara. ElevenLabs-nycklar behövs inte i frontend; spelaren hämtar färdiga MP3-filer från samma webbplats som spelet. `npm run check:dist` verifierar att alla 25 filer följer med oförändrade i bygget.
+Ett klipp spelas åt gången. Sidbyte, nytt parti, avslutat parti och stängda dialoger avbryter gammalt ljud. Tävlingsprofilen blockerar talade tips och hotvarningar även vid återuppspelning. Ett ljudfel lämnar text och bräde användbara. ElevenLabs-nycklar behövs inte i frontend; spelaren hämtar färdiga MP3-filer från samma webbplats som spelet. `npm run check:dist` verifierar att alla 64 levererade filer följer med oförändrade i bygget.
 
-De 13 nya grundlektionerna fungerar med text och har 39 färdiga röstmanus, ännu utan inkopplade ljud. Se [schackskolan](docs/SCHACKSKOLAN.md) och [nya inspelningsmanuset](docs/audio/GRUNDLEKTIONER-MANUS.md).
+De 13 nya grundlektionerna har nu även sina 39 inspelade repliker inkopplade: uppdrag, ledtråd och förklaring. Totalt används 64 lokala ljudfiler. Se [schackskolan](docs/SCHACKSKOLAN.md) och [nya inspelningsmanuset](docs/audio/GRUNDLEKTIONER-MANUS.md).

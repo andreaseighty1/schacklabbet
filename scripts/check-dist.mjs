@@ -33,7 +33,9 @@ for (const path of [
 const voiceManifest = JSON.parse(
   await readFile("docs/audio/manifest.json", "utf8"),
 );
-const voiceClips = voiceManifest.clips.filter((clip) => clip.priority === "P1");
+const voiceClips = voiceManifest.clips.filter((clip) =>
+  ["P1", "SKOLA"].includes(clip.priority),
+);
 for (const clip of voiceClips) {
   const file = `audio/sv-SE/${clip.id}.mp3`;
   const original = await readFile(`public/${file}`);

@@ -466,7 +466,7 @@
       "cue": "intro",
       "trigger": "Uppdrag: Bonden går framåt",
       "text": "En bonde går en ruta rakt fram till en tom ruta. Den kan inte gå bakåt. Här spelar du vit. Flytta bonden från D tre till D fyra.",
-      "notes": "Ny grundlektion. Manus klart; ljudfilen är ännu inte levererad eller inkopplad."
+      "notes": "Ljudfilen är levererad och inkopplad. Manuset är inte en verifierad transkription av inspelningen."
     },
     {
       "id": "lesson-pawn-forward-hint",
@@ -476,7 +476,7 @@
       "cue": "hint",
       "trigger": "Ledtråd: Bonden går framåt",
       "text": "Välj bonden på D tre. Rutan D fyra är precis framför den.",
-      "notes": "Ny grundlektion. Manus klart; ljudfilen är ännu inte levererad eller inkopplad."
+      "notes": "Ljudfilen är levererad och inkopplad. Manuset är inte en verifierad transkription av inspelningen."
     },
     {
       "id": "lesson-pawn-forward-success",
@@ -486,7 +486,7 @@
       "cue": "success",
       "trigger": "Förklaring efter rätt svar: Bonden går framåt",
       "text": "Rätt! Bonden gick en ruta framåt. Den måste gå till en tom ruta när den går rakt fram.",
-      "notes": "Ny grundlektion. Manus klart; ljudfilen är ännu inte levererad eller inkopplad."
+      "notes": "Ljudfilen är levererad och inkopplad. Manuset är inte en verifierad transkription av inspelningen."
     },
     {
       "id": "lesson-pawn-double-intro",
@@ -496,7 +496,7 @@
       "cue": "intro",
       "trigger": "Uppdrag: Bondens första dubbelsteg",
       "text": "Från sin startruta får bonden välja mellan en och två rutor framåt. Båda rutorna måste vara tomma om den går två steg. Flytta bonden från D två till D fyra.",
-      "notes": "Ny grundlektion. Manus klart; ljudfilen är ännu inte levererad eller inkopplad."
+      "notes": "Ljudfilen är levererad och inkopplad. Manuset är inte en verifierad transkription av inspelningen."
     },
     {
       "id": "lesson-pawn-double-hint",
@@ -506,7 +506,7 @@
       "cue": "hint",
       "trigger": "Ledtråd: Bondens första dubbelsteg",
       "text": "D tre och D fyra är tomma. Bonden står kvar på sin startruta D två.",
-      "notes": "Ny grundlektion. Manus klart; ljudfilen är ännu inte levererad eller inkopplad."
+      "notes": "Ljudfilen är levererad och inkopplad. Manuset är inte en verifierad transkription av inspelningen."
     },
     {
       "id": "lesson-pawn-double-success",
@@ -516,7 +516,7 @@
       "cue": "success",
       "trigger": "Förklaring efter rätt svar: Bondens första dubbelsteg",
       "text": "Två steg! Bonden får göra dubbelsteget från sin startruta. Den kan inte hoppa över en pjäs.",
-      "notes": "Ny grundlektion. Manus klart; ljudfilen är ännu inte levererad eller inkopplad."
+      "notes": "Ljudfilen är levererad och inkopplad. Manuset är inte en verifierad transkription av inspelningen."
     },
     {
       "id": "lesson-pawn-capture-intro",
@@ -526,7 +526,7 @@
       "cue": "intro",
       "trigger": "Uppdrag: Bonden tar snett",
       "text": "Bonden går rakt fram men tar en motståndarpjäs en ruta snett framåt. Bonden på D fem blockerar vägen rakt fram. Ta i stället bonden på E fem med din bonde på D fyra.",
-      "notes": "Ny grundlektion. Manus klart; ljudfilen är ännu inte levererad eller inkopplad."
+      "notes": "Ljudfilen är levererad och inkopplad. Manuset är inte en verifierad transkription av inspelningen."
     },
     {
       "id": "lesson-pawn-capture-hint",
@@ -536,7 +536,7 @@
       "cue": "hint",
       "trigger": "Ledtråd: Bonden tar snett",
       "text": "E fem ligger en ruta snett framför D fyra. Där står en svart bonde som du får ta.",
-      "notes": "Ny grundlektion. Manus klart; ljudfilen är ännu inte levererad eller inkopplad."
+      "notes": "Ljudfilen är levererad och inkopplad. Manuset är inte en verifierad transkription av inspelningen."
     },
     {
       "id": "lesson-pawn-capture-success",
@@ -546,7 +546,7 @@
       "cue": "success",
       "trigger": "Förklaring efter rätt svar: Bonden tar snett",
       "text": "Precis! Din bonde tog snett framåt. Den svarta bonden på D fem står kvar: en bonde kan inte ta rakt fram.",
-      "notes": "Ny grundlektion. Manus klart; ljudfilen är ännu inte levererad eller inkopplad."
+      "notes": "Ljudfilen är levererad och inkopplad. Manuset är inte en verifierad transkription av inspelningen."
     },
     {
       "id": "lesson-pawn-black-intro",
@@ -556,7 +556,7 @@
       "cue": "intro",
       "trigger": "Uppdrag: Framåt för svart",
       "text": "Nu är det svarts tur och du spelar svart. Svarta bönder går mot rad 1. Brädet är vänt så att dina pjäser är närmast dig. Flytta bonden från D sex till D fem.",
-      "notes": "Ny grundlektion. Manus klart; ljudfilen är ännu inte levererad eller inkopplad."
+      "notes": "Ljudfilen är levererad och inkopplad. Manuset är inte en verifierad transkription av inspelningen."
     },
     {
       "id": "lesson-pawn-black-hint",
@@ -566,7 +566,7 @@
       "cue": "hint",
       "trigger": "Ledtråd: Framåt för svart",
       "text": "För svart går radnumren nedåt: från rad 6 till rad 5. Välj D sex och sedan D fem.",
-      "notes": "Ny grundlektion. Manus klart; ljudfilen är ännu inte levererad eller inkopplad."
+      "notes": "Ljudfilen är levererad och inkopplad. Manuset är inte en verifierad transkription av inspelningen."
     },
     {
       "id": "lesson-pawn-black-success",
@@ -576,7 +576,7 @@
       "cue": "success",
       "trigger": "Förklaring efter rätt svar: Framåt för svart",
       "text": "Bra! Den svarta bonden gick framåt mot rad 1. Vita bönder går åt andra hållet, mot rad 8.",
-      "notes": "Ny grundlektion. Manus klart; ljudfilen är ännu inte levererad eller inkopplad."
+      "notes": "Ljudfilen är levererad och inkopplad. Manuset är inte en verifierad transkription av inspelningen."
     },
     {
       "id": "lesson-pawn-promotion-intro",
@@ -586,7 +586,7 @@
       "cue": "intro",
       "trigger": "Uppdrag: Bonden blir en ny pjäs",
       "text": "När bonden når sista raden ska den bytas till en dam, ett torn, en löpare eller en springare i samma färg. Det kallas förvandling. Flytta bonden från A sju till A åtta och välj en ny pjäs.",
-      "notes": "Ny grundlektion. Manus klart; ljudfilen är ännu inte levererad eller inkopplad."
+      "notes": "Ljudfilen är levererad och inkopplad. Manuset är inte en verifierad transkription av inspelningen."
     },
     {
       "id": "lesson-pawn-promotion-hint",
@@ -596,7 +596,7 @@
       "cue": "hint",
       "trigger": "Ledtråd: Bonden blir en ny pjäs",
       "text": "A åtta är sista raden för en vit bonde. Efter flytten får du välja vilken av de fyra pjäserna bonden ska bli.",
-      "notes": "Ny grundlektion. Manus klart; ljudfilen är ännu inte levererad eller inkopplad."
+      "notes": "Ljudfilen är levererad och inkopplad. Manuset är inte en verifierad transkription av inspelningen."
     },
     {
       "id": "lesson-pawn-promotion-success",
@@ -606,7 +606,7 @@
       "cue": "success",
       "trigger": "Förklaring efter rätt svar: Bonden blir en ny pjäs",
       "text": "Du förvandlade bonden! Alla fyra valen är tillåtna. Du får välja en dam även om din första dam finns kvar på brädet.",
-      "notes": "Ny grundlektion. Manus klart; ljudfilen är ännu inte levererad eller inkopplad."
+      "notes": "Ljudfilen är levererad och inkopplad. Manuset är inte en verifierad transkription av inspelningen."
     },
     {
       "id": "lesson-queen-intro",
@@ -616,7 +616,7 @@
       "cue": "intro",
       "trigger": "Uppdrag: Damen går rakt och snett",
       "text": "Damen kan gå rakt som ett torn och snett som en löpare. Den får gå flera rutor om vägen är fri, men inte hoppa över pjäser. Ta bonden på G fem med damen på D två.",
-      "notes": "Ny grundlektion. Manus klart; ljudfilen är ännu inte levererad eller inkopplad."
+      "notes": "Ljudfilen är levererad och inkopplad. Manuset är inte en verifierad transkription av inspelningen."
     },
     {
       "id": "lesson-queen-hint",
@@ -626,7 +626,7 @@
       "cue": "hint",
       "trigger": "Ledtråd: Damen går rakt och snett",
       "text": "Följ den sneda vägen från D två: E tre, F fyra, G fem.",
-      "notes": "Ny grundlektion. Manus klart; ljudfilen är ännu inte levererad eller inkopplad."
+      "notes": "Ljudfilen är levererad och inkopplad. Manuset är inte en verifierad transkription av inspelningen."
     },
     {
       "id": "lesson-queen-success",
@@ -636,7 +636,7 @@
       "cue": "success",
       "trigger": "Förklaring efter rätt svar: Damen går rakt och snett",
       "text": "Rätt! Damen tog bonden på G fem. Den kan gå både rakt och snett, men får inte byta riktning mitt i draget.",
-      "notes": "Ny grundlektion. Manus klart; ljudfilen är ännu inte levererad eller inkopplad."
+      "notes": "Ljudfilen är levererad och inkopplad. Manuset är inte en verifierad transkription av inspelningen."
     },
     {
       "id": "lesson-king-intro",
@@ -646,7 +646,7 @@
       "cue": "intro",
       "trigger": "Uppdrag: Kungen tar ett säkert steg",
       "text": "Kungen går en ruta åt valfritt håll, men aldrig till en ruta som motståndaren hotar. Svarts torn hotar rutorna längs D-linjen. Flytta kungen från E ett till den säkra rutan E två. Kungarna får inte stå intill varandra.",
-      "notes": "Ny grundlektion. Manus klart; ljudfilen är ännu inte levererad eller inkopplad."
+      "notes": "Ljudfilen är levererad och inkopplad. Manuset är inte en verifierad transkription av inspelningen."
     },
     {
       "id": "lesson-king-hint",
@@ -656,7 +656,7 @@
       "cue": "hint",
       "trigger": "Ledtråd: Kungen tar ett säkert steg",
       "text": "E två är en ruta framför kungen. D två är hotad av tornet, så dit får kungen inte gå.",
-      "notes": "Ny grundlektion. Manus klart; ljudfilen är ännu inte levererad eller inkopplad."
+      "notes": "Ljudfilen är levererad och inkopplad. Manuset är inte en verifierad transkription av inspelningen."
     },
     {
       "id": "lesson-king-success",
@@ -666,7 +666,7 @@
       "cue": "success",
       "trigger": "Förklaring efter rätt svar: Kungen tar ett säkert steg",
       "text": "Kungen står säkert på E två! Den måste alltid undvika hotade rutor. I schack tar man aldrig kungen: spelet slutar vid schackmatt.",
-      "notes": "Ny grundlektion. Manus klart; ljudfilen är ännu inte levererad eller inkopplad."
+      "notes": "Ljudfilen är levererad och inkopplad. Manuset är inte en verifierad transkription av inspelningen."
     },
     {
       "id": "lesson-check-escape-intro",
@@ -676,7 +676,7 @@
       "cue": "intro",
       "trigger": "Uppdrag: Schack: flytta kungen",
       "text": "Schack betyder att kungen är hotad. Då måste du skydda den direkt. Svarts torn på E åtta hotar din kung på E ett. Flytta kungen till F ett, där tornet inte når den.",
-      "notes": "Ny grundlektion. Manus klart; ljudfilen är ännu inte levererad eller inkopplad."
+      "notes": "Ljudfilen är levererad och inkopplad. Manuset är inte en verifierad transkription av inspelningen."
     },
     {
       "id": "lesson-check-escape-hint",
@@ -686,7 +686,7 @@
       "cue": "hint",
       "trigger": "Ledtråd: Schack: flytta kungen",
       "text": "Tornet hotar E-linjen. F ett ligger bredvid kungen och utanför den linjen.",
-      "notes": "Ny grundlektion. Manus klart; ljudfilen är ännu inte levererad eller inkopplad."
+      "notes": "Ljudfilen är levererad och inkopplad. Manuset är inte en verifierad transkription av inspelningen."
     },
     {
       "id": "lesson-check-escape-success",
@@ -696,7 +696,7 @@
       "cue": "success",
       "trigger": "Förklaring efter rätt svar: Schack: flytta kungen",
       "text": "Du kom ur schacken! Ett sätt är att flytta kungen till en säker ruta. Du får inte göra ett drag som lämnar din kung i schack.",
-      "notes": "Ny grundlektion. Manus klart; ljudfilen är ännu inte levererad eller inkopplad."
+      "notes": "Ljudfilen är levererad och inkopplad. Manuset är inte en verifierad transkription av inspelningen."
     },
     {
       "id": "lesson-check-capture-intro",
@@ -706,7 +706,7 @@
       "cue": "intro",
       "trigger": "Uppdrag: Schack: ta den hotande pjäsen",
       "text": "Du kan ibland komma ur schack genom att ta pjäsen som hotar kungen. Svarts torn på E två ger schack. Tornet är inte skyddat. Ta det med kungen på E ett.",
-      "notes": "Ny grundlektion. Manus klart; ljudfilen är ännu inte levererad eller inkopplad."
+      "notes": "Ljudfilen är levererad och inkopplad. Manuset är inte en verifierad transkription av inspelningen."
     },
     {
       "id": "lesson-check-capture-hint",
@@ -716,7 +716,7 @@
       "cue": "hint",
       "trigger": "Ledtråd: Schack: ta den hotande pjäsen",
       "text": "Kungen får ta en pjäs en ruta bort om rutan inte hotas av någon annan motståndarpjäs.",
-      "notes": "Ny grundlektion. Manus klart; ljudfilen är ännu inte levererad eller inkopplad."
+      "notes": "Ljudfilen är levererad och inkopplad. Manuset är inte en verifierad transkription av inspelningen."
     },
     {
       "id": "lesson-check-capture-success",
@@ -726,7 +726,7 @@
       "cue": "success",
       "trigger": "Förklaring efter rätt svar: Schack: ta den hotande pjäsen",
       "text": "Hotet är borta! Du tog tornet med kungen. Det gick eftersom ingen annan svart pjäs hotade rutan E två.",
-      "notes": "Ny grundlektion. Manus klart; ljudfilen är ännu inte levererad eller inkopplad."
+      "notes": "Ljudfilen är levererad och inkopplad. Manuset är inte en verifierad transkription av inspelningen."
     },
     {
       "id": "lesson-check-block-intro",
@@ -736,7 +736,7 @@
       "cue": "intro",
       "trigger": "Uppdrag: Schack: ställ en pjäs emellan",
       "text": "Ibland kan en annan pjäs skydda kungen genom att ställa sig i vägen. Tornet på E åtta ger schack längs E-linjen. Flytta löparen från C ett till E tre så att den stoppar tornets väg till kungen.",
-      "notes": "Ny grundlektion. Manus klart; ljudfilen är ännu inte levererad eller inkopplad."
+      "notes": "Ljudfilen är levererad och inkopplad. Manuset är inte en verifierad transkription av inspelningen."
     },
     {
       "id": "lesson-check-block-hint",
@@ -746,7 +746,7 @@
       "cue": "hint",
       "trigger": "Ledtråd: Schack: ställ en pjäs emellan",
       "text": "Löparen går snett från C ett via D två till E tre. Då hamnar den mellan tornet och kungen.",
-      "notes": "Ny grundlektion. Manus klart; ljudfilen är ännu inte levererad eller inkopplad."
+      "notes": "Ljudfilen är levererad och inkopplad. Manuset är inte en verifierad transkription av inspelningen."
     },
     {
       "id": "lesson-check-block-success",
@@ -756,7 +756,7 @@
       "cue": "success",
       "trigger": "Förklaring efter rätt svar: Schack: ställ en pjäs emellan",
       "text": "Löparen skyddar kungen! Mot schack kan du ibland flytta kungen, ta den hotande pjäsen eller ställa något emellan. En springares hopp går inte att stoppa genom att ställa en pjäs i vägen.",
-      "notes": "Ny grundlektion. Manus klart; ljudfilen är ännu inte levererad eller inkopplad."
+      "notes": "Ljudfilen är levererad och inkopplad. Manuset är inte en verifierad transkription av inspelningen."
     },
     {
       "id": "lesson-checkmate-intro",
@@ -766,7 +766,7 @@
       "cue": "intro",
       "trigger": "Uppdrag: Vad betyder schackmatt?",
       "text": "Nu är det svarts tur. Svarts kung på H åtta är i schack. Den kan inte fly, ta damen eller få hjälp av en annan pjäs. Vad betyder det för partiet?",
-      "notes": "Ny grundlektion. Manus klart; ljudfilen är ännu inte levererad eller inkopplad."
+      "notes": "Ljudfilen är levererad och inkopplad. Manuset är inte en verifierad transkription av inspelningen."
     },
     {
       "id": "lesson-checkmate-hint",
@@ -776,7 +776,7 @@
       "cue": "hint",
       "trigger": "Ledtråd: Vad betyder schackmatt?",
       "text": "Damen ger schack och den vita kungen skyddar damen. Svart har inget lagligt drag som tar bort schacken.",
-      "notes": "Ny grundlektion. Manus klart; ljudfilen är ännu inte levererad eller inkopplad."
+      "notes": "Ljudfilen är levererad och inkopplad. Manuset är inte en verifierad transkription av inspelningen."
     },
     {
       "id": "lesson-checkmate-success",
@@ -786,7 +786,7 @@
       "cue": "success",
       "trigger": "Förklaring efter rätt svar: Vad betyder schackmatt?",
       "text": "Det är schackmatt och vit vinner! Schackmatt betyder att kungen är i schack och att inget lagligt drag kan rädda den. Kungen står kvar på brädet.",
-      "notes": "Ny grundlektion. Manus klart; ljudfilen är ännu inte levererad eller inkopplad."
+      "notes": "Ljudfilen är levererad och inkopplad. Manuset är inte en verifierad transkription av inspelningen."
     },
     {
       "id": "lesson-stalemate-intro",
@@ -796,7 +796,7 @@
       "cue": "intro",
       "trigger": "Uppdrag: Patt: ingen kan vinna",
       "text": "Nu är det svarts tur. Kungen på H åtta är inte i schack, men svart har inget lagligt drag. Vad händer med partiet?",
-      "notes": "Ny grundlektion. Manus klart; ljudfilen är ännu inte levererad eller inkopplad."
+      "notes": "Ljudfilen är levererad och inkopplad. Manuset är inte en verifierad transkription av inspelningen."
     },
     {
       "id": "lesson-stalemate-hint",
@@ -806,7 +806,7 @@
       "cue": "hint",
       "trigger": "Ledtråd: Patt: ingen kan vinna",
       "text": "Kungen står säkert på H åtta. Men G åtta, G sju och H sju är hotade, och svart har inga andra pjäser att flytta.",
-      "notes": "Ny grundlektion. Manus klart; ljudfilen är ännu inte levererad eller inkopplad."
+      "notes": "Ljudfilen är levererad och inkopplad. Manuset är inte en verifierad transkription av inspelningen."
     },
     {
       "id": "lesson-stalemate-success",
@@ -816,7 +816,7 @@
       "cue": "success",
       "trigger": "Förklaring efter rätt svar: Patt: ingen kan vinna",
       "text": "Det är patt! Den som är på drag har inget lagligt drag och kungen är inte i schack. Partiet slutar remi, alltså oavgjort. Ingen vinner.",
-      "notes": "Ny grundlektion. Manus klart; ljudfilen är ännu inte levererad eller inkopplad."
+      "notes": "Ljudfilen är levererad och inkopplad. Manuset är inte en verifierad transkription av inspelningen."
     },
     {
       "id": "lesson-en-passant-intro",
@@ -826,7 +826,7 @@
       "cue": "intro",
       "trigger": "Uppdrag: Extra: en passant",
       "text": "Svart har precis flyttat sin bonde två rutor, från D sju till D fem, bredvid din bonde på E fem. Just nu får du ta den som om den bara gått till D sex. Flytta från E fem till D sex. Det kallas en passant och måste göras direkt i nästa drag.",
-      "notes": "Ny grundlektion. Manus klart; ljudfilen är ännu inte levererad eller inkopplad."
+      "notes": "Ljudfilen är levererad och inkopplad. Manuset är inte en verifierad transkription av inspelningen."
     },
     {
       "id": "lesson-en-passant-hint",
@@ -836,7 +836,7 @@
       "cue": "hint",
       "trigger": "Ledtråd: Extra: en passant",
       "text": "Din bonde landar på den tomma rutan D sex. Den svarta bonden tas bort från D fem.",
-      "notes": "Ny grundlektion. Manus klart; ljudfilen är ännu inte levererad eller inkopplad."
+      "notes": "Ljudfilen är levererad och inkopplad. Manuset är inte en verifierad transkription av inspelningen."
     },
     {
       "id": "lesson-en-passant-success",
@@ -846,7 +846,7 @@
       "cue": "success",
       "trigger": "Förklaring efter rätt svar: Extra: en passant",
       "text": "Du gjorde en passant! Din bonde står på D sex och bonden på D fem är borta. Om du väljer ett annat drag försvinner chansen att ta just den bonden på det här sättet.",
-      "notes": "Ny grundlektion. Manus klart; ljudfilen är ännu inte levererad eller inkopplad."
+      "notes": "Ljudfilen är levererad och inkopplad. Manuset är inte en verifierad transkription av inspelningen."
     }
   ]
 }
