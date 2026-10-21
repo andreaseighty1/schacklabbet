@@ -27,10 +27,11 @@ export async function observeWorkers(page: Page, holdFirst = false) {
         super(url, options);
         this.tracked = String(url).includes("stockfish-19-lite-single.js");
         if (this.tracked) {
-          const first = ++probe.created === 1;
-          if (holdFirst && first)
+          probe.created++;
+          if (holdFirst)
             this.addEventListener("message", (event) => {
-              if (!String(event.data).startsWith("bestmove ")) return;
+              if (probe.held || !String(event.data).startsWith("bestmove "))
+                return;
               event.stopImmediatePropagation();
               probe.held = true;
               const callback = this.onmessage;

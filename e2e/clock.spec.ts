@@ -135,11 +135,16 @@ test("datorns tidsavslut avbryter motorn och ignorerar ett försenat verkligt sv
       timeout: 20000,
     })
     .toBe(true);
+  const terminatedBefore = await page.evaluate(
+    () => window.__engineProbe.terminated,
+  );
   await page.clock.fastForward(600100);
   await expect(
     page.getByRole("heading", { name: /Vit vinner på tid/ }),
   ).toBeVisible();
-  expect(await page.evaluate(() => window.__engineProbe.terminated)).toBe(1);
+  expect(await page.evaluate(() => window.__engineProbe.terminated)).toBe(
+    terminatedBefore + 1,
+  );
   await page.evaluate(() => window.__engineProbe.releaseHeld?.());
   await expect(page.locator(".move-action")).toHaveCount(1);
   const game = await saved(page);
