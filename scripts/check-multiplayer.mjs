@@ -1,4 +1,4 @@
-// Explicit live smoke test: creates three anonymous test accounts and two short games.
+// Explicit live smoke test: creates three anonymous test accounts and three short games.
 // Uses only the same public key as the website. Tokens stay in memory and are never printed.
 import assert from "node:assert/strict";
 import { createClient } from "@supabase/supabase-js";

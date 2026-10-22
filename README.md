@@ -14,7 +14,7 @@ Ett gratis, reklamfritt schackspel på svenska för nyfikna elever, framför all
 - Valfri schackklocka: utan tid som standard, 15 eller 10 minuter per spelare. Tidsavslut, sparad tid och återställning vid nytt parti. Se [klockans beteende och regelgränser](docs/CLOCK.md).
 - 22 korta lektioner om alla sex pjäser, regler, hot och säkra slag, två verifierade mattproblem, lokala medaljer och en enkel väg genom tävlingsträningen.
 - Nybörjarpass med tre uppdrag, paus/återupptagning, återkoppling och lokal passhistorik. Se [nybörjarpasset](docs/NYBORJARPASS.md).
-- Privata kompispartier på två datorer med kod, anonym spelplats, servervaliderade drag, realtidssynkronisering, återupptagning och PGN-export. Utan klocka i första versionen. Se [multiplayer](docs/MULTIPLAYER.md).
+- Privata kompispartier på två datorer med sexteckenskod, anonym spelplats, servervaliderade drag, realtidssynkronisering, återupptagning och PGN-export. Valfria serverstyrda klockor, gemensam maxtid och ömsesidig remi. Se [multiplayer](docs/MULTIPLAYER.md).
 
 Motorbaserad efteranalys ger ett positivt exempel och högst ett förbättringstips, med en relevant repetitionslektion. Privata klassgrupper och topplistor återstår. Kompispartier går genom servern; klienten kan inte skriva direkt i databasen.
 

@@ -52,7 +52,7 @@ Framtida uppdateringar av enbart Edge-koden: ändra källorna, kör tester och `
 
 ## Verifiering
 
-`npm test` kör HTTP-hanteraren mot riktig PostgreSQL i PGlite med samma skapamigration. Tester omfattar obehöriga deltagare, RLS, förbjudna klientskrivningar/RPC, egen kod, båda färger, tur, olagliga drag, falska resultat, samtidiga anslutningar/drag, kvittorepetition, gammal version, full historik/remi, förvandlingsval, avslut och utgångna rum. PGlite ersätter inte prov av Supabase Auth, Edge-distribution eller nätverk.
+`npm test` kör HTTP-hanteraren mot riktig PostgreSQL i PGlite med skapamigrationen och klockuppgraderingen. Tester omfattar obehöriga deltagare, RLS, förbjudna klientskrivningar/RPC, egen kod, båda färger, tur, olagliga drag, falska resultat, samtidiga anslutningar/drag, kvittorepetition, gammal version, full historik/remi, förvandlingsval, avslut och utgångna rum. PGlite ersätter inte prov av Supabase Auth, Edge-distribution eller nätverk.
 
 Playwright använder två separata webbläsarkontexter med ett uttryckligt testbackend för gränssnittet. Desktop, mobil och pekdator kontrollerar kod, orientering, drag, omladdning utan extra konto, schackmatt, nätverkslåsning, förlorat dragkvitto, bekräftat ge upp, PGN-export och oförändrat soloparti/framsteg.
 
@@ -62,6 +62,6 @@ För ett medvetet prov av det **riktiga konfigurerade projektet**:
 node scripts/check-multiplayer.mjs --live
 ```
 
-Provet skapar tre anonyma testkonton och två korta testpartier; sessionsnycklar hålls i minnet och skrivs inte ut. Det provar Auth, Edge, nekad läsning för utomstående, nekade klientskrivningar/RPC, rätt tur, olagliga drag, atomisk konflikt, återupptagning, verklig Realtime, ge upp och serverbekräftad schackmatt. Det passerade mot produktionsprojektet den 22 oktober 2026. Testpartierna omfattas av den vanliga gallringen. Lärarprov med två fysiska elevdatorer, inklusive skolans nätverk och inloggningsgräns vid en hel klass samtidiga förstagångsbesök, återstår.
+Provet skapar tre anonyma testkonton och tre korta testpartier; sessionsnycklar hålls i minnet och skrivs inte ut. Det provar Auth, Edge, nekad läsning för utomstående, nekade klientskrivningar/RPC, rätt tur, olagliga drag, atomisk konflikt, återupptagning, verklig Realtime, ge upp, serverbekräftad schackmatt, sexteckenskoder, debiterad klocktid och ömsesidig remi. Det passerade mot produktionsprojektet den 22 oktober 2026. Testpartierna omfattas av den vanliga gallringen. Lärarprov med två fysiska elevdatorer, inklusive skolans nätverk och inloggningsgräns vid en hel klass samtidiga förstagångsbesök, återstår.
 
 Officiella referenser: [anonyma konton](https://supabase.com/docs/guides/auth/auth-anonymous), [Auth-gränser](https://supabase.com/docs/guides/auth/rate-limits), [Edge-autentisering](https://supabase.com/docs/guides/functions/auth-headers), [Realtime och RLS](https://supabase.com/docs/guides/realtime/authorization), [Cron](https://supabase.com/docs/guides/cron/quickstart).
