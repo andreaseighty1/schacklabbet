@@ -80,6 +80,7 @@ export function Multiplayer({
   const sending = useRef(false);
   const current = useRef(answer);
   const dialog = useRef<HTMLDialogElement>(null);
+  const heading = useRef<HTMLHeadingElement>(null);
   const room = answer.room;
   const id = room?.id;
   const game = useMemo(() => replay(room?.moves ?? []), [room?.moves]);
@@ -90,6 +91,11 @@ export function Multiplayer({
   const waiting = room?.status === "waiting";
   const finished = room?.status === "finished" || room?.status === "cancelled";
   const locked = !playing || !ownTurn || busy || !reachable || soloRunning;
+
+  useEffect(() => {
+    heading.current?.focus({ preventScroll: true });
+    window.scrollTo(0, 0);
+  }, [id]);
 
   const accept = useCallback((next: Answer) => {
     if (!mounted.current) return;
@@ -291,7 +297,9 @@ export function Multiplayer({
       <div className="page-heading">
         <div>
           <div className="eyebrow">SCHACK ÄR EN UPPTÄCKT NI KAN DELA</div>
-          <h1>{room ? "Ert kompisparti" : "En kompis. En kod. Ert parti."}</h1>
+          <h1 ref={heading} tabIndex={-1}>
+            {room ? "Ert kompisparti" : "En kompis. En kod. Ert parti."}
+          </h1>
           <p>
             Spela på varsin dator. Ingen klocka – ni får tänka i lugn och ro.
           </p>

@@ -3346,7 +3346,7 @@ a {
   gap: 9px;
 }
 .friend-game .board-column {
-  width: min(100%, 560px);
+  width: min(100%, calc(100dvh - 326px), 560px);
 }
 .friend-game .game-panel {
   align-self: flex-start;

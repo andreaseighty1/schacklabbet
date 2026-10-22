@@ -49,6 +49,7 @@ import {
 import { Piece } from "./components/Piece";
 import { useChessTheme } from "./components/ChessTheme";
 import { SettingsPage } from "./components/SettingsPage";
+import { FriendBoundary } from "./components/FriendBoundary";
 import type { GameReview } from "./chess/review";
 import type { TrainingRecommendation } from "./chess/recommendation";
 import { LessonCatalog } from "./components/LessonCatalog";
@@ -1781,14 +1782,16 @@ export default function App() {
             </>
           )}
           {view === "friends" && (
-            <Suspense fallback={<p role="status">Öppnar kompispartier…</p>}>
-              <Multiplayer
-                showSquareNames={showSquareNames}
-                onToggleNames={toggleSquareNames}
-                soloRunning={Boolean(clockState?.running)}
-                onSolo={() => navigate("play")}
-              />
-            </Suspense>
+            <FriendBoundary>
+              <Suspense fallback={<p role="status">Öppnar kompispartier…</p>}>
+                <Multiplayer
+                  showSquareNames={showSquareNames}
+                  onToggleNames={toggleSquareNames}
+                  soloRunning={Boolean(clockState?.running)}
+                  onSolo={() => navigate("play")}
+                />
+              </Suspense>
+            </FriendBoundary>
           )}
         </main>
         <footer className="site-credit">

@@ -1,6 +1,33 @@
 import { test, expect, type Page } from "@playwright/test";
 import { friendFixture } from "./friend-fixture";
 
+test("avbruten hämtning av kompissidan visar återhämtning och behåller menyn", async ({
+  page,
+}) => {
+  await page.route(/\/src\/components\/Multiplayer\.tsx(?:\?|$)/, (route) =>
+    route.abort(),
+  );
+  await page.goto("/#friends");
+  await expect(
+    page.getByRole("heading", {
+      name: "Kompispartier kunde inte öppnas",
+      exact: true,
+    }),
+  ).toBeVisible();
+  await expect(
+    page.getByRole("button", { name: "Ladda om sidan", exact: true }),
+  ).toBeVisible();
+  const menu = page.getByRole("button", { name: "Öppna meny", exact: true });
+  if (await menu.isVisible()) await menu.click();
+  await page.getByRole("link", { name: "Översikt", exact: true }).click();
+  await expect(
+    page.getByRole("heading", {
+      name: "Kompispartier kunde inte öppnas",
+      exact: true,
+    }),
+  ).toHaveCount(0);
+});
+
 async function move(page: Page, from: string, to: string, touch: boolean) {
   const first = page.getByRole("button", { name: new RegExp(`^${from},`) });
   const next = page.getByRole("button", { name: new RegExp(`^${to},`) });
@@ -82,6 +109,16 @@ test("två webbläsare delar kod, återupptar efter omladdning och ser samma sch
         exact: true,
       }),
     ).toBeVisible();
+    await expect
+      .poll(async () => {
+        const board = await page.locator(".board").boundingBox();
+        return Boolean(
+          board &&
+          board.y >= 0 &&
+          board.y + board.height <= page.viewportSize()!.height,
+        );
+      })
+      .toBe(true);
     await move(guest, "f2", "f3", Boolean(hasTouch));
     await focus(page);
     await expect(

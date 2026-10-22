@@ -19,6 +19,7 @@ Källkod och nätverk distribueras på samma webbplats som motorn, utan inloggni
 - chess.js: Jeff Hlywa och bidragsgivare, BSD-2-Clause.
 - Lucide: Lucide-bidragsgivare, ISC.
 - Supabase JavaScript-klient: Supabase och bidragsgivare, MIT.
+- Licenstexter för Supabase-klienten och dess Iceberg-beroende distribueras i `public/licenses/supabase-MIT.txt` och `public/licenses/iceberg-js-LICENSE.txt`.
 - PGlite: Electric DB Limited, Apache-2.0; används bara för databasprov under utveckling/CI, distribueras inte i webbspelet.
 - Vite, Vitest, TypeScript, Playwright, ESLint och Prettier används som utvecklingsverktyg enligt respektive upstream-licens.
 
