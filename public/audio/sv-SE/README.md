@@ -2,7 +2,7 @@
 
 Lägg de färdiga MP3-filerna direkt i denna mapp. Exempel: `lesson-rook-intro.mp3`. Exakta filnamn och manus finns i `docs/audio/ROSTMANUS.md` i repositoryt. Börja med P1; P2 är nästa omgång och P3:s klockrepliker är ännu inte inkopplade och multiplayer återstår.
 
-Alla 64 levererade filer (25 P1 och 39 SKOLA) är inkopplade i ljudspelaren och ingår i webbplatsens bygge. Röst på/av, Lyssna, Stoppa och Lyssna igen styr en gemensam uppspelning utan överlappning. Rösten är av när sidan öppnas eller laddas om. Text och bräde fungerar även utan ljud. Pedagogisk lyssningsgranskning med målgruppen återstår; teknisk avkodning och uppspelning kontrolleras separat.
+Alla 79 levererade filer (25 P1, 39 SKOLA och 15 TAKTIK) är inkopplade i ljudspelaren och ingår i webbplatsens bygge. Röst på/av, Lyssna, Stoppa och Lyssna igen styr en gemensam uppspelning utan överlappning. Rösten är av när sidan öppnas eller laddas om. Text och bräde fungerar även utan ljud. Pedagogisk lyssningsgranskning med målgruppen återstår; teknisk avkodning och uppspelning kontrolleras separat.
 
 Manuset och språkstödet under `docs/audio/` är underlag för fortsatt arbete, inte kontrollerade transkriptioner av inspelningarna. Rutnamn skrivs med bokstav, exempelvis `F fyra` och `G fem`. Språket ska vara begripligt för elever i årskurs 4.
 

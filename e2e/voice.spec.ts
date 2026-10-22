@@ -168,12 +168,12 @@ test("nya bondlektionen spelar upp uppdrag, ledtråd och förklaring och kan st�
   ).toBe(false);
 });
 
-test("alla 64 MP3-filer kan läsas av webbläsarens ljudavkodare", async ({
+test("alla 79 MP3-filer kan läsas av webbläsarens ljudavkodare", async ({
   page,
 }) => {
   await page.goto("/");
   const files = manifest.clips
-    .filter((clip) => ["P1", "SKOLA"].includes(clip.priority))
+    .filter((clip) => ["P1", "SKOLA", "TAKTIK"].includes(clip.priority))
     .map((clip) => `${clip.id}.mp3`);
   const durations = await page.evaluate(
     async (files) =>
@@ -204,7 +204,7 @@ test("alla 64 MP3-filer kan läsas av webbläsarens ljudavkodare", async ({
       ),
     files,
   );
-  expect(durations).toHaveLength(64);
+  expect(durations).toHaveLength(79);
   expect(
     durations.every((duration) => Number.isFinite(duration) && duration > 0),
   ).toBe(true);

@@ -27,7 +27,7 @@ När ett förbättringsexempel finns kan en befintlig kort lektion föreslås. O
 
 Förslaget är en tematisk repetition, inte en diagnos av elevens kunskaper eller ett påstående att en viss lektion ensam förklarar positionsförlusten. Utan förbättringsexempel ges inget personligt tips. Vi använder ingen historisk färdighetsprofil eller ny serverlagring. Eleven kan öppna lektionen, få samma skäl återgivet, göra uppgiften med befintlig röst och återvända till samma analys utan ny motorsökning. Öppnande räknas inte som lösning. Vanliga framstegsregler gäller efter faktisk lösning, även vid repetition av en redan avklarad lektion. Partiets PGN, resultat och klocka ändras inte.
 
-När elevens slag följs av ett möjligt slag på just den flyttade pjäsen föreslås Ta en pjäs – men se upp. Övriga verifierade hot mot dam, torn eller springare kan ge motsvarande räddningsövning. För springaren framgår att övningen spelas från svarts sida, oavsett elevens färg i partiet. Dessa fem nya uppgifter har ännu textinstruktioner; inspelningspaketet TAKTIK är förberett men inte inkopplat.
+När elevens slag följs av ett möjligt slag på just den flyttade pjäsen föreslås Ta en pjäs – men se upp. Övriga verifierade hot mot dam, torn eller springare kan ge motsvarande räddningsövning. För springaren framgår att övningen spelas från svarts sida, oavsett elevens färg i partiet. Alla fem uppgifterna har både text och elevstyrd röst genom de 15 levererade TAKTIK-filerna.
 
 ## Inställningar
 

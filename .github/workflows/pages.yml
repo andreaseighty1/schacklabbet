@@ -20,10 +20,15 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npm run lint
+      - run: npm run prepare:multiplayer && git diff --exit-code -- supabase/dashboard
+      - run: npx tsc --strict --noEmit --allowImportingTsExtensions --moduleResolution bundler --module esnext --target es2022 --lib es2022,dom --skipLibCheck supabase/functions/chess-room/index.ts
       - run: npm test
       - run: npm run test:engine
       - run: npx playwright install --with-deps chromium
       - run: npm run test:e2e -- --reporter=list,github
+        env:
+          VITE_SUPABASE_URL: https://ixioaisppcqqutufpuct.supabase.co
+          VITE_SUPABASE_PUBLISHABLE_KEY: sb_publishable_MBLGx8pfeYKa0qHqmgcNMA_jCKjnHgj
       - uses: actions/upload-artifact@v4
         if: failure()
         with:

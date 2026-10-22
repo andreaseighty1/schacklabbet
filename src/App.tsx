@@ -1,4 +1,11 @@
-import { useEffect, useRef, useState, type ReactNode } from "react";
+import {
+  lazy,
+  Suspense,
+  useEffect,
+  useRef,
+  useState,
+  type ReactNode,
+} from "react";
 import { Chess, type Color, type Square, type Move } from "chess.js";
 import {
   ArrowRight,
@@ -25,7 +32,6 @@ import {
   X,
   Zap,
   Download,
-  Wifi,
 } from "lucide-react";
 import { useVoice } from "./audio/useVoice";
 import { ExercisePlayer } from "./components/ExercisePlayer";
@@ -79,7 +85,6 @@ import {
   type SavedGame,
 } from "./storage";
 import { exercises, type Exercise } from "./content";
-import { checkSupabase } from "./supabase";
 import { TrainingSession, TrainingHistory } from "./components/TrainingSession";
 import {
   emptyTraining,
@@ -87,6 +92,12 @@ import {
   trainingKey,
   type TrainingState,
 } from "./training";
+
+const Multiplayer = lazy(() =>
+  import("./components/Multiplayer").then((module) => ({
+    default: module.Multiplayer,
+  })),
+);
 
 type View =
   | "home"
@@ -347,12 +358,6 @@ export default function App() {
     useState<TrainingRecommendation | null>(null);
   const [replay, setReplay] = useState<number | null>(null);
   const [mobileMenu, setMobileMenu] = useState(false);
-  const [connection, setConnection] = useState<{
-    connected: boolean;
-    anonymous: boolean;
-    message: string;
-  } | null>(null);
-  const [connectionBusy, setConnectionBusy] = useState(false);
   const terminal = ended || resultText(game);
   const engineAllowed = view === "play" || Boolean(clockState?.running);
   const competition = config.profile === "competition";
@@ -365,7 +370,9 @@ export default function App() {
   const threatList =
     showThreats && !competition ? threats(game, config.color) : [];
   useEffect(() => {
-    voicePlayer.setAssistanceAllowed(view !== "play" || !competition);
+    voicePlayer.setAssistanceAllowed(
+      view !== "friends" && (view !== "play" || !competition),
+    );
   }, [view, competition, voicePlayer]);
   useEffect(() => {
     voicePlayer.reset();
@@ -735,20 +742,6 @@ export default function App() {
         ? p.completed
         : [...p.completed, value.id],
     }));
-  }
-  async function testConnection() {
-    setConnectionBusy(true);
-    try {
-      setConnection(await checkSupabase());
-    } catch (error) {
-      setConnection({
-        connected: false,
-        anonymous: false,
-        message: (error as Error).message,
-      });
-    } finally {
-      setConnectionBusy(false);
-    }
   }
   const categoryLessons = exercises.filter(
     (e) => e.category === exercise?.category,
@@ -1788,57 +1781,14 @@ export default function App() {
             </>
           )}
           {view === "friends" && (
-            <>
-              <div className="page-heading">
-                <div>
-                  <div className="eyebrow">
-                    SCHACK ÄR EN UPPTÄCKT NI KAN DELA
-                  </div>
-                  <h1>Snart möts ni över brädet.</h1>
-                  <p>
-                    Privata partier med en egen kod är nästa utvecklingsetapp.
-                  </p>
-                </div>
-              </div>
-              <section className="friends-card">
-                <div className="friend-pieces">
-                  <Piece type="n" color="w" />
-                  <Piece type="n" color="b" />
-                </div>
-                <span className="pill subtle">KOMMANDE FUNKTION</span>
-                <h2>En kompis. En kod. Ett parti.</h2>
-                <p>
-                  Multiplayer är ännu inte tillgängligt. Spela mot datorn eller
-                  utforska schackskolan under tiden.
-                </p>
-                <button className="button primary" onClick={() => openNew()}>
-                  Spela mot datorn <ArrowRight size={18} />
-                </button>
-              </section>
-              <section className="connection-card">
-                <Wifi size={22} />
-                <div>
-                  <h3>Supabase-anslutning</h3>
-                  <p role="status">
-                    {connection?.message ??
-                      "Kontrollera anslutningen för den här installationen."}
-                  </p>
-                  {connection?.connected && connection.anonymous && (
-                    <p className="fine-print">
-                      Databas, RLS-regler, realtime och servervaliderade drag
-                      återstår innan multiplayer kan användas.
-                    </p>
-                  )}
-                </div>
-                <button
-                  className="button outline small"
-                  disabled={connectionBusy}
-                  onClick={testConnection}
-                >
-                  {connectionBusy ? "Kontrollerar…" : "Kontrollera"}
-                </button>
-              </section>
-            </>
+            <Suspense fallback={<p role="status">Öppnar kompispartier…</p>}>
+              <Multiplayer
+                showSquareNames={showSquareNames}
+                onToggleNames={toggleSquareNames}
+                soloRunning={Boolean(clockState?.running)}
+                onSolo={() => navigate("play")}
+              />
+            </Suspense>
           )}
         </main>
         <footer className="site-credit">

@@ -12,11 +12,11 @@ Ett gratis, reklamfritt schackspel på svenska för nyfikna elever, framför all
 - Tre stödprofiler. Lagliga drag, lagligt slagbara pjäser, frivilliga förhandsvarningar inklusive en passant och tre steg av ledtrådar.
 - Pågående parti och historik sparas lokalt. Ångra i stödprofiler, ge upp, slutresultat, genomspelning och PGN-export.
 - Valfri schackklocka: utan tid som standard, 15 eller 10 minuter per spelare. Tidsavslut, sparad tid och återställning vid nytt parti. Se [klockans beteende och regelgränser](docs/CLOCK.md).
-- 17 korta lektioner om alla sex pjäser, schack, rockad, matt, patt och en passant, två verifierade mattproblem, lokala medaljer och en enkel väg genom tävlingsträningen.
+- 22 korta lektioner om alla sex pjäser, regler, hot och säkra slag, två verifierade mattproblem, lokala medaljer och en enkel väg genom tävlingsträningen.
 - Nybörjarpass med tre uppdrag, paus/återupptagning, återkoppling och lokal passhistorik. Se [nybörjarpasset](docs/NYBORJARPASS.md).
-- Supabase-inställningar kan kontrolleras på kompis-sidan, utan att något elevkonto skapas.
+- Privata kompispartier på två datorer med kod, anonym spelplats, servervaliderade drag, realtidssynkronisering, återupptagning och PGN-export. Utan klocka i första versionen. Se [multiplayer](docs/MULTIPLAYER.md).
 
-Privata nätpartier och motorbaserad efteranalys av misstag är **inte implementerade**. Kompis-sidan märker multiplayer som kommande. Ingen klient kan skriva speldata till Supabase i denna version.
+Motorbaserad efteranalys ger ett positivt exempel och högst ett förbättringstips, med en relevant repetitionslektion. Privata klassgrupper och topplistor återstår. Kompispartier går genom servern; klienten kan inte skriva direkt i databasen.
 
 ## Starta lokalt
 
@@ -90,13 +90,13 @@ VITE_SUPABASE_PUBLISHABLE_KEY=sb_publishable_...
 
 Databaslösenord, `sb_secret_...`, service-role-nycklar och Supabase access tokens får aldrig ligga i `VITE_*`, Git eller frontend. `.env.local` och lokala lösenordsfiler undantas från Git.
 
-### Vad återstår för multiplayer?
+### Kompispartier
 
-GitHub-integrationen installerar inte automatiskt ett säkert schackbackend. I nästa etapp behövs migrationsfiler, RLS, anonym autentisering i klienten, privat lobby, servervalidering med chess.js, atomiska versionskontroller och Realtime. Inga tabeller, RLS-policyer eller Edge Functions har lagts in i projektet ännu. Se `ARCHITECTURE.md` och `ROADMAP.md`.
+Tabeller, RLS-policyer, serverfunktion och realtidssynkronisering installerades den 22 oktober 2026. Spelet behöver ingen särskild GitHub-integration i Supabase. Installation, åtkomstregler, lagringstid och verifiering finns i [multiplayer-dokumentationen](docs/MULTIPLAYER.md).
 
 ## Integritet och lokal data
 
-Inga namn, e-postadresser, annonser, analysverktyg eller chattfunktioner. Spel och framsteg sparas i webbläsarens `localStorage` med versionerade nycklar. Data försvinner vid rensning av webbplatsdata och följer inte med till en annan dator. Supabase kontaktas bara när anslutningskontrollen används; ingen inloggning sker då.
+Inga namn, e-postadresser, annonser, analysverktyg eller chattfunktioner. Solopartier och framsteg sparas i webbläsarens `localStorage` med versionerade nycklar. De följer inte med till en annan dator. Kompispartier använder en anonym Supabase-session, tekniska deltagar-ID:n och delad draghistorik. Inloggning sker först när eleven skapar eller går med i ett parti. Partiet kan återupptas i samma webbläsare i 24 timmar och gallras sedan automatiskt. Anonyma Auth-konton och driftloggar omfattas av separata projektinställningar; se [multiplayer](docs/MULTIPLAYER.md).
 
 ## Grafik och motorlicens
 
@@ -106,10 +106,10 @@ Logotyp, favicon och samtliga pjäser är egna SVG-former. Ikoner: Lucide, ISC. 
 
 Manus och filnamn finns i [`docs/audio/ROSTMANUS.md`](docs/audio/ROSTMANUS.md). Första omgången P1 innehåller 25 klipp. Varje replik finns som en egen UTF-8-textfil under `docs/audio/elevenlabs-input/`. Spara det genererade ljudet med samma basnamn och `.mp3`, och lägg färdiga ljud i `public/audio/sv-SE/`.
 
-`docs/audio/manifest.json` är källan för manuset. Kör `npm run prepare:voiceover` efter ändringar för att validera filnamn, prioritering och täckning av alla 19 övningarna och återskapa textfilerna. P2 innehåller senare spelhändelser. P3 avser klocka och multiplayer; klockan fungerar nu i text men P3-replikerna är ännu inte inkopplade. Multiplayer återstår.
+`docs/audio/manifest.json` är källan för manuset. Kör `npm run prepare:voiceover` efter ändringar för att validera filnamn, prioritering och täckning av alla 24 övningarna och återskapa textfilerna. P2 innehåller senare spelhändelser. P3 avser klocka och multiplayer; dessa händelser fungerar i text men P3-replikerna är ännu inte inkopplade.
 
 De 25 P1-filerna är inkopplade: välkomst- och hjälprepliker, intro/ledtråd/återkoppling för de ursprungliga sex övningarna samt förklaringar om schack och dragvarningar i tillåtna spelprofiler. Eleven kan välja Röst på/av, Lyssna, Stoppa och Lyssna igen. Ett tryck på Lyssna slår på rösten och spelar det valda klippet. Efter det kan övningsåterkoppling spelas vid elevens drag. Rösten är alltid av när sidan öppnas eller laddas om; inget ljud hämtas före elevens val.
 
-Ett klipp spelas åt gången. Sidbyte, nytt parti, avslutat parti och stängda dialoger avbryter gammalt ljud. Tävlingsprofilen blockerar talade tips och hotvarningar även vid återuppspelning. Ett ljudfel lämnar text och bräde användbara. ElevenLabs-nycklar behövs inte i frontend; spelaren hämtar färdiga MP3-filer från samma webbplats som spelet. `npm run check:dist` verifierar att alla 64 levererade filer följer med oförändrade i bygget.
+Ett klipp spelas åt gången. Sidbyte, nytt parti, avslutat parti och stängda dialoger avbryter gammalt ljud. Tävlingsprofilen och kompispartier blockerar talade tips och hotvarningar även vid återuppspelning. Ett ljudfel lämnar text och bräde användbara. ElevenLabs-nycklar behövs inte i frontend; spelaren hämtar färdiga MP3-filer från samma webbplats som spelet. `npm run check:dist` verifierar att alla 79 levererade filer följer med oförändrade i bygget.
 
-De 13 nya grundlektionerna har nu även sina 39 inspelade repliker inkopplade: uppdrag, ledtråd och förklaring. Totalt används 64 lokala ljudfiler. Se [schackskolan](docs/SCHACKSKOLAN.md) och [nya inspelningsmanuset](docs/audio/GRUNDLEKTIONER-MANUS.md).
+Alla 39 SKOLA-filer och 15 TAKTIK-filer är inkopplade utöver de 25 P1-filerna: totalt 79 lokala ljud. Se [schackskolan](docs/SCHACKSKOLAN.md), [grundlektionernas manus](docs/audio/GRUNDLEKTIONER-MANUS.md) och [taktikmanuset](docs/audio/TAKTIK-MANUS.md).

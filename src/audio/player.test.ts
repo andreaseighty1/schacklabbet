@@ -149,7 +149,7 @@ describe("elevstyrd röst", () => {
     expect(player.getSnapshot().last).toBe("start-welcome");
   });
 
-  it("kopplar exakt de 64 levererade filerna och inga framtida repliker", () => {
+  it("kopplar exakt de 79 levererade filerna och inga framtida repliker", () => {
     const mapped: (VoiceClip | null)[] = exercises.flatMap((exercise) =>
       (["intro", "hint", "success"] as const).map((cue) =>
         exerciseClip(exercise.id, cue),
@@ -165,13 +165,13 @@ describe("elevstyrd röst", () => {
       "game-move-risk",
     );
     const delivered = manifest.clips
-      .filter((clip) => ["P1", "SKOLA"].includes(clip.priority))
+      .filter((clip) => ["P1", "SKOLA", "TAKTIK"].includes(clip.priority))
       .map((clip) => clip.id);
     expect(new Set(mapped.filter((clip) => clip !== null))).toEqual(
       new Set(delivered),
     );
     for (const clip of manifest.clips.filter(
-      (clip) => clip.priority === "SKOLA",
+      (clip) => ["SKOLA", "TAKTIK"].includes(clip.priority),
     )) {
       expect(
         exerciseClip(clip.lessonId!, clip.cue as "intro" | "hint" | "success"),

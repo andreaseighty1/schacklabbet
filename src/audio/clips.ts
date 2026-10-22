@@ -18,6 +18,11 @@ const exercisePrefixes = {
   checkmate: "lesson-checkmate",
   stalemate: "lesson-stalemate",
   "en-passant": "lesson-en-passant",
+  "spot-threat": "lesson-spot-threat",
+  "rescue-rook": "lesson-rescue-rook",
+  "rescue-queen": "lesson-rescue-queen",
+  "rescue-knight": "lesson-rescue-knight",
+  "safe-capture": "lesson-safe-capture",
 } as const;
 
 export type ExerciseVoiceId = keyof typeof exercisePrefixes;

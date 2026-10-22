@@ -18,6 +18,8 @@ Källkod och nätverk distribueras på samma webbplats som motorn, utan inloggni
 - React och React DOM: Meta Platforms, MIT.
 - chess.js: Jeff Hlywa och bidragsgivare, BSD-2-Clause.
 - Lucide: Lucide-bidragsgivare, ISC.
+- Supabase JavaScript-klient: Supabase och bidragsgivare, MIT.
+- PGlite: Electric DB Limited, Apache-2.0; används bara för databasprov under utveckling/CI, distribueras inte i webbspelet.
 - Vite, Vitest, TypeScript, Playwright, ESLint och Prettier används som utvecklingsverktyg enligt respektive upstream-licens.
 
 Den kompletta npm-beroendelistan med exakta versioner finns i `package-lock.json`. Motorfilerna ändras inte och behåller sina ursprungliga upphovsrättsmeddelanden.

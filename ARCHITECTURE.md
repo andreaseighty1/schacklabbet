@@ -10,9 +10,11 @@ React 19, strikt TypeScript, Vite och vanlig CSS. Appen är statisk; ingen Node-
 - `src/components/LessonArt.tsx` och `AchievementArt.tsx`: dekorativa rörelsediagram och medaljer. Instansunika SVG-ID:n gör att flera illustrationer kan samexistera utan gradient- eller pilkollisioner. Ingen spel- eller poänglogik ligger i grafiken.
 - `src/chess/model.ts`: centrala regeloperationer, korrekt avslutsorsak, UCI-validering, fångade pjäser, riskkontroll och PGN-resultat.
 - `src/chess/engine.ts`: UCI, styrkeinställningar, kandidatval och worker-livscykel.
-- `src/content.ts`: fyra lektioner och två mattproblem, med FEN, lösningsdrag, ledtråd och konkret återkoppling.
+- `src/content.ts`: 22 lektioner och två mattproblem, med FEN, lösningsdrag, ledtråd och konkret återkoppling.
 - `src/storage.ts`: versionskontroll och validering av lagrade data; idempotent bokföring av avslutade partier.
-- `src/supabase.ts`: läser enbart offentliga Auth-inställningar på begäran. Ingen databas, autentisering eller multiplayerlogik finns ännu.
+- `src/components/Multiplayer.tsx` och `src/multiplayer/client.ts`: separat kompisbräde, anonym session, kodlobby och återhämtning. Laddas först när kompissidan öppnas.
+- `supabase/functions/chess-room/` och `supabase/migrations/`: servervaliderade drag, atomisk skrivning, RLS och gallring. Se docs/MULTIPLAYER.md för komplett modell och verifiering.
+- `src/supabase.ts`: separat läsning av offentliga Auth-inställningar; används i konfigurationstester.
 
 En enda chess.js-instans äger det aktiva partiets fullständiga historik. Alla drag, även motorns, valideras där. React renderar en ny revision efter en godkänd ändring. Vid granskning skapas en separat instans från historiken; granskningen ändrar inte partiet. UI-komponenter implementerar inte schackregler.
 
@@ -48,18 +50,18 @@ Nybörjare väljer mellan analyserade kandidater inom 250 centipawn från först
 
 Inga elevidentiteter lagras. Medaljer bygger bara på genomförda övningar och verkliga avslutsresultat. Att ge upp räknas som avslutat parti men aldrig som vinst.
 
-## Planerad multiplayer och säkerhet
+## Multiplayer och säkerhet
 
-Ännu inte implementerat. Följande är designkrav för nästa etapp, inte befintliga säkerhetsgarantier:
+Installerat i Supabase den 22 oktober 2026 och verifierat mot det riktiga projektet. Detaljer och praktiska begränsningar finns i [multiplayer](docs/MULTIPLAYER.md):
 
 - Anonym Supabase Auth, och spelaridentitet hämtad från verifierad JWT.
-- `games`: servergenererad kryptografisk kod, deltagar-ID:n, serverägd PGN/FEN, version, status, tidsstämplar och slutorsak.
+- `chess_rooms`: deltagar-ID:n, serverägd UCI-historik, version, status, giltighet och slutorsak. Kryptografisk kod ligger i ett separat internt schema.
 - Inga direkta klientskrivningar till auktoritativa spelfält. RLS tillåter bara deltagare att läsa ett privat parti.
 - Edge Function validerar medlemskap, färg, tur, regelriktighet och avslutsstatus. Bara dragets från/till/förvandling accepteras från klienten.
 - Atomisk versionskontroll i en databasfunktion förhindrar att samtidiga drag skriver över varandra. Full historik bevaras för upprepningsregeln.
 - Realtime meddelar uppdateringar; den bestämmer inte vilka drag som är giltiga. Återanslutning läser senaste serverversionen.
 - Kodförfrågningar begränsas och ger generiska fel; inga offentliga spellistor eller fri chatt.
-- Avslutade eller övergivna partier städas efter högst 7 dagar, med en serverstyrd schemalagd rutin.
-- Integrationsprov krävs med två användare, en utomstående, fel tur, olagligt drag, parallella anrop och avbruten anslutning.
+- Alla partier går ut efter 24 timmar och gallras varje timme med pg_cron. Auth-konton omfattas av en separat framtida gallringsrutin.
+- Integrationsprov har passerat med två användare, en utomstående, fel tur, olagligt drag, parallella anrop, återupptagning och riktig Realtime. UI provar dessutom avbruten anslutning och förlorade kvitton i Playwright.
 
-Anslutningskontrollen verifierar bara API-adress, publishable-nyckel och om anonyma inloggningar är tillåtna. Den kan inte bekräfta GitHub-integration eller administrativa databasinställningar.
+GitHub-integrationen i Supabase krävs inte för att appen ska kunna köra kompispartier. GitHub Pages fortsätter publicera den statiska klienten.

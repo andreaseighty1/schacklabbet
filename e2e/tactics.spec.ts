@@ -130,13 +130,14 @@ test("damen, svart springare och säkert slag fungerar med hjälprutor och utan 
 }) => {
   const touch = Boolean(hasTouch);
   const missingAudio: string[] = [];
-  page.on("request", (request) => {
+  page.on("response", (response) => {
     if (
       /\/audio\/sv-SE\/lesson-(spot-threat|rescue-|safe-capture)/.test(
-        request.url(),
-      )
+        response.url(),
+      ) &&
+      !response.ok()
     )
-      missingAudio.push(request.url());
+      missingAudio.push(response.url());
   });
   await page.goto("/#school");
   await press(
@@ -145,11 +146,16 @@ test("damen, svart springare och säkert slag fungerar med hjälprutor och utan 
   );
   await open(page, "Rädda damen", touch);
   await expect(
-    page.getByText("Den här övningen har textinstruktioner.", { exact: false }),
-  ).toBeVisible();
-  await expect(
     page.getByRole("button", { name: "Lyssna på uppdraget", exact: true }),
-  ).toHaveCount(0);
+  ).toBeVisible();
+  const intro = page.waitForResponse((response) =>
+    response.url().endsWith("/lesson-rescue-queen-intro.mp3"),
+  );
+  await press(
+    page.getByRole("button", { name: "Lyssna på uppdraget", exact: true }),
+    touch,
+  );
+  expect((await intro).ok()).toBe(true);
   await move(page, "e5", "e7", touch);
   await expect(page.locator(".exercise-feedback")).toContainText(
     "Damen kan fortfarande tas",

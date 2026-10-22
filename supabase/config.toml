@@ -1,0 +1,5 @@
+project_id = "schacklabbet"
+
+[functions.chess-room]
+verify_jwt = true
+import_map = "./functions/chess-room/deno.json"

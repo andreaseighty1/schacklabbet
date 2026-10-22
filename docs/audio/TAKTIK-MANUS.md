@@ -2,7 +2,7 @@
 
 15 nya MP3-filer, tre per lektion. Använd samma lugna svenska röst som tidigare. Läs bara repliken under filnamnet. Språket är skrivet för årskurs 4. Rutnamn skrivs F fyra och G fem, utan fonetiska omskrivningar.
 
-Dessa ljud är ännu inte levererade eller inkopplade. Lektionerna fungerar med text. Befintliga 64 ljudfiler ska inte spelas in igen.
+Alla 15 ljud är levererade och inkopplade. Totalt används nu 79 inspelningar. Manuset är inte en verifierad transkription av inspelningarna. Inga befintliga ljud behöver spelas in igen.
 
 Spara med exakt filnamn. Lägg MP3-filerna direkt i public/audio/sv-SE/. Rena texter finns i elevenlabs-input/taktik/ och alla filnamn i TAKTIK-FILNAMN.txt.
 

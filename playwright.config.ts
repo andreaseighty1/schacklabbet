@@ -27,6 +27,7 @@ export default defineConfig({
         "**/review.spec.ts",
         "**/appearance.spec.ts",
         "**/tactics.spec.ts",
+        "**/multiplayer.spec.ts",
       ],
       use: {
         ...devices["Desktop Chrome"],

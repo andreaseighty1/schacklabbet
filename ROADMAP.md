@@ -34,9 +34,9 @@
 - [x] Nybörjarpass med tre uppdrag, ungefär 10 minuter utan nedräkning, återkoppling, paus/återupptagning och sparad passhistorik.
 - [x] Valfri schackklocka (utan tid, 15 eller 10 minuter var), tidsavslut, sparad tid och återställning. Materialbaserad remikontroll; fullständiga ställningsspecifika specialfall återstår, se docs/CLOCK.md.
 - [x] Inspelningsmanus med exakta filnamn för de ursprungliga sex övningarna och gemensamma spelhändelser. Ytterligare 39 manus finns för de 13 nya grundlektionerna.
-- [x] Första omgångens 25 P1-filer och de nya grundlektionernas 39 SKOLA-filer levererade och inkopplade.
+- [x] 79 ljudfiler levererade och inkopplade: 25 P1, 39 SKOLA och 15 TAKTIK.
 - [x] Valfria rutnamn direkt på alla rutor, på som standard i lektioner med separat sparat val för partier.
-- [ ] Lyssningsgranska P1- och SKOLA-filerna och verifiera begriplighet, uttal och ljudnivå. P2 och P3 är senare omgångar.
+- [ ] Lyssningsgranska P1-, SKOLA- och TAKTIK-filerna med målgruppen och verifiera begriplighet, uttal och ljudnivå. P2 och P3 är senare omgångar.
 - [x] Koppla lokal ljuduppspelning med Röst på/av, Lyssna, Stoppa och Lyssna igen. Av vid sidöppning och omladdning, ingen automatisk start och omedelbart stopp vid avstängning.
 - [x] Verifiera att tävlingsprofilen blockerar talade tips och hotvarningar även vid upprepning, och att tidigare uppspelning avbryts före nästa klipp. Enhetstester och webbläsartester godkända.
 
@@ -44,11 +44,14 @@ Implementerade klockval: utan klocka som standard, 15 minuter per spelare för l
 
 ## Fas 3 – multiplayer
 
-- [ ] Databasmigrationer, RLS-policyer och kort lagringstid.
-- [ ] Anonym klientinloggning, privat kodlobby och säkert kodskydd.
-- [ ] Servervaliderade drag och atomisk versionskontroll.
-- [ ] Realtime, återanslutning, återupptagning och ge upp på servern.
-- [ ] Tvåanvändartester, obehörighetstester och samtidighetsprov innan UI aktiveras.
+- [x] Databasmigrationer, RLS-policyer och 24 timmars giltighet med automatisk gallring.
+- [x] Anonym klientinloggning, privat kodlobby och 50-bitars slumpade koder.
+- [x] Servervaliderade drag och atomisk versionskontroll.
+- [x] Realtime, återanslutning, återupptagning och ge upp på servern. Första versionen utan klocka.
+- [x] Tvåanvändarprov mot riktig Supabase, obehörighetstester och samtidighetsprov. Se docs/MULTIPLAYER.md.
+- [ ] Klassrumsprov med två elevdatorer och många samtidiga förstagångsinloggningar på skolans nätverk.
+- [ ] Remianbud, schackklocka och närvaropuls för kompispartier.
+- [ ] Långsiktig gallringsrutin för anonyma Auth-konton.
 
 ### Förslag: privata topplistor
 

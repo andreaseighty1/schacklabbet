@@ -41,11 +41,11 @@ const lines = [
   "Det här är ett inspelningsunderlag. De 25 P1-filerna är inkopplade i appens ljudspelare. Manuset är inte en kontrollerad transkription av de levererade inspelningarna.",
   "",
   "De 13 nya grundlektionerna har ett separat paket med 39 repliker: GRUNDLEKTIONER-MANUS.md, GRUNDLEKTIONER-FILNAMN.txt och rena textfiler i elevenlabs-input/skola/. Alla 39 nya ljudfiler är levererade och inkopplade.",
-  "De fem övningarna om hot, räddning och säkra slag har 15 nya manus i TAKTIK-MANUS.md och elevenlabs-input/taktik/. Dessa ljudfiler är ännu inte levererade eller inkopplade; uppgifterna fungerar med text.",
+  "De fem övningarna om hot, räddning och säkra slag har 15 manus i TAKTIK-MANUS.md och elevenlabs-input/taktik/. Alla 15 ljudfiler är levererade och inkopplade. Totalt används nu 79 inspelningar.",
   "",
   "## Börja här",
   "",
-  "Gör först ett röstprov med `start-welcome.mp3`, `lesson-knight-intro.mp3` och `game-player-check.mp3`. När röst och uttal känns rätt, fortsätt med P1. P2 kan göras därefter. Vänta med P3 tills nästa ljudomgång: schackklockan fungerar nu i text, men dess repliker är inte inkopplade. Multiplayer återstår.",
+  "Gör först ett röstprov med `start-welcome.mp3`, `lesson-knight-intro.mp3` och `game-player-check.mp3`. När röst och uttal känns rätt, fortsätt med P1. P2 kan göras därefter. Vänta med P3 tills nästa ljudomgång: schackklockan fungerar nu i text, men dess repliker är inte inkopplade. Kompispartier finns i text; P3-ljuden är ännu inte inkopplade.",
   "",
   "Varje textfil i `elevenlabs-input/` innehåller endast orden som ska sägas. Ladda upp eller klistra in innehållet i ElevenLabs och spara ljudet med samma basnamn, men ändelsen `.mp3`. Exempel: `lesson-rook-intro.txt` → `lesson-rook-intro.mp3`.",
   "",
@@ -99,7 +99,7 @@ for (const priority of ["P1", "P2", "P3", "SKOLA", "TAKTIK"]) {
       `Gammalt eller främmande manus i paketet: ${filename}`,
     );
   lines.push(
-    `## ${priority} – ${priority === "P1" ? "första inspelningsomgången" : priority === "P2" ? "fler spelhändelser och belöningar" : priority === "SKOLA" ? "nya grundlektioner – levererade" : priority === "TAKTIK" ? "hot och säkra drag – redo för inspelning" : "senare ljudomgång – vänta med inspelning"} (${clips.length} filer)`,
+    `## ${priority} – ${priority === "P1" ? "första inspelningsomgången" : priority === "P2" ? "fler spelhändelser och belöningar" : priority === "SKOLA" ? "nya grundlektioner – levererade" : priority === "TAKTIK" ? "hot och säkra drag – levererade" : "senare ljudomgång – vänta med inspelning"} (${clips.length} filer)`,
     "",
   );
   for (const clip of clips) {
@@ -193,7 +193,7 @@ await writeFile(
     "",
     "15 nya MP3-filer, tre per lektion. Använd samma lugna svenska röst som tidigare. Läs bara repliken under filnamnet. Språket är skrivet för årskurs 4. Rutnamn skrivs F fyra och G fem, utan fonetiska omskrivningar.",
     "",
-    "Dessa ljud är ännu inte levererade eller inkopplade. Lektionerna fungerar med text. Befintliga 64 ljudfiler ska inte spelas in igen.",
+    "Alla 15 ljud är levererade och inkopplade. Totalt används nu 79 inspelningar. Manuset är inte en verifierad transkription av inspelningarna. Inga befintliga ljud behöver spelas in igen.",
     "",
     "Spara med exakt filnamn. Lägg MP3-filerna direkt i public/audio/sv-SE/. Rena texter finns i elevenlabs-input/taktik/ och alla filnamn i TAKTIK-FILNAMN.txt.",
     "",

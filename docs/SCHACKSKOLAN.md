@@ -36,4 +36,4 @@ Räddningsuppgifterna anger uttryckligen att den flyttade pjäsen inte ska kunna
 
 Ställningar, samtliga svar och frånvaron av direkta lagliga återslag verifieras med regelmotorn. Felaktiga lagliga försök lämnar brädet oförändrat och ger en förklaring för just uppgiften. Svarts springare visas från svarts sida. Rutnamn, ledtrådar, hjälppunkter, slagringar, tangentbord och pekskärm fungerar som tidigare. Upprepad lösning ger inte dubbla framsteg och ordinarie parti behålls.
 
-De nya lektionerna använder tills vidare text. 15 färdiga inspelningsmanus finns i audio/TAKTIK-MANUS.md, med exakta filnamn och rena texter i audio/elevenlabs-input/taktik/. Inga saknade MP3-filer anropas. De 64 levererade ljuden behålls oförändrade.
+De nya lektionerna har text och elevstyrd röst. Alla 15 TAKTIK-inspelningar är levererade och inkopplade, utöver de 64 tidigare ljuden. Manus finns i audio/TAKTIK-MANUS.md, med exakta filnamn och rena texter i audio/elevenlabs-input/taktik/. De tidigare inspelningarna behålls oförändrade.
