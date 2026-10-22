@@ -9,7 +9,7 @@ export default defineConfig({
   projects: [
     {
       name: "desktop",
-      testIgnore: "**/touch.spec.ts",
+      testIgnore: ["**/touch.spec.ts", "**/compact.spec.ts"],
       use: {
         ...devices["Desktop Chrome"],
         viewport: { width: 1366, height: 768 },
@@ -17,8 +17,13 @@ export default defineConfig({
     },
     {
       name: "mobile",
-      testIgnore: "**/touch.spec.ts",
+      testIgnore: ["**/touch.spec.ts", "**/compact.spec.ts"],
       use: { ...devices["iPhone 13"], defaultBrowserType: "chromium" },
+    },
+    {
+      name: "compact-laptop",
+      testMatch: "**/compact.spec.ts",
+      use: { ...devices["Desktop Chrome"], hasTouch: true },
     },
     {
       name: "touchscreen",

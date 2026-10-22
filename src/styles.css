@@ -3525,3 +3525,304 @@ a {
   display: block;
   margin-bottom: 0.75rem;
 }
+/* Compact school laptops: keep the board usable and give navigation its own drawer. */
+.menu-close,
+.menu-backdrop {
+  display: none;
+}
+.main-shell,
+.main-content,
+.game-panel,
+.exercise-panel,
+.friend-start,
+.friend-join,
+.player-row > div {
+  min-width: 0;
+}
+
+@media (min-width: 691px) and (max-width: 1100px) {
+  .main-content {
+    padding: 20px 18px;
+  }
+  .game-content {
+    padding-top: 14px;
+  }
+  .page-heading {
+    margin-bottom: 18px;
+  }
+  .page-heading h1 {
+    font-size: 26px;
+  }
+  .game-heading {
+    margin-bottom: 12px;
+  }
+  .game-layout {
+    gap: 18px;
+  }
+  .board-column,
+  .board-column.has-clock,
+  .friend-game .board-column {
+    width: clamp(300px, calc(100dvh - 280px), 510px);
+    min-width: 300px;
+    max-width: calc(100% - 288px);
+    flex: 0 1 auto;
+  }
+  .game-panel {
+    width: 310px;
+    min-width: 270px;
+    flex: 1 1 270px;
+    max-width: 410px;
+    margin-top: 0;
+  }
+  .friend-game {
+    flex-direction: row;
+    align-items: flex-start;
+  }
+  .friend-game .game-panel {
+    align-self: flex-start;
+  }
+  .player-row,
+  .has-clock .player-row {
+    min-height: 44px;
+    gap: 6px;
+  }
+  .player-row strong {
+    font-size: 12px;
+  }
+  .player-row div > span:not(.subtle-tag) {
+    font-size: 10px;
+  }
+  .has-clock .captured-strip {
+    max-width: 44px;
+  }
+  .thinking {
+    font-size: 0;
+  }
+  .chess-clock {
+    font-size: 20px;
+    min-width: 76px;
+    padding: 7px;
+  }
+  .board-controls {
+    gap: 4px 12px;
+  }
+  .exercise-layout {
+    grid-template-columns:
+      minmax(0, clamp(300px, calc(100dvh - 265px), 510px))
+      minmax(0, 1fr);
+    gap: 18px;
+  }
+  .exercise-panel {
+    padding: 20px;
+  }
+  .exercise-panel > p {
+    font-size: 13px;
+  }
+  .exercise-panel h2 {
+    font-size: 22px;
+  }
+  .exercise-feedback {
+    font-size: 12px;
+  }
+  .training-path {
+    grid-template-columns: 1fr;
+  }
+  .training-step p {
+    min-height: 0;
+  }
+  .training-step .button {
+    font-size: 12px;
+  }
+  .friend-lobby {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px;
+  }
+  .friend-start,
+  .friend-join {
+    padding: 24px;
+  }
+  .friend-lobby .friend-pieces,
+  .friend-join-icon {
+    height: 60px;
+    margin-bottom: 16px;
+  }
+  .friend-invite {
+    grid-template-columns: minmax(0, 1fr) minmax(220px, 260px);
+    gap: 20px;
+    padding: 20px;
+  }
+  .friend-page .page-heading > .pill {
+    display: none;
+  }
+  .friend-game .page-heading {
+    margin-bottom: 18px;
+  }
+}
+
+@media (max-width: 1100px) {
+  .main-shell {
+    width: 100%;
+    margin-left: 0;
+  }
+  .topbar {
+    height: 60px;
+    padding: 0 18px;
+    gap: 10px;
+  }
+  .topbar .local-status {
+    display: none;
+  }
+  .mobile-toggle {
+    display: inline-flex !important;
+  }
+  .topbar .breadcrumb > span,
+  .topbar .breadcrumb > svg {
+    display: none;
+  }
+  .sidebar {
+    display: none;
+    width: min(280px, calc(100vw - 40px));
+    padding: 12px 16px 20px;
+    z-index: 50;
+    overscroll-behavior: contain;
+  }
+  .sidebar.is-open {
+    display: flex;
+  }
+  .sidebar.is-open .brand > span:last-child,
+  .sidebar.is-open .nav-eyebrow,
+  .sidebar.is-open .nav-item > span {
+    display: initial;
+  }
+  .sidebar.is-open .brand-link {
+    margin: 4px 4px 20px;
+  }
+  .sidebar.is-open .nav-item {
+    justify-content: flex-start;
+    padding: 10px 12px;
+    min-height: 44px;
+    font-size: 13px;
+  }
+  .sidebar.is-open nav {
+    gap: 3px;
+  }
+  .sidebar-note,
+  .sidebar-footer {
+    display: none;
+  }
+  .sidebar.is-open .sidebar-bottom {
+    display: block;
+    padding-top: 12px;
+  }
+  .menu-close {
+    display: inline-flex;
+    align-self: flex-end;
+    flex-shrink: 0;
+  }
+  .menu-backdrop {
+    display: block;
+    position: fixed;
+    inset: 0;
+    z-index: 40;
+    background: #102e2866;
+  }
+  .page-heading > div {
+    min-width: 0;
+  }
+  .page-heading h1,
+  .exercise-panel h2 {
+    overflow-wrap: anywhere;
+  }
+  .button {
+    white-space: normal;
+  }
+  .friend-colors {
+    flex-wrap: wrap;
+  }
+  .friend-dialog {
+    max-height: calc(100dvh - 32px);
+    overflow: auto;
+  }
+}
+
+/* A short window needs less decoration, not smaller text or touch controls. */
+@media (min-width: 691px) and (max-height: 650px) {
+  .main-content {
+    padding-top: 12px;
+  }
+  .topbar {
+    height: 54px;
+  }
+  .page-heading {
+    margin-bottom: 12px;
+  }
+  .page-heading h1 {
+    font-size: 23px;
+    margin-top: 3px;
+  }
+  .game-heading {
+    margin-bottom: 8px;
+  }
+  .back-link {
+    margin-bottom: 8px;
+  }
+  .game-heading .eyebrow,
+  .friend-page > .page-heading .eyebrow {
+    display: none;
+  }
+  .friend-game .board-column,
+  .board-column,
+  .board-column.has-clock {
+    width: clamp(290px, calc(100dvh - 235px), 510px);
+    min-width: 290px;
+  }
+  .exercise-layout {
+    grid-template-columns:
+      minmax(0, clamp(290px, calc(100dvh - 235px), 510px))
+      minmax(0, 1fr);
+  }
+  .exercise-panel {
+    padding: 16px;
+  }
+  .modal-backdrop {
+    padding: 12px;
+  }
+  .modal {
+    max-height: calc(100dvh - 24px);
+    padding: 24px;
+  }
+  .friend-dialog {
+    max-height: calc(100dvh - 24px);
+  }
+}
+
+@media (min-width: 691px) and (max-width: 780px) {
+  .game-layout {
+    gap: 12px;
+  }
+  .board-column,
+  .board-column.has-clock,
+  .friend-game .board-column {
+    max-width: calc(100% - 252px);
+  }
+  .game-panel {
+    min-width: 240px;
+    flex-basis: 240px;
+  }
+  .friend-lobby {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .friend-invite {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+@media (min-width: 691px) and (max-width: 1100px) {
+  .training-step-status ~ .exercise-layout {
+    grid-template-columns:
+      minmax(0, clamp(280px, calc(100dvh - 310px), 460px))
+      minmax(0, 1fr);
+  }
+}
+.chess-clock > span {
+  line-height: 1;
+}

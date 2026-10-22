@@ -50,6 +50,7 @@ import { Piece } from "./components/Piece";
 import { useChessTheme } from "./components/ChessTheme";
 import { SettingsPage } from "./components/SettingsPage";
 import { FriendBoundary } from "./components/FriendBoundary";
+import { NavigationDrawer } from "./components/NavigationDrawer";
 import type { GameReview } from "./chess/review";
 import type { TrainingRecommendation } from "./chess/recommendation";
 import { LessonCatalog } from "./components/LessonCatalog";
@@ -814,7 +815,14 @@ export default function App() {
     });
   return (
     <div className="app-shell" data-chess-theme={chessTheme}>
-      <aside className={`sidebar ${mobileMenu ? "is-open" : ""}`}>
+      <NavigationDrawer open={mobileMenu} onClose={() => setMobileMenu(false)}>
+        <button
+          className="icon-button menu-close"
+          aria-label="Stäng meny"
+          onClick={() => setMobileMenu(false)}
+        >
+          <X />
+        </button>
         <a
           href="#home"
           className="brand-link"
@@ -847,20 +855,28 @@ export default function App() {
             <strong>Bara du och ditt nästa drag.</strong>
             <p>Gratis, reklamfritt och utan elevkonto.</p>
           </div>
-          <button className="nav-item" onClick={() => setModal("help")}>
+          <button
+            className="nav-item"
+            onClick={() => {
+              setMobileMenu(false);
+              setModal("help");
+            }}
+          >
             <CircleHelp size={19} /> Så funkar Schacklabbet
           </button>
           <div className="sidebar-footer">
             <span className="online-dot" /> Skapat för nyfikna hjärnor
           </div>
         </div>
-      </aside>
+      </NavigationDrawer>
       <div className="main-shell">
         <header className="topbar">
           <div className="breadcrumb">
             <button
               className="icon-button mobile-toggle"
               aria-label="Öppna meny"
+              aria-expanded={mobileMenu}
+              aria-controls="main-navigation"
               onClick={() => setMobileMenu((v) => !v)}
             >
               <Menu />

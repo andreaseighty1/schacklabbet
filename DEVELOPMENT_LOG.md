@@ -289,3 +289,9 @@ Driftkontroll: migrationsfilerna 003/004 installerades i Supabase SQL Editor och
 Slutlig verifiering: version 068696f publicerades med success i [Actions 39768063500](https://github.com/andreaseighty1/schacklabbet/actions/runs/39768063500). Alla 171 enhetstester och 124 webbläsartester för dator, mobil och pekskärm passerade, liksom lint, TypeScript, verklig Stockfish, kalibrering, bygge och dist-kontroll. Första browserkörningen fångade att nästlade select-alternativ ingick i label-texten; etiketter och väljare separerades och hela kontrollen kördes om. Den nya körningens webbläsarinstallation hade en långsam Ubuntu-nedladdning men slutfördes utan ändrade kontroller.
 
 Produktionskontroll: HTML och /assets/index-f9ThBtHJ.js gav HTTP 200 med rätt JavaScript-MIME. I den publicerade appen skapades en egen testinbjudan med sex tecken, 15 minuter per spelare och 30 minuters gemensam maxtid. Båda klockorna stod korrekt stilla under väntan. Inbjudan stängdes genom bekräftelsedialogen och återgång till lobbyn fungerade. Inget soloparti startades eller ersattes. Bild: schacklabbet-multiplayer-klockor.png i visualiseringsmappen. Prov med två fysiska elevdatorer på skolnätet återstår.
+
+## 2026-10-22 – Små elevdatorer och korta laptopfönster
+
+Navigationen fälls undan vid högst 1100 CSS-pixlar, med namngivna länkar, stängknapp, fokusfälla, Escape, bakgrundsklick och återställning vid resize. Bräde och instruktioner får utrymme utifrån både bredd och höjd. Extra utrymme reserveras i träningspass; korta fönster får mindre tomrum och rullbara dialoger. Lodrät rullning behålls när utrymmet kräver det. Speldata och tidsregler ändras inte.
+
+Lint och produktionsbygge passerade lokalt. Ett eget Playwright-projekt provar sex laptopfönster (1024×768 till 640×480) med pekskärm, utöver befintliga testprojekt. Slutlig CI- och produktionskontroll dokumenteras efter körningen. Se docs/SMALL_SCREENS.md.
