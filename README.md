@@ -44,7 +44,7 @@ npx playwright install chromium
 npm run test:e2e
 ```
 
-Playwright kör flöden med desktopstorlek 1366 × 768 och mobilstorlek. GitHub Actions installerar Chromium och kör samma tester före publicering. Se `DEVELOPMENT_LOG.md` för vad som faktiskt har körts i utvecklingsmiljön.
+Playwright kör flöden med desktopstorlek 1366 × 768, mobilstorlek och sex mindre laptopfönster från 1024 × 768 till 640 × 480. Se [mindre elevdatorer](docs/SMALL_SCREENS.md). GitHub Actions installerar Chromium och kör samma tester före publicering. Se `DEVELOPMENT_LOG.md` för vad som faktiskt har körts i utvecklingsmiljön.
 
 ## Motor och prestanda
 
