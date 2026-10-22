@@ -3,6 +3,7 @@ import type { Room } from "../../supabase/functions/chess-room/rules";
 export type { Room };
 export type Answer = {
   room: Room | null;
+  server_now?: string;
   code?: string | null;
   color?: "w" | "b" | null;
 };

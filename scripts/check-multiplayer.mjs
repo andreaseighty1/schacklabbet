@@ -45,9 +45,13 @@ const [host, guest, outsider] = await Promise.all([
   signup(),
 ]);
 assert.equal((await request(null, "resume")).status, 401);
-const created = await request(host, "create", { color: "w" });
+const created = await request(host, "create", {
+  color: "w",
+  clock_minutes: 10,
+  max_minutes: 20,
+});
 assert.equal(created.status, 200, JSON.stringify(created.data));
-assert.match(created.data.code, /^[A-HJ-NP-Z2-9]{10}$/);
+assert.match(created.data.code, /^[A-HJ-NP-Z2-9]{6}$/);
 let room = created.data.room;
 assert.equal(
   (await request(host, "join", { code: created.data.code })).data.error,
@@ -162,6 +166,10 @@ try {
   assert.deepEqual(moves.map((move) => move.status).sort(), [200, 409]);
   room = moves.find((move) => move.status === 200).data.room;
   assert.equal(room.moves.length, 1);
+  assert.equal(room.clock_minutes, 10);
+  assert.ok(room.white_ms < 600000);
+  assert.equal(room.black_ms, 600000);
+  assert.ok(room.started_at && room.turn_started_at);
   assert.deepEqual(
     (await request(guest, "resume")).data.room.moves,
     room.moves,
@@ -221,4 +229,25 @@ assert.equal(
 );
 console.log(
   "PASS: live anonymous Auth, private codes, both colors, outsider RLS isolation, denied client writes/RPC, legal moves, atomic conflict, resume, Realtime, resignation and server-confirmed checkmate.",
+);
+
+const third = await request(host, "create", { color: "w", max_minutes: 20 });
+room = (await request(guest, "join", { code: third.data.code })).data.room;
+for (const [user, action] of [
+  [host, "offer_draw"],
+  [guest, "accept_draw"],
+]) {
+  const response = await request(user, action, {
+    id: room.id,
+    version: room.version,
+    request: crypto.randomUUID(),
+  });
+  assert.equal(response.status, 200, JSON.stringify(response.data));
+  room = response.data.room;
+}
+assert.equal(room.result, "1/2-1/2");
+assert.equal(room.reason, "agreement");
+assert.equal(room.turn_started_at, null);
+console.log(
+  "PASS: six-character codes, server clock accounting and agreed draw verified live.",
 );

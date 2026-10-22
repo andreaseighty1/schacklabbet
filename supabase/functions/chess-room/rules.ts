@@ -13,6 +13,15 @@ export type Room = {
   expires_at: string;
   last_request: string | null;
   last_actor: string | null;
+  clock_minutes: number;
+  max_minutes: number;
+  white_ms: number | null;
+  black_ms: number | null;
+  started_at: string | null;
+  turn_started_at: string | null;
+  draw_offer: "w" | "b" | null;
+  white_can_mate: boolean;
+  black_can_mate: boolean;
 };
 
 export class RoomError extends Error {
@@ -46,7 +55,13 @@ export function replay(moves: string[]): Chess {
 export function transition(
   room: Room,
   actor: string,
-  action: "move" | "resign" | "cancel",
+  action:
+    | "move"
+    | "resign"
+    | "cancel"
+    | "offer_draw"
+    | "accept_draw"
+    | "decline_draw",
   uci?: string,
 ) {
   const color = participant(room, actor);
@@ -63,6 +78,25 @@ export function transition(
     };
   }
   if (room.status !== "playing") throw new RoomError("conflict", 409);
+  if (
+    action === "offer_draw" ||
+    action === "accept_draw" ||
+    action === "decline_draw"
+  ) {
+    if (
+      action === "offer_draw"
+        ? room.draw_offer !== null
+        : !room.draw_offer || room.draw_offer === color
+    )
+      throw new RoomError("conflict", 409);
+    return {
+      moves: room.moves,
+      status: action === "accept_draw" ? "finished" : "playing",
+      result: action === "accept_draw" ? "1/2-1/2" : null,
+      reason: action === "accept_draw" ? "agreement" : null,
+      draw_offer: action === "offer_draw" ? color : null,
+    };
+  }
   if (action === "resign")
     return {
       moves: room.moves,
@@ -118,5 +152,6 @@ export function transition(
     status: result ? "finished" : "playing",
     result,
     reason,
+    draw_offer: room.draw_offer === color ? color : null,
   };
 }

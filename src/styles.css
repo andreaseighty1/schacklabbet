@@ -3487,3 +3487,41 @@ a {
     scroll-behavior: auto !important;
   }
 }
+
+/* Multiplayer time controls and clear ending actions. */
+.friend-setting {
+  display: grid;
+  gap: 0.45rem;
+  margin: 1rem 0;
+  font-weight: 650;
+}
+.friend-setting select {
+  width: 100%;
+  min-height: 48px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 0.6rem;
+  font: inherit;
+  background: #fff;
+  color: inherit;
+}
+.friend-clock {
+  margin-left: auto;
+  flex-shrink: 0;
+}
+.friend-time-info {
+  padding: 0.65rem 1rem;
+  background: #fff;
+  border-radius: 12px;
+  font-size: 0.85rem;
+}
+.friend-time-info p {
+  margin: 0.25rem 0;
+}
+.friend-ending .friend-actions {
+  flex-wrap: wrap;
+}
+.friend-ending .notice {
+  display: block;
+  margin-bottom: 0.75rem;
+}

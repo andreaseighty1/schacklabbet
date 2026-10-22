@@ -32,13 +32,13 @@ Stockfish.js **19.0.1**, `stockfish-19-lite-single.js` och motsvarande WASM. Var
 
 UCI-handshake: `uci` → `uciok` → styrkeinställningar → `isready` → `readyok` → `position fen` → `go`. Fel, timeout (15 sekunder), navigation, nytt parti och ångra avslutar worker. En FEN-kontroll och avbrytning förhindrar sena motorsvar från att ändra en annan position.
 
-| Nivå      | Skill | Djupstak | Tidstak | MultiPV |
-| --------- | ----: | -------: | ------: | ------: |
+| Nivå      | Skill | Djupstak | Tidstak |      MultiPV |
+| --------- | ----: | -------: | ------: | -----------: |
 | Nybörjare |     0 |        1 |  300 ms | Alla lagliga |
 | Lätt      |     2 |        2 |  300 ms | Alla lagliga |
-| Medel     |     6 |        8 |  400 ms |       1 |
-| Svår      |    12 |       11 |  650 ms |       1 |
-| Expert    |    20 |       15 | 1000 ms |       1 |
+| Medel     |     6 |        8 |  400 ms |            1 |
+| Svår      |    12 |       11 |  650 ms |            1 |
+| Expert    |    20 |       15 | 1000 ms |            1 |
 
 Nybörjare och Lätt använder ett viktat slumpurval ur en komplett, grund kandidatgrupp. Bättre drag är mer sannolika, men misstag och missade vinster tillåts: poängskillnad upp till 1200 respektive 700 cp med temperatur 450 respektive 180. Poängen sorteras före jämförelsen. Ofullständig analys ger ett slumpat lagligt drag i stället för ett starkt förstaval; direkt verifierad matt i ett bevaras. Medel och uppåt behåller sitt tidigare dragval. Kalibreringen använder ett faktiskt inrapporterat parti och dokumenteras i [LOWER_LEVELS.md](docs/engine/LOWER_LEVELS.md). Praktisk styrka och lämplighet behöver fortsatt provas med målgruppen; inga Elo-tal anges.
 
@@ -58,7 +58,7 @@ Installerat i Supabase den 22 oktober 2026 och verifierat mot det riktiga projek
 - `chess_rooms`: deltagar-ID:n, serverägd UCI-historik, version, status, giltighet och slutorsak. Kryptografisk kod ligger i ett separat internt schema.
 - Inga direkta klientskrivningar till auktoritativa spelfält. RLS tillåter bara deltagare att läsa ett privat parti.
 - Edge Function validerar medlemskap, färg, tur, regelriktighet och avslutsstatus. Bara dragets från/till/förvandling accepteras från klienten.
-- Atomisk versionskontroll i en databasfunktion förhindrar att samtidiga drag skriver över varandra. Full historik bevaras för upprepningsregeln.
+- Atomisk versionskontroll i en databasfunktion förhindrar att samtidiga drag skriver över varandra. Full historik bevaras för upprepningsregeln. Spelarklockor och gemensam maxtid avgörs med databasens tid under radlås och ett minutjobb. Remiförslag kräver båda deltagarna. Inbjudan har sex tecken.
 - Realtime meddelar uppdateringar; den bestämmer inte vilka drag som är giltiga. Återanslutning läser senaste serverversionen.
 - Kodförfrågningar begränsas och ger generiska fel; inga offentliga spellistor eller fri chatt.
 - Alla partier går ut efter 24 timmar och gallras varje timme med pg_cron. Auth-konton omfattas av en separat framtida gallringsrutin.

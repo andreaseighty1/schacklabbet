@@ -17,6 +17,8 @@ await build({
 const migrations = [
   "202610220001_private_chess.sql",
   "202610220002_room_retention.sql",
+  "202610220003_room_clocks.sql",
+  "202610220004_clock_job.sql",
 ];
 await writeFile(
   "supabase/dashboard/setup.sql",

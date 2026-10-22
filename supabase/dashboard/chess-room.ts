@@ -42,6 +42,17 @@ function transition(room, actor, action, uci) {
     };
   }
   if (room.status !== "playing") throw new RoomError("conflict", 409);
+  if (action === "offer_draw" || action === "accept_draw" || action === "decline_draw") {
+    if (action === "offer_draw" ? room.draw_offer !== null : !room.draw_offer || room.draw_offer === color)
+      throw new RoomError("conflict", 409);
+    return {
+      moves: room.moves,
+      status: action === "accept_draw" ? "finished" : "playing",
+      result: action === "accept_draw" ? "1/2-1/2" : null,
+      reason: action === "accept_draw" ? "agreement" : null,
+      draw_offer: action === "offer_draw" ? color : null
+    };
+  }
   if (action === "resign")
     return {
       moves: room.moves,
@@ -90,13 +101,42 @@ function transition(room, actor, action, uci) {
     moves: [...room.moves, uci],
     status: result ? "finished" : "playing",
     result,
-    reason
+    reason,
+    draw_offer: room.draw_offer === color ? color : null
   };
+}
+
+// supabase/functions/chess-room/material.ts
+function cannotMate(game, color) {
+  const pieces = game.board().flat().filter((piece) => piece !== null);
+  const own = pieces.filter(
+    (piece) => piece.color === color && piece.type !== "k"
+  );
+  if (!own.length) return true;
+  if (own.some((piece) => ["p", "r", "q"].includes(piece.type))) return false;
+  if (own.some((piece) => piece.type === "n")) {
+    return own.length === 1 && pieces.filter((piece) => piece.color !== color).every((piece) => ["k", "q"].includes(piece.type));
+  }
+  const bishops = pieces.filter((piece) => piece.type === "b");
+  const colours = new Set(
+    bishops.map(
+      (piece) => (piece.square.charCodeAt(0) + Number(piece.square[1])) % 2
+    )
+  );
+  return colours.size === 1 && !pieces.some((piece) => piece.type === "p" || piece.type === "n");
 }
 
 // supabase/functions/chess-room/handler.ts
 var uuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
-var codePattern = /^[A-HJ-NP-Z2-9]{10}$/;
+var codePattern = /^(?:[A-HJ-NP-Z2-9]{6}|[A-HJ-NP-Z2-9]{10})$/;
+var writes = [
+  "move",
+  "resign",
+  "cancel",
+  "offer_draw",
+  "accept_draw",
+  "decline_draw"
+];
 function roomHandler(deps) {
   return async (request) => {
     const headers = {
@@ -134,7 +174,10 @@ function roomHandler(deps) {
         "get",
         "move",
         "resign",
-        "cancel"
+        "cancel",
+        "offer_draw",
+        "accept_draw",
+        "decline_draw"
       ].includes(String(action)))
         throw new RoomError("invalid_request");
       const allowed = /* @__PURE__ */ new Set([
@@ -144,7 +187,9 @@ function roomHandler(deps) {
         "color",
         "version",
         "request",
-        "uci"
+        "uci",
+        "clock_minutes",
+        "max_minutes"
       ]);
       if (Object.keys(body).some((key) => !allowed.has(key)))
         throw new RoomError("invalid_request");
@@ -154,29 +199,39 @@ function roomHandler(deps) {
           throw new RoomError("invalid_request");
         params.p_color = body.color;
         params.p_code = deps.code();
+        const clock = body.clock_minutes ?? 0;
+        const maximum = body.max_minutes ?? 0;
+        if (![0, 10, 15].includes(Number(clock)) || typeof clock !== "number" || ![0, 20, 30, 45, 60].includes(Number(maximum)) || typeof maximum !== "number")
+          throw new RoomError("invalid_request");
+        params.p_settings = { clock_minutes: clock, max_minutes: maximum };
       }
       if (action === "join") {
         if (typeof body.code !== "string" || !codePattern.test(body.code))
           throw new RoomError("not_found", 404);
         params.p_code = body.code;
       }
-      if (["get", "move", "resign", "cancel"].includes(String(action))) {
+      if (action === "get" || writes.includes(String(action))) {
         if (typeof body.id !== "string" || !uuid.test(body.id))
           throw new RoomError("invalid_request");
         params.p_id = body.id;
       }
-      if (["move", "resign", "cancel"].includes(String(action))) {
+      if (writes.includes(String(action))) {
         if (!Number.isSafeInteger(body.version) || Number(body.version) < 0 || typeof body.request !== "string" || !uuid.test(body.request))
           throw new RoomError("invalid_request");
-        const current = (await deps.store.command({
+        const snapshot = await deps.store.command({
           p_actor: actor,
           p_action: "get",
           p_id: body.id
-        })).room;
+        });
+        const current = snapshot.room;
         if (!current) throw new RoomError("not_found", 404);
         participant(current, actor);
         if (current.last_request === body.request && current.last_actor === actor)
-          return respond({ room: current, color: participant(current, actor) });
+          return respond({ ...snapshot, color: participant(current, actor) });
+        if (current.status === "finished" && ["timeout", "timeout_material", "time_limit"].includes(
+          current.reason ?? ""
+        ))
+          return respond({ ...snapshot, color: participant(current, actor) });
         if (current.version !== body.version)
           throw new RoomError("conflict", 409);
         const next = transition(
@@ -185,6 +240,7 @@ function roomHandler(deps) {
           action,
           body.uci
         );
+        const board = replay(next.moves);
         Object.assign(params, {
           p_action: "commit",
           p_version: body.version,
@@ -192,10 +248,26 @@ function roomHandler(deps) {
           p_moves: next.moves,
           p_status: next.status,
           p_result: next.result,
-          p_reason: next.reason
+          p_reason: next.reason,
+          p_settings: {
+            draw_offer: "draw_offer" in next ? next.draw_offer : null,
+            white_can_mate: !cannotMate(board, "w"),
+            black_can_mate: !cannotMate(board, "b"),
+            operation: action
+          }
         });
       }
-      const answer = await deps.store.command(params);
+      let answer;
+      for (let attempt = 0; ; attempt++) {
+        try {
+          answer = await deps.store.command(params);
+          break;
+        } catch (error) {
+          if (action !== "create" || !(error instanceof RoomError) || error.code !== "code_collision" || attempt >= 3)
+            throw error;
+          params.p_code = deps.code();
+        }
+      }
       if (answer.room) participant(answer.room, actor);
       return respond({
         ...answer,
@@ -243,6 +315,7 @@ Deno.serve(
             not_found: 404,
             expired: 410,
             conflict: 409,
+            code_collision: 409,
             full: 409,
             own_room: 409,
             active_room: 409,
@@ -257,7 +330,7 @@ Deno.serve(
     code: () => {
       const alphabet = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
       return Array.from(
-        crypto.getRandomValues(new Uint8Array(10)),
+        crypto.getRandomValues(new Uint8Array(6)),
         (byte) => alphabet[byte & 31]
       ).join("");
     }

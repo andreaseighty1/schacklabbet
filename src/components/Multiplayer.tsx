@@ -8,6 +8,7 @@ import {
   RefreshCw,
   Users,
   WifiOff,
+  Handshake,
 } from "lucide-react";
 import { replay } from "../../supabase/functions/chess-room/rules";
 import {
@@ -23,6 +24,8 @@ import { Piece } from "./Piece";
 import { SquareNamesToggle } from "./SquareNamesToggle";
 import { MoveLabel } from "./MoveLabel";
 import { pieceNames, type Promotion } from "../chess/model";
+import { FriendClock, MatchLimit } from "./FriendClock";
+import { codePattern } from "../../supabase/functions/chess-room/handler";
 
 const savedKey = "schacklabbet.friend.room.v1";
 function savedRoom(): string | null {
@@ -47,6 +50,11 @@ const resultReasons: Record<string, string> = {
   material: "För få pjäser för att göra schackmatt",
   fifty_moves: "Femtiodragsregeln",
   resignation: "En spelare gav upp",
+  agreement: "Ni kom överens om remi",
+  timeout: "Tiden tog slut",
+  timeout_material:
+    "Tiden tog slut, men motståndaren kan inte sätta schackmatt",
+  time_limit: "Partiets gemensamma maxtid tog slut",
 };
 
 export function Multiplayer({
@@ -73,12 +81,17 @@ export function Multiplayer({
     from: Square;
     to: Square;
   } | null>(null);
-  const [confirm, setConfirm] = useState(false);
+  const [confirm, setConfirm] = useState<
+    "end" | "offer_draw" | "accept_draw" | null
+  >(null);
+  const [clockMinutes, setClockMinutes] = useState(0);
+  const [maxMinutes, setMaxMinutes] = useState(0);
   const [showMoves, setShowMoves] = useState(true);
   const mounted = useRef(false);
   const fetching = useRef(false);
   const sending = useRef(false);
   const current = useRef(answer);
+  const clockAnchor = useRef({ server: 0, local: 0 });
   const dialog = useRef<HTMLDialogElement>(null);
   const heading = useRef<HTMLHeadingElement>(null);
   const room = answer.room;
@@ -107,12 +120,17 @@ export function Multiplayer({
     )
       return;
     current.current = next;
+    clockAnchor.current = {
+      server: Date.parse(next.server_now ?? "") || Date.now(),
+      local: performance.now(),
+    };
     setAnswer(next);
     remember(next.room?.id ?? null);
     setReachable(true);
     if (next.room?.version !== before.room?.version) {
       setSelected(null);
       setPromotion(null);
+      setConfirm(null);
     }
   }, []);
 
@@ -300,9 +318,7 @@ export function Multiplayer({
           <h1 ref={heading} tabIndex={-1}>
             {room ? "Ert kompisparti" : "En kompis. En kod. Ert parti."}
           </h1>
-          <p>
-            Spela på varsin dator. Ingen klocka – ni får tänka i lugn och ro.
-          </p>
+          <p>Spela på varsin dator. Välj om ni vill spela med klocka.</p>
         </div>
         <span className="pill subtle">
           <Users size={15} /> KOMPISPARTIER
@@ -365,11 +381,46 @@ export function Multiplayer({
                   </label>
                 ))}
               </fieldset>
+              <label className="friend-setting" htmlFor="friend-clock">
+                Spelarklocka
+                <select
+                  id="friend-clock"
+                  value={clockMinutes}
+                  onChange={(e) => setClockMinutes(Number(e.target.value))}
+                >
+                  <option value={0}>Utan spelarklocka</option>
+                  <option value={15}>15 minuter var</option>
+                  <option value={10}>10 minuter var</option>
+                </select>
+              </label>
+              <label className="friend-setting" htmlFor="friend-limit">
+                Maxtid för hela partiet
+                <select
+                  id="friend-limit"
+                  value={maxMinutes}
+                  onChange={(e) => setMaxMinutes(Number(e.target.value))}
+                >
+                  <option value={0}>Ingen gemensam maxtid</option>
+                  {[20, 30, 45, 60].map((minutes) => (
+                    <option key={minutes} value={minutes}>
+                      {minutes} minuter – sedan remi
+                    </option>
+                  ))}
+                </select>
+              </label>
+              <p className="fine-print">
+                Klockorna börjar när kompisen går med. Tiden fortsätter även om
+                ni stänger sidan.
+              </p>
               <button
                 className="button primary"
                 disabled={busy || soloRunning}
                 onClick={() => {
-                  void act("create", { color });
+                  void act("create", {
+                    color,
+                    clock_minutes: clockMinutes,
+                    max_minutes: maxMinutes,
+                  });
                 }}
               >
                 Skapa kompisparti <ArrowRight size={18} />
@@ -385,7 +436,7 @@ export function Multiplayer({
               <form
                 onSubmit={(event) => {
                   event.preventDefault();
-                  if (/^[A-HJ-NP-Z2-9]{10}$/.test(normalizeCode(code)))
+                  if (codePattern.test(normalizeCode(code)))
                     void act("join", { code: normalizeCode(code) });
                 }}
               >
@@ -396,7 +447,7 @@ export function Multiplayer({
                   onChange={(event) =>
                     setCode(event.target.value.toUpperCase())
                   }
-                  placeholder="ABCDE-FGH23"
+                  placeholder="ABC-234"
                   autoComplete="off"
                   autoCapitalize="characters"
                   spellCheck={false}
@@ -405,14 +456,14 @@ export function Multiplayer({
                   aria-describedby="code-help"
                 />
                 <small id="code-help">
-                  10 bokstäver och siffror. Mellanslag och bindestreck går bra.
+                  6 tecken. Stora eller små bokstäver går bra.
                 </small>
                 <button
                   className="button primary"
                   disabled={
                     busy ||
                     soloRunning ||
-                    !/^[A-HJ-NP-Z2-9]{10}$/.test(normalizeCode(code))
+                    !codePattern.test(normalizeCode(code))
                   }
                 >
                   Gå med i partiet <ArrowRight size={18} />
@@ -445,7 +496,7 @@ export function Multiplayer({
                   readOnly
                   value={
                     answer.code
-                      ? `${answer.code.slice(0, 5)}-${answer.code.slice(5)}`
+                      ? `${answer.code.slice(0, answer.code.length / 2)}-${answer.code.slice(answer.code.length / 2)}`
                       : ""
                   }
                   onFocus={(event) => event.target.select()}
@@ -482,6 +533,13 @@ export function Multiplayer({
                     {waiting ? " · inte här ännu" : ""}
                   </span>
                 </div>
+                <FriendClock
+                  room={room}
+                  color={ownColor === "w" ? "b" : "w"}
+                  label="Kompisens tid"
+                  anchor={clockAnchor.current}
+                  refresh={refresh}
+                />
               </div>
               <Board
                 game={game}
@@ -513,6 +571,13 @@ export function Multiplayer({
                       : "Tryck på en pjäs och sedan på rutan dit den ska."}
                   </span>
                 </div>
+                <FriendClock
+                  room={room}
+                  color={ownColor}
+                  label="Din tid"
+                  anchor={clockAnchor.current}
+                  refresh={refresh}
+                />
               </div>
               <SquareNamesToggle
                 enabled={showSquareNames}
@@ -533,6 +598,19 @@ export function Multiplayer({
                   </span>
                   <h2>{status}</h2>
                 </div>
+              </div>
+              <div className="friend-time-info">
+                <p>
+                  {room.clock_minutes
+                    ? `${room.clock_minutes} minuter var`
+                    : "Utan spelarklocka"}
+                  {waiting ? " · börjar när ni är två" : ""}
+                </p>
+                <MatchLimit
+                  room={room}
+                  anchor={clockAnchor.current}
+                  refresh={refresh}
+                />
               </div>
               {!reachable && (
                 <p className="friend-network">
@@ -563,6 +641,14 @@ export function Multiplayer({
                           const pgn = replay(room.moves);
                           pgn.setHeader("Event", "Schacklabbet – kompisparti");
                           pgn.setHeader("Result", room.result!);
+                          pgn.setHeader(
+                            "TimeControl",
+                            room.clock_minutes
+                              ? String(room.clock_minutes * 60)
+                              : "-",
+                          );
+                          if (room.reason?.startsWith("timeout"))
+                            pgn.setHeader("Termination", "time forfeit");
                           const url = URL.createObjectURL(
                             new Blob([pgn.pgn()], {
                               type: "application/x-chess-pgn",
@@ -596,7 +682,7 @@ export function Multiplayer({
                   </label>
                   <p className="fine-print">
                     Ni spelar själva, utan ledtrådar från datorn. Ni kan byta
-                    sida i menyn och komma tillbaka till samma parti.
+                    sida i menyn och komma tillbaka. Klockan fortsätter gå.
                   </p>
                 </section>
               )}
@@ -618,16 +704,69 @@ export function Multiplayer({
                 )}
               </section>
               {!finished && (
-                <div className="friend-actions">
-                  <button
-                    className="text-button"
-                    disabled={busy || soloRunning}
-                    onClick={() => setConfirm(true)}
-                  >
-                    <Flag size={16} />
-                    {waiting ? "Stäng inbjudan" : "Ge upp partiet"}
-                  </button>
-                </div>
+                <section
+                  className="panel-section friend-ending"
+                  aria-label="Avsluta partiet"
+                >
+                  <h3>Avsluta partiet</h3>
+                  {playing && room.draw_offer && (
+                    <div className="notice">
+                      <p>
+                        {room.draw_offer === ownColor
+                          ? "Du har föreslagit remi. Väntar på din kompis."
+                          : "Din kompis föreslår remi. Då blir resultatet lika."}
+                      </p>
+                      {room.draw_offer !== ownColor && (
+                        <div className="friend-actions">
+                          <button
+                            className="button primary"
+                            disabled={busy || !reachable || soloRunning}
+                            onClick={() => setConfirm("accept_draw")}
+                          >
+                            Ja, remi
+                          </button>
+                          <button
+                            className="button outline"
+                            disabled={busy || !reachable || soloRunning}
+                            onClick={() =>
+                              void act("decline_draw", {
+                                id: room.id,
+                                version: room.version,
+                                request: crypto.randomUUID(),
+                              })
+                            }
+                          >
+                            Nej, spela vidare
+                          </button>
+                        </div>
+                      )}
+                    </div>
+                  )}
+                  <div className="friend-actions">
+                    {playing && !room.draw_offer && (
+                      <button
+                        className="button outline"
+                        disabled={busy || !reachable || soloRunning}
+                        onClick={() => setConfirm("offer_draw")}
+                      >
+                        <Handshake size={16} /> Erbjud remi
+                      </button>
+                    )}
+                    <button
+                      className="button outline"
+                      disabled={busy || !reachable || soloRunning}
+                      onClick={() => setConfirm("end")}
+                    >
+                      <Flag size={16} />
+                      {waiting ? "Stäng inbjudan" : "Ge upp partiet"}
+                    </button>
+                  </div>
+                  {playing && (
+                    <p className="fine-print">
+                      Ger du upp vinner kompisen. Remi kräver att båda säger ja.
+                    </p>
+                  )}
+                </section>
               )}
             </aside>
           </div>
@@ -642,12 +781,12 @@ export function Multiplayer({
         ref={dialog}
         className="friend-dialog"
         onCancel={() => {
-          setConfirm(false);
+          setConfirm(null);
           setPromotion(null);
         }}
         onClick={(event) => {
           if (event.target === dialog.current) {
-            setConfirm(false);
+            setConfirm(null);
             setPromotion(null);
           }
         }}
@@ -676,33 +815,56 @@ export function Multiplayer({
         ) : (
           <>
             <h2 id="friend-dialog-title">
-              {waiting ? "Stäng inbjudan?" : "Vill du ge upp?"}
+              {confirm === "offer_draw"
+                ? "Föreslå remi?"
+                : confirm === "accept_draw"
+                  ? "Avsluta med remi?"
+                  : waiting
+                    ? "Stäng inbjudan?"
+                    : "Vill du ge upp?"}
             </h2>
             <p>
-              {waiting
-                ? "Koden slutar fungera. Du kan skapa en ny inbjudan efteråt."
-                : "Din kompis vinner partiet om du ger upp."}
+              {confirm === "offer_draw"
+                ? "Remi betyder att resultatet blir lika. Din kompis får välja ja eller nej. Klockan fortsätter under tiden."
+                : confirm === "accept_draw"
+                  ? "Ni är överens. Partiet avslutas och resultatet blir lika."
+                  : waiting
+                    ? "Koden slutar fungera. Du kan skapa en ny inbjudan efteråt."
+                    : "Din kompis vinner partiet om du ger upp."}
             </p>
             <div className="friend-actions">
               <button
                 className="button primary"
-                onClick={() => setConfirm(false)}
+                onClick={() => setConfirm(null)}
               >
                 Fortsätt {waiting ? "vänta" : "spela"}
               </button>
               <button
                 className="button outline"
                 onClick={() => {
-                  setConfirm(false);
+                  setConfirm(null);
                   if (room)
-                    void act(waiting ? "cancel" : "resign", {
-                      id: room.id,
-                      version: room.version,
-                      request: crypto.randomUUID(),
-                    });
+                    void act(
+                      confirm === "offer_draw" || confirm === "accept_draw"
+                        ? confirm
+                        : waiting
+                          ? "cancel"
+                          : "resign",
+                      {
+                        id: room.id,
+                        version: room.version,
+                        request: crypto.randomUUID(),
+                      },
+                    );
                 }}
               >
-                {waiting ? "Ja, stäng inbjudan" : "Ja, jag ger upp"}
+                {confirm === "offer_draw"
+                  ? "Skicka förslaget"
+                  : confirm === "accept_draw"
+                    ? "Ja, avsluta med remi"
+                    : waiting
+                      ? "Ja, stäng inbjudan"
+                      : "Ja, jag ger upp"}
               </button>
             </div>
           </>

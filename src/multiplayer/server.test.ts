@@ -28,6 +28,7 @@ const names = [
   "p_result",
   "p_reason",
   "p_request",
+  "p_settings",
 ];
 const store: RoomStore = {
   async command(params) {
@@ -38,7 +39,9 @@ const store: RoomStore = {
       }>(
         `select public.chess_room_command(${present.map((name, index) => `${name} => $${index + 1}`).join(",")}) as answer`,
         present.map((name) =>
-          name === "p_moves" ? JSON.stringify(params[name]) : params[name],
+          ["p_moves", "p_settings"].includes(name)
+            ? JSON.stringify(params[name])
+            : params[name],
         ),
       );
       const answer = rows[0].answer;
@@ -69,7 +72,7 @@ const handler = roomHandler({
   store,
   code: () => {
     const n = ++codeNumber;
-    return `ABCDEFGH${alphabet[(n >> 5) & 31]}${alphabet[n & 31]}`;
+    return `ABCD${alphabet[(n >> 5) & 31]}${alphabet[n & 31]}`;
   },
 });
 async function call(actor: string, body: Record<string, unknown>) {
@@ -95,9 +98,14 @@ async function empty() {
     "truncate public.chess_rooms, chess_private.request_limits cascade",
   );
 }
-async function pair() {
+async function pair(clock_minutes = 0, max_minutes = 0) {
   await empty();
-  const host = await call(white, { action: "create", color: "w" });
+  const host = await call(white, {
+    action: "create",
+    color: "w",
+    clock_minutes,
+    max_minutes,
+  });
   expect(host.status).toBe(200);
   const guest = await call(black, { action: "join", code: host.data.code });
   expect(guest.status).toBe(200);
@@ -126,6 +134,9 @@ beforeAll(async () => {
       "utf8",
     ),
   );
+  await db.exec(
+    await readFile("supabase/migrations/202610220003_room_clocks.sql", "utf8"),
+  );
   await db.query("insert into auth.users(id) values ($1),($2),($3)", [
     white,
     black,
@@ -137,6 +148,233 @@ afterAll(async () => {
 });
 
 describe("kompispartier: riktig PostgreSQL och serverns HTTP-hanterare", () => {
+  async function action(room: Room, actor: string, name: string) {
+    return call(actor, {
+      action: name,
+      id: room.id,
+      version: room.version,
+      request: crypto.randomUUID(),
+    });
+  }
+  it("startar klockan först vid anslutning, debiterar rätt sida och håller omtag idempotenta", async () => {
+    await empty();
+    const host = await call(white, {
+      action: "create",
+      color: "w",
+      clock_minutes: 10,
+    });
+    expect(host.data.room).toMatchObject({
+      white_ms: 600000,
+      black_ms: 600000,
+      started_at: null,
+      turn_started_at: null,
+    });
+    let room = (await call(black, { action: "join", code: host.data.code }))
+      .data.room!;
+    expect(room.started_at).not.toBeNull();
+    await db.query(
+      "update public.chess_rooms set turn_started_at=clock_timestamp()-interval '5 seconds' where id=$1",
+      [room.id],
+    );
+    const request = crypto.randomUUID();
+    room = (await move(room, white, "e2e4", request)).data.room!;
+    expect(room.white_ms).toBeLessThanOrEqual(595000);
+    expect(room.white_ms).toBeGreaterThan(594000);
+    expect(room.black_ms).toBe(600000);
+    const retry = (await move({ ...room, version: 1 }, white, "e2e4", request))
+      .data.room!;
+    expect(retry.white_ms).toBe(room.white_ms);
+    await db.query(
+      "update public.chess_rooms set turn_started_at=clock_timestamp()-interval '2 seconds' where id=$1",
+      [room.id],
+    );
+    room = (await move(room, black, "e7e5")).data.room!;
+    expect(room.white_ms).toBe(retry.white_ms);
+    expect(room.black_ms).toBeLessThanOrEqual(598000);
+  });
+  it("avslutar på tid på servern och godtar inget sent drag, inte ens efter valideringen", async () => {
+    const room = await pair(10);
+    await db.query(
+      "update public.chess_rooms set turn_started_at=clock_timestamp()-interval '11 minutes' where id=$1",
+      [room.id],
+    );
+    const late = await move(room, white, "e2e4");
+    expect(late.data.room).toMatchObject({
+      status: "finished",
+      result: "0-1",
+      reason: "timeout",
+      moves: [],
+      white_ms: 0,
+      black_ms: 600000,
+    });
+    const room2 = await pair(10);
+    // Emulate expiry between the Edge read and its atomic database commit.
+    await db.query(
+      "update public.chess_rooms set turn_started_at=clock_timestamp()-interval '11 minutes' where id=$1",
+      [room2.id],
+    );
+    const committed = await store.command({
+      p_actor: white,
+      p_action: "commit",
+      p_id: room2.id,
+      p_version: room2.version,
+      p_request: crypto.randomUUID(),
+      p_moves: ["e2e4"],
+      p_status: "playing",
+    });
+    expect(committed.room).toMatchObject({ reason: "timeout", moves: [] });
+  });
+  it("bakgrundsjobbet kan avgöra även när båda webbläsarna är stängda och resultatet ändras inte", async () => {
+    const room = await pair(15);
+    await db.query(
+      "update public.chess_rooms set turn_started_at=clock_timestamp()-interval '16 minutes' where id=$1",
+      [room.id],
+    );
+    await db.query("select chess_private.settle_clock($1)", [room.id]);
+    const finished = (await call(black, { action: "get", id: room.id })).data
+      .room!;
+    expect(finished).toMatchObject({
+      reason: "timeout",
+      result: "0-1",
+      version: room.version + 1,
+    });
+    await db.query("select chess_private.settle_clock($1)", [room.id]);
+    expect(
+      (await call(black, { action: "get", id: room.id })).data.room,
+    ).toEqual(finished);
+    expect(
+      (await call(white, { action: "create", color: "w" })).data.room!.id,
+    ).not.toBe(room.id);
+  });
+  it("låter gemensam maxtid ge remi och avgör alltid den tidsgräns som inträffade först", async () => {
+    let room = await pair(0, 20);
+    await db.query(
+      "update public.chess_rooms set started_at=clock_timestamp()-interval '21 minutes' where id=$1",
+      [room.id],
+    );
+    expect(
+      (await call(white, { action: "get", id: room.id })).data.room,
+    ).toMatchObject({
+      reason: "time_limit",
+      result: "1/2-1/2",
+      white_ms: null,
+    });
+    room = await pair(10, 20);
+    await db.query(
+      "update public.chess_rooms set started_at=clock_timestamp()-interval '21 minutes',turn_started_at=clock_timestamp()-interval '22 minutes' where id=$1",
+      [room.id],
+    );
+    expect(
+      (await call(black, { action: "get", id: room.id })).data.room,
+    ).toMatchObject({ reason: "timeout", result: "0-1" });
+    room = await pair(15, 20);
+    await db.query(
+      "update public.chess_rooms set started_at=clock_timestamp()-interval '21 minutes',turn_started_at=clock_timestamp()-interval '16 minutes' where id=$1",
+      [room.id],
+    );
+    expect(
+      (await call(black, { action: "get", id: room.id })).data.room,
+    ).toMatchObject({ reason: "time_limit", result: "1/2-1/2" });
+  });
+  it("ger remi vid tidsavslut om vinnarsidan saknar mattmaterial", async () => {
+    const room = await pair(10);
+    await db.query(
+      "update public.chess_rooms set black_can_mate=false,turn_started_at=clock_timestamp()-interval '11 minutes' where id=$1",
+      [room.id],
+    );
+    expect(
+      (await call(white, { action: "get", id: room.id })).data.room,
+    ).toMatchObject({ reason: "timeout_material", result: "1/2-1/2" });
+  });
+  it("remiförslag pausar inte klockan och kräver den andra spelarens ja", async () => {
+    let room = await pair(10);
+    await db.query(
+      "update public.chess_rooms set turn_started_at=clock_timestamp()-interval '3 seconds' where id=$1",
+      [room.id],
+    );
+    room = (await action(room, white, "offer_draw")).data.room!;
+    expect(room).toMatchObject({
+      status: "playing",
+      draw_offer: "w",
+      moves: [],
+    });
+    expect(room.white_ms).toBeLessThanOrEqual(597000);
+    expect((await action(room, white, "accept_draw")).status).toBe(409);
+    expect((await action(room, outsider, "accept_draw")).status).toBe(404);
+    const accepted = (await action(room, black, "accept_draw")).data.room!;
+    expect(accepted).toMatchObject({
+      status: "finished",
+      result: "1/2-1/2",
+      reason: "agreement",
+      turn_started_at: null,
+      draw_offer: null,
+    });
+  });
+  it("låter kompisen neka remi eller spela vidare, och ett gammalt förslag kan inte accepteras", async () => {
+    let room = await pair();
+    room = (await action(room, white, "offer_draw")).data.room!;
+    room = (await move(room, white, "e2e4")).data.room!;
+    expect(room.draw_offer).toBe("w");
+    const offered = room;
+    room = (await move(room, black, "e7e5")).data.room!;
+    expect(room.draw_offer).toBeNull();
+    expect((await action(offered, black, "accept_draw")).status).toBe(409);
+    room = (await action(room, black, "offer_draw")).data.room!;
+    room = (await action(room, white, "decline_draw")).data.room!;
+    expect(room).toMatchObject({
+      status: "playing",
+      result: null,
+      draw_offer: null,
+    });
+  });
+  it("förhindrar klientstyrd tid och bevarar gamla tioteckenskoder", async () => {
+    const room = await pair(10);
+    expect(
+      (await call(white, { action: "get", id: room.id, white_ms: 9999999 }))
+        .status,
+    ).toBe(400);
+    await empty();
+    expect(
+      (await call(white, { action: "create", color: "w", clock_minutes: -1 }))
+        .status,
+    ).toBe(400);
+    const host = await call(white, { action: "create", color: "w" });
+    await db.query(
+      "update chess_private.room_codes set code='ABCDEFGH23' where room_id=$1",
+      [host.data.room!.id],
+    );
+    expect(
+      (await call(black, { action: "join", code: "ABCDEFGH23" })).status,
+    ).toBe(200);
+  });
+  it("provar en ny kod vid slumpkollision utan att lämna ett extra rum", async () => {
+    await empty();
+    const first = await call(outsider, { action: "create", color: "w" });
+    let attempts = 0;
+    const collisionHandler = roomHandler({
+      authenticate: async () => white,
+      store,
+      code: () => (++attempts === 1 ? first.data.code! : "ZZZZZ2"),
+    });
+    const response = await collisionHandler(
+      new Request("https://example.test", {
+        method: "POST",
+        headers: { Authorization: "Bearer test" },
+        body: JSON.stringify({ action: "create", color: "w" }),
+      }),
+    );
+    expect(response.status).toBe(200);
+    expect((await response.json()).code).toBe("ZZZZZ2");
+    expect(attempts).toBe(2);
+    expect(
+      (
+        await db.query(
+          "select id from public.chess_rooms where creator_id=$1",
+          [white],
+        )
+      ).rows,
+    ).toHaveLength(1);
+  });
   it("ger bara en plats och ett drag vid samtidiga försök", async () => {
     await empty();
     const host = await call(white, { action: "create", color: "w" });
@@ -188,7 +426,7 @@ describe("kompispartier: riktig PostgreSQL och serverns HTTP-hanterare", () => {
     await empty();
     const first = await call(white, { action: "create", color: "b" });
     const again = await call(white, { action: "create", color: "w" });
-    expect(first.data.code).toMatch(/^[A-HJ-NP-Z2-9]{10}$/);
+    expect(first.data.code).toMatch(/^[A-HJ-NP-Z2-9]{6}$/);
     expect(first.data.color).toBe("b");
     expect(again.data.room!.id).toBe(first.data.room!.id);
     expect(again.data.code).toBe(first.data.code);

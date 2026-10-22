@@ -40,6 +40,7 @@ Deno.serve(
             not_found: 404,
             expired: 410,
             conflict: 409,
+            code_collision: 409,
             full: 409,
             own_room: 409,
             active_room: 409,
@@ -52,10 +53,10 @@ Deno.serve(
       },
     },
     code: () => {
-      // 32 symbols, 50 random bits. No ambiguous I, O, 0 or 1.
+      // 32 symbols, 30 random bits. No ambiguous I, O, 0 or 1.
       const alphabet = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
       return Array.from(
-        crypto.getRandomValues(new Uint8Array(10)),
+        crypto.getRandomValues(new Uint8Array(6)),
         (byte) => alphabet[byte & 31],
       ).join("");
     },

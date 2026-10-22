@@ -1059,7 +1059,7 @@ export default function App() {
                     Ett vänligt möte över schackbrädet.
                   </p>
                   <span className="card-bottom">
-                    <span className="coming-label">Kommer i nästa etapp</span>
+                    <span className="coming-label">Spela på varsin dator</span>
                     <span className="round-arrow">
                       <ArrowUpRight size={19} />
                     </span>

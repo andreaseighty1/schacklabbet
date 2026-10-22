@@ -16,10 +16,38 @@ export function friendFixture() {
   const tokens = new Map<string, string>();
   let signups = 0;
   let dropNextMove = false;
-  const invite = "ABCDEFGH23";
+  const invite = "ABC234";
+  let offset = 0;
+  const now = () => Date.now() + offset;
+  function settle(room: Room) {
+    if (room.status !== "playing" || !room.turn_started_at) return;
+    const white = room.moves.length % 2 === 0;
+    const flag = room.clock_minutes
+      ? Date.parse(room.turn_started_at) +
+        (white ? room.white_ms! : room.black_ms!)
+      : Infinity;
+    const limit =
+      room.max_minutes && room.started_at
+        ? Date.parse(room.started_at) + room.max_minutes * 60000
+        : Infinity;
+    if (now() < Math.min(flag, limit)) return;
+    room.status = "finished";
+    room.reason = limit <= flag ? "time_limit" : "timeout";
+    room.result = limit <= flag ? "1/2-1/2" : white ? "0-1" : "1-0";
+    const elapsed = Math.min(flag, limit) - Date.parse(room.turn_started_at);
+    if (room.white_ms !== null && white)
+      room.white_ms = Math.max(0, room.white_ms - elapsed);
+    if (room.black_ms !== null && !white)
+      room.black_ms = Math.max(0, room.black_ms - elapsed);
+    room.turn_started_at = null;
+    room.draw_offer = null;
+    room.version++;
+  }
   const store: RoomStore = {
     async command(p) {
       const actor = String(p.p_actor);
+      const settings = (p.p_settings ?? {}) as Record<string, unknown>;
+      for (const current of rooms.values()) settle(current);
       let room: Room | undefined;
       if (p.p_action === "create" || p.p_action === "resume") {
         room = [...rooms.values()].find(
@@ -41,6 +69,19 @@ export function friendFixture() {
             expires_at: new Date(Date.now() + 86400000).toISOString(),
             last_request: null,
             last_actor: null,
+            clock_minutes: Number(settings.clock_minutes ?? 0),
+            max_minutes: Number(settings.max_minutes ?? 0),
+            white_ms: settings.clock_minutes
+              ? Number(settings.clock_minutes) * 60000
+              : null,
+            black_ms: settings.clock_minutes
+              ? Number(settings.clock_minutes) * 60000
+              : null,
+            started_at: null,
+            turn_started_at: null,
+            draw_offer: null,
+            white_can_mate: true,
+            black_can_mate: true,
           };
           rooms.set(room.id, room);
         }
@@ -52,6 +93,7 @@ export function friendFixture() {
         room.white_id ??= actor;
         room.black_id ??= actor;
         room.status = "playing";
+        room.started_at = room.turn_started_at = new Date(now()).toISOString();
         room.version++;
       } else {
         room = rooms.get(String(p.p_id));
@@ -60,6 +102,13 @@ export function friendFixture() {
         if (p.p_action === "commit") {
           if (p.p_version !== room.version)
             throw new RoomError("conflict", 409);
+          const elapsed = room.turn_started_at
+            ? Math.max(0, now() - Date.parse(room.turn_started_at))
+            : 0;
+          if (room.moves.length % 2 === 0 && room.white_ms !== null)
+            room.white_ms = Math.max(0, room.white_ms - elapsed);
+          if (room.moves.length % 2 === 1 && room.black_ms !== null)
+            room.black_ms = Math.max(0, room.black_ms - elapsed);
           Object.assign(room, {
             moves: p.p_moves,
             status: p.p_status,
@@ -68,6 +117,10 @@ export function friendFixture() {
             last_request: p.p_request,
             last_actor: actor,
             version: room.version + 1,
+            draw_offer:
+              p.p_status === "playing" ? (settings.draw_offer ?? null) : null,
+            turn_started_at:
+              p.p_status === "playing" ? new Date(now()).toISOString() : null,
           });
         }
       }
@@ -75,6 +128,7 @@ export function friendFixture() {
         throw new RoomError("not_found", 404);
       return structuredClone({
         room: room ?? null,
+        server_now: new Date(now()).toISOString(),
         code:
           room?.status === "waiting" && room.creator_id === actor
             ? invite
@@ -93,6 +147,9 @@ export function friendFixture() {
     },
     dropMoveReply() {
       dropNextMove = true;
+    },
+    advanceTime(ms: number) {
+      offset += ms;
     },
     expire() {
       for (const room of rooms.values()) room.expires_at = "2020-01-01";

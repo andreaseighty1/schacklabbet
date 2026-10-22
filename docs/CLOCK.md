@@ -22,7 +22,7 @@ Tidsgränsen kontrolleras även direkt innan ett elevdrag eller ett motorsvar go
 
 Sparformatets version 1 behålls med ett valfritt `clock`-fält. Äldre partier öppnas utan klocka. Ett passerat tidsavslut vid återläsning avgörs innan motorn får starta. Redan avslutade partier behåller resultatet. PGN får `TimeControl` i sekunder, `Result` och vid tidsavslut `Termination "time forfeit"`. Tidsvinster räknas i lokala framsteg en gång per parti.
 
-Detta är en lokal träningsklocka. En framtida gemensam topplista behöver serverns validering av både tid och resultat enligt multiplayerplanen.
+Detta dokument beskriver den lokala träningsklockan. Kompispartier har nu en separat serverstyrd klocka, se [MULTIPLAYER.md](MULTIPLAYER.md). En gemensam topplista återstår.
 
 ## Remi vid tidsavslut
 

@@ -236,11 +236,9 @@ Efteranalysen kan nu föreslå säkert slag när ett eget slag kan följas av å
 
 Lokalt passerade 144 enhetstester, lint, TypeScript-/produktionsbygge, dist-kontroll och manusgenerering. Playwright hittar 102 tester: nya flöden för frågeåterkoppling, två korrekta alternativ, lagliga men felaktiga uppgiftsförsök, svart perspektiv, hjälprutor, engångsframsteg, oförändrat ordinarie parti och frånvaro av saknade ljud, på desktop/mobil/pekdator. CI, publicering och visuell kontroll dokumenteras efter push.
 
-
 Slutversion ad81723 publicerades med success i [Actions-körning 39651923361](https://github.com/andreaseighty1/schacklabbet/actions/runs/39651923361). Lint, 144 enhetstester, verkliga Stockfish WASM-prov, alla 102 webbläsartester för desktop/mobil/pekdator, produktionsbygge, dist-kontroll och Pages-deploy passerade. Även första körningen av de fem uppgifterna passerade; sista ändringen förtydligar att dragmarkeringar visar tillåtna drag, inte att pjäsen står säkert efteråt.
 
 Domänen levererade /assets/index-CF7PRp7D.js med JavaScript-MIME, nya lektionsinnehållet och den förtydligade hjälprutetexten. I publicerad Schackskola fanns de fem nya uppgifterna i del fyra och en passant i del fem. Tornets felaktiga men lagliga flytt gav avsedd återkoppling och lämnade tornet på A1. Val av A1 visade punkter och slagring på angriparen A8. Svarts springare granskades vid 390 × 844: H1 låg först, F6 var vald, felaktigt försök till E4 gav förklaring om kungens hot och ledtråden pekade ut E4/G4. Sid- och innehållsbredd var båda 375 px. Inga uppgifter slutfördes och inget ordinarie parti startades eller ersattes vid den manuella kontrollen. Efter sista publiceringen laddades skolans katalog om och den extra säkerhetstexten verifierades i tornövningen. Bilder sparades som schacklabbet-radda-tornet.png och schacklabbet-radda-springaren-mobil.png i visualiseringsmappen. ZIP-paketet Schacklabbet-TAKTIK-manus.zip innehåller 15 repliker som egna textfiler, samlat manus och filnamnslista. Nya ljud återstår att spela in och koppla in; befintliga 64 filer är oförändrade.
-
 
 ### 22 oktober 2026 – taktikljud och privata kompispartier
 
@@ -254,18 +252,15 @@ Efter att ägaren loggat in installerades SQL och Edge-kod via projektets Supaba
 
 Lokalt passerade lint, 159 enhetstester (inklusive HTTP-hanteraren mot riktig PostgreSQL i PGlite), TypeScript-/produktionsbygge, dist-kontroll med 79 oförändrade ljud och separat strikt typkontroll av Edge-källorna. Playwright hittar 111 tester, inklusive två separata webbläsarkontexter, touch, återladdning utan extra konto, förlorat dragkvitto, nätverkslåsning, bekräftat ge upp, schackmatt, PGN och oförändrade solodata. CI/publicering och visuell kontroll redovisas efter körningen. Dokumentation och installationspaket finns i docs/MULTIPLAYER.md och supabase/dashboard/.
 
-
 De två första runtimeversionerna f712256 och 1ab821e passerade hela CI inklusive 159 enhetstester, verkliga WASM-motorprov och 111 webbläsartester. Livegranskningen skapade ett separat kompisparti i den publicerade webbläsaren och anslöt en annan anonym testspelare via samma offentliga API. E2–E4 från webbsidan och E7–E5 från motspelaren syntes åt båda håll med Realtime, korrekt turspärr och svenska dragbeskrivningar. Omladdning återupptog samma ställning. Vid 390 × 844 rymdes sidan utan horisontell scroll (innehållsbredd 375 px); bräde, knappar och historik granskades visuellt. Ge upp krävde bekräftelse och gav 0–1 hos båda deltagarna. Testpartiet avslutades och den lokala kompisreferensen rensades genom Spela ett nytt kompisparti, utan att skapa ytterligare rum. Testverktygets session avslutades; inga tokens skrevs till disk. Bilder sparades som schacklabbet-kompisparti.png och schacklabbet-kompisparti-mobil.png i visualiseringsmappen.
 
 I Rädda damen verifierades Lyssna på uppdraget med status Spelar: Uppdraget och byte till den nya inspelade ledtråden; röst återställdes till av. Inga nya lektioner slutfördes i det manuella provet. Supabases Auth-gräns lästes som 30 nya anonyma spelplatser/timme/IP och lämnades oförändrad; många samtidiga nya enheter på samma skolnät behöver provas före klasslansering.
 
 Sista skärmjusteringen anpassar kompisbrädets bredd efter skärmhöjden och fokuserar rubriken/återställer sidans rullning när ett parti öppnas eller lämnas. Ett webbläsarprov kontrollerar att hela brädet ryms under pågående spel på elevdatorernas 768 px skärmhöjd. En felgräns fångar avbruten hämtning av den separat laddade kompissidan, så att användaren får Ladda om sidan och behåller navigationen. Nya provet körs på desktop/mobil/pekdator: totalt 114 webbläsartester. Supabase-klientens och Iceberg-beroendets MIT-texter medföljer den statiska distributionen. Slutlig publicering av denna version noteras efter CI.
 
-
 Slutversion 0dc18a2 publicerades med success i [Actions-körning 39761876189](https://github.com/andreaseighty1/schacklabbet/actions/runs/39761876189). Lint, reproducerbart installationspaket, strikt Edge-typkontroll, alla 159 enhetstester, verkliga Stockfish WASM-prov, alla 114 webbläsartester för desktop/mobil/pekdator, produktionsbygge, dist-kontroll av 79 oförändrade ljud och Pages-deploy passerade. Både brädets skärmhöjdsprov och återhämtning efter avbruten modulhämtning passerade på alla tre profiler.
 
 Domänen levererar /assets/index-CybkPMom.js med HTTP 200 och JavaScript-MIME samt den nya återhämtningstexten. Supabase-klientens distribuerade MIT-fil ger HTTP 200. Sista manuella granskningen öppnar den nya kompislobbyn vid 1366 × 768; bilden sparas som schacklabbet-kompislobby.png. Fysisk provning med elever på skolans nätverk återstår. Nästa funktionella etapp är privata klassgrupper och serverräknad topplista.
-
 
 ### 22 oktober 2026 – mer förlåtande Nybörjare och Lätt
 
@@ -277,7 +272,14 @@ Tolv verkliga WASM-sökningar från sex ställningar i det rapporterade partiet 
 
 Lokala kontroller och slutlig CI/publicering dokumenteras efter körning. Klassrumsprov och nya partier med användaren behövs för fortsatt pedagogisk kalibrering.
 
-
 Version 02a7728 publicerades med success i [Actions-körning 39764665720](https://github.com/andreaseighty1/schacklabbet/actions/runs/39764665720). Lint, 162 enhetstester, verklig Stockfish WASM-kontroll, tolv kalibreringssökningar från användarpartiet, alla 118 webbläsartester för desktop/mobil/pekdator, bygge, dist-kontroll och Pages-deploy passerade. De nya browserproven kontrollerar faktiskt djup 1/2, MultiPV 20 i startställningen, rätt sparad nivå och oförändrad PGN vid omladdning.
 
 På den publicerade sidan verifierades Nybörjare – Lugn och förlåtande samt Lätt – Enkla hot och fler misstag i dialogen för nytt parti. Lätt valdes endast i dialogens utkast; inget parti startades och befintligt sparat spel/framsteg ersattes inte. Bilden sparades som schacklabbet-latt-justerad.png i visualiseringsmappen. Nytt elev-/användarprov återstår för att bedöma upplevd svårighetsgrad.
+
+## 2026-10-22 – Multiplayer: enklare koder och avslut
+
+- Sex kryptografiska tecken med kollisionshantering; gamla koder fungerar fortsatt.
+- Tydlig avslutssektion: bekräftad uppgivning och ömsesidig remi.
+- Valfria 10/15-minutersklockor och gemensam maxtid med remi, enligt Andreas val. Databastid, radlås och minutjobb avgör; ingen klientrapporterad tid godtas.
+- Delad materialkontroll med soloklockan. Ursprunglig begränsning för ställningsspecifik mattomöjlighet dokumenteras fortsatt.
+- Lokal verifiering: lint, strikt frontend-/Edge-TypeScript, produktionsbygge samt 170 tester passerade före sista kollisionsprovet. Webbläsar- och driftverifiering dokumenteras när de är klara.

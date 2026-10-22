@@ -56,6 +56,194 @@ async function unchanged(page: Page) {
   ]);
 }
 
+test("klockor, remiförslag och gemensam maxtid fungerar för båda spelarna", async ({
+  page,
+  context,
+  browser,
+  hasTouch,
+}) => {
+  const fixture = friendFixture();
+  await fixture.attach(context);
+  const guestContext = await browser.newContext({
+    baseURL: test.info().project.use.baseURL,
+    viewport: page.viewportSize()!,
+    hasTouch: Boolean(hasTouch),
+  });
+  await fixture.attach(guestContext);
+  const guest = await guestContext.newPage();
+  try {
+    await page.goto("/#friends");
+    await page.getByLabel("Spelarklocka", { exact: true }).selectOption("10");
+    await page
+      .getByLabel("Maxtid för hela partiet", { exact: true })
+      .selectOption("20");
+    await page
+      .getByRole("button", { name: "Skapa kompisparti", exact: true })
+      .click();
+    await expect(
+      page.getByRole("textbox", { name: "Partiets kod" }),
+    ).toHaveValue("ABC-234");
+    await expect(page.getByRole("timer", { name: /^Din tid:/ })).toHaveText(
+      "10:00",
+    );
+    await guest.goto("/#friends");
+    await guest.getByLabel("Kompisens kod", { exact: true }).fill("abc 234");
+    await guest
+      .getByRole("button", { name: "Gå med i partiet", exact: true })
+      .click();
+    await expect(
+      guest.getByRole("timer", { name: /^Din tid:/ }),
+    ).toHaveAttribute("data-running", "false");
+    await focus(page);
+    await expect(
+      page.getByRole("timer", { name: /^Din tid:/ }),
+    ).toHaveAttribute("data-running", "true");
+    const board = await page.locator(".board").boundingBox();
+    expect(board!.y + board!.height).toBeLessThanOrEqual(
+      page.viewportSize()!.height,
+    );
+    fixture.advanceTime(3000);
+    await focus(page);
+    await page
+      .getByRole("button", { name: "Erbjud remi", exact: true })
+      .click();
+    await page
+      .getByRole("button", { name: "Skicka förslaget", exact: true })
+      .click();
+    await expect(
+      page.getByText("Du har föreslagit remi.", { exact: false }),
+    ).toBeVisible();
+    await focus(guest);
+    await expect(
+      guest.getByText("Din kompis föreslår remi.", { exact: false }),
+    ).toBeVisible();
+    await guest
+      .getByRole("button", { name: "Nej, spela vidare", exact: true })
+      .click();
+    await expect(
+      guest.getByRole("button", { name: "Erbjud remi", exact: true }),
+    ).toBeVisible();
+    await focus(page);
+    await move(page, "e2", "e4", Boolean(hasTouch));
+    await expect(
+      page.getByRole("timer", { name: /^Din tid:/ }),
+    ).toHaveAttribute("data-running", "false");
+    await focus(guest);
+    await expect(
+      guest.getByRole("timer", { name: /^Din tid:/ }),
+    ).toHaveAttribute("data-running", "true");
+    await guest
+      .getByRole("button", { name: "Erbjud remi", exact: true })
+      .click();
+    await guest
+      .getByRole("button", { name: "Skicka förslaget", exact: true })
+      .click();
+    await focus(page);
+    await page.getByRole("button", { name: "Ja, remi", exact: true }).click();
+    await expect(
+      page.getByRole("heading", { name: "Avsluta med remi?", exact: true }),
+    ).toBeVisible();
+    await page
+      .getByRole("button", { name: "Ja, avsluta med remi", exact: true })
+      .click();
+    await expect(
+      page.getByRole("heading", { name: "Remi – lika resultat", exact: true }),
+    ).toBeVisible();
+    await focus(guest);
+    await expect(
+      guest.getByRole("heading", { name: "Remi – lika resultat", exact: true }),
+    ).toBeVisible();
+    await expect(
+      page.locator('.friend-clock[data-running="true"]'),
+    ).toHaveCount(0);
+    // A fresh game can also finish at its agreed total time without player clocks.
+    await page
+      .getByRole("button", { name: "Spela ett nytt kompisparti", exact: true })
+      .click();
+    await guest
+      .getByRole("button", { name: "Spela ett nytt kompisparti", exact: true })
+      .click();
+    await page.getByLabel("Spelarklocka", { exact: true }).selectOption("0");
+    await page
+      .getByRole("button", { name: "Skapa kompisparti", exact: true })
+      .click();
+    await expect(
+      page.getByRole("textbox", { name: "Partiets kod" }),
+    ).toHaveValue("ABC-234");
+    await guest.getByLabel("Kompisens kod", { exact: true }).fill("ABC234");
+    await guest
+      .getByRole("button", { name: "Gå med i partiet", exact: true })
+      .click();
+    await expect(
+      guest.getByText("Du spelar svart", { exact: true }),
+    ).toBeVisible();
+    await focus(page);
+    await page
+      .getByRole("button", { name: "Ge upp partiet", exact: true })
+      .click();
+    fixture.advanceTime(20 * 60000 + 1000);
+    await focus(page);
+    await expect(page.getByRole("dialog")).not.toBeVisible();
+    await expect(
+      page.getByRole("heading", { name: "Remi – lika resultat", exact: true }),
+    ).toBeVisible();
+    await expect(
+      page.getByText("Partiets gemensamma maxtid tog slut", { exact: true }),
+    ).toBeVisible();
+    await guest.reload();
+    await expect(
+      guest.getByRole("heading", { name: "Remi – lika resultat", exact: true }),
+    ).toBeVisible();
+  } finally {
+    await guestContext.close();
+  }
+});
+
+test("serverbekräftat tidsavslut återställs efter omladdning och låser sena drag", async ({
+  page,
+  context,
+  browser,
+}) => {
+  const fixture = friendFixture();
+  await fixture.attach(context);
+  const other = await browser.newContext({
+    baseURL: test.info().project.use.baseURL,
+  });
+  await fixture.attach(other);
+  try {
+    const guest = await other.newPage();
+    await page.goto("/#friends");
+    await page.getByLabel("Spelarklocka", { exact: true }).selectOption("15");
+    await page
+      .getByRole("button", { name: "Skapa kompisparti", exact: true })
+      .click();
+    await expect(
+      page.getByRole("textbox", { name: "Partiets kod" }),
+    ).toHaveValue("ABC-234");
+    await guest.goto("/#friends");
+    await guest.getByLabel("Kompisens kod", { exact: true }).fill("ABC234");
+    await guest
+      .getByRole("button", { name: "Gå med i partiet", exact: true })
+      .click();
+    await expect(
+      guest.getByText("Du spelar svart", { exact: true }),
+    ).toBeVisible();
+    fixture.advanceTime(15 * 60000 + 1);
+    await page.reload();
+    await expect(
+      page.getByRole("heading", { name: "Svart vinner", exact: true }),
+    ).toBeVisible();
+    await expect(page.getByRole("timer", { name: /^Din tid:/ })).toHaveText(
+      "0:00",
+    );
+    await expect(
+      page.getByRole("button", { name: /^e2, vit bonde/ }),
+    ).toHaveAttribute("aria-disabled", "true");
+  } finally {
+    await other.close();
+  }
+});
+
 test("två webbläsare delar kod, återupptar efter omladdning och ser samma schackmatt", async ({
   page,
   context,
@@ -84,7 +272,7 @@ test("två webbläsare delar kod, återupptar efter omladdning och ser samma sch
       .click();
     await expect(
       page.getByRole("textbox", { name: "Partiets kod", exact: true }),
-    ).toHaveValue("ABCDE-FGH23");
+    ).toHaveValue("ABC-234");
     await expect(page.locator(".square").first()).toHaveAttribute(
       "aria-label",
       /^h1,/,
@@ -92,7 +280,7 @@ test("två webbläsare delar kod, återupptar efter omladdning och ser samma sch
     await guest.goto("/#friends");
     await guest
       .getByRole("textbox", { name: "Kompisens kod", exact: true })
-      .fill("abcde fgh23");
+      .fill("abc 234");
     await guest
       .getByRole("button", { name: "Gå med i partiet", exact: true })
       .click();
@@ -194,9 +382,9 @@ test("förlorat dragkvitto återhämtas utan dubbeldrag och ge upp kräver eleve
       .click();
     await expect(
       page.getByRole("textbox", { name: "Partiets kod" }),
-    ).toHaveValue("ABCDE-FGH23");
+    ).toHaveValue("ABC-234");
     await guest.goto("/#friends");
-    await guest.getByLabel("Kompisens kod", { exact: true }).fill("ABCDEFGH23");
+    await guest.getByLabel("Kompisens kod", { exact: true }).fill("ABC234");
     await guest.getByRole("button", { name: "Gå med i partiet" }).click();
     await expect(
       guest.getByText("Du spelar svart", { exact: true }),
@@ -278,7 +466,7 @@ test("stängd inbjudan och utgånget parti lämnar plats för ett nytt", async (
     .getByRole("button", { name: "Skapa kompisparti", exact: true })
     .click();
   await expect(page.getByRole("textbox", { name: "Partiets kod" })).toHaveValue(
-    "ABCDE-FGH23",
+    "ABC-234",
   );
   await page
     .getByRole("button", { name: "Stäng inbjudan", exact: true })
@@ -296,7 +484,7 @@ test("stängd inbjudan och utgånget parti lämnar plats för ett nytt", async (
     .getByRole("button", { name: "Skapa kompisparti", exact: true })
     .click();
   await expect(page.getByRole("textbox", { name: "Partiets kod" })).toHaveValue(
-    "ABCDE-FGH23",
+    "ABC-234",
   );
   fixture.expire();
   await focus(page);
