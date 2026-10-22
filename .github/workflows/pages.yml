@@ -25,6 +25,11 @@ jobs:
       - run: npm test
       - run: npm run test:engine
       - run: node scripts/calibrate-opponents.mjs
+      - name: Use Ubuntu archive for browser dependencies
+        run: |
+          if [ -f /etc/apt/apt-mirrors.txt ]; then
+            printf '%s\n' 'https://archive.ubuntu.com/ubuntu' | sudo tee /etc/apt/apt-mirrors.txt
+          fi
       - run: npx playwright install --with-deps chromium
       - run: npm run test:e2e -- --reporter=list,github
         env:
