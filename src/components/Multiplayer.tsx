@@ -381,8 +381,8 @@ export function Multiplayer({
                   </label>
                 ))}
               </fieldset>
-              <label className="friend-setting" htmlFor="friend-clock">
-                Spelarklocka
+              <div className="friend-setting">
+                <label htmlFor="friend-clock">Spelarklocka</label>
                 <select
                   id="friend-clock"
                   value={clockMinutes}
@@ -392,9 +392,9 @@ export function Multiplayer({
                   <option value={15}>15 minuter var</option>
                   <option value={10}>10 minuter var</option>
                 </select>
-              </label>
-              <label className="friend-setting" htmlFor="friend-limit">
-                Maxtid för hela partiet
+              </div>
+              <div className="friend-setting">
+                <label htmlFor="friend-limit">Maxtid för hela partiet</label>
                 <select
                   id="friend-limit"
                   value={maxMinutes}
@@ -407,7 +407,7 @@ export function Multiplayer({
                     </option>
                   ))}
                 </select>
-              </label>
+              </div>
               <p className="fine-print">
                 Klockorna börjar när kompisen går med. Tiden fortsätter även om
                 ni stänger sidan.
