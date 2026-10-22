@@ -6,6 +6,8 @@ Första versionen använder privat kod och två datorer/webbläsarprofiler, utan
 
 Anonym inloggning sker först när eleven skapar eller går med i ett parti. Samma session sparas i webbläsaren och återanvänds. Ett aktivt parti per spelplats förhindrar övergivna parallella inbjudningar. Samma webbläsare på en delad dator är samma spelare; två flikar är inte två deltagare.
 
+Projektets Auth → Rate Limits kontrollerades i dashboarden den 22 oktober 2026: **30 nya anonyma spelplatser per timme och IP-adress**. Inställningen ändrades inte. Flera klasser som börjar samtidigt bakom samma skolnät kan nå gränsen; befintliga sessioner räknas inte som nya registreringar. Planera ett klassrumsprov innan bred lansering och dimensionera gränsen efter antalet nya enheter.
+
 Servern är källan till ställningen. Klienten skickar bara dragets frånruta/tillruta, eventuellt förvandlingsval, versionsnummer och ett slumpat kvitto-ID. chess.js 1.4.0 spelar upp serverns hela UCI-historik och kontrollerar färg, tur, laglighet, rockad, en passant, förvandling, schackmatt och remi. Klientens FEN, PGN, identitet och påstådda resultat accepteras inte.
 
 SQL låser rummet och kontrollerar versionen före skrivning. Två samtidiga drag kan inte skriva över varandra. Ett upprepat kvitto ger samma senaste bekräftelse. Efter nätverksfel hämtas brädet på nytt; ett osäkert drag skickas aldrig automatiskt igen. Brädet låses vid tappad kontakt. Realtime uppdaterar deltagarna, med hämtning var 15:e sekund samt vid fokus/återanslutning som reserv för skolnätverk som blockerar WebSocket. En motståndares närvaro indikeras inte som säker bara för att kontot har anslutit; det finns ännu ingen närvaropuls.

@@ -4,6 +4,9 @@ import { friendFixture } from "./friend-fixture";
 async function move(page: Page, from: string, to: string, touch: boolean) {
   const first = page.getByRole("button", { name: new RegExp(`^${from},`) });
   const next = page.getByRole("button", { name: new RegExp(`^${to},`) });
+  const color = /, (vit|svart) /.exec(
+    (await first.getAttribute("aria-label")) ?? "",
+  )?.[1];
   if (touch) {
     await first.tap();
     await next.tap();
@@ -11,6 +14,10 @@ async function move(page: Page, from: string, to: string, touch: boolean) {
     await first.click();
     await next.click();
   }
+  await expect(next).toHaveAttribute(
+    "aria-label",
+    new RegExp(`^${to}, ${color} `),
+  );
 }
 async function focus(page: Page) {
   await page.evaluate(() => window.dispatchEvent(new Event("focus")));

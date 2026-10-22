@@ -3234,6 +3234,10 @@ a {
   height: 82px;
   margin-bottom: 24px;
 }
+.friend-lobby .friend-pieces > .piece {
+  width: 68px;
+  height: 82px;
+}
 .friend-lobby h2,
 .friend-invite h2 {
   font-size: 24px;
