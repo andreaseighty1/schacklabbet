@@ -48,7 +48,7 @@ Playwright kör flöden med desktopstorlek 1366 × 768 och mobilstorlek. GitHub 
 
 ## Motor och prestanda
 
-En motorinstans återanvänds efter färdiga sökningar. Nytt parti, avslutat parti, avbrott och fel avslutar den. Sidbyte avslutar den vid spel utan tid; i ett parti på tid fortsätter datorn att spela. Expertledtrådar och datorns drag delar en kanal; ett nivåbyte rensar tidigare analys. Bara lagliga svar accepteras. Motorn får startställning plus hela draghistoriken, även efter laddning av ett sparat parti. Nybörjarval använder jämförbara kandidatbedömningar från samma färdiga sökdjup.
+En motorinstans återanvänds efter färdiga sökningar. Nytt parti, avslutat parti, avbrott och fel avslutar den. Sidbyte avslutar den vid spel utan tid; i ett parti på tid fortsätter datorn att spela. Expertledtrådar och datorns drag delar en kanal; ett nivåbyte rensar tidigare analys. Bara lagliga svar accepteras. Motorn får startställning plus hela draghistoriken, även efter laddning av ett sparat parti. Nybörjare och Lätt använder nu kortare sökning och ett brett, viktat dragurval som ger utrymme för misstag. Se [kalibreringen av de lägsta nivåerna](docs/engine/LOWER_LEVELS.md).
 
 `npm run test:engine` kontrollerar den verkliga WASM-motorn genom samma sessionskod som appen. `npm run benchmark:engine` jämför sex nya motorstarter med en återanvänd motor och gör laglighetsprov på alla fem nivåer. Det senare är ett lokalt Node-prov, ingen mätning på elevdator och ingen Elo-kalibrering. Resultat och kvarstående elevtester finns i [motorgenomgången](docs/engine/GENOMGANG.md).
 

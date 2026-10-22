@@ -1,5 +1,7 @@
 # Motorgenomgång – 20 oktober 2026
 
+**Uppdatering 22 oktober:** Nybörjare och Lätt har därefter kalibrerats om efter användarens spelprov. Aktuella parametrar, urvalsregler och kontroll med det inrapporterade partiet finns i [LOWER_LEVELS.md](LOWER_LEVELS.md). Nivåbeskrivningen nedan dokumenterar läget den 20 oktober; de gamla benchmarkvärdena är historiska mätningar.
+
 Schacklabbet använder oförändrad Stockfish.js 19.0.1 Lite single-threaded. Ändringarna gäller appens motorkoppling, inte Stockfishs binärer eller schackreglerna. Källkod och licens följer fortsatt med publiceringen.
 
 ## Åtgärder

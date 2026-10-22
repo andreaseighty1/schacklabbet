@@ -3,19 +3,19 @@ import { Chess, DEFAULT_POSITION } from "chess.js";
 export const levels = [
   {
     name: "Nybörjare",
-    label: "Ta dina första steg",
+    label: "Lugn och förlåtande",
     skill: 0,
-    depth: 3,
-    time: 180,
-    candidates: 5,
+    depth: 1,
+    time: 300,
+    candidates: "all",
   },
   {
     name: "Lätt",
-    label: "Hitta ditt flyt",
+    label: "Enkla hot och fler misstag",
     skill: 2,
-    depth: 5,
-    time: 240,
-    candidates: 3,
+    depth: 2,
+    time: 300,
+    candidates: "all",
   },
   {
     name: "Medel",
@@ -43,22 +43,48 @@ export const levels = [
   },
 ];
 
-type Candidate = { move: string; score: number; mate: boolean };
+export type Candidate = { move: string; score: number; mate: boolean };
 export function chooseCandidate(
   candidates: Candidate[],
   level: number,
   random = Math.random,
 ): string | undefined {
-  const best = candidates[0];
+  if (level > 1) return candidates[0]?.move;
+  // A shallow MultiPV snapshot can arrive with scores out of slot order.
+  // Compare the actual scores, without mutating the stored engine batch.
+  const ranked = candidates
+    .filter((c) => Number.isFinite(c.score))
+    .sort((a, b) => {
+      const category = (c: Candidate) => (c.mate ? (c.score > 0 ? 2 : 0) : 1);
+      return (
+        category(b) - category(a) ||
+        (a.mate ? a.score - b.score : b.score - a.score)
+      );
+    });
+  const best = ranked[0];
   if (!best) return;
-  if (level > 1 || best.mate) return best.move;
-  const choices = candidates.filter(
-    (c) => !c.mate && best.score - c.score <= (level === 0 ? 250 : 120),
+  if (best.mate) return best.move;
+  // Sampling only three near-best moves still creates a very strong opponent.
+  // The lower levels deliberately allow inaccuracies and missed material gains.
+  const temperature = level === 0 ? 450 : 180;
+  const maximumLoss = level === 0 ? 1200 : 700;
+  const choices = ranked.filter(
+    (c) =>
+      !c.mate &&
+      Number.isFinite(c.score) &&
+      best.score - c.score <= maximumLoss,
   );
-  return (
-    choices[Math.min(choices.length - 1, Math.floor(random() * choices.length))]
-      ?.move || best.move
+  const weights = choices.map((c) =>
+    Math.exp((c.score - best.score) / temperature),
   );
+  let target =
+    Math.max(0, Math.min(1, random())) *
+    weights.reduce((sum, weight) => sum + weight, 0);
+  for (const [index, candidate] of choices.entries()) {
+    target -= weights[index];
+    if (target <= 0) return candidate.move;
+  }
+  return choices.at(-1)?.move ?? best.move;
 }
 
 export interface EnginePosition {
@@ -98,6 +124,7 @@ export function preparePosition(position: EnginePosition) {
   );
   return {
     command: `position ${position.initialFen === DEFAULT_POSITION ? "startpos" : `fen ${position.initialFen}`}${position.moves.length ? ` moves ${position.moves.join(" ")}` : ""}`,
+    board,
     legal,
   };
 }
@@ -124,14 +151,17 @@ export class EngineSession {
   private initialized = false;
   private previousLevel: number | null = null;
   private active: { cancel: () => void } | null = null;
+  private random: () => number;
 
   constructor(
     factory: () => WorkerPort = () =>
       new Worker(
         `${import.meta.env.BASE_URL}engine/stockfish-19-lite-single.js`,
       ),
+    random: () => number = () => Math.random(),
   ) {
     this.factory = factory;
+    this.random = random;
   }
 
   private drop(worker: WorkerPort) {
@@ -199,7 +229,10 @@ export class EngineSession {
       }
       const index = Number.isInteger(level) && levels[level] ? level : 0;
       const config = levels[index];
-      const expected = Math.min(config.candidates, prepared.legal.size);
+      const expected =
+        config.candidates === "all"
+          ? prepared.legal.size
+          : Math.min(Number(config.candidates), prepared.legal.size);
       let settled = false;
       let phase: "uci" | "ready" | "searching" = this.initialized
         ? "ready"
@@ -247,7 +280,7 @@ export class EngineSession {
           send("setoption name Clear Hash");
         }
         send(`setoption name Skill Level value ${config.skill}`);
-        send(`setoption name MultiPV value ${config.candidates}`);
+        send(`setoption name MultiPV value ${expected}`);
         this.previousLevel = index;
         send("isready");
       };
@@ -347,8 +380,31 @@ export class EngineSession {
                 );
                 return;
               }
-              const chosen =
-                index < 2 ? (chooseCandidate(completed, index) ?? best) : best;
+              let chosen = best;
+              if (index < 2) {
+                const compared = chooseCandidate(completed, index, this.random);
+                if (compared) chosen = compared;
+                else {
+                  // A slow device must not silently turn Easy into Stockfish's best move.
+                  // Still finish a directly verified mate-in-one when one is available.
+                  prepared.board.move({
+                    from: best.slice(0, 2),
+                    to: best.slice(2, 4),
+                    promotion: best[4],
+                  });
+                  const mate = prepared.board.isCheckmate();
+                  prepared.board.undo();
+                  const legal = [...prepared.legal];
+                  chosen = mate
+                    ? best
+                    : legal[
+                        Math.min(
+                          legal.length - 1,
+                          Math.floor(this.random() * legal.length),
+                        )
+                      ];
+                }
+              }
               finish(undefined, chosen);
             }
           }

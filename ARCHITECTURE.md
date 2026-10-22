@@ -34,13 +34,13 @@ UCI-handshake: `uci` → `uciok` → styrkeinställningar → `isready` → `rea
 
 | Nivå      | Skill | Djupstak | Tidstak | MultiPV |
 | --------- | ----: | -------: | ------: | ------: |
-| Nybörjare |     0 |        3 |  180 ms |       5 |
-| Lätt      |     2 |        5 |  240 ms |       3 |
+| Nybörjare |     0 |        1 |  300 ms | Alla lagliga |
+| Lätt      |     2 |        2 |  300 ms | Alla lagliga |
 | Medel     |     6 |        8 |  400 ms |       1 |
 | Svår      |    12 |       11 |  650 ms |       1 |
 | Expert    |    20 |       15 | 1000 ms |       1 |
 
-Nybörjare väljer mellan analyserade kandidater inom 250 centipawn från förstavalet, Lätt inom 120. Mattprioritering bevaras. Denna avgränsning undviker kända mycket stora tapp bland kandidaterna, men en grund analys garanterar inte ett säkert drag. Nivåerna har olika parametrar; deras praktiska styrka är inte ELO-kalibrerad och behöver provas med målgruppen.
+Nybörjare och Lätt använder ett viktat slumpurval ur en komplett, grund kandidatgrupp. Bättre drag är mer sannolika, men misstag och missade vinster tillåts: poängskillnad upp till 1200 respektive 700 cp med temperatur 450 respektive 180. Poängen sorteras före jämförelsen. Ofullständig analys ger ett slumpat lagligt drag i stället för ett starkt förstaval; direkt verifierad matt i ett bevaras. Medel och uppåt behåller sitt tidigare dragval. Kalibreringen använder ett faktiskt inrapporterat parti och dokumenteras i [LOWER_LEVELS.md](docs/engine/LOWER_LEVELS.md). Praktisk styrka och lämplighet behöver fortsatt provas med målgruppen; inga Elo-tal anges.
 
 ## Lokal datamodell
 

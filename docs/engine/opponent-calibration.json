@@ -1,0 +1,197 @@
+{
+  "method": "12 real WASM searches from six positions in the supplied game. 1,000 fixed probability samples per search, comparing old/new selection on the same shallow scores. Not an Elo estimate, match win-rate or proof of suitability for pupils.",
+  "rows": [
+    {
+      "beforeBlackMove": 1,
+      "level": "Nybörjare",
+      "legalMoves": 20,
+      "completedDepth": 1,
+      "before": {
+        "distinctMoves": 5,
+        "expectedLossCp": 19,
+        "outsideTopThreePercent": 40
+      },
+      "after": {
+        "distinctMoves": 20,
+        "expectedLossCp": 40,
+        "outsideTopThreePercent": 84
+      }
+    },
+    {
+      "beforeBlackMove": 1,
+      "level": "Lätt",
+      "legalMoves": 20,
+      "completedDepth": 2,
+      "before": {
+        "distinctMoves": 3,
+        "expectedLossCp": 17,
+        "outsideTopThreePercent": 0
+      },
+      "after": {
+        "distinctMoves": 20,
+        "expectedLossCp": 41,
+        "outsideTopThreePercent": 83
+      }
+    },
+    {
+      "beforeBlackMove": 6,
+      "level": "Nybörjare",
+      "legalMoves": 32,
+      "completedDepth": 1,
+      "before": {
+        "distinctMoves": 5,
+        "expectedLossCp": 21,
+        "outsideTopThreePercent": 40
+      },
+      "after": {
+        "distinctMoves": 32,
+        "expectedLossCp": 116,
+        "outsideTopThreePercent": 87
+      }
+    },
+    {
+      "beforeBlackMove": 6,
+      "level": "Lätt",
+      "legalMoves": 32,
+      "completedDepth": 2,
+      "before": {
+        "distinctMoves": 3,
+        "expectedLossCp": 12,
+        "outsideTopThreePercent": 0
+      },
+      "after": {
+        "distinctMoves": 27,
+        "expectedLossCp": 41,
+        "outsideTopThreePercent": 84
+      }
+    },
+    {
+      "beforeBlackMove": 12,
+      "level": "Nybörjare",
+      "legalMoves": 37,
+      "completedDepth": 1,
+      "before": {
+        "distinctMoves": 5,
+        "expectedLossCp": 73,
+        "outsideTopThreePercent": 40
+      },
+      "after": {
+        "distinctMoves": 37,
+        "expectedLossCp": 170,
+        "outsideTopThreePercent": 88
+      }
+    },
+    {
+      "beforeBlackMove": 12,
+      "level": "Lätt",
+      "legalMoves": 37,
+      "completedDepth": 2,
+      "before": {
+        "distinctMoves": 3,
+        "expectedLossCp": 36,
+        "outsideTopThreePercent": 0
+      },
+      "after": {
+        "distinctMoves": 32,
+        "expectedLossCp": 74,
+        "outsideTopThreePercent": 87
+      }
+    },
+    {
+      "beforeBlackMove": 19,
+      "level": "Nybörjare",
+      "legalMoves": 39,
+      "completedDepth": 1,
+      "before": {
+        "distinctMoves": 3,
+        "expectedLossCp": 29,
+        "outsideTopThreePercent": 0
+      },
+      "after": {
+        "distinctMoves": 38,
+        "expectedLossCp": 475,
+        "outsideTopThreePercent": 72
+      }
+    },
+    {
+      "beforeBlackMove": 19,
+      "level": "Lätt",
+      "legalMoves": 39,
+      "completedDepth": 2,
+      "before": {
+        "distinctMoves": 1,
+        "expectedLossCp": 0,
+        "outsideTopThreePercent": 0
+      },
+      "after": {
+        "distinctMoves": 8,
+        "expectedLossCp": 128,
+        "outsideTopThreePercent": 20
+      }
+    },
+    {
+      "beforeBlackMove": 25,
+      "level": "Nybörjare",
+      "legalMoves": 41,
+      "completedDepth": 1,
+      "before": {
+        "distinctMoves": 5,
+        "expectedLossCp": 21,
+        "outsideTopThreePercent": 40
+      },
+      "after": {
+        "distinctMoves": 39,
+        "expectedLossCp": 135,
+        "outsideTopThreePercent": 88
+      }
+    },
+    {
+      "beforeBlackMove": 25,
+      "level": "Lätt",
+      "legalMoves": 41,
+      "completedDepth": 2,
+      "before": {
+        "distinctMoves": 3,
+        "expectedLossCp": 22,
+        "outsideTopThreePercent": 0
+      },
+      "after": {
+        "distinctMoves": 32,
+        "expectedLossCp": 116,
+        "outsideTopThreePercent": 81
+      }
+    },
+    {
+      "beforeBlackMove": 27,
+      "level": "Nybörjare",
+      "legalMoves": 37,
+      "completedDepth": 1,
+      "before": {
+        "distinctMoves": 5,
+        "expectedLossCp": 150,
+        "outsideTopThreePercent": 40
+      },
+      "after": {
+        "distinctMoves": 32,
+        "expectedLossCp": 299,
+        "outsideTopThreePercent": 84
+      }
+    },
+    {
+      "beforeBlackMove": 27,
+      "level": "Lätt",
+      "legalMoves": 37,
+      "completedDepth": 2,
+      "before": {
+        "distinctMoves": 2,
+        "expectedLossCp": 39,
+        "outsideTopThreePercent": 0
+      },
+      "after": {
+        "distinctMoves": 28,
+        "expectedLossCp": 242,
+        "outsideTopThreePercent": 64
+      }
+    }
+  ]
+}

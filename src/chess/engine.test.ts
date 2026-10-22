@@ -5,8 +5,10 @@ import {
   enginePosition,
   preparePosition,
   chooseCandidate,
+  levels,
   type WorkerPort,
 } from "./engine";
+import { easyFeedbackMoves } from "./fixtures/easy-feedback-game";
 const initial = () => enginePosition(new Chess());
 function fakeWorker() {
   return {
@@ -239,7 +241,7 @@ describe("återanvändbar Stockfish", () => {
     const factory = vi.fn().mockReturnValueOnce(old).mockReturnValueOnce(fresh);
     const engine = new EngineSession(factory);
     const controller = new AbortController();
-    const first = engine.search(initial(), 0, controller.signal);
+    const first = engine.search(initial(), 2, controller.signal);
     const rejected = expect(first).rejects.toMatchObject({
       name: "AbortError",
     });
@@ -247,7 +249,7 @@ describe("återanvändbar Stockfish", () => {
     ready(old);
     controller.abort();
     await rejected;
-    const second = engine.search(initial(), 0, new AbortController().signal);
+    const second = engine.search(initial(), 2, new AbortController().signal);
     late({ data: "readyok\nbestmove d2d4" } as MessageEvent);
     ready(fresh);
     emit(fresh, "bestmove e2e4");
@@ -262,7 +264,7 @@ describe("återanvändbar Stockfish", () => {
     const engine = new EngineSession(
       vi.fn().mockReturnValueOnce(old).mockReturnValueOnce(fresh),
     );
-    const first = engine.search(initial(), 0, new AbortController().signal);
+    const first = engine.search(initial(), 2, new AbortController().signal);
     const rejected = expect(first).rejects.toMatchObject({
       name: "AbortError",
     });
@@ -279,7 +281,7 @@ describe("återanvändbar Stockfish", () => {
       controller = new AbortController();
     controller.abort();
     await expect(
-      new EngineSession(factory).search(initial(), 0, controller.signal),
+      new EngineSession(factory).search(initial(), 2, controller.signal),
     ).rejects.toMatchObject({ name: "AbortError" });
     expect(factory).not.toHaveBeenCalled();
   });
@@ -289,10 +291,10 @@ describe("återanvändbar Stockfish", () => {
     const engine = new EngineSession(
       vi.fn().mockReturnValueOnce(old).mockReturnValueOnce(fresh),
     );
-    const failed = engine.search(initial(), 0, new AbortController().signal);
+    const failed = engine.search(initial(), 2, new AbortController().signal);
     old.onerror!({} as ErrorEvent);
     await expect(failed).rejects.toThrow("kunde inte laddas");
-    const next = engine.search(initial(), 0, new AbortController().signal);
+    const next = engine.search(initial(), 2, new AbortController().signal);
     ready(fresh);
     emit(fresh, "bestmove e2e4");
     expect(await next).toBe("e2e4");
@@ -306,12 +308,12 @@ describe("återanvändbar Stockfish", () => {
       const engine = new EngineSession(
         vi.fn().mockReturnValueOnce(old).mockReturnValueOnce(fresh),
       );
-      const task = engine.search(initial(), 0, new AbortController().signal);
+      const task = engine.search(initial(), 2, new AbortController().signal);
       const rejected = expect(task).rejects.toThrow("svarar inte");
       await vi.advanceTimersByTimeAsync(15000);
       await rejected;
       expect(old.terminate).toHaveBeenCalledOnce();
-      const next = engine.search(initial(), 0, new AbortController().signal);
+      const next = engine.search(initial(), 2, new AbortController().signal);
       ready(fresh);
       emit(fresh, "bestmove e2e4");
       await next;
@@ -337,11 +339,11 @@ describe("återanvändbar Stockfish", () => {
       throw new Error("unsupported Worker");
     });
     await expect(
-      broken.search(initial(), 0, new AbortController().signal),
+      broken.search(initial(), 2, new AbortController().signal),
     ).rejects.toThrow("kunde inte laddas");
     const worker = fakeWorker(),
       engine = new EngineSession(() => worker);
-    const task = engine.search(initial(), 0, new AbortController().signal);
+    const task = engine.search(initial(), 2, new AbortController().signal);
     emit(worker, "info string CRITICAL ERROR invalid position");
     await expect(task).rejects.toThrow("kunde inte läsa ställningen");
     expect(worker.terminate).toHaveBeenCalledOnce();
@@ -349,7 +351,7 @@ describe("återanvändbar Stockfish", () => {
   it("reset under pågående sökning avvisar svaret och nollställer partiet", async () => {
     const worker = fakeWorker(),
       engine = new EngineSession(() => worker);
-    const task = engine.search(initial(), 0, new AbortController().signal);
+    const task = engine.search(initial(), 2, new AbortController().signal);
     const rejected = expect(task).rejects.toMatchObject({ name: "AbortError" });
     engine.reset();
     await rejected;
@@ -361,7 +363,11 @@ describe("återanvändbar Stockfish", () => {
       engine = new EngineSession(() => worker);
     const task = engine.search(initial(), 0, new AbortController().signal);
     ready(worker);
-    ["e2e4", "d2d4", "g1f3", "c2c4", "b1c3"].forEach((move, i) =>
+    const moves = [...preparePosition(initial()).legal];
+    expect(worker.postMessage).toHaveBeenCalledWith(
+      "setoption name MultiPV value 20",
+    );
+    moves.forEach((move, i) =>
       emit(
         worker,
         `info depth 1 multipv ${i + 1} score cp ${40 - i * 5} pv ${move}`,
@@ -371,36 +377,96 @@ describe("återanvändbar Stockfish", () => {
     const random = vi.spyOn(Math, "random").mockReturnValue(0.99);
     try {
       emit(worker, "bestmove f2f3");
-      expect(await task).toBe("b1c3");
+      expect(await task).toBe(moves.at(-1));
     } finally {
       random.mockRestore();
       engine.reset();
     }
   });
-  it("använder bestmove om inga jämförbara kandidatbedömningar är klara", async () => {
+  it("blir inte starkare på en långsam dator när jämförbara kandidatbedömningar saknas", async () => {
     const worker = fakeWorker(),
-      engine = new EngineSession(() => worker);
+      engine = new EngineSession(
+        () => worker,
+        () => 0.99,
+      );
     const task = engine.search(initial(), 0, new AbortController().signal);
     ready(worker);
     emit(worker, "info depth 3 multipv 1 score cp 50 upperbound pv d2d4");
     emit(worker, "info depth 3 multipv 2 score cp 20 pv e2e5");
     emit(worker, "bestmove e2e4");
-    expect(await task).toBe("e2e4");
+    expect(await task).toBe([...preparePosition(initial()).legal].at(-1));
     engine.reset();
   });
 });
 
 describe("begränsad nybörjarstyrka", () => {
+  it("jämför verkliga poäng även när MultiPV-radernas ordning inte följer poängen", () => {
+    const scores = [
+      { move: "a2a3", score: -100, mate: false },
+      { move: "e2e4", score: 100, mate: false },
+    ];
+    expect(chooseCandidate(scores, 1, () => 0)).toBe("e2e4");
+    expect(scores[0].move).toBe("a2a3");
+    expect(
+      chooseCandidate(
+        [{ move: "a2a3", score: -1, mate: true }, ...scores],
+        0,
+        () => 0,
+      ),
+    ).toBe("e2e4");
+  });
   const candidates = [
     { move: "e2e4", score: 40, mate: false },
     { move: "d2d4", score: 10, mate: false },
     { move: "f2f3", score: -600, mate: false },
   ];
-  it("kan variera mellan rimliga kandidatdrag", () =>
-    expect(chooseCandidate(candidates, 0, () => 0.99)).toBe("d2d4"));
-  it("väljer inte en kandidat med stor känd materialförlust", () => {
-    for (let i = 0; i < 100; i++)
-      expect(chooseCandidate(candidates, 0, () => i / 100)).not.toBe("f2f3");
+  it("kan missa chanser och göra sämre drag på båda lägsta nivåerna", () => {
+    expect(chooseCandidate(candidates, 0, () => 0.99)).toBe("f2f3");
+    expect(chooseCandidate(candidates, 1, () => 0.999)).toBe("f2f3");
+  });
+  it("ger nybörjare fler missar men låter båda välja utanför den gamla topp-tre-gruppen", () => {
+    const options = [400, 350, 200, 100, -100, -600].map((score, index) => ({
+      move: String(index),
+      score,
+      mate: false,
+    }));
+    const losses = [0, 1].map((level) => {
+      const picks = Array.from({ length: 1000 }, (_, index) =>
+        Number(chooseCandidate(options, level, () => (index + 0.5) / 1000)),
+      );
+      expect(picks.some((pick) => pick > 2)).toBe(true);
+      return (
+        picks.reduce(
+          (sum, pick) => sum + options[0].score - options[pick].score,
+          0,
+        ) / picks.length
+      );
+    });
+    expect(losses[0]).toBeGreaterThan(losses[1] + 50);
+  });
+  it("behåller nivåernas ordning och efteranalysens starka motor", () => {
+    expect(levels.slice(0, 2).map((level) => level.depth)).toEqual([1, 2]);
+    expect(
+      levels
+        .slice(2)
+        .map((level) => [level.skill, level.depth, level.candidates]),
+    ).toEqual([
+      [6, 8, 1],
+      [12, 11, 1],
+      [20, 15, 1],
+    ]);
+  });
+  it("kan spela igenom hela det rapporterade partiet till den faktiska schackmatten", () => {
+    const game = new Chess();
+    for (const uci of easyFeedbackMoves)
+      game.move({
+        from: uci.slice(0, 2),
+        to: uci.slice(2, 4),
+        promotion: uci[4],
+      });
+    expect(easyFeedbackMoves).toHaveLength(86);
+    expect(game.isCheckmate()).toBe(true);
+    expect(game.turn()).toBe("w");
   });
   it("behåller mattdrag och starka nivåers förstaval", () => {
     expect(

@@ -24,6 +24,7 @@ jobs:
       - run: npx tsc --strict --noEmit --allowImportingTsExtensions --moduleResolution bundler --module esnext --target es2022 --lib es2022,dom --skipLibCheck supabase/functions/chess-room/index.ts
       - run: npm test
       - run: npm run test:engine
+      - run: node scripts/calibrate-opponents.mjs
       - run: npx playwright install --with-deps chromium
       - run: npm run test:e2e -- --reporter=list,github
         env:

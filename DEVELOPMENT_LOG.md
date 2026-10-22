@@ -265,3 +265,14 @@ Sista skärmjusteringen anpassar kompisbrädets bredd efter skärmhöjden och fo
 Slutversion 0dc18a2 publicerades med success i [Actions-körning 39761876189](https://github.com/andreaseighty1/schacklabbet/actions/runs/39761876189). Lint, reproducerbart installationspaket, strikt Edge-typkontroll, alla 159 enhetstester, verkliga Stockfish WASM-prov, alla 114 webbläsartester för desktop/mobil/pekdator, produktionsbygge, dist-kontroll av 79 oförändrade ljud och Pages-deploy passerade. Både brädets skärmhöjdsprov och återhämtning efter avbruten modulhämtning passerade på alla tre profiler.
 
 Domänen levererar /assets/index-CybkPMom.js med HTTP 200 och JavaScript-MIME samt den nya återhämtningstexten. Supabase-klientens distribuerade MIT-fil ger HTTP 200. Sista manuella granskningen öppnar den nya kompislobbyn vid 1366 × 768; bilden sparas som schacklabbet-kompislobby.png. Fysisk provning med elever på skolans nätverk återstår. Nästa funktionella etapp är privata klassgrupper och serverräknad topplista.
+
+
+### 22 oktober 2026 – mer förlåtande Nybörjare och Lätt
+
+Användaren rapporterade att Lätt var för svårt och lämnade ett komplett parti till schackmatt i drag 43. Alla 86 halvdrag har lagts in som ett anonymt regressionsexempel och verifierats med chess.js. Det tidigare urvalet höll Lätt inom tre främsta Stockfish-kandidater och 120 cp från förstavalet, vilket gav för få missar för målgruppen.
+
+De två lägsta nivåerna använder nu UCI-djup 1/2, 300 ms sökbudget och alla lagliga kandidater. Viktat slumpurval tillåter misstag och missade materialvinster, mer på Nybörjare än Lätt. Poängen jämförs först efter en komplett grupp från samma djup och sorteras efter faktisk bedömning. Om en svag dator inte hinner få en komplett grupp används ett slumpat lagligt drag, med direkt verifierad matt i ett som undantag. Medel, Svår, Expert, ledtrådar och efteranalys behåller sin styrka. Motorbinärer, licens, full historik, sparad PGN och framsteg ändras inte.
+
+Tolv verkliga WASM-sökningar från sex ställningar i det rapporterade partiet jämför den gamla och nya urvalsregeln på identiska grundbedömningar med 1 000 fasta sannolikhetspunkter per sökning. I den sparade körningen ökade genomsnittlig skillnad mot bästa cp-poäng från 52 till 206 för Nybörjare och från 21 till 107 för Lätt. Det är ett prov av urvalets tillåtna fel, ingen Elo- eller vinstfrekvensmätning och ingen återskapad djup sökning för den äldre versionen. I ställningen före svarts 19:e drag ger nya Lätt åtta möjliga val i provet mot ett för den gamla urvalsregeln på samma underlag. Rådata och begränsningar finns i docs/engine/LOWER_LEVELS.md och opponent-calibration.json.
+
+Lokala kontroller och slutlig CI/publicering dokumenteras efter körning. Klassrumsprov och nya partier med användaren behövs för fortsatt pedagogisk kalibrering.

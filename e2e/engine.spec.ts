@@ -1,6 +1,44 @@
 import { test, expect, type Page } from "@playwright/test";
 import { observeWorkers } from "./engine-probe";
 
+for (const [level, depth] of [
+  [0, 1],
+  [1, 2],
+]) {
+  test(`nivå ${level + 1} använder brett dragurval och kort sökning i verklig Worker`, async ({
+    page,
+  }) => {
+    await observeWorkers(page);
+    await page.goto("/");
+    await page
+      .getByRole("button", { name: "Spela mot datorn", exact: false })
+      .first()
+      .click();
+    await page.getByLabel("Vem vill du möta?").selectOption(String(level));
+    await page
+      .getByRole("button", { name: "Svart · datorn börjar", exact: true })
+      .click();
+    await page
+      .getByRole("button", { name: "Nu spelar vi", exact: true })
+      .click();
+    await expect(page.locator(".move-action")).toHaveCount(1, {
+      timeout: 20000,
+    });
+    const commands = await page.evaluate(() => window.__engineProbe.commands);
+    expect(commands).toContain("setoption name MultiPV value 20");
+    expect(commands).toContain(`go depth ${depth} movetime 300`);
+    const saved = await page.evaluate(() =>
+      localStorage.getItem("schacklabbet.game.v1"),
+    );
+    expect(JSON.parse(saved!).level).toBe(level);
+    await page.reload();
+    await expect(page.locator(".move-action")).toHaveCount(1);
+    expect(
+      await page.evaluate(() => localStorage.getItem("schacklabbet.game.v1")),
+    ).toBe(saved);
+  });
+}
+
 async function start(page: Page) {
   await page.goto("/");
   await page
