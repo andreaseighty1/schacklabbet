@@ -120,6 +120,19 @@ a {
 .site-credit strong {
   font-weight: 600;
 }
+.site-credit-copy {
+  min-width: 0;
+}
+.site-credit-logo {
+  display: block;
+  width: 80px;
+  max-width: 100%;
+  height: auto;
+  flex-shrink: 0;
+}
+.site-credit-copy p + p {
+  margin-top: 4px;
+}
 .settings-grid {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);

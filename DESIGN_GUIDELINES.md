@@ -40,3 +40,7 @@ Kort har 12–18 px hörnradie och tunna kanter. Skuggor används främst på sp
 - Ljud är av; version 0.1 har inga ljudfiler.
 
 Kontrast, läsbarhet på riktiga elevdatorer och praktiska flöden behöver fortsatt visuell och användarbaserad granskning. Ingen formell WCAG-certifiering påstås.
+
+## Avsändare i sidfoten
+
+42 Improbable Owls visas med ägarens tillhandahållna logotyp för ljus bakgrund, utan omfärgning eller beskärning. Den ligger tillsammans med © 2026 42 Improbable Owls & Andreas Jonsson och den befintliga beskrivningen För nyfikna schackspelare. Bilden behåller proportionerna, och sidfoten får radbrytas i små fönster.

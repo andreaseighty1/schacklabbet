@@ -26,7 +26,23 @@ test("inställningar nås i menyn, minns färger och behåller parti och framste
   });
   await page.goto("/#play");
   const footer = page.getByRole("contentinfo");
-  await expect(footer).toContainText("Skapat av Andreas Jonsson");
+  await expect(footer).toContainText(
+    "© 2026 42 Improbable Owls & Andreas Jonsson",
+  );
+  const publisherLogo = footer.getByRole("img", {
+    name: "42 Improbable Owls",
+    exact: true,
+  });
+  await publisherLogo.scrollIntoViewIfNeeded();
+  await expect
+    .poll(() =>
+      publisherLogo.evaluate(
+        (image) =>
+          (image as HTMLImageElement).complete &&
+          (image as HTMLImageElement).naturalWidth > 0,
+      ),
+    )
+    .toBe(true);
   await expect(footer.getByRole("combobox")).toHaveCount(0);
   const saved = await page.evaluate(() => [
     localStorage.getItem("schacklabbet.game.v1"),

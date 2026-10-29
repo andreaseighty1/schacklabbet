@@ -88,6 +88,7 @@ import {
 } from "./storage";
 import { exercises, type Exercise } from "./content";
 import { TrainingSession, TrainingHistory } from "./components/TrainingSession";
+import owlsLogo from "./assets/42-improbable-owls.svg";
 import {
   emptyTraining,
   readTraining,
@@ -1811,10 +1812,22 @@ export default function App() {
           )}
         </main>
         <footer className="site-credit">
-          <p>
-            Skapat av <strong>Andreas Jonsson</strong> · För nyfikna
-            schackspelare
-          </p>
+          <img
+            className="site-credit-logo"
+            src={owlsLogo}
+            alt="42 Improbable Owls"
+            width={280}
+            height={356}
+            loading="lazy"
+            decoding="async"
+          />
+          <div className="site-credit-copy">
+            <p>
+              © 2026 <strong>42 Improbable Owls</strong> &amp;{" "}
+              <strong>Andreas Jonsson</strong>
+            </p>
+            <p>För nyfikna schackspelare</p>
+          </div>
         </footer>
       </div>
       {modal === "new" && (
