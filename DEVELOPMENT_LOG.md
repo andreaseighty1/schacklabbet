@@ -305,3 +305,5 @@ Pages-publiceringen för 7845d2c bekräftades med success. Den publika sidan och
 Sidfoten får © 2026 42 Improbable Owls & Andreas Jonsson och den tillhandahållna SVG-logotypen 42IO-logo-A-light.svg, kopierad oförändrad som src/assets/42-improbable-owls.svg. Kontrollsumman överensstämmer med originalet. Bilden importeras via Vite för korrekt resursväg, har alternativa texten 42 Improbable Owls, reserverade proportioner och laddas först nära sidfoten. Layouten radbryts på smala skärmar. Befintligt utseendeprov kontrollerar copyrighttext och att logotypen faktiskt laddas.
 
 Lokala lint- och byggresultat samt slutlig CI/publicering dokumenteras efter kontrollerna.
+
+Användaren önskade även att namnet Schackfyran tas bort från webbplatsen. Menyn heter nu Matchträning, rubrikerna hänvisar till nästa match och de två tidigare friskrivningarna är borttagna. Befintlig adress och träningsfunktion behålls. Sökning i körbar frontend, publika resurser och ljudmanus hittade inga ytterligare förekomster i levererat innehåll. Ingen ny ljudfil behövs.

@@ -84,7 +84,7 @@ for (const viewport of [
         "Schackskolan",
         "Ditt nybörjarpass",
         "Utmaningar 2",
-        "Schackfyran-träning",
+        "Matchträning",
         "Mina framsteg",
         "Inställningar",
         "Spela med en kompis",

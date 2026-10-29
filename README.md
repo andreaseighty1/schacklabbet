@@ -1,6 +1,6 @@
 # Schacklabbet
 
-Ett gratis, reklamfritt schackspel på svenska för nyfikna elever, framför allt 9–12 år. Enspelarversionen fungerar utan elevkonto och utan Supabase. Projektet är fristående från Schackfyran.
+Ett gratis, reklamfritt schackspel på svenska för nyfikna elever, framför allt 9–12 år. Enspelarversionen fungerar utan elevkonto och utan Supabase.
 
 **Spela:** <https://schacklabbet.42improbableowls.com/>
 

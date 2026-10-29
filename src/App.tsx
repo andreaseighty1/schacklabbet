@@ -136,7 +136,7 @@ const navItems: { id: View; label: string; icon: typeof Home }[] = [
   { id: "session", label: "Ditt nybörjarpass", icon: Lightbulb },
   { id: "challenges", label: "Utmaningar", icon: Target },
   { id: "friends", label: "Spela med en kompis", icon: Users },
-  { id: "tournament", label: "Schackfyran-träning", icon: Trophy },
+  { id: "tournament", label: "Matchträning", icon: Trophy },
   { id: "progress", label: "Mina framsteg", icon: Sparkles },
   { id: "settings", label: "Inställningar", icon: Settings2 },
 ];
@@ -1090,7 +1090,7 @@ export default function App() {
                   </div>
                   <div>
                     <span className="card-kicker">REDO FÖR NÄSTA STEG?</span>
-                    <h3>Träna inför Schackfyran</h3>
+                    <h3>Träna inför nästa match</h3>
                     <p>
                       Öva på att tänka efter, se hot och spela självständigt.
                     </p>
@@ -1127,10 +1127,6 @@ export default function App() {
               <footer className="page-footer">
                 <span>
                   <ShieldCheck size={15} /> En trygg plats att tänka fritt.
-                </span>
-                <span>
-                  Ett fristående schackäventyr. Inte en officiell
-                  Schackfyran-produkt.
                 </span>
               </footer>
             </>
@@ -1642,7 +1638,7 @@ export default function App() {
                   <div className="eyebrow">
                     TÄNK EFTER. SE HOTET. GÖR DITT DRAG.
                   </div>
-                  <h1>Träna inför Schackfyran.</h1>
+                  <h1>Träna inför nästa match.</h1>
                   <p>
                     Tre steg för att bli tryggare vid brädet. Ta dem i din egen
                     takt.
@@ -1696,9 +1692,8 @@ export default function App() {
               <div className="notice">
                 <CircleHelp size={20} />
                 <p>
-                  Träningen är fristående och följer inte ett officiellt
-                  Schackfyran-program. Välj gärna 10 minuter per spelare när du
-                  vill öva med klocka. Du väljer tiden när du startar partiet.
+                  Vill du öva med klocka? Välj gärna 10 minuter per spelare. Du
+                  väljer tiden när du startar partiet.
                 </p>
               </div>
             </>
