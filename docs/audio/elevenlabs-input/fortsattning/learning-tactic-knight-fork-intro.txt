@@ -1,0 +1,1 @@
+En gaffel hotar två pjäser samtidigt. Här kan springaren ge schack och samtidigt hota tornet. Kungen måste komma undan först. Hoppa från E fyra till D sex. Undersök vilka två svarta pjäser springaren hotar därifrån.

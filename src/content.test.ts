@@ -25,8 +25,7 @@ describe("kontrollerat undervisningsinnehåll", () => {
           expect(initial.isCheckmate()).toBe(true);
         else if (exercise.id === "stalemate")
           expect(initial.isStalemate()).toBe(true);
-        else {
-          expect(exercise.id).toBe("spot-threat");
+        else if (exercise.id === "spot-threat") {
           expect(initial.isGameOver()).toBe(false);
           expect(initial.attackers("e5", "b")).toEqual(["c6"]);
         }

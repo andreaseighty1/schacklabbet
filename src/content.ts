@@ -1,3 +1,9 @@
+import type { LessonStep } from "./learning/session";
+import {
+  curriculumLessons,
+  curriculumSections,
+} from "./learning/curriculum.ts";
+
 export interface Exercise {
   id: string;
   category: "school" | "challenge";
@@ -13,6 +19,9 @@ export interface Exercise {
   hint: string;
   success: string;
   tryAgain?: string;
+  steps?: LessonStep[];
+  source?: { title: string; url: string };
+  takeaway?: string;
 }
 const existingExercises: Exercise[] = [
   {
@@ -439,10 +448,16 @@ export const exercises: Exercise[] = [
   ...ruleLessons.slice(3),
   ...tacticsLessons,
   ...extraLessons,
+  ...curriculumLessons,
   ...existingExercises.filter((e) => e.category === "challenge"),
 ];
 
-export const schoolSections = [
+export const schoolSections: {
+  title: string;
+  description: string;
+  ids: string[];
+  track?: "foundation" | "advanced";
+}[] = [
   {
     title: "1. Lär känna bonden",
     description: "Fem små steg. Börja med att gå framåt.",
@@ -476,4 +491,5 @@ export const schoolSections = [
     description: "Ta den här när du känner dig trygg med bönderna.",
     ids: extraLessons.map((e) => e.id),
   },
+  ...curriculumSections,
 ];

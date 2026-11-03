@@ -1,0 +1,1 @@
+En pjäs är bunden till kungen om den inte får flytta undan eftersom kungen då hamnar i schack. Här kan löparen binda springaren på D sju. Flytta löparen från F ett till B fem. Följ diagonalen mot springaren på D sju och kungen på E åtta.

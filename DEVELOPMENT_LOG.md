@@ -1,5 +1,15 @@
 # Utvecklingslogg
 
+## 2026-11-03 – sammanhängande lärvägar och frivillig fördjupning
+
+- 35 nya skollektioner: åtta om grund- och matchvanor, åtta om taktik/kombinationer, fyra öppningar, tre om fällor/försvar, sex slutspel, två historiska avslutningar och fyra självständiga uppgifter. Totalt 57 skollektioner och två befintliga mattutmaningar. Grunderna/Nästa nivå har egna räknare, områdehopp och nästa rekommenderade lektion. Tidigare ID:n och framsteg bevaras.
+- Ny lektionssession bevarar PGN-historiken genom egna drag och motståndarsvar. Felaktiga idéer lämnar brädet orört. Svar visas på elevens begäran, brädet låses under väntan och framsteg räknas först efter sista egna draget. Omstart och förvandlingsval stöds. De historiska ställningarna byggs från respektive fullständiga startföljd.
+- Matchträning utökad till sex steg med tankepaus, öppningsstart och säkra slag. Webbplatsen använder fortsatt namnet Matchträning.
+- 219 nya manus och rena textfiler för ElevenLabs. Byggsteget kopplar bara in faktiskt levererade MP3-filer, även vid kapitelvis leverans. De tidigare 79 inspelningarna lämnas oförändrade. Inga nya inspelningar har levererats vid detta bygge.
+- Nya innehålls- och sessionstester granskar alla följder samt gafflar, bindning, avdrag, tvingade mattföljder mot alla lagliga svar, mattavslut, försvar mot skolmatt och skillnaden mellan patt med dam respektive spelbar tornförvandling. Webbläsarflöden tillagda för desktop, mobil, pekskärm och sex små laptopfönster.
+- Lokalt passerade TypeScript, lint, enhetstester, produktionsbygge och distkontroll. GitHub Actions verifierar även webbläsarflöden före Pages-publicering; resultat och visuell produktionskontroll dokumenteras när den körningen är klar.
+- Källor, omfattning och avgränsningar finns i docs/LEARNING_PATH.md. Fullständiga öppningsträd och automatisk bedömning av fritt spel ingår inte; eleverna får tydligt veta när en följd är ett pedagogiskt exempel. Målgruppsprov och inspelningarna återstår.
+
 ## 20 oktober 2026 – första implementationen
 
 Repositoryt `andreaseighty1/schacklabbet` var tomt. Det klonades till den angivna projektmappen. Implementeringen prioriterar fas 1, med ett mindre fungerande urval ur fas 2. Ingen multiplayerfunktion utges för att vara färdig.

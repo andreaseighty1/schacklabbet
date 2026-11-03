@@ -23,7 +23,8 @@ for (const clip of manifest.clips) {
     "Kommande funktioner får inte ingå i första inspelningsomgången",
   );
 }
-const exerciseIds = exercises.map((e) => e.id);
+// New continuation recordings have a separate, stage-aware package.
+const exerciseIds = exercises.filter((e) => !e.takeaway).map((e) => e.id);
 for (const id of exerciseIds) {
   for (const cue of ["intro", "hint", "success"])
     assert.equal(
@@ -42,6 +43,7 @@ const lines = [
   "",
   "De 13 nya grundlektionerna har ett separat paket med 39 repliker: GRUNDLEKTIONER-MANUS.md, GRUNDLEKTIONER-FILNAMN.txt och rena textfiler i elevenlabs-input/skola/. Alla 39 nya ljudfiler är levererade och inkopplade.",
   "De fem övningarna om hot, räddning och säkra slag har 15 manus i TAKTIK-MANUS.md och elevenlabs-input/taktik/. Alla 15 ljudfiler är levererade och inkopplade. Totalt används nu 79 inspelningar.",
+  "De 35 nya fortsättningslektionerna har ett separat paket med 219 repliker i FORTSATTNING-MANUS.md och elevenlabs-input/fortsattning/. Där finns även de enskilda stegen och motståndarens svar. Nya ljud aktiveras först när MP3-filerna är levererade.",
   "",
   "## Börja här",
   "",
@@ -206,3 +208,5 @@ await writeFile(
   tacticsBatch.map((clip) => `${clip.id}.mp3`).join("\n") + "\n",
   "utf8",
 );
+
+await import("./prepare-learning-voiceover.mjs");

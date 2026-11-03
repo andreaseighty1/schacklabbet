@@ -3839,6 +3839,99 @@ a {
 .chess-clock > span {
   line-height: 1;
 }
+
+.school-tracks {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin: 0 0 16px;
+}
+.school-tracks button {
+  min-height: 64px;
+  padding: 12px 24px;
+  border: 1px solid #c8ccbc;
+  border-radius: 12px;
+  background: #fffdf7;
+  color: #364a35;
+  font: inherit;
+  font-weight: 700;
+  text-align: left;
+  cursor: pointer;
+}
+.school-tracks button[aria-selected="true"] {
+  background: #36513b;
+  border-color: #36513b;
+  color: #fffdf3;
+}
+.school-tracks button span {
+  display: block;
+  font-size: 12px;
+  font-weight: 400;
+  margin-top: 4px;
+}
+.school-track-intro {
+  max-width: 760px;
+  margin-bottom: 16px;
+}
+.school-next {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+  padding: 16px 20px;
+  margin-bottom: 20px;
+  border: 1px solid #d9decd;
+  background: #edf1e5;
+  border-radius: 12px;
+}
+.school-next > div {
+  min-width: 0;
+}
+.school-next p {
+  margin: 4px 0 0;
+}
+.school-chapters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 16px;
+  margin-bottom: 24px;
+}
+.school-chapters a {
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  color: #36513b;
+  text-underline-offset: 4px;
+  font-size: 13px;
+}
+.school-section {
+  scroll-margin-top: 16px;
+}
+.lesson-step {
+  padding: 12px 14px;
+  margin: 16px 0;
+  border-left: 3px solid #b18b45;
+  background: #f5f0e3;
+  border-radius: 0 8px 8px 0;
+}
+.lesson-step p {
+  margin-top: 8px;
+}
+.lesson-reply {
+  margin-top: 12px;
+}
+.lesson-takeaway {
+  padding-top: 12px;
+}
+.lesson-source {
+  overflow-wrap: anywhere;
+  margin-top: 16px;
+}
+.lesson-source a {
+  color: #36513b;
+  text-underline-offset: 3px;
+}
 @media (min-width: 691px) and (max-width: 1100px) {
   .lesson-copy h3,
   .discovery-card h3 {

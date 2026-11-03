@@ -143,6 +143,33 @@ for (const viewport of [
       await noOverflow(page);
     });
 
+    test("fördjupningen kan väljas, läsas och lösas med motståndarsvar", async ({
+      page,
+    }) => {
+      await page.goto("/#school");
+      await page.getByRole("tab", { name: /^Nästa nivå/ }).tap();
+      await noOverflow(page);
+      await page.getByRole("button", { name: /Gaffel med springaren/ }).tap();
+      await boardFits(page);
+      await page.getByRole("button", { name: /^e4, vit springare/ }).tap();
+      await page.getByRole("button", { name: /^d6,/ }).tap();
+      const response = page.getByRole("button", {
+        name: "Visa motståndarens svar",
+        exact: true,
+      });
+      expect((await response.boundingBox())!.height).toBeGreaterThanOrEqual(44);
+      await response.tap();
+      await expect(page.locator(".lesson-step")).toContainText(
+        "Ditt drag 2 av 2",
+      );
+      await page.getByRole("button", { name: /^d6, vit springare/ }).tap();
+      await page.getByRole("button", { name: /^b7,/ }).tap();
+      await expect(
+        page.getByRole("heading", { name: "En ny upptäckt!" }),
+      ).toBeVisible();
+      await noOverflow(page);
+    });
+
     test("parti, klockor och låga dialoger går att använda utan sidledsrullning", async ({
       page,
     }) => {

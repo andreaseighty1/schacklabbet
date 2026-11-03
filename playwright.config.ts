@@ -32,6 +32,7 @@ export default defineConfig({
         "**/review.spec.ts",
         "**/appearance.spec.ts",
         "**/tactics.spec.ts",
+        "**/learning.spec.ts",
         "**/multiplayer.spec.ts",
       ],
       use: {

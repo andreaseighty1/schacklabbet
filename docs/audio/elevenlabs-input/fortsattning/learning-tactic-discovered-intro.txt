@@ -1,0 +1,1 @@
+Avdragsschack uppstår när du flyttar undan en pjäs och öppnar vägen för en annan pjäs som ger schack. Pjäsen du flyttar kan samtidigt skapa ett nytt hot. Flytta löparen från E två till C fyra. Vilken av dina pjäser ger nu schack?

@@ -1,0 +1,1 @@
+Bonden kan göra ett väntedrag när vägen är fri.

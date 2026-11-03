@@ -1,0 +1,1 @@
+Som enkel hjälp räknar vi bonde 1, springare och löpare ungefär 3, torn 5 och dam 9. Värdena är ungefärliga. Kungens säkerhet och vad som händer efteråt är viktigare än att bara räkna. Ta tornet på C fyra med löparen på D tre. Kontrollera först om svart kan ta tillbaka.

@@ -37,7 +37,7 @@ Kort har 12–18 px hörnradie och tunna kanter. Skuggor används främst på sp
 - Hot kompletteras med utropstecken och text; schack anges också i spelstatus.
 - Kort, knappar och ikoner har tillgängliga namn. Dekorativ SVG är dold för hjälpmedel.
 - Korta övergångar stängs av via `prefers-reduced-motion`.
-- Ljud är av; version 0.1 har inga ljudfiler.
+- Röst är av vid sidöppning. 79 befintliga inspelningar är inkopplade. Nya fortsättningslektioner fungerar med text och får röstkontroller först när respektive inspelning är levererad.
 
 Kontrast, läsbarhet på riktiga elevdatorer och praktiska flöden behöver fortsatt visuell och användarbaserad granskning. Ingen formell WCAG-certifiering påstås.
 

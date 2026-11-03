@@ -1,5 +1,19 @@
 # Utvecklingsplan
 
+## Pedagogikutbyggnad 3 november 2026
+
+- [x] 35 nya lektioner. Schackskolan har nu 57 lektioner: Grunderna 30 och Nästa nivå 27, plus två separata mattutmaningar.
+- [x] Flerstegsövningar med val att visa motståndarens svar, omstart, stegvisa ledtrådar och slutförande först efter sista egna draget.
+- [x] Öppningsprinciper och matchvanor; gaffel, bindning, spett, avdragsschack, försvarare, offer och matt i två.
+- [x] Italienskt parti, spanskt parti, damgambit, öppningsspel för svart samt skolmatt och dess försvar.
+- [x] Slutspel med två torn, kung/torn, kung/dam, opposition, fribonde och förvandling utan patt.
+- [x] Källbelagda avslutningar från Morphys operaparti och det odödliga partiet, samt fyra uppgifter där eleven hittar idén själv.
+- [x] 219 nya inspelningsmanus med filnamn, steg, svar och koordinater skrivna för ElevenLabs. Bara faktiskt levererade ljud aktiveras.
+- [ ] Andreas producerar de nya inspelningarna. Lektionerna fungerar med text under tiden.
+- [ ] Prova språk, tempo och svårighetsgrad med elever och på deras faktiska datorer.
+
+Se [aktuell lärvägsöversikt](docs/LEARNING_PATH.md). Äldre milstolpar nedan beskriver vad som levererades vid respektive tillfälle.
+
 ## Levererat i första implementationen
 
 - [x] React, TypeScript, Vite, ESLint, Prettier och tester.
@@ -28,7 +42,7 @@
 
 - [x] 17 korta lektioner: bonden i fem steg, alla övriga pjäser, tre sätt att komma ur schack, rockad, matt, patt och en passant. Startregler och ordnad lärväg.
 - [x] Fem nya övningar om hot, räddning och säkra slag, med samtliga korrekta alternativ i räddningsuppgifterna. Totalt 22 skollektioner och två mattutmaningar.
-- [ ] Flerstegsproblem med motståndarens svar och fler svårighetsgrader.
+- [x] Flerstegsproblem med motståndarens svar och fler svårighetsgrader.
 - [x] Kort motorbaserad efteranalys av högst åtta egna drag, ett positivt exempel och högst ett förbättringstips att prova på separat bräde. Gränser och begränsningar i docs/POST_GAME_REVIEW.md; ingen fullständig materialtappsanalys.
 - [x] Ett relevant repetitionsförslag från efteranalysens granskade förbättringsexempel, med konkret orsak, lektionslänk och återgång till samma analys. Ingen långsiktig färdighetsprofil ännu.
 - [x] Nybörjarpass med tre uppdrag, ungefär 10 minuter utan nedräkning, återkoppling, paus/återupptagning och sparad passhistorik.

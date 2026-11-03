@@ -1,0 +1,1 @@
+Flytta löparen från D sex till E sju och ge schackmatt.

@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { Chess, type Square } from "chess.js";
+import { type Square } from "chess.js";
 import {
   ArrowLeft,
   ArrowRight,
@@ -9,8 +9,14 @@ import {
 } from "lucide-react";
 import type { Exercise } from "../content";
 import type { Voice } from "../audio/useVoice";
-import { exerciseClip } from "../audio/clips";
-import { pieceNames, playUci, type Promotion } from "../chess/model";
+import { exerciseClip, learningClip } from "../audio/clips";
+import { pieceNames, type Promotion } from "../chess/model";
+import {
+  attemptLesson,
+  lessonSteps,
+  revealLessonReply,
+  startLesson,
+} from "../learning/session";
 import { Board } from "./Board";
 import { Piece } from "./Piece";
 import { ListenButton, PlaybackControls } from "./VoiceControls";
@@ -42,11 +48,14 @@ export function ExercisePlayer({
   const restoredSolution = exercise.solutions.includes(savedSolution ?? "")
     ? savedSolution
     : undefined;
-  const [game, setGame] = useState(() => {
-    const initial = new Chess(exercise.fen);
-    if (restoredSolution) playUci(initial, restoredSolution);
-    return initial;
-  });
+  const [session, setSession] = useState(() =>
+    startLesson(exercise, restoredSolution),
+  );
+  const { game, awaitingReply } = session;
+  const steps = lessonSteps(exercise);
+  const currentStep = steps[session.step];
+  const reply = awaitingReply ? steps[session.step - 1].reply : undefined;
+  const multipleSteps = steps.length > 1;
   const [showSquareNames, toggleSquareNames] = useSquareNames("lesson");
   const [selected, setSelected] = useState<Square | null>(null);
   const [feedback, setFeedback] = useState(
@@ -72,25 +81,51 @@ export function ExercisePlayer({
   useEffect(() => {
     if (promotion) promotionChoices.current?.querySelector("button")?.focus();
   }, [promotion]);
-  const clip = exerciseClip(exercise.id, solved ? "success" : "intro");
+  const clip =
+    exerciseClip(exercise.id, solved ? "success" : "intro") ??
+    learningClip(
+      exercise.id,
+      solved
+        ? "success"
+        : session.step === 0
+          ? "intro"
+          : `step-${session.step + 1}`,
+    );
+  const hintClip =
+    exerciseClip(exercise.id, "hint") ??
+    learningClip(
+      exercise.id,
+      exercise.steps ? `hint-${session.step + 1}` : "hint",
+    );
   function finish(solution?: string) {
     voice.player.reset();
     setSolved(true);
     setSelected(null);
     setPromotion(null);
     setFeedback(exercise.success);
-    const successClip = exerciseClip(exercise.id, "success");
+    const successClip =
+      exerciseClip(exercise.id, "success") ??
+      learningClip(exercise.id, "success");
     if (successClip) voice.player.play(successClip);
     onComplete(solution);
   }
   function apply(from: Square, to: Square, promote?: Promotion) {
-    if (solved) return;
+    if (solved || awaitingReply) return;
     const uci = `${from}${to}${promote ?? ""}`;
-    if (exercise.solutions.includes(uci)) {
-      const copy = new Chess(game.fen());
-      copy.move({ from, to, promotion: promote });
-      setGame(copy);
-      finish(uci);
+    const next = attemptLesson(exercise, session, uci);
+    if (next !== session) {
+      voice.player.reset();
+      setSession(next);
+      setSelected(null);
+      setPromotion(null);
+      setShowHint(false);
+      if (next.solved) finish(uci);
+      else
+        setFeedback(
+          next.awaitingReply
+            ? "Bra! Titta på ditt drag. Visa motståndarens svar när du är redo."
+            : "Bra! Fortsätt med nästa steg.",
+        );
     } else {
       setFeedback(
         exercise.tryAgain ??
@@ -102,7 +137,7 @@ export function ExercisePlayer({
     }
   }
   function move(square: Square, fromDrag?: Square) {
-    if (solved || promotion || exercise.question) return;
+    if (solved || awaitingReply || promotion || exercise.question) return;
     const from = fromDrag ?? selected;
     const candidates = from
       ? game
@@ -172,7 +207,10 @@ export function ExercisePlayer({
             last={game.history({ verbose: true }).at(-1)}
             onSquare={move}
             disabled={
-              solved || Boolean(promotion) || Boolean(exercise.question)
+              solved ||
+              awaitingReply ||
+              Boolean(promotion) ||
+              Boolean(exercise.question)
             }
           />
           <p className="board-perspective">
@@ -195,13 +233,29 @@ export function ExercisePlayer({
           </span>
           <h2>{solved ? "En ny upptäckt!" : "Ditt uppdrag"}</h2>
           <p>{exercise.description}</p>
+          {exercise.steps && !solved && (
+            <div className="lesson-step">
+              <span className="card-kicker">
+                {awaitingReply
+                  ? "Motståndarens tur"
+                  : `Ditt drag ${session.step + 1} av ${steps.length}`}
+              </span>
+              {!awaitingReply && <p>{currentStep.instruction}</p>}
+              {multipleSteps && (
+                <p className="fine-print">
+                  Vi provar en bestämd fortsättning. I ett riktigt parti kan
+                  andra svar vara möjliga.
+                </p>
+              )}
+            </div>
+          )}
           {!clip && (
             <p className="fine-print">
               Den här övningen har textinstruktioner. Uppläsning av uppdraget
               finns inte ännu.
             </p>
           )}
-          {clip && (
+          {clip && !awaitingReply && (
             <PlaybackControls
               voice={voice}
               clip={clip}
@@ -269,23 +323,58 @@ export function ExercisePlayer({
             {solved && <CheckCircle2 size={20} />}
             <p>{feedback}</p>
           </div>
-          {showHint && !solved && (
+          {awaitingReply && (
+            <button
+              className="button primary lesson-reply"
+              onClick={() => {
+                voice.player.reset();
+                setSession(revealLessonReply(exercise, session));
+                setFeedback(reply!.explanation);
+                const responseClip = learningClip(
+                  exercise.id,
+                  `reply-${session.step}`,
+                );
+                if (responseClip) voice.player.play(responseClip);
+                setSelected(null);
+                setShowHint(false);
+              }}
+            >
+              Visa motståndarens svar <ArrowRight size={17} />
+            </button>
+          )}
+          {solved && exercise.takeaway && (
+            <p className="lesson-takeaway">
+              <strong>Ta med dig:</strong> {exercise.takeaway}
+            </p>
+          )}
+          {exercise.source && (
+            <p className="fine-print lesson-source">
+              Läs mer:{" "}
+              <a
+                href={exercise.source.url}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {exercise.source.title}
+              </a>
+            </p>
+          )}
+          {showHint && !solved && !awaitingReply && (
             <>
-              <p className="hint-text">{exercise.hint}</p>
+              <p className="hint-text">{currentStep.hint}</p>
               <ListenButton
                 voice={voice}
-                clip={exerciseClip(exercise.id, "hint")}
+                clip={hintClip}
                 label="Lyssna på ledtråden"
               />
             </>
           )}
           <div className="exercise-actions">
-            {!solved && (
+            {!solved && !awaitingReply && (
               <button
                 className="button outline"
                 onClick={() => {
                   if (!showHint) {
-                    const hintClip = exerciseClip(exercise.id, "hint");
                     if (hintClip) voice.player.play(hintClip);
                   } else voice.player.reset();
                   setShowHint((v) => !v);
@@ -293,6 +382,23 @@ export function ExercisePlayer({
               >
                 <Lightbulb size={17} />
                 {showHint ? "Dölj ledtråd" : "En liten ledtråd"}
+              </button>
+            )}
+            {!solved && multipleSteps && (
+              <button
+                className="text-button"
+                onClick={() => {
+                  voice.player.reset();
+                  setSession(startLesson(exercise));
+                  setSelected(null);
+                  setPromotion(null);
+                  setShowHint(false);
+                  setFeedback(
+                    "Börja från första draget igen. Dina tidigare framsteg finns kvar.",
+                  );
+                }}
+              >
+                <RotateCcw size={16} /> Börja om lektionen
               </button>
             )}
             {solved && (
@@ -310,7 +416,7 @@ export function ExercisePlayer({
                   className="text-button"
                   onClick={() => {
                     voice.player.reset();
-                    setGame(new Chess(exercise.fen));
+                    setSession(startLesson(exercise));
                     setSolved(false);
                     setSelected(null);
                     setShowHint(false);

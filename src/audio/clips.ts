@@ -1,3 +1,6 @@
+import learningAvailable from "./learning-available.json";
+const deliveredLearningClips: readonly string[] = learningAvailable;
+
 const exercisePrefixes = {
   rook: "lesson-rook",
   bishop: "lesson-bishop",
@@ -31,6 +34,7 @@ type ExerciseClip =
   `${(typeof exercisePrefixes)[ExerciseVoiceId]}-${ExerciseCue}`;
 export type VoiceClip =
   | ExerciseClip
+  | `learning-${string}`
   | "start-welcome"
   | "help-move-piece"
   | "help-audio-controls"
@@ -47,6 +51,11 @@ export function exerciseClip(
   return `${exercisePrefixes[id as ExerciseVoiceId]}-${cue}`;
 }
 
+export function learningClip(id: string, cue: string): VoiceClip | null {
+  const clip = `learning-${id}-${cue}` as const;
+  return deliveredLearningClips.includes(clip) ? clip : null;
+}
+
 export function isAssistance(clip: VoiceClip): boolean {
   return clip !== "start-welcome" && clip !== "help-audio-controls";
 }
@@ -55,6 +64,7 @@ export function clipLabel(clip: VoiceClip): string {
   if (clip.endsWith("-intro")) return "Uppdraget";
   if (clip.endsWith("-hint")) return "Ledtråden";
   if (clip.endsWith("-success")) return "Förklaringen";
+  if (clip.startsWith("learning-")) return "Lektionens steg";
   const labels = {
     "start-welcome": "Välkommen till Schacklabbet",
     "help-move-piece": "Så flyttar du en pjäs",

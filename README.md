@@ -12,7 +12,7 @@ Ett gratis, reklamfritt schackspel på svenska för nyfikna elever, framför all
 - Tre stödprofiler. Lagliga drag, lagligt slagbara pjäser, frivilliga förhandsvarningar inklusive en passant och tre steg av ledtrådar.
 - Pågående parti och historik sparas lokalt. Ångra i stödprofiler, ge upp, slutresultat, genomspelning och PGN-export.
 - Valfri schackklocka: utan tid som standard, 15 eller 10 minuter per spelare. Tidsavslut, sparad tid och återställning vid nytt parti. Se [klockans beteende och regelgränser](docs/CLOCK.md).
-- 22 korta lektioner om alla sex pjäser, regler, hot och säkra slag, två verifierade mattproblem, lokala medaljer och en enkel väg genom tävlingsträningen.
+- 57 skollektioner i två lärvägar: 30 i Grunderna och 27 i Nästa nivå. Regler, matchvanor, taktik, kända öppningar, fällor, slutspel och två berömda partiavslutningar. Flerstegsövningar med elevstyrda motståndarsvar, två separata mattproblem och lokala framsteg. Se [lärvägarna](docs/LEARNING_PATH.md).
 - Nybörjarpass med tre uppdrag, paus/återupptagning, återkoppling och lokal passhistorik. Se [nybörjarpasset](docs/NYBORJARPASS.md).
 - Privata kompispartier på två datorer med sexteckenskod, anonym spelplats, servervaliderade drag, realtidssynkronisering, återupptagning och PGN-export. Valfria serverstyrda klockor, gemensam maxtid och ömsesidig remi. Se [multiplayer](docs/MULTIPLAYER.md).
 
@@ -106,7 +106,7 @@ Logotyp, favicon och samtliga pjäser är egna SVG-former. Ikoner: Lucide, ISC. 
 
 Manus och filnamn finns i [`docs/audio/ROSTMANUS.md`](docs/audio/ROSTMANUS.md). Första omgången P1 innehåller 25 klipp. Varje replik finns som en egen UTF-8-textfil under `docs/audio/elevenlabs-input/`. Spara det genererade ljudet med samma basnamn och `.mp3`, och lägg färdiga ljud i `public/audio/sv-SE/`.
 
-`docs/audio/manifest.json` är källan för manuset. Kör `npm run prepare:voiceover` efter ändringar för att validera filnamn, prioritering och täckning av alla 24 övningarna och återskapa textfilerna. P2 innehåller senare spelhändelser. P3 avser klocka och multiplayer; dessa händelser fungerar i text men P3-replikerna är ännu inte inkopplade.
+`docs/audio/manifest.json` är källan för det tidigare paketets manus till 24 övningar. Kör `npm run prepare:voiceover` efter ändringar för att validera och återskapa paketen. De 35 nya lektionerna genererar även ett separat [fortsättningsmanus med 219 repliker](docs/audio/FORTSATTNING-MANUS.md), inklusive varje steg och motståndarsvar. Färdiga MP3-filer kopplas in vid nästa bygge, även vid kapitelvis leverans. P2 innehåller senare spelhändelser. P3 avser klocka och multiplayer; dessa händelser fungerar i text men P3-replikerna är ännu inte inkopplade.
 
 De 25 P1-filerna är inkopplade: välkomst- och hjälprepliker, intro/ledtråd/återkoppling för de ursprungliga sex övningarna samt förklaringar om schack och dragvarningar i tillåtna spelprofiler. Eleven kan välja Röst på/av, Lyssna, Stoppa och Lyssna igen. Ett tryck på Lyssna slår på rösten och spelar det valda klippet. Efter det kan övningsåterkoppling spelas vid elevens drag. Rösten är alltid av när sidan öppnas eller laddas om; inget ljud hämtas före elevens val.
 

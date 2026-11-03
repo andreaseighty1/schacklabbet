@@ -1,0 +1,1 @@
+Behåll löparen genom att flytta från B fem till A fyra.

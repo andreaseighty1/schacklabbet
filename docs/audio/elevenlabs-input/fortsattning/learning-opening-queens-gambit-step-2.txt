@@ -1,0 +1,1 @@
+Flytta bonden från C två till C fyra. Den hotar bonden på D fem.

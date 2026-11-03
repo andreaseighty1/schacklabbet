@@ -21,8 +21,79 @@ function ScenePiece({
 }
 
 /** Small, decorative movement diagrams. Playable positions remain owned by chess.js. */
-export function LessonArt({ lesson }: { lesson: string }) {
+export function LessonArt({
+  lesson,
+  position,
+}: {
+  lesson: string;
+  position?: string;
+}) {
   const id = useId();
+  if (position) {
+    const rows = position.split(" ")[0].split("/");
+    return (
+      <svg
+        className="lesson-scene"
+        viewBox="0 0 320 220"
+        aria-hidden="true"
+        focusable="false"
+      >
+        <rect width="320" height="220" fill="#eee8d9" />
+        <circle cx="280" cy="20" r="95" fill="#e0e8d5" />
+        <rect
+          x="66"
+          y="12"
+          width="188"
+          height="196"
+          rx="9"
+          fill="#65503a"
+          opacity=".15"
+        />
+        <rect x="66" y="8" width="188" height="196" rx="9" fill="#8b6d4d" />
+        {rows.flatMap((row, y) => {
+          let file = 0;
+          const pieces = new Map<number, string>();
+          for (const char of row) {
+            if (/\d/.test(char)) file += Number(char);
+            else pieces.set(file++, char);
+          }
+          return Array.from({ length: 8 }, (_, x) => {
+            const piece = pieces.get(x);
+            return (
+              <g key={`${x}-${y}`}>
+                <rect
+                  x={72 + x * 22}
+                  y={16 + y * 22}
+                  width="22"
+                  height="22"
+                  fill={(x + y) % 2 ? "#b4936e" : "#f4ead6"}
+                />
+                {piece && (
+                  <svg
+                    x={72 + x * 22}
+                    y={16 + y * 22}
+                    width="22"
+                    height="22"
+                    viewBox="0 0 80 80"
+                  >
+                    <Piece
+                      type={piece.toLowerCase() as PieceSymbol}
+                      color={piece === piece.toUpperCase() ? "w" : "b"}
+                    />
+                  </svg>
+                )}
+              </g>
+            );
+          });
+        })}
+        <path
+          d="m282 162 5 10 11 2-8 8 2 11-10-5-10 5 2-11-8-8 11-2Z"
+          fill="#b18b45"
+          opacity=".75"
+        />
+      </svg>
+    );
+  }
   const sand = ["bishop", "mate-queen"].includes(lesson);
   const pawn = lesson.startsWith("pawn-") || lesson === "en-passant";
   const rule = lesson.startsWith("check-");

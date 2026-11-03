@@ -1640,7 +1640,7 @@ export default function App() {
                   </div>
                   <h1>Träna inför nästa match.</h1>
                   <p>
-                    Tre steg för att bli tryggare vid brädet. Ta dem i din egen
+                    Sex steg för att bli tryggare vid brädet. Ta dem i din egen
                     takt.
                   </p>
                 </div>
@@ -1649,6 +1649,32 @@ export default function App() {
                 {[
                   {
                     n: "01",
+                    title: "Ta en tankepaus",
+                    text: "Är kungen i schack? Vad hotar motståndaren? Kontrollera innan du flyttar.",
+                    action: () => {
+                      navigate("school");
+                      setExercise(
+                        exercises.find((e) => e.id === "thinking-routine")!,
+                      );
+                    },
+                    label: "Öva din tankepaus",
+                    icon: Lightbulb,
+                  },
+                  {
+                    n: "02",
+                    title: "Ge pjäserna en bra start",
+                    text: "Ta plats i mitten och få ut fler pjäser så att de kan hjälpa till.",
+                    action: () => {
+                      navigate("school");
+                      setExercise(
+                        exercises.find((e) => e.id === "opening-centre")!,
+                      );
+                    },
+                    label: "Öva starten",
+                    icon: BookOpen,
+                  },
+                  {
+                    n: "03",
                     title: "Skydda din kung",
                     text: "Prova rockad och lär dig hur kung och torn samarbetar.",
                     action: () => {
@@ -1659,7 +1685,20 @@ export default function App() {
                     icon: ShieldCheck,
                   },
                   {
-                    n: "02",
+                    n: "04",
+                    title: "Undersök innan du tar",
+                    text: "En stor pjäs kan vara lockande. Kan motståndaren ta tillbaka?",
+                    action: () => {
+                      navigate("school");
+                      setExercise(
+                        exercises.find((e) => e.id === "safe-capture")!,
+                      );
+                    },
+                    label: "Öva säkra slag",
+                    icon: Target,
+                  },
+                  {
+                    n: "05",
                     title: "Se den sista möjligheten",
                     text: "Leta efter schackar och flyktvägar i två mattproblem.",
                     action: () => navigate("challenges"),
@@ -1667,7 +1706,7 @@ export default function App() {
                     icon: Target,
                   },
                   {
-                    n: "03",
+                    n: "06",
                     title: "Lita på ditt eget tänkande",
                     text: "Spela mot datorn med tävlingsprofil, utan tips och ångra.",
                     action: () => openNew("competition"),

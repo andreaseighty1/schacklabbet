@@ -4,6 +4,7 @@ Det här är ett inspelningsunderlag. De 25 P1-filerna är inkopplade i appens l
 
 De 13 nya grundlektionerna har ett separat paket med 39 repliker: GRUNDLEKTIONER-MANUS.md, GRUNDLEKTIONER-FILNAMN.txt och rena textfiler i elevenlabs-input/skola/. Alla 39 nya ljudfiler är levererade och inkopplade.
 De fem övningarna om hot, räddning och säkra slag har 15 manus i TAKTIK-MANUS.md och elevenlabs-input/taktik/. Alla 15 ljudfiler är levererade och inkopplade. Totalt används nu 79 inspelningar.
+De 35 nya fortsättningslektionerna har ett separat paket med 219 repliker i FORTSATTNING-MANUS.md och elevenlabs-input/fortsattning/. Där finns även de enskilda stegen och motståndarens svar. Nya ljud aktiveras först när MP3-filerna är levererade.
 
 ## Börja här
 

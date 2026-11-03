@@ -36,6 +36,10 @@ const voiceManifest = JSON.parse(
 const voiceClips = voiceManifest.clips.filter((clip) =>
   ["P1", "SKOLA", "TAKTIK"].includes(clip.priority),
 );
+const learningAvailable = JSON.parse(
+  await readFile("src/audio/learning-available.json", "utf8"),
+);
+voiceClips.push(...learningAvailable.map((id) => ({ id })));
 for (const clip of voiceClips) {
   const file = `audio/sv-SE/${clip.id}.mp3`;
   const original = await readFile(`public/${file}`);

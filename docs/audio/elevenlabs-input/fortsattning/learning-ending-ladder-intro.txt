@@ -1,0 +1,1 @@
+Två torn kan turas om att stänga rader för kungen. Det ena spärrar vägen medan det andra ger schack. Här provar vi slutet av en sådan trappstegsmatt. Flytta tornet från A två till A sju och stäng sjunde raden.

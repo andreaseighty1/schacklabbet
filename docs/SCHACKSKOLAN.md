@@ -1,6 +1,6 @@
 # Schackskolan
 
-Schackskolan har 22 korta lektioner och två separata mattutmaningar. Alla sex pjäsers rörelser introduceras. En öppningsbar text förklarar brädets riktning, startuppställning, rutnamn, vits första drag, turordning, egna pjäser och slag. Eleven kan välja fritt eller följa knappen till nästa lektion efter ett rätt svar.
+Schackskolan har 57 korta lektioner och två separata mattutmaningar. De två lärvägarna Grunderna (30) och Nästa nivå (27) beskrivs i [den aktuella lärvägsöversikten](LEARNING_PATH.md). Nedan beskrivs framför allt de 22 tidigare grundövningarna, som är bevarade. Alla sex pjäsers rörelser introduceras. En öppningsbar text förklarar brädets riktning, startuppställning, rutnamn, vits första drag, turordning, egna pjäser och slag. Eleven kan välja fritt eller följa knappen till nästa lektion efter ett rätt svar.
 
 | Del           | Lektioner                                                                            |
 | ------------- | ------------------------------------------------------------------------------------ |

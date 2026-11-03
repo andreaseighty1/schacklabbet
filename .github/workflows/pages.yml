@@ -20,6 +20,7 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npm run lint
+      - run: npm run prepare:voiceover && git diff --exit-code -- docs/audio src/audio/learning-available.json
       - run: npm run prepare:multiplayer && git diff --exit-code -- supabase/dashboard
       - run: npx tsc --strict --noEmit --allowImportingTsExtensions --moduleResolution bundler --module esnext --target es2022 --lib es2022,dom --skipLibCheck supabase/functions/chess-room/index.ts
       - run: npm test
