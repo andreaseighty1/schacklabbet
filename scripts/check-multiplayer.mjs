@@ -47,7 +47,7 @@ const [host, guest, outsider] = await Promise.all([
 assert.equal((await request(null, "resume")).status, 401);
 const created = await request(host, "create", {
   color: "w",
-  clock_minutes: 10,
+  clock_minutes: 5,
   max_minutes: 20,
 });
 assert.equal(created.status, 200, JSON.stringify(created.data));
@@ -166,9 +166,9 @@ try {
   assert.deepEqual(moves.map((move) => move.status).sort(), [200, 409]);
   room = moves.find((move) => move.status === 200).data.room;
   assert.equal(room.moves.length, 1);
-  assert.equal(room.clock_minutes, 10);
-  assert.ok(room.white_ms < 600000);
-  assert.equal(room.black_ms, 600000);
+  assert.equal(room.clock_minutes, 5);
+  assert.ok(room.white_ms < 300000);
+  assert.equal(room.black_ms, 300000);
   assert.ok(room.started_at && room.turn_started_at);
   assert.deepEqual(
     (await request(guest, "resume")).data.room.moves,

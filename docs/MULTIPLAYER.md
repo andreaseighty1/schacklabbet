@@ -1,6 +1,6 @@
 # Privata kompispartier
 
-Privat kod och två datorer/webbläsarprofiler. Skaparen väljer vit eller svart, utan spelarklocka eller 10/15 minuter var, och eventuell gemensam maxtid 20/30/45/60 minuter. Båda tidsvalen är avstängda från början. Inga namn, lösenord eller chattmeddelanden samlas in. Ingen topplista eller klassgrupp finns ännu.
+Privat kod och två datorer/webbläsarprofiler. Skaparen väljer vit eller svart, utan spelarklocka eller 5/10/15 minuter var, och eventuell gemensam maxtid 20/30/45/60 minuter. Båda tidsvalen är avstängda från början. Fem minuter var ger ungefär högst tio minuters sammanlagd betänketid, utan tillägg per drag. Båda spelarna använder samma val. Inga namn, lösenord eller chattmeddelanden samlas in. Ingen topplista eller klassgrupp finns ännu.
 
 ## Spel och återhämtning
 
@@ -38,17 +38,20 @@ Förbrukad spelartid ger normalt motståndaren vinst. Om motståndaren saknar ma
 
 Projektet `ixioaisppcqqutufpuct` installerades via ägarens inloggade Supabase-dashboard den 22 oktober 2026. En GitHub-integration i Supabase krävs inte för körningen. GitHub Pages bygger frontend med projektets offentliga URL och publishable-nyckel.
 
+Den 4 november 2026 installerades femminutersuppgraderingen och uppdaterad Edge-kod i samma projekt. Verify JWT är fortsatt påslaget. Liveprovet med det nya valet passerade; tidsutgång provas separat med SQL-tidsstämplar och i webbläsartestet.
+
 Källfiler:
 
 1. `supabase/migrations/202610220001_private_chess.sql`: tabeller, rättigheter, RLS, service-RPC, Realtime-publicering.
 2. `supabase/migrations/202610220002_room_retention.sql`: pg_cron och riktad gallring.
 3. `supabase/migrations/202610220003_room_clocks.sql`: klockfält, remiförslag, kortare koder och ersatt service-RPC. Gamla partier förblir utan tid.
 4. `supabase/migrations/202610220004_clock_job.sql`: minutjobb för tidsavslut.
-5. `supabase/functions/chess-room/`: serverns HTTP-hantering och schackkontroll. `supabase/config.toml` behåller JWT-verifiering.
+5. `supabase/migrations/202611040001_five_minute_rooms.sql`: tillåt fem minuter i tabellvillkor och befintlig service-RPC. Befintliga spel, atomisk tidsberäkning och rättigheter bevaras. Ändringen måste installeras tillsammans med uppdaterad Edge-kod före frontendvalet publiceras.
+6. `supabase/functions/chess-room/`: serverns HTTP-hantering och schackkontroll. `supabase/config.toml` behåller JWT-verifiering.
 
 `npm run prepare:multiplayer` genererar `supabase/dashboard/setup.sql` och den kompletta enkel-filsfunktionen `chess-room.ts` utan nycklar. För en ny installation: kör SQL i projektets SQL Editor, skapa Edge Function **chess-room** via editorn och ersätt `index.ts` med den genererade koden. Behåll Verify JWT på. Kör inte bootstrap-filen under `supabase/tests/` mot ett riktigt projekt. Kör inte den första skapamigrationen igen mot ett redan installerat projekt. Dashboard-installationen registrerar inte automatiskt CLI-migrationshistorik; använd `supabase migration repair` med de installerade versionsnumren före en framtida övergång till CLI-migrationer.
 
-Framtida uppdateringar av enbart Edge-koden: ändra källorna, kör tester och `npm run prepare:multiplayer`, lägg in den genererade funktionen och publicera en ny version. Befintliga spel påverkas inte av frontendpublicering.
+Framtida uppdateringar av enbart Edge-koden: ändra källorna, kör tester och `npm run prepare:multiplayer`, lägg in den genererade funktionen och publicera en ny version. Befintliga spel påverkas inte av frontendpublicering. Vid uppgradering av ett befintligt projekt för femminutersvalet körs enbart den nya migrationen, inte hela setup.sql. Denna migration avbryter och rullar tillbaka om den installerade RPC:ns validering oväntat har ändrats.
 
 ## Verifiering
 

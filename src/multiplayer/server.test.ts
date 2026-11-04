@@ -137,6 +137,12 @@ beforeAll(async () => {
   await db.exec(
     await readFile("supabase/migrations/202610220003_room_clocks.sql", "utf8"),
   );
+  await db.exec(
+    await readFile(
+      "supabase/migrations/202611040001_five_minute_rooms.sql",
+      "utf8",
+    ),
+  );
   await db.query("insert into auth.users(id) values ($1),($2),($3)", [
     white,
     black,
@@ -156,46 +162,51 @@ describe("kompispartier: riktig PostgreSQL och serverns HTTP-hanterare", () => {
       request: crypto.randomUUID(),
     });
   }
-  it("startar klockan först vid anslutning, debiterar rätt sida och håller omtag idempotenta", async () => {
-    await empty();
-    const host = await call(white, {
-      action: "create",
-      color: "w",
-      clock_minutes: 10,
-    });
-    expect(host.data.room).toMatchObject({
-      white_ms: 600000,
-      black_ms: 600000,
-      started_at: null,
-      turn_started_at: null,
-    });
-    let room = (await call(black, { action: "join", code: host.data.code }))
-      .data.room!;
-    expect(room.started_at).not.toBeNull();
-    await db.query(
-      "update public.chess_rooms set turn_started_at=clock_timestamp()-interval '5 seconds' where id=$1",
-      [room.id],
-    );
-    const request = crypto.randomUUID();
-    room = (await move(room, white, "e2e4", request)).data.room!;
-    expect(room.white_ms).toBeLessThanOrEqual(595000);
-    expect(room.white_ms).toBeGreaterThan(594000);
-    expect(room.black_ms).toBe(600000);
-    const retry = (await move({ ...room, version: 1 }, white, "e2e4", request))
-      .data.room!;
-    expect(retry.white_ms).toBe(room.white_ms);
-    await db.query(
-      "update public.chess_rooms set turn_started_at=clock_timestamp()-interval '2 seconds' where id=$1",
-      [room.id],
-    );
-    room = (await move(room, black, "e7e5")).data.room!;
-    expect(room.white_ms).toBe(retry.white_ms);
-    expect(room.black_ms).toBeLessThanOrEqual(598000);
-  });
+  it.each([5, 10, 15])(
+    "%i minuter: startar klockan vid anslutning, debiterar rätt sida och håller omtag idempotenta",
+    async (minutes) => {
+      const initialMs = minutes * 60000;
+      await empty();
+      const host = await call(white, {
+        action: "create",
+        color: "w",
+        clock_minutes: minutes,
+      });
+      expect(host.data.room).toMatchObject({
+        white_ms: initialMs,
+        black_ms: initialMs,
+        started_at: null,
+        turn_started_at: null,
+      });
+      let room = (await call(black, { action: "join", code: host.data.code }))
+        .data.room!;
+      expect(room.started_at).not.toBeNull();
+      await db.query(
+        "update public.chess_rooms set turn_started_at=clock_timestamp()-interval '5 seconds' where id=$1",
+        [room.id],
+      );
+      const request = crypto.randomUUID();
+      room = (await move(room, white, "e2e4", request)).data.room!;
+      expect(room.white_ms).toBeLessThanOrEqual(initialMs - 5000);
+      expect(room.white_ms).toBeGreaterThan(initialMs - 6000);
+      expect(room.black_ms).toBe(initialMs);
+      const retry = (
+        await move({ ...room, version: 1 }, white, "e2e4", request)
+      ).data.room!;
+      expect(retry.white_ms).toBe(room.white_ms);
+      await db.query(
+        "update public.chess_rooms set turn_started_at=clock_timestamp()-interval '2 seconds' where id=$1",
+        [room.id],
+      );
+      room = (await move(room, black, "e7e5")).data.room!;
+      expect(room.white_ms).toBe(retry.white_ms);
+      expect(room.black_ms).toBeLessThanOrEqual(initialMs - 2000);
+    },
+  );
   it("avslutar på tid på servern och godtar inget sent drag, inte ens efter valideringen", async () => {
-    const room = await pair(10);
+    const room = await pair(5);
     await db.query(
-      "update public.chess_rooms set turn_started_at=clock_timestamp()-interval '11 minutes' where id=$1",
+      "update public.chess_rooms set turn_started_at=clock_timestamp()-interval '6 minutes' where id=$1",
       [room.id],
     );
     const late = await move(room, white, "e2e4");
@@ -205,7 +216,7 @@ describe("kompispartier: riktig PostgreSQL och serverns HTTP-hanterare", () => {
       reason: "timeout",
       moves: [],
       white_ms: 0,
-      black_ms: 600000,
+      black_ms: 300000,
     });
     const room2 = await pair(10);
     // Emulate expiry between the Edge read and its atomic database commit.

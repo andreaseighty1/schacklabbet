@@ -391,6 +391,7 @@ export function Multiplayer({
                   <option value={0}>Utan spelarklocka</option>
                   <option value={15}>15 minuter var</option>
                   <option value={10}>10 minuter var</option>
+                  <option value={5}>5 minuter var</option>
                 </select>
               </div>
               <div className="friend-setting">

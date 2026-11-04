@@ -73,7 +73,7 @@ test("klockor, remiförslag och gemensam maxtid fungerar för båda spelarna", a
   const guest = await guestContext.newPage();
   try {
     await page.goto("/#friends");
-    await page.getByLabel("Spelarklocka", { exact: true }).selectOption("10");
+    await page.getByLabel("Spelarklocka", { exact: true }).selectOption("5");
     await page
       .getByLabel("Maxtid för hela partiet", { exact: true })
       .selectOption("20");
@@ -84,7 +84,7 @@ test("klockor, remiförslag och gemensam maxtid fungerar för båda spelarna", a
       page.getByRole("textbox", { name: "Partiets kod" }),
     ).toHaveValue("ABC-234");
     await expect(page.getByRole("timer", { name: /^Din tid:/ })).toHaveText(
-      "10:00",
+      "5:00",
     );
     await guest.goto("/#friends");
     await guest.getByLabel("Kompisens kod", { exact: true }).fill("abc 234");
@@ -94,6 +94,9 @@ test("klockor, remiförslag och gemensam maxtid fungerar för båda spelarna", a
     await expect(
       guest.getByRole("timer", { name: /^Din tid:/ }),
     ).toHaveAttribute("data-running", "false");
+    await expect(guest.getByRole("timer", { name: /^Din tid:/ })).toHaveText(
+      "5:00",
+    );
     await focus(page);
     await expect(
       page.getByRole("timer", { name: /^Din tid:/ }),
@@ -213,7 +216,7 @@ test("serverbekräftat tidsavslut återställs efter omladdning och låser sena 
   try {
     const guest = await other.newPage();
     await page.goto("/#friends");
-    await page.getByLabel("Spelarklocka", { exact: true }).selectOption("15");
+    await page.getByLabel("Spelarklocka", { exact: true }).selectOption("5");
     await page
       .getByRole("button", { name: "Skapa kompisparti", exact: true })
       .click();
@@ -228,7 +231,7 @@ test("serverbekräftat tidsavslut återställs efter omladdning och låser sena 
     await expect(
       guest.getByText("Du spelar svart", { exact: true }),
     ).toBeVisible();
-    fixture.advanceTime(15 * 60000 + 1);
+    fixture.advanceTime(5 * 60000 + 1);
     await page.reload();
     await expect(
       page.getByRole("heading", { name: "Svart vinner", exact: true }),

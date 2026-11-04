@@ -1,5 +1,13 @@
 # Utvecklingslogg
 
+## 2026-11-04 – fem minuter i kompispartier
+
+- Nytt val: 5 minuter per spelare, utan tillägg. Valet gäller båda spelarna och tiden startar när kompisen ansluter. Utan klocka, 10 och 15 minuter finns kvar. Gemensam maxtid fungerar som tidigare.
+- Ny transaktionell migration `202611040001_five_minute_rooms.sql` utökar tabellvillkoret och den befintliga service-RPC:ns godkända klockvärden. Alla övriga funktionsegenskaper och rättigheter behålls; en oväntad RPC-version avbryter uppgraderingen. Tidigare migrationer ändras inte. Edge-hanteraren tillåter också det nya värdet och dashboard-paketet är återskapat.
+- PGlite-provet passerade 24 servertester, inklusive start och tidsdebitering för 5/10/15 minuter, idempotenta omtag och 5-minutersavslut som nekar sena drag. Webbläsarflödena provar 5:00 för båda deltagarna samt tidsavslut efter fem minuter och omladdning. Liveprovet använder det nya klockvalet.
+- Lokalt passerade lint, frontend- och Edge-TypeScript, produktionsbygge och kontroll av statiska resurser samt 79 befintliga ljud. Den nya migrationen installerades via den inloggade SQL-editorn med resultat Success och uppdaterad chess-room-kod publicerades. Verify JWT kontrollerades fortsatt påslaget.
+- Liveprovet passerade mot det riktiga projektet med 5 minuter per spelare: exakt 300000 ms till båda vid start, avdrag på rätt spelare, drag, samtidighetskonflikt, återupptagning, Realtime, obehörighetsskydd, ge upp, schackmatt och ömsesidig remi. Tre anonyma testplatser och tre korta avslutade partier omfattas av befintliga lagringsregler. Verklig femminutersutgång inväntades inte i liveprovet; den täcks med riktiga SQL-tidsstämplar i PGlite och simulerad tid i webbläsartestet. Pages-körning dokumenteras efter genomförande.
+
 ## 2026-11-03 – sammanhängande lärvägar och frivillig fördjupning
 
 - 35 nya skollektioner: åtta om grund- och matchvanor, åtta om taktik/kombinationer, fyra öppningar, tre om fällor/försvar, sex slutspel, två historiska avslutningar och fyra självständiga uppgifter. Totalt 57 skollektioner och två befintliga mattutmaningar. Grunderna/Nästa nivå har egna räknare, områdehopp och nästa rekommenderade lektion. Tidigare ID:n och framsteg bevaras.

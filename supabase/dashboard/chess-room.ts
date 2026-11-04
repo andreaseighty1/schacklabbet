@@ -201,7 +201,7 @@ function roomHandler(deps) {
         params.p_code = deps.code();
         const clock = body.clock_minutes ?? 0;
         const maximum = body.max_minutes ?? 0;
-        if (![0, 10, 15].includes(Number(clock)) || typeof clock !== "number" || ![0, 20, 30, 45, 60].includes(Number(maximum)) || typeof maximum !== "number")
+        if (![0, 5, 10, 15].includes(Number(clock)) || typeof clock !== "number" || ![0, 20, 30, 45, 60].includes(Number(maximum)) || typeof maximum !== "number")
           throw new RoomError("invalid_request");
         params.p_settings = { clock_minutes: clock, max_minutes: maximum };
       }

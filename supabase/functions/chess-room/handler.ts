@@ -100,7 +100,7 @@ export function roomHandler(deps: RoomDependencies) {
         const clock = body.clock_minutes ?? 0;
         const maximum = body.max_minutes ?? 0;
         if (
-          ![0, 10, 15].includes(Number(clock)) ||
+          ![0, 5, 10, 15].includes(Number(clock)) ||
           typeof clock !== "number" ||
           ![0, 20, 30, 45, 60].includes(Number(maximum)) ||
           typeof maximum !== "number"
