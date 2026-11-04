@@ -1,6 +1,8 @@
 # Säkerhet
 
-Säkerhetsuppgraderingen 4 november 2026 är under verifiering. Turnstile och automatisk kontogallring är ännu inte aktiverade i drift.
+Säkerhetsuppgraderingen publicerades och verifierades 4 november 2026. Turnstile och automatisk kontogallring är ännu inte aktiverade i drift; Cloudflare-inloggning respektive uttryckligt godkännande av permanent kontoradering återstår.
+
+Commit `04c9c4f`: 271 enhetstester, 178 webbläsartester och samtliga byggkontroller passerade i [GitHub Actions](https://github.com/andreaseighty1/schacklabbet/actions/runs/41894866617). Npm audit rapporterade 0 sårbarheter. SQL-migrationen och Edge-koden installerades i projektet; liveprovet med Auth, RLS, nekade klientskrivningar, Realtime, drag, femminutersklocka och remi passerade. Verify JWT är på. Förhandsgranskningen av kontogallring gav `eligible:0, deleted:0, dry_run:true`; inget kontoraderingsjobb finns. Produktionssidans CSP verifierades i DOM, kompislobbyn laddade utan konsolfel och inga främmande skript var laddade. Aktuell huvudresurs: `/assets/index-uxFmD0vl.js`.
 
 ## Befintligt skydd och nya gränser
 
