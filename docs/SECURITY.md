@@ -1,8 +1,12 @@
 # Säkerhet
 
-Säkerhetsuppgraderingen publicerades och verifierades 4 november 2026. Turnstile och automatisk kontogallring är ännu inte aktiverade i drift; Cloudflare-inloggning respektive uttryckligt godkännande av permanent kontoradering återstår.
+Säkerhetsuppgraderingen publicerades och verifierades 4 november 2026. Efter ägarens uttryckliga godkännande aktiverades daglig kontogallring och Cloudflare Turnstile i Supabase Auth samma dag. Den offentliga widgetnyckeln publicerades i commit `c43302d` före serveraktiveringen.
 
-Commit `04c9c4f`: 271 enhetstester, 178 webbläsartester och samtliga byggkontroller passerade i [GitHub Actions](https://github.com/andreaseighty1/schacklabbet/actions/runs/41894866617). Npm audit rapporterade 0 sårbarheter. SQL-migrationen och Edge-koden installerades i projektet; liveprovet med Auth, RLS, nekade klientskrivningar, Realtime, drag, femminutersklocka och remi passerade. Verify JWT är på. Förhandsgranskningen av kontogallring gav `eligible:0, deleted:0, dry_run:true`; inget kontoraderingsjobb finns. Produktionssidans CSP verifierades i DOM, kompislobbyn laddade utan konsolfel och inga främmande skript var laddade. Aktuell huvudresurs: `/assets/index-uxFmD0vl.js`.
+Commit `04c9c4f`: 271 enhetstester, 178 webbläsartester och samtliga byggkontroller passerade i [GitHub Actions](https://github.com/andreaseighty1/schacklabbet/actions/runs/41894866617). Npm audit rapporterade 0 sårbarheter. SQL-migrationen och Edge-koden installerades i projektet; liveprovet med Auth, RLS, nekade klientskrivningar, Realtime, drag, femminutersklocka och remi passerade. Verify JWT är på. Vid denna första verifiering gav förhandsgranskningen `eligible:0, deleted:0, dry_run:true` och inget kontoraderingsjobb var aktiverat. Produktionssidans CSP verifierades i DOM, kompislobbyn laddade utan konsolfel och inga främmande skript var laddade.
+
+Turnstile-publiceringen `c43302d` passerade också 271 enhetstester, 178 webbläsartester och alla byggkontroller i [GitHub Actions](https://github.com/andreaseighty1/schacklabbet/actions/runs/41903568178). Produktionssidans huvudresurs `/assets/index-sKvA2cDe.js`, CSP för Cloudflares skript/iframe samt integritetsinformationen verifierades. Widgeten `Schacklabbet` har Managed-läge, enbart Schacklabbets hostname och ingen pre-clearance. Endast den offentliga sitekey finns i GitHub; den hemliga verifieringsnyckeln överfördes direkt till Supabase Auth efter ägarens särskilda godkännande.
+
+`node scripts/check-multiplayer.mjs --check-captcha` passerade mot den aktiverade servern: registrering utan bevis ger HTTP 400 och `error_code: captcha_failed`. Skriptet accepterar Supabases båda fältnamn för felkod och avslutas normalt utan `process.exit`, som gav ett Windows/Node-fel med öppna nätverkshandtag. En befintlig profil skapade ett väntande testparti, återupptog det efter serveraktiveringen och stängde inbjudan utan att Turnstile laddades. Inbjudan stängdes i appen, inte genom databasradering. Provet av helt ny profil i privat webbläsarfönster inväntar ägarens resultat.
 
 ## Befintligt skydd och nya gränser
 
@@ -34,6 +38,8 @@ select chess_private.cleanup_inactive_players();
 Detta raderar inget. Endast anonyma konton utan e-post/telefon som är äldre än 30 dagar, saknar inloggning och spelaktivitet under 30 dagar och saknar giltigt väntande/pågående parti kan gallras. Konton måste finnas i appens aktivitetsregister. Permanenta konton undantas. Gallringen tar samma spelar-lås som spelanropen, kontrollerar villkoren igen och raderar högst 100 konton per körning. Kontots kvarvarande kopplade speldata tas också bort via foreign keys. Lokala lektionsframsteg påverkas inte. Ett senare besök skapar ny spelprofil; ogiltig gammal session rensas lokalt utan att osäkra drag skickas igen.
 
 Ingen schemalagd kontoradering ingår i migrationen. `supabase/operations/enable_account_cleanup.sql` aktiverar daglig körning först efter ägarens uttryckliga godkännande av permanent radering. Jobbet kan stoppas med `select cron.unschedule('schacklabbet-inactive-players');` men redan raderade konton återställs inte av det. Antal, inte elevuppgifter, räcker för driftuppföljning.
+
+Drift: ägaren godkände daglig städning den 4 november 2026. Aktiveringsfilen kördes och `schacklabbet-inactive-players` verifierades med `active=true`, schema `41 2 * * *` och rätt privata gallringsfunktion. Förhandsgranskningen gav fortfarande `eligible:0, deleted:0, dry_run:true`. Ingen manuell raderingskörning gjordes. Befintliga anonyma profiler omfattas av fristen från installationen av aktivitetsregistret.
 
 ## Webbläsare och beroenden
 

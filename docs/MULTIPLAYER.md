@@ -32,7 +32,7 @@ Förbrukad spelartid ger normalt motståndaren vinst. Om motståndaren saknar ma
 - Speltabeller och privata internregister har RLS. Interna tabeller saknar browserpolicyer och deras schema är spärrat för `anon`/`authenticated`.
 - Edge-funktionen har **Verify JWT aktiverat** och verifierar dessutom token mot projektets `/auth/v1/user`. Identiteten tas från svaret, aldrig från requestens JSON. Service-role finns bara i Supabases inbyggda servermiljö.
 - Partier går ut 24 timmar efter skapandet. Därefter spärras läsning, drag och kodanslutning. Cron-jobbet `schacklabbet-expired-rooms` rensar utgångna partier inklusive koder varje timme; gränsräknare tas bort efter två dygn. Rensningen omfattar endast dessa nya speltabeller.
-- Anonyma Auth-konton gallras inte av spelrummens jobb. Supabase behåller tekniska konto-ID:n och driftloggar. En separat rutin med 30 dagars inaktivitet är förberedd; inget kontoraderingsjobb är aktiverat. Se [säkerhetsinställningar och aktiveringsordning](SECURITY.md).
+- Anonyma Auth-konton gallras inte av spelrummens jobb. Supabase behåller tekniska konto-ID:n och driftloggar. Efter ägarens uttryckliga godkännande aktiverades en separat daglig rutin med 30 dagars inaktivitet den 4 november 2026. Befintliga profiler får 30 dagars frist; pågående partier och permanenta konton skyddas. Se [säkerhetsinställningar och aktiveringsordning](SECURITY.md).
 
 ## Installation och uppdatering
 
@@ -40,7 +40,7 @@ Projektet `ixioaisppcqqutufpuct` installerades via ägarens inloggade Supabase-d
 
 Den 4 november 2026 installerades femminutersuppgraderingen och uppdaterad Edge-kod i samma projekt. Verify JWT är fortsatt påslaget. Liveprovet med det nya valet passerade; tidsutgång provas separat med SQL-tidsstämplar och i webbläsartestet.
 
-Samma dag installerades `202611040002_account_security.sql`: aktivitetsregister, sammanlagt 120 RPC-anrop/minut/spelplats inklusive läsningar och privat förhandsgranskning av kontogallring. Uppdaterad Edge-kod begränsar även strömmade begäranden till 2048 byte. Verify JWT kontrollerades fortfarande påslaget. Automatisk kontogallring och Turnstile aktiveras separat enligt SECURITY.md.
+Samma dag installerades `202611040002_account_security.sql`: aktivitetsregister, sammanlagt 120 RPC-anrop/minut/spelplats inklusive läsningar och privat förhandsgranskning av kontogallring. Uppdaterad Edge-kod begränsar även strömmade begäranden till 2048 byte. Verify JWT kontrollerades fortfarande påslaget. Efter ägarens godkännande aktiverades även automatisk kontogallring och Turnstile enligt SECURITY.md. Supabase Auth nekar nu registrering utan säkerhetsbevis; sparad profil återanvänds utan ny kontroll.
 
 Källfiler:
 
