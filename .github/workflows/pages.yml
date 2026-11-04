@@ -48,7 +48,7 @@ jobs:
           VITE_CUSTOM_DOMAIN: ${{ vars.PAGES_CUSTOM_DOMAIN || 'schacklabbet.42improbableowls.com' }}
           VITE_SUPABASE_URL: ${{ vars.VITE_SUPABASE_URL || 'https://ixioaisppcqqutufpuct.supabase.co' }}
           VITE_SUPABASE_PUBLISHABLE_KEY: ${{ vars.VITE_SUPABASE_PUBLISHABLE_KEY || 'sb_publishable_MBLGx8pfeYKa0qHqmgcNMA_jCKjnHgj' }}
-          VITE_TURNSTILE_SITE_KEY: ${{ vars.VITE_TURNSTILE_SITE_KEY || '' }}
+          VITE_TURNSTILE_SITE_KEY: ${{ vars.VITE_TURNSTILE_SITE_KEY || '0x4AAAAAAFz4u3qN49dG9Cz1' }}
       - run: npm run check:dist
         env:
           VITE_BASE_PATH: ${{ vars.PAGES_BASE_PATH || '/' }}
