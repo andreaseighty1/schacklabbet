@@ -2,6 +2,21 @@ import { readFile, stat } from "node:fs/promises";
 import { createHash } from "node:crypto";
 import assert from "node:assert/strict";
 const index = await readFile("dist/index.html", "utf8");
+const policy =
+  /<meta http-equiv="Content-Security-Policy" content="([^"]+)"/.exec(index);
+assert.ok(policy, "Produktionsbygget måste innehålla CSP");
+assert.ok(
+  index.indexOf(policy[0]) < index.indexOf("<script"),
+  "CSP måste stå före skript",
+);
+policy[1] = policy[1].replaceAll("&#39;", "'").replaceAll("&apos;", "'");
+assert.ok(policy[1].includes("default-src 'none'"));
+assert.ok(
+  !/script-src[^;]*(?:'unsafe-inline'|'unsafe-eval'|https?:\/\/\*)/.test(
+    policy[1],
+  ),
+);
+assert.ok(policy[1].includes("worker-src 'self'"));
 const base = process.env.VITE_BASE_PATH || "/";
 for (const path of [...index.matchAll(/(?:src|href)="([^"]+)"/g)].map(
   (m) => m[1],

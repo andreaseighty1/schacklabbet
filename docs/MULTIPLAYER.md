@@ -29,16 +29,18 @@ Förbrukad spelartid ger normalt motståndaren vinst. Om motståndaren saknar ma
 - `public.chess_rooms`: RLS ger endast de två deltagarna SELECT på det egna, ännu giltiga partiet. Anonyma API-anrop har ingen tabellåtkomst. Inga browserroller får INSERT/UPDATE/DELETE eller exekvera skriv-RPC:n.
 - `chess_private.room_codes`: 6 kryptografiskt slumpade tecken (30 bitar), visade som ABC-234, utan I/O/0/1. Bara skaparen får tillbaka koden medan partiet väntar. Koden ligger inte i URL:er eller publik lobby. Befintliga tioteckenskoder fungerar under sin återstående giltighetstid. En unikhetskontroll och högst tre nya försök hanterar slumpkollisioner utan överblivna rum. Den som får koden kan ta den lediga platsen; dela den med rätt kompis. Inloggning och begränsningen av kodgissningar behålls.
 - `chess_private.request_limits`: per spelplats och timme, högst 10 skapaförsök, 60 anslutningsförsök och 600 bekräftade skrivförsök. Även felaktiga kodgissningar räknas. Supabase Auth begränsar därutöver nya anonyma konton per IP.
-- Alla tre tabeller har RLS. Interna tabeller saknar browserpolicyer och deras schema är spärrat för `anon`/`authenticated`.
+- Speltabeller och privata internregister har RLS. Interna tabeller saknar browserpolicyer och deras schema är spärrat för `anon`/`authenticated`.
 - Edge-funktionen har **Verify JWT aktiverat** och verifierar dessutom token mot projektets `/auth/v1/user`. Identiteten tas från svaret, aldrig från requestens JSON. Service-role finns bara i Supabases inbyggda servermiljö.
 - Partier går ut 24 timmar efter skapandet. Därefter spärras läsning, drag och kodanslutning. Cron-jobbet `schacklabbet-expired-rooms` rensar utgångna partier inklusive koder varje timme; gränsräknare tas bort efter två dygn. Rensningen omfattar endast dessa nya speltabeller.
-- Anonyma Auth-konton gallras inte av spelrummens jobb. Ingen identifierande elevinformation sparas i dem av appen. Supabase skapar och behåller tekniska konto-ID:n och driftloggar enligt projektets inställningar. En separat rutin för anonyma konton behöver beslutas om tjänsten används långsiktigt.
+- Anonyma Auth-konton gallras inte av spelrummens jobb. Supabase behåller tekniska konto-ID:n och driftloggar. En separat rutin med 30 dagars inaktivitet är förberedd; inget kontoraderingsjobb är aktiverat. Se [säkerhetsinställningar och aktiveringsordning](SECURITY.md).
 
 ## Installation och uppdatering
 
 Projektet `ixioaisppcqqutufpuct` installerades via ägarens inloggade Supabase-dashboard den 22 oktober 2026. En GitHub-integration i Supabase krävs inte för körningen. GitHub Pages bygger frontend med projektets offentliga URL och publishable-nyckel.
 
 Den 4 november 2026 installerades femminutersuppgraderingen och uppdaterad Edge-kod i samma projekt. Verify JWT är fortsatt påslaget. Liveprovet med det nya valet passerade; tidsutgång provas separat med SQL-tidsstämplar och i webbläsartestet.
+
+Samma dag installerades `202611040002_account_security.sql`: aktivitetsregister, sammanlagt 120 RPC-anrop/minut/spelplats inklusive läsningar och privat förhandsgranskning av kontogallring. Uppdaterad Edge-kod begränsar även strömmade begäranden till 2048 byte. Verify JWT kontrollerades fortfarande påslaget. Automatisk kontogallring och Turnstile aktiveras separat enligt SECURITY.md.
 
 Källfiler:
 

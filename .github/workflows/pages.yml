@@ -19,6 +19,7 @@ jobs:
           node-version: 24
           cache: npm
       - run: npm ci
+      - run: npm audit --audit-level=moderate
       - run: npm run lint
       - run: npm run prepare:voiceover && git diff --exit-code -- docs/audio src/audio/learning-available.json
       - run: npm run prepare:multiplayer && git diff --exit-code -- supabase/dashboard
@@ -47,6 +48,7 @@ jobs:
           VITE_CUSTOM_DOMAIN: ${{ vars.PAGES_CUSTOM_DOMAIN || 'schacklabbet.42improbableowls.com' }}
           VITE_SUPABASE_URL: ${{ vars.VITE_SUPABASE_URL || 'https://ixioaisppcqqutufpuct.supabase.co' }}
           VITE_SUPABASE_PUBLISHABLE_KEY: ${{ vars.VITE_SUPABASE_PUBLISHABLE_KEY || 'sb_publishable_MBLGx8pfeYKa0qHqmgcNMA_jCKjnHgj' }}
+          VITE_TURNSTILE_SITE_KEY: ${{ vars.VITE_TURNSTILE_SITE_KEY || '' }}
       - run: npm run check:dist
         env:
           VITE_BASE_PATH: ${{ vars.PAGES_BASE_PATH || '/' }}

@@ -20,6 +20,7 @@ const migrations = [
   "202610220003_room_clocks.sql",
   "202610220004_clock_job.sql",
   "202611040001_five_minute_rooms.sql",
+  "202611040002_account_security.sql",
 ];
 await writeFile(
   "supabase/dashboard/setup.sql",

@@ -2,8 +2,11 @@
 // Uses only the same public key as the website. Tokens stay in memory and are never printed.
 import assert from "node:assert/strict";
 import { createClient } from "@supabase/supabase-js";
-if (!process.argv.includes("--live"))
-  throw new Error("Use --live to test the configured Supabase project.");
+const checkCaptcha = process.argv.includes("--check-captcha");
+if (!process.argv.includes("--live") && !checkCaptcha)
+  throw new Error(
+    "Use --live or --check-captcha to test the configured Supabase project.",
+  );
 try {
   process.loadEnvFile(".env.local");
 } catch {
@@ -12,6 +15,30 @@ try {
 const url = process.env.VITE_SUPABASE_URL;
 const key = process.env.VITE_SUPABASE_PUBLISHABLE_KEY;
 assert.ok(url && key, "Public Supabase configuration is required");
+if (checkCaptcha) {
+  // One rejection, no brute force and no attempt to solve or bypass a challenge.
+  const response = await fetch(`${url}/auth/v1/signup`, {
+    method: "POST",
+    headers: { apikey: key, "Content-Type": "application/json" },
+    body: "{}",
+    signal: AbortSignal.timeout(15000),
+  });
+  const data = await response.json();
+  assert.equal(
+    response.status,
+    400,
+    "Signup without proof must be denied by Supabase Auth",
+  );
+  assert.equal(
+    data.code,
+    "captcha_failed",
+    "The rejection must be CAPTCHA validation, not an unrelated error",
+  );
+  console.log(
+    "PASS: Supabase Auth denies anonymous signup without a CAPTCHA proof.",
+  );
+  process.exit(0);
+}
 async function signup() {
   const response = await fetch(`${url}/auth/v1/signup`, {
     method: "POST",

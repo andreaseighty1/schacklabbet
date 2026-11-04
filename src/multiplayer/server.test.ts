@@ -148,6 +148,12 @@ beforeAll(async () => {
     black,
     outsider,
   ]);
+  await db.exec(
+    await readFile(
+      "supabase/migrations/202611040002_account_security.sql",
+      "utf8",
+    ),
+  );
 }, 30000);
 afterAll(async () => {
   await db.close();
@@ -673,5 +679,148 @@ describe("kompispartier: riktig PostgreSQL och serverns HTTP-hanterare", () => {
     expect(
       (await call(outsider, { action: "join", code: "ZZZZZZZZZZ" })).status,
     ).toBe(429);
+  });
+  it("begränsar läsningar och räknar även nekade försök per spelare och minut", async () => {
+    await empty();
+    const missing = crypto.randomUUID();
+    for (let n = 0; n < 120; n++)
+      expect(
+        (await call(outsider, { action: "get", id: missing })).status,
+      ).toBe(404);
+    expect((await call(outsider, { action: "resume" })).status).toBe(429);
+    expect((await call(white, { action: "resume" })).status).toBe(200);
+    await db.query(
+      "update chess_private.request_limits set bucket=bucket-interval '1 minute' where actor=$1",
+      [outsider],
+    );
+    expect((await call(outsider, { action: "resume" })).status).toBe(200);
+  });
+  it("stoppar stora strömmade och flerteckensförfrågningar innan de lagras", async () => {
+    let cancelled = false;
+    const body = new ReadableStream<Uint8Array>({
+      pull(controller) {
+        controller.enqueue(new Uint8Array(512).fill(32));
+      },
+      cancel() {
+        cancelled = true;
+      },
+    });
+    const response = await handler(
+      new Request("https://example.test", {
+        method: "POST",
+        headers: { Authorization: `Bearer ${white}` },
+        body,
+        duplex: "half",
+      } as RequestInit & { duplex: string }),
+    );
+    expect(response.status).toBe(400);
+    expect(cancelled).toBe(true);
+    expect(
+      (await call(white, { action: "resume", code: "å".repeat(1100) })).status,
+    ).toBe(400);
+  });
+  it("förnyar verklig spelaktivitet utan att använda kontots födelsedag som senaste aktivitet", async () => {
+    await empty();
+    await db.query(
+      "update chess_private.player_activity set last_seen_at=now()-interval '40 days' where actor=$1",
+      [white],
+    );
+    await call(white, { action: "resume" });
+    const { rows } = await db.query<{ recent: boolean }>(
+      "select last_seen_at>now()-interval '1 minute' as recent from chess_private.player_activity where actor=$1",
+      [white],
+    );
+    expect(rows[0].recent).toBe(true);
+  });
+  it("förhandsgranskar städning och behåller aktiva, nya och permanenta konton", async () => {
+    await empty();
+    const ids = Array.from({ length: 8 }, () => crypto.randomUUID());
+    for (const id of ids) {
+      await db.query(
+        "insert into auth.users(id,created_at,last_sign_in_at) values($1,now()-interval '60 days',now()-interval '60 days')",
+        [id],
+      );
+      await db.query(
+        "insert into chess_private.player_activity(actor,last_seen_at) values($1,now()-interval '60 days')",
+        [id],
+      );
+    }
+    await db.query("update auth.users set is_anonymous=false where id=$1", [
+      ids[1],
+    ]);
+    await db.query(
+      "update auth.users set email='teacher@example.test' where id=$1",
+      [ids[2]],
+    );
+    await db.query("update auth.users set phone='test-phone' where id=$1", [
+      ids[3],
+    ]);
+    await db.query("update auth.users set created_at=now() where id=$1", [
+      ids[4],
+    ]);
+    await db.query("update auth.users set last_sign_in_at=now() where id=$1", [
+      ids[5],
+    ]);
+    await db.query(
+      "update chess_private.player_activity set last_seen_at=now() where actor=$1",
+      [ids[6]],
+    );
+    await db.query(
+      "insert into public.chess_rooms(creator_id,white_id) values($1,$1)",
+      [ids[7]],
+    );
+    const preview = await db.query<{ answer: unknown }>(
+      "select chess_private.cleanup_inactive_players() as answer",
+    );
+    expect(preview.rows[0].answer).toEqual({
+      eligible: 1,
+      deleted: 0,
+      dry_run: true,
+    });
+    expect(
+      (
+        await db.query("select id from auth.users where id=any($1::uuid[])", [
+          ids,
+        ])
+      ).rows,
+    ).toHaveLength(8);
+    // Destructive branch runs only against disposable, in-memory test accounts.
+    const cleanup = await db.query<{ answer: unknown }>(
+      "select chess_private.cleanup_inactive_players(false) as answer",
+    );
+    expect(cleanup.rows[0].answer).toEqual({
+      eligible: 1,
+      deleted: 1,
+      dry_run: false,
+    });
+    expect(
+      (
+        await db.query("select id from auth.users where id=any($1::uuid[])", [
+          ids,
+        ])
+      ).rows,
+    ).toHaveLength(7);
+    expect(
+      (
+        await db.query(
+          "select actor from chess_private.player_activity where actor=$1",
+          [ids[0]],
+        )
+      ).rows,
+    ).toHaveLength(0);
+    await db.exec("set role service_role");
+    try {
+      await expect(
+        db.query("select chess_private.cleanup_inactive_players(false)"),
+      ).rejects.toThrow(/permission denied/);
+      await expect(
+        db.query("select chess_private.room_command_v1($1,'resume')", [white]),
+      ).rejects.toThrow(/permission denied/);
+      expect(
+        (await store.command({ p_actor: white, p_action: "resume" })).room,
+      ).toBeNull();
+    } finally {
+      await db.exec("reset role");
+    }
   });
 });

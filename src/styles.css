@@ -3846,6 +3846,21 @@ a {
   flex-wrap: wrap;
   margin: 0 0 16px;
 }
+.bot-check {
+  padding: 20px;
+  margin-bottom: 20px;
+  background: #edf1e5;
+  border: 1px solid #d9decd;
+  border-radius: 12px;
+  overflow-wrap: anywhere;
+}
+.bot-check > div {
+  min-height: 65px;
+  max-width: 100%;
+}
+.bot-check p {
+  margin: 8px 0 12px;
+}
 .school-tracks button {
   min-height: 64px;
   padding: 12px 24px;

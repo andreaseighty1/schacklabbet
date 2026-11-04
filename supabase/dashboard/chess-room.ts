@@ -137,6 +137,32 @@ var writes = [
   "accept_draw",
   "decline_draw"
 ];
+async function requestBody(request) {
+  const maximum = 2048;
+  if (Number(request.headers.get("Content-Length")) > maximum)
+    throw new RoomError("invalid_request");
+  const reader = request.body?.getReader();
+  if (!reader) throw new RoomError("invalid_request");
+  const decoder = new TextDecoder("utf-8", { fatal: true });
+  let bytes = 0;
+  let text = "";
+  try {
+    while (true) {
+      const part = await reader.read();
+      if (part.done) return text + decoder.decode();
+      bytes += part.value.byteLength;
+      if (bytes > maximum) {
+        await reader.cancel();
+        throw new RoomError("invalid_request");
+      }
+      text += decoder.decode(part.value, { stream: true });
+    }
+  } catch {
+    throw new RoomError("invalid_request");
+  } finally {
+    reader.releaseLock();
+  }
+}
 function roomHandler(deps) {
   return async (request) => {
     const headers = {
@@ -156,8 +182,7 @@ function roomHandler(deps) {
       if (!token) throw new RoomError("unauthorized", 401);
       const actor = await deps.authenticate(token);
       if (!actor || !uuid.test(actor)) throw new RoomError("unauthorized", 401);
-      const bodyText = await request.text();
-      if (bodyText.length > 2048) throw new RoomError("invalid_request");
+      const bodyText = await requestBody(request);
       let body;
       try {
         body = JSON.parse(bodyText);

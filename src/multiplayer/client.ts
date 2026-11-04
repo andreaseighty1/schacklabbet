@@ -29,7 +29,10 @@ export function friendClient() {
   return client;
 }
 let signingIn: Promise<string> | undefined;
-async function token(create: boolean): Promise<string | null> {
+async function token(
+  create: boolean,
+  proof?: () => Promise<string>,
+): Promise<string | null> {
   const auth = friendClient().auth;
   const { data, error } = await auth.getSession();
   if (error) throw new FriendError("session");
@@ -37,9 +40,21 @@ async function token(create: boolean): Promise<string | null> {
   if (!create) return null;
   // One anonymous account per browser, reused across reloads and future games.
   signingIn ??= (async () => {
-    const { data, error } = await auth.signInAnonymously();
+    const protectedSignup = Boolean(import.meta.env.VITE_TURNSTILE_SITE_KEY);
+    if (protectedSignup && !proof) throw new FriendError("captcha");
+    const captchaToken = protectedSignup ? await proof!() : undefined;
+    if (protectedSignup && !captchaToken) throw new FriendError("captcha");
+    const { data, error } = await auth.signInAnonymously(
+      captchaToken ? { options: { captchaToken } } : undefined,
+    );
     if (error || !data.session)
-      throw new FriendError(error?.status === 429 ? "signup_limit" : "signin");
+      throw new FriendError(
+        error?.status === 429
+          ? "signup_limit"
+          : error?.code?.includes("captcha")
+            ? "captcha"
+            : "signin",
+      );
     return data.session.access_token;
   })().finally(() => {
     signingIn = undefined;
@@ -51,8 +66,9 @@ export async function friendRequest(
   action: string,
   params: Record<string, unknown> = {},
   createSession = true,
+  proof?: () => Promise<string>,
 ): Promise<Answer> {
-  const accessToken = await token(createSession);
+  const accessToken = await token(createSession, proof);
   if (!accessToken) return { room: null };
   const response = await fetch(
     `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/chess-room`,
@@ -69,7 +85,10 @@ export async function friendRequest(
   );
   const answer = await response.json();
   if (!response.ok) {
-    if (response.status === 401) throw new FriendError("session");
+    if (response.status === 401) {
+      await friendClient().auth.signOut({ scope: "local" });
+      throw new FriendError("session");
+    }
     if (response.status === 404 && answer.code === "NOT_FOUND")
       throw new FriendError("not_configured");
     throw new FriendError(answer.error ?? "unavailable");
@@ -102,6 +121,8 @@ export function watchFriendRoom(id: string, refresh: () => void) {
 export function friendMessage(error: unknown): string {
   const code = error instanceof FriendError ? error.code : "unavailable";
   const messages: Record<string, string> = {
+    captcha:
+      "Säkerhetskontrollen gick inte att slutföra. Försök igen. Be en vuxen om hjälp om kontrollen blockeras på skolans nätverk.",
     not_configured:
       "Kompispartier behöver aktiveras av den som sköter webbplatsen. Försök igen senare.",
     signin: "Det gick inte att starta din spelplats. Försök igen om en stund.",

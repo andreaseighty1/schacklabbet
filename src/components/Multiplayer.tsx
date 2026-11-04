@@ -25,6 +25,7 @@ import { SquareNamesToggle } from "./SquareNamesToggle";
 import { MoveLabel } from "./MoveLabel";
 import { pieceNames, type Promotion } from "../chess/model";
 import { FriendClock, MatchLimit } from "./FriendClock";
+import { useBotProtection } from "./BotProtection";
 import { codePattern } from "../../supabase/functions/chess-room/handler";
 
 const savedKey = "schacklabbet.friend.room.v1";
@@ -86,6 +87,7 @@ export function Multiplayer({
   >(null);
   const [clockMinutes, setClockMinutes] = useState(0);
   const [maxMinutes, setMaxMinutes] = useState(0);
+  const botProtection = useBotProtection();
   const [showMoves, setShowMoves] = useState(true);
   const mounted = useRef(false);
   const fetching = useRef(false);
@@ -242,7 +244,7 @@ export function Multiplayer({
     setBusy(true);
     setError("");
     try {
-      accept(await friendRequest(action, params));
+      accept(await friendRequest(action, params, true, botProtection.verify));
     } catch (cause) {
       if (mounted.current) {
         // Never replay a move automatically after a timeout: it may already be committed.
@@ -353,6 +355,7 @@ export function Multiplayer({
         <p role="status">Letar efter ditt kompisparti…</p>
       ) : !room ? (
         <>
+          {botProtection.element}
           <div className="friend-lobby">
             <section className="friend-start" aria-labelledby="create-title">
               <div className="friend-pieces">
@@ -476,6 +479,8 @@ export function Multiplayer({
             Inga namn eller lösenord behövs. Dela bara koden med den du vill
             spela med. Partiet kan återupptas i samma webbläsare i 24 timmar.
             Sedan går det ut och tas bort.
+            {import.meta.env.VITE_TURNSTILE_SITE_KEY &&
+              " När en ny spelplats skapas används Cloudflare Turnstile som botskydd. Kontrollen kan behandla tekniska uppgifter som IP-adress."}
           </p>
         </>
       ) : (
