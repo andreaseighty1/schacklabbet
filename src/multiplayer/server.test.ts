@@ -154,6 +154,12 @@ beforeAll(async () => {
       "utf8",
     ),
   );
+  await db.exec(
+    await readFile(
+      "supabase/migrations/202611040003_cleanup_auth_lock.sql",
+      "utf8",
+    ),
+  );
 }, 30000);
 afterAll(async () => {
   await db.close();
@@ -822,5 +828,43 @@ describe("kompispartier: riktig PostgreSQL och serverns HTTP-hanterare", () => {
     } finally {
       await db.exec("reset role");
     }
+    await db.query("delete from auth.users where id=any($1::uuid[])", [ids]);
+  });
+  it("gallrar högst 100 gamla testkonton per körning och lämnar nästa batch orörd", async () => {
+    await empty();
+    const { rows } = await db.query<{ actor: string }>(`
+      with accounts as (
+        insert into auth.users(id,is_anonymous,created_at,last_sign_in_at)
+        select gen_random_uuid(),true,now()-interval '60 days',now()-interval '60 days'
+        from generate_series(1,102) returning id
+      )
+      insert into chess_private.player_activity(actor,last_seen_at)
+      select id,now()-interval '60 days' from accounts returning actor
+    `);
+    const ids = rows.map((row) => row.actor);
+    const first = await db.query<{ answer: unknown }>(
+      "select chess_private.cleanup_inactive_players(false) as answer",
+    );
+    expect(first.rows[0].answer).toEqual({
+      eligible: 102,
+      deleted: 100,
+      dry_run: false,
+    });
+    const next = await db.query<{ answer: unknown }>(
+      "select chess_private.cleanup_inactive_players() as answer",
+    );
+    expect(next.rows[0].answer).toEqual({
+      eligible: 2,
+      deleted: 0,
+      dry_run: true,
+    });
+    expect(
+      (
+        await db.query("select id from auth.users where id=any($1::uuid[])", [
+          ids,
+        ])
+      ).rows,
+    ).toHaveLength(2);
+    await db.query("delete from auth.users where id=any($1::uuid[])", [ids]);
   });
 });
