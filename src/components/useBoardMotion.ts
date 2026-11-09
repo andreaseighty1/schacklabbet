@@ -11,7 +11,6 @@ type Frame = MotionPosition & {
   sprites: Map<Square, Element>;
   orientation: Color;
   pieceSet: PieceSet;
-  width: number;
 };
 
 export function useBoardMotion(
@@ -45,7 +44,6 @@ export function useBoardMotion(
           : undefined,
       orientation,
       pieceSet,
-      width: bounds.width,
       sprites,
     };
     const old = previous.current;
@@ -54,13 +52,12 @@ export function useBoardMotion(
       !enabled ||
       !old ||
       old.orientation !== orientation ||
-      old.pieceSet !== pieceSet ||
-      Math.abs(old.width - bounds.width) > 1
+      old.pieceSet !== pieceSet
     )
       return;
     const cleanups: (() => void)[] = [];
     for (const flight of pieceFlights(old, next)) {
-      const sprite = old.sprites.get(flight.from);
+      let sprite = old.sprites.get(flight.from);
       const origin = squares.get(flight.from);
       const destination = squares.get(flight.to);
       const landing = destination?.querySelector<HTMLElement>(".piece");
@@ -72,12 +69,10 @@ export function useBoardMotion(
         typeof origin.animate !== "function"
       )
         continue;
-      if (
-        sprite instanceof HTMLImageElement &&
-        sprite.complete &&
-        sprite.naturalWidth === 0
-      )
-        continue;
+      // A resource that failed since the snapshot should fly as its visible SVG fallback.
+      if (sprite instanceof HTMLImageElement && landing instanceof SVGElement)
+        sprite = landing.cloneNode(true) as Element;
+      // Both ends use the current layout, including compact mode activated after room loading.
       const a = origin.getBoundingClientRect(),
         b = destination.getBoundingClientRect();
       const layer = document.createElement("span");
