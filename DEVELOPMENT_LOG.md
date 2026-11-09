@@ -3,7 +3,9 @@
 ## 2026-11-09 – pjäser på lektionskort
 
 - Rättat en regression från grafikbytet: Piece returnerade HTML-elementet `img` även inuti lektionskortens SVG, där det inte ritades. SVG-illustrationerna använder nu det egna elementet `image`. Både dekorativa rörelsebilder och fulla FEN-ställningar omfattas. Den tecknade stilen och bildfelsreserven behålls.
-- Två nya webbläsarprov kontrollerar de fem pjäslektionernas bilder, korrekt SVG-namnrymd och bildhämtning, en historisk positionsbild, stilväxling och saknad bildfil med reservpjäs. Proven körs på desktop, mobil och pekskärm i GitHub Actions. Lokalt passerade lint, TypeScript, produktionsbygge och distkontroll; publicerings- och visuellt resultat kompletteras efter körningen.
+- Två nya webbläsarprov kontrollerar de fem pjäslektionernas bilder, korrekt SVG-namnrymd och bildhämtning, en historisk positionsbild, stilväxling och saknad bildfil med reservpjäs. Proven körs på desktop, mobil och pekskärm i GitHub Actions. Lokalt passerade lint, TypeScript, produktionsbygge och distkontroll.
+- GitHub Actions [42669553117](https://github.com/andreaseighty1/schacklabbet/actions/runs/42669553117) för runtime-commit `3e04c76ff18630177c740aaffab91ac22fb9ede6` passerade 335 enhetstester, 235 webbläsartester (5,0 minuter) och alla övriga kontroller. Build-jobb `129342129376` och deploy-jobb `129345476539` avslutades med success.
+- Efter publicering verifierades samtliga fem pjäsbilder visuellt, inklusive torn, löpare, springare, dam och kung. Även de två historiska ställningskorten och efterföljande självständiga uppgifter visar pjäserna. Grundkatalogen innehöll 180 korrekta SVG-image-element och inga otillåtna img-element i SVG. Lärvägen återställdes och testfliken stängdes. Bilder: `schacklabbet-pjaser-lektionskort-rattade.png` och `schacklabbet-stallningsbilder-rattade.png` i den godkända visualiseringsmappen.
 
 ## 2026-11-09 – Dagens utmaning
 
