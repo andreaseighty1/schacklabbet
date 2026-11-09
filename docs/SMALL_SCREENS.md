@@ -2,7 +2,7 @@
 
 Layouten utgår från webbläsarfönstrets tillgängliga CSS-pixlar. Skärmens märkta upplösning kan vara större än utrymmet i fönstret på grund av systemskalning, webbläsarens zoom och verktygsrader.
 
-- Vid högst 1100 px bredd fälls sidomenyn undan. En menyknapp öppnar hela navigationen med utskrivna namn. Stängknapp, Escape och bakgrundsklick stänger. Fokus hålls i menyn och återgår till öppningsknappen; byte till stor skärm stänger menyn.
+- Vid högst 1100 px bredd fälls sidomenyn undan. En menyknapp öppnar hela navigationen med utskrivna namn. Stängknapp, Escape och bakgrundsklick stänger. Fokus hålls i menyn och återgår till öppningsknappen; när menyn återgår till fast läge stängs den öppna panelen.
 - På bredare skärmar finns också Dölj meny/Visa sidomeny i överkanten. Valet sparas på datorn. Även en manuellt dold meny kan öppnas som namngiven sidopanel med samma tangentbords- och pekstöd.
 - Kompakt spelvy används automatiskt i brädvyer på laptopfönster med minst 691 px bredd och högst 800 px höjd. Knappen i överkanten kan välja kompakt eller vanlig vy och sparar valet. Kompakt läge fäller normalt undan menyn; den kan fästas igen separat. På mycket smala skärmar behålls den lodräta layouten.
 - I kompakt läge får brädet mer av höjden. Dubbla rubrikrader försvinner, Nytt parti finns i överkanten, och klockor/drag/avslut finns kvar. Spelpanelen kan rullas separat. I lektioner ligger tillbakaknapp och titel på samma rad och rutnamnsvalet under brädet; instruktioner förblir läsbara bredvid. Layoutbyten ändrar inte parti, klockor, hjälpval, rösten eller framsteg.

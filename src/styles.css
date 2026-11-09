@@ -4223,10 +4223,9 @@ a {
   margin: 0;
 }
 .compact-play .exercise-layout {
-  grid-template-columns: minmax(
-      0,
-      clamp(300px, calc(100dvh - 140px), 760px)
-    ) minmax(260px, 1fr);
+  grid-template-columns:
+    minmax(0, clamp(300px, calc(100dvh - 140px), 760px))
+    minmax(260px, 1fr);
   gap: 16px;
   max-width: 1200px;
   margin: auto;
@@ -4272,10 +4271,9 @@ a {
   margin-bottom: 8px;
 }
 .compact-play .training-step-status ~ .exercise-layout {
-  grid-template-columns: minmax(
-      0,
-      clamp(300px, calc(100dvh - 184px), 760px)
-    ) minmax(260px, 1fr);
+  grid-template-columns:
+    minmax(0, clamp(300px, calc(100dvh - 184px), 760px))
+    minmax(260px, 1fr);
 }
 .compact-play .training-step-status ~ .exercise-layout .exercise-panel {
   max-height: calc(100dvh - 164px);
@@ -4290,6 +4288,14 @@ a {
 }
 .compact-play .move-log {
   max-height: min(170px, 29dvh);
+}
+/* Taller laptops can keep the full row of board actions above the fold too. */
+@media (min-width: 691px) and (min-height: 700px) {
+  .compact-play .board-column,
+  .compact-play .board-column.has-clock,
+  .compact-play .friend-game .board-column {
+    width: clamp(300px, calc(100dvh - 208px), 760px);
+  }
 }
 @media (max-width: 900px) {
   .compact-new-game span {

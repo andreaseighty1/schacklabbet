@@ -25,12 +25,16 @@ for (const viewport of [
     await boardFits(page);
     const large = (await page.locator(".board").boundingBox())!;
     expect(large.width).toBeGreaterThanOrEqual(
-      viewport.height === 720 ? 530 : 400,
+      viewport.height === 720 ? 490 : 400,
     );
     const clock = (await page
       .getByRole("timer", { name: /^Din tid:/ })
       .boundingBox())!;
     expect(clock.y + clock.height).toBeLessThanOrEqual(viewport.height);
+    if (viewport.height >= 700) {
+      const controls = (await page.locator(".board-controls").boundingBox())!;
+      expect(controls.y + controls.height).toBeLessThanOrEqual(viewport.height);
+    }
     await page.getByRole("button", { name: /^e2, vit bonde/ }).tap();
     await page.getByRole("button", { name: /^e4,/ }).tap();
     await expect(page.locator(".move-description").nth(1)).not.toHaveText("—", {
