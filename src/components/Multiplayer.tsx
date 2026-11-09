@@ -71,12 +71,14 @@ export function Multiplayer({
   onToggleNames,
   soloRunning,
   onSolo,
+  onResignSolo,
   onBoardViewChange,
 }: {
   showSquareNames: boolean;
   onToggleNames: () => void;
   soloRunning: boolean;
   onSolo: () => void;
+  onResignSolo: () => void;
   onBoardViewChange: (active: boolean) => void;
 }) {
   const focus = useContext(BoardFocusContext);
@@ -96,6 +98,10 @@ export function Multiplayer({
   const [confirm, setConfirm] = useState<
     "end" | "offer_draw" | "accept_draw" | null
   >(null);
+  const [pendingStart, setPendingStart] = useState<{
+    action: "create" | "join" | "resume";
+    params: Record<string, unknown>;
+  } | null>(null);
   const [clockMinutes, setClockMinutes] = useState(0);
   const [maxMinutes, setMaxMinutes] = useState(0);
   const botProtection = useBotProtection();
@@ -249,12 +255,21 @@ export function Multiplayer({
   }, [id, finished, refresh]);
 
   useEffect(() => {
-    if (confirm || promotion) dialog.current?.showModal();
+    if (confirm || promotion || pendingStart) dialog.current?.showModal();
     else dialog.current?.close();
-  }, [confirm, promotion]);
+  }, [confirm, promotion, pendingStart]);
 
-  async function act(action: string, params: Record<string, unknown> = {}) {
-    if (sending.current || soloRunning) return;
+  async function act(
+    action: string,
+    params: Record<string, unknown> = {},
+    giveUpSolo = false,
+  ) {
+    if (sending.current) return;
+    if (soloRunning) {
+      // Only the explicit handoff confirmation may finish the timed solo game.
+      if (!giveUpSolo || (action !== "create" && action !== "join")) return;
+      onResignSolo();
+    }
     sending.current = true;
     setBusy(true);
     setError("");
@@ -270,6 +285,13 @@ export function Multiplayer({
       sending.current = false;
       if (mounted.current) setBusy(false);
     }
+  }
+  function startOnline(
+    action: "create" | "join",
+    params: Record<string, unknown>,
+  ) {
+    if (soloRunning) setPendingStart({ action, params });
+    else void act(action, params);
   }
   function sendMove(from: Square, to: Square, promote?: Promotion) {
     if (!room || locked) return;
@@ -344,12 +366,20 @@ export function Multiplayer({
       {soloRunning && (
         <div className="notice warning">
           <p>
-            Ditt parti mot datorn spelas på tid. Spela klart det innan du
-            startar ett kompisparti.
+            Du har ett datorparti på tid. När du skapar eller går med i ett
+            kompisparti får du välja om du vill ge upp datorpartiet först.
           </p>
           <button className="button outline" onClick={onSolo}>
             Till partiet mot datorn
           </button>
+          {room && (
+            <button
+              className="button outline"
+              onClick={() => setPendingStart({ action: "resume", params: {} })}
+            >
+              Ge upp datorpartiet och fortsätt här
+            </button>
+          )}
         </div>
       )}
       {error && (
@@ -433,9 +463,9 @@ export function Multiplayer({
               </p>
               <button
                 className="button primary"
-                disabled={busy || soloRunning}
+                disabled={busy}
                 onClick={() => {
-                  void act("create", {
+                  startOnline("create", {
                     color,
                     clock_minutes: clockMinutes,
                     max_minutes: maxMinutes,
@@ -456,7 +486,7 @@ export function Multiplayer({
                 onSubmit={(event) => {
                   event.preventDefault();
                   if (codePattern.test(normalizeCode(code)))
-                    void act("join", { code: normalizeCode(code) });
+                    startOnline("join", { code: normalizeCode(code) });
                 }}
               >
                 <label htmlFor="friend-code">Kompisens kod</label>
@@ -479,11 +509,7 @@ export function Multiplayer({
                 </small>
                 <button
                   className="button primary"
-                  disabled={
-                    busy ||
-                    soloRunning ||
-                    !codePattern.test(normalizeCode(code))
-                  }
+                  disabled={busy || !codePattern.test(normalizeCode(code))}
                 >
                   Gå med i partiet <ArrowRight size={18} />
                 </button>
@@ -832,16 +858,50 @@ export function Multiplayer({
         onCancel={() => {
           setConfirm(null);
           setPromotion(null);
+          setPendingStart(null);
         }}
         onClick={(event) => {
           if (event.target === dialog.current) {
             setConfirm(null);
             setPromotion(null);
+            setPendingStart(null);
           }
         }}
         aria-labelledby="friend-dialog-title"
       >
-        {promotion ? (
+        {pendingStart ? (
+          <>
+            <h2 id="friend-dialog-title">Byta till kompisparti?</h2>
+            <p>
+              {soloRunning
+                ? "Du har ett datorparti på tid. Vill du ge upp det och spela med en kompis? Datorn vinner då det partiet. Dina drag finns kvar att titta på."
+                : "Datorpartiet är redan avslutat. Vill du fortsätta till kompispartiet?"}
+            </p>
+            {soloRunning && <p>Klockan fortsätter gå medan du väljer.</p>}
+            <div className="friend-actions">
+              <button
+                className="button primary"
+                onClick={() => setPendingStart(null)}
+              >
+                Avbryt bytet
+              </button>
+              <button
+                className="button outline"
+                onClick={() => {
+                  const start = pendingStart;
+                  setPendingStart(null);
+                  if (start.action === "resume") {
+                    if (soloRunning) onResignSolo();
+                  } else void act(start.action, start.params, true);
+                }}
+              >
+                {soloRunning
+                  ? "Ja, ge upp och byt"
+                  : "Fortsätt till kompispartiet"}
+              </button>
+            </div>
+          </>
+        ) : promotion ? (
           <>
             <h2 id="friend-dialog-title">Vilken pjäs vill du ha?</h2>
             <p>Bonden har nått sista raden. Välj en ny pjäs.</p>

@@ -1,6 +1,196 @@
 import { test, expect, type Page } from "@playwright/test";
 import { friendFixture } from "./friend-fixture";
 
+async function seedTimedSolo(page: Page) {
+  await page.addInitScript(() => {
+    if (localStorage.getItem("schacklabbet.game.v1")) return;
+    localStorage.setItem(
+      "schacklabbet.game.v1",
+      JSON.stringify({
+        version: 1,
+        id: "online-handoff",
+        color: "w",
+        level: 0,
+        profile: "training",
+        ended: null,
+        pgn: '[TimeControl "600"]\n\n1. e4 e5 2. Nf3 Nc6 *',
+        clock: {
+          minutes: 10,
+          whiteMs: 600000,
+          blackMs: 600000,
+          running: "w",
+          updatedAt: Date.now(),
+        },
+      }),
+    );
+  });
+}
+async function soloSnapshot(page: Page) {
+  return page.evaluate(() => ({
+    now: Date.now(),
+    game: JSON.parse(localStorage.getItem("schacklabbet.game.v1")!),
+    progress: JSON.parse(localStorage.getItem("schacklabbet.progress.v1")!),
+  }));
+}
+for (const action of ["create", "join"] as const) {
+  test(`tidsatt datorparti kan avbryta eller bekräfta byte till kompisparti (${action})`, async ({
+    page,
+    context,
+    browser,
+  }) => {
+    await page.clock.install();
+    await seedTimedSolo(page);
+    const fixture = friendFixture();
+    await fixture.attach(context);
+    const hostContext =
+      action === "join"
+        ? await browser.newContext({ baseURL: test.info().project.use.baseURL })
+        : null;
+    try {
+      if (hostContext) {
+        await fixture.attach(hostContext);
+        const host = await hostContext.newPage();
+        await host.goto("/#friends");
+        await host
+          .getByRole("button", { name: "Skapa kompisparti", exact: true })
+          .click();
+        await expect(
+          host.getByLabel("Partiets kod", { exact: true }),
+        ).toHaveValue("ABC-234");
+      }
+      await page.goto("/#friends");
+      const before = await soloSnapshot(page);
+      const signups = fixture.signups;
+      const start = page.getByRole("button", {
+        name: action === "create" ? "Skapa kompisparti" : "Gå med i partiet",
+        exact: true,
+      });
+      if (action === "create") {
+        await page.getByLabel("Svarta", { exact: true }).check();
+        await page
+          .getByLabel("Spelarklocka", { exact: true })
+          .selectOption("5");
+        await page
+          .getByLabel("Maxtid för hela partiet", { exact: true })
+          .selectOption("20");
+      } else
+        await page.getByLabel("Kompisens kod", { exact: true }).fill("abc 234");
+      await expect(start).toBeEnabled();
+      await start.click();
+      const dialog = page.getByRole("dialog", {
+        name: "Byta till kompisparti?",
+        exact: true,
+      });
+      await expect(dialog).toBeVisible();
+      await expect(
+        dialog.getByRole("button", { name: "Avbryt bytet", exact: true }),
+      ).toBeFocused();
+      const box = (await dialog.boundingBox())!;
+      expect(box.y).toBeGreaterThanOrEqual(0);
+      expect(box.y + box.height).toBeLessThanOrEqual(
+        page.viewportSize()!.height,
+      );
+      await page.clock.fastForward(4000);
+      await page.keyboard.press("Escape");
+      await expect(dialog).not.toBeVisible();
+      await expect(start).toBeFocused();
+      let saved = await soloSnapshot(page);
+      expect(saved.game.pgn).toBe(before.game.pgn);
+      expect(saved.game.ended).toBeNull();
+      expect(saved.game.clock.running).toBe("w");
+      const remaining =
+        saved.game.clock.whiteMs - (saved.now - saved.game.clock.updatedAt);
+      const previous =
+        before.game.clock.whiteMs - (before.now - before.game.clock.updatedAt);
+      expect(remaining).toBeLessThanOrEqual(previous - 4000);
+      expect(saved.progress.games).toBe(0);
+      expect(fixture.signups).toBe(signups);
+      await start.click();
+      await dialog
+        .getByRole("button", { name: "Avbryt bytet", exact: true })
+        .click();
+      expect(fixture.signups).toBe(signups);
+      await start.click();
+      await dialog
+        .getByRole("button", { name: "Ja, ge upp och byt", exact: true })
+        .click();
+      if (action === "create") {
+        await expect(
+          page.getByLabel("Partiets kod", { exact: true }),
+        ).toHaveValue("ABC-234");
+        await expect(
+          page.getByText("Du spelar svart", { exact: true }),
+        ).toBeVisible();
+        await expect(page.locator(".friend-time-info")).toContainText(
+          "5 minuter var",
+        );
+        await expect(page.locator(".friend-time-info")).toContainText(
+          "20 minuter",
+        );
+      } else
+        await expect(
+          page.getByText("Du spelar svart", { exact: true }),
+        ).toBeVisible();
+      saved = await soloSnapshot(page);
+      expect(saved.game.ended).toBe("Svart vinner – du gav upp");
+      expect(saved.game.pgn).toContain("1. e4 e5 2. Nf3 Nc6 0-1");
+      expect(saved.game.clock.running).toBeNull();
+      expect(saved.progress.games).toBe(1);
+      expect(saved.progress.wins).toBe(0);
+      expect(saved.progress.finishedIds).toContain("online-handoff");
+      expect(fixture.signups).toBe(signups + 1);
+      await page.reload();
+      await expect(
+        page.getByText("Du spelar svart", { exact: true }),
+      ).toBeVisible();
+      expect((await soloSnapshot(page)).progress.games).toBe(1);
+      await page.goto("/#play");
+      await expect(
+        page.getByRole("heading", {
+          name: "Svart vinner – du gav upp",
+          exact: true,
+        }),
+      ).toBeVisible();
+      await expect(
+        page.getByRole("button", { name: /^f3, vit springare/ }),
+      ).toBeVisible();
+    } finally {
+      await hostContext?.close();
+    }
+  });
+}
+
+test("datorpartiets tidsavslut under bytesfrågan behåller tidsresultatet", async ({
+  page,
+  context,
+}) => {
+  await page.clock.install();
+  await seedTimedSolo(page);
+  const fixture = friendFixture();
+  await fixture.attach(context);
+  await page.goto("/#friends");
+  await page
+    .getByRole("button", { name: "Skapa kompisparti", exact: true })
+    .click();
+  const dialog = page.getByRole("dialog", {
+    name: "Byta till kompisparti?",
+    exact: true,
+  });
+  await expect(dialog).toBeVisible();
+  await page.clock.fastForward(600001);
+  await expect(dialog).toContainText("Datorpartiet är redan avslutat");
+  await dialog
+    .getByRole("button", { name: "Fortsätt till kompispartiet", exact: true })
+    .click();
+  await expect(page.getByLabel("Partiets kod", { exact: true })).toHaveValue(
+    "ABC-234",
+  );
+  const saved = await soloSnapshot(page);
+  expect(saved.game.ended).toContain("Svart vinner på tid");
+  expect(saved.game.clock.running).toBeNull();
+  expect(saved.progress.games).toBe(1);
+});
+
 test("avbruten hämtning av kompissidan visar återhämtning och behåller menyn", async ({
   page,
 }) => {

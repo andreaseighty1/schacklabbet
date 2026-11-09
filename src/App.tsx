@@ -602,6 +602,25 @@ export default function App() {
     }
     return true;
   }
+  function resignSolo() {
+    if (!hasGame || terminal) return;
+    const at = timer.now();
+    if (!checkTime(at)) return;
+    engineAbort.current?.abort();
+    hintAbort.current?.abort();
+    engine.reset();
+    voicePlayer.reset();
+    timer.stop(at);
+    updateResultHeader(game, config.color);
+    setEnded(`${config.color === "w" ? "Svart" : "Vit"} vinner – du gav upp`);
+    setBusy(false);
+    setHintBusy(false);
+    setSelected(null);
+    setRisk(null);
+    setPromotion(null);
+    setModal(null);
+    setRevision((r) => r + 1);
+  }
   function newGame() {
     engineAbort.current?.abort();
     engine.reset();
@@ -1941,6 +1960,7 @@ export default function App() {
                   onToggleNames={toggleSquareNames}
                   soloRunning={Boolean(clockState?.running)}
                   onSolo={() => navigate("play")}
+                  onResignSolo={resignSolo}
                 />
               </Suspense>
             </FriendBoundary>
@@ -2085,20 +2105,7 @@ export default function App() {
             <button className="button outline" onClick={() => setModal(null)}>
               Fortsätt spela
             </button>
-            <button
-              className="button primary"
-              onClick={() => {
-                const at = timer.now();
-                if (!checkTime(at)) return;
-                timer.stop(at);
-                updateResultHeader(game, config.color);
-                setEnded(
-                  `${config.color === "w" ? "Svart" : "Vit"} vinner – du gav upp`,
-                );
-                setModal(null);
-                setRevision((r) => r + 1);
-              }}
-            >
+            <button className="button primary" onClick={resignSolo}>
               Ge upp partiet
             </button>
           </div>
