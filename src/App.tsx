@@ -1366,17 +1366,19 @@ export default function App() {
                       label="Din tid"
                     />
                   </div>
-                  <div className="board-focus-status" role="status">
-                    {engineError ||
-                      terminal ||
-                      (game.isCheck()
-                        ? "Schack – skydda kungen!"
-                        : busy
-                          ? "Datorn tänker…"
-                          : playerTurn
-                            ? "Din tur"
-                            : "Datorns tur")}
-                  </div>
+                  {layout.focus && (
+                    <div className="board-focus-status" role="status">
+                      {engineError ||
+                        terminal ||
+                        (game.isCheck()
+                          ? "Schack – skydda kungen!"
+                          : busy
+                            ? "Datorn tänker…"
+                            : playerTurn
+                              ? "Din tur"
+                              : "Datorns tur")}
+                    </div>
+                  )}
                   <div className="board-controls">
                     <button
                       className="text-button"

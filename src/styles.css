@@ -4591,11 +4591,17 @@ a {
   background: #102e2877;
 }
 .focus-tools-heading {
+  position: sticky;
+  top: -16px;
+  z-index: 4;
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 12px;
   margin-bottom: 16px;
+  padding: 8px 0;
+  background: #fffef9;
+  border-bottom: 1px solid var(--border);
 }
 .focus-tools-heading h2 {
   font-size: 20px;

@@ -600,48 +600,46 @@ export function Multiplayer({
                   refresh={refresh}
                 />
               </div>
-              <div className="board-focus-status" role="status">
-                {!reachable
-                  ? "Väntar på kontakt. Brädet är låst."
-                  : playing && game.isCheck()
-                    ? `Schack! ${status}`
-                    : status}
-                {focus.enabled && (
-                  <>
-                    {waiting && (
-                      <div className="focus-invite-code">
-                        <label htmlFor="focus-own-code">Partiets kod</label>
-                        <input
-                          id="focus-own-code"
-                          readOnly
-                          value={
-                            answer.code
-                              ? `${answer.code.slice(0, 3)}-${answer.code.slice(3)}`
-                              : ""
-                          }
-                          onFocus={(event) => event.target.select()}
-                        />
-                        <small>Ge koden till din kompis.</small>
-                      </div>
-                    )}
-                    <MatchLimit
-                      room={room}
-                      anchor={clockAnchor.current}
-                      refresh={refresh}
-                    />
-                    {playing && room.draw_offer && (
-                      <button
-                        className="button outline small"
-                        onClick={() => focus.setOpen(true)}
-                      >
-                        {room.draw_offer === ownColor
-                          ? "Remi föreslagen"
-                          : "Kompisen föreslår remi"}
-                      </button>
-                    )}
-                  </>
-                )}
-              </div>
+              {focus.enabled && (
+                <div className="board-focus-status" role="status">
+                  {!reachable
+                    ? "Väntar på kontakt. Brädet är låst."
+                    : playing && game.isCheck()
+                      ? `Schack! ${status}`
+                      : status}
+                  {waiting && (
+                    <div className="focus-invite-code">
+                      <label htmlFor="focus-own-code">Partiets kod</label>
+                      <input
+                        id="focus-own-code"
+                        readOnly
+                        value={
+                          answer.code
+                            ? `${answer.code.slice(0, 3)}-${answer.code.slice(3)}`
+                            : ""
+                        }
+                        onFocus={(event) => event.target.select()}
+                      />
+                      <small>Ge koden till din kompis.</small>
+                    </div>
+                  )}
+                  <MatchLimit
+                    room={room}
+                    anchor={clockAnchor.current}
+                    refresh={refresh}
+                  />
+                  {playing && room.draw_offer && (
+                    <button
+                      className="button outline small"
+                      onClick={() => focus.setOpen(true)}
+                    >
+                      {room.draw_offer === ownColor
+                        ? "Remi föreslagen"
+                        : "Kompisen föreslår remi"}
+                    </button>
+                  )}
+                </div>
+              )}
               <SquareNamesToggle
                 enabled={showSquareNames}
                 onToggle={onToggleNames}
