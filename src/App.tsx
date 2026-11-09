@@ -21,6 +21,9 @@ import {
   Home,
   Lightbulb,
   Menu,
+  PanelLeftClose,
+  PanelLeftOpen,
+  Maximize2,
   RotateCcw,
   Settings2,
   ShieldCheck,
@@ -54,7 +57,8 @@ import { NavigationDrawer } from "./components/NavigationDrawer";
 import type { GameReview } from "./chess/review";
 import type { TrainingRecommendation } from "./chess/recommendation";
 import { LessonCatalog } from "./components/LessonCatalog";
-import { MoveLabel } from "./components/MoveLabel";
+import { MoveLog } from "./components/MoveLog";
+import { usePlayLayout } from "./components/usePlayLayout";
 import { PostGameReview } from "./components/PostGameReview";
 import {
   AchievementArt,
@@ -361,6 +365,12 @@ export default function App() {
     useState<TrainingRecommendation | null>(null);
   const [replay, setReplay] = useState<number | null>(null);
   const [mobileMenu, setMobileMenu] = useState(false);
+  const boardView =
+    (view === "play" && hasGame) ||
+    view === "friends" ||
+    view === "session" ||
+    Boolean(exercise && (view === "school" || view === "challenges"));
+  const layout = usePlayLayout(boardView);
   const terminal = ended || resultText(game);
   const engineAllowed = view === "play" || Boolean(clockState?.running);
   const competition = config.profile === "competition";
@@ -815,8 +825,15 @@ export default function App() {
       promotion: risk.promotion,
     });
   return (
-    <div className="app-shell" data-chess-theme={chessTheme}>
-      <NavigationDrawer open={mobileMenu} onClose={() => setMobileMenu(false)}>
+    <div
+      className={`app-shell ${layout.drawer ? "is-nav-drawer" : ""} ${layout.compact ? "compact-play" : ""}`}
+      data-chess-theme={chessTheme}
+    >
+      <NavigationDrawer
+        open={mobileMenu}
+        drawer={layout.drawer}
+        onClose={() => setMobileMenu(false)}
+      >
         <button
           className="icon-button menu-close"
           aria-label="Stäng meny"
@@ -882,11 +899,48 @@ export default function App() {
             >
               <Menu />
             </button>
+            {!layout.narrow && (
+              <button
+                className="text-button sidebar-visibility"
+                aria-label={layout.drawer ? "Visa sidomenyn" : "Dölj sidomenyn"}
+                title={layout.drawer ? "Visa sidomenyn" : "Dölj sidomenyn"}
+                onClick={layout.toggleSidebar}
+              >
+                {layout.drawer ? (
+                  <PanelLeftOpen size={20} />
+                ) : (
+                  <PanelLeftClose size={20} />
+                )}
+                <span>{layout.drawer ? "Visa sidomeny" : "Dölj meny"}</span>
+              </button>
+            )}
             <span>Schacklabbet</span>
             <ChevronRight size={14} />
             <strong>{pageTitle}</strong>
           </div>
           <div className="topbar-right">
+            {view === "play" && hasGame && layout.compact && (
+              <button
+                className="button outline small compact-new-game"
+                onClick={() => openNew()}
+                aria-label="Nytt parti"
+              >
+                <Swords size={16} />
+                <span>Nytt parti</span>
+              </button>
+            )}
+            {boardView && (
+              <button
+                className="layout-toggle"
+                aria-label="Kompakt spelvy"
+                aria-pressed={layout.compact}
+                onClick={layout.toggleCompact}
+                title="Mer plats för brädet"
+              >
+                <Maximize2 size={17} />
+                <span>Kompakt spelvy</span>
+              </button>
+            )}
             <VoiceControls voice={voice} />
             <span className="local-status">
               <span className="online-dot" /> Dina framsteg sparas på den här
@@ -1156,12 +1210,14 @@ export default function App() {
                     </span>
                   </h1>
                 </div>
-                <button
-                  className="button outline small"
-                  onClick={() => openNew()}
-                >
-                  <Swords size={16} /> Nytt parti
-                </button>
+                {!layout.compact && (
+                  <button
+                    className="button outline small"
+                    onClick={() => openNew()}
+                  >
+                    <Swords size={16} /> Nytt parti
+                  </button>
+                )}
               </div>
               <div className="game-layout">
                 <section
@@ -1434,35 +1490,7 @@ export default function App() {
                     </div>
                   )}
                   <section className="panel-section moves-section">
-                    <h3>
-                      <Swords size={17} /> Partiets drag{" "}
-                      <span className="move-count">{history.length}</span>
-                    </h3>
-                    <div className="move-table" aria-label="Draglista">
-                      <div className="move-table-head">
-                        <span>#</span>
-                        <span>Vit</span>
-                        <span>Svart</span>
-                      </div>
-                      {history.length === 0 ? (
-                        <p className="moves-empty">
-                          En tom draglista.
-                          <br />
-                          En värld av möjligheter.
-                        </p>
-                      ) : (
-                        Array.from(
-                          { length: Math.ceil(history.length / 2) },
-                          (_, i) => (
-                            <div className="move-pair" key={i}>
-                              <span>{i + 1}.</span>
-                              <MoveLabel move={history[i * 2]} />
-                              <MoveLabel move={history[i * 2 + 1]} />
-                            </div>
-                          ),
-                        )
-                      )}
-                    </div>
+                    <MoveLog moves={history} />
                   </section>
                   {terminal && (
                     <section className="panel-section">

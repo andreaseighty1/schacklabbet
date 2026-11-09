@@ -163,25 +163,34 @@ export function ExercisePlayer({
       setSelected(null);
     }
   }
+  const backText =
+    backLabel ??
+    `Tillbaka till ${exercise.category === "school" ? "schackskolan" : "utmaningarna"}`;
   return (
     <>
-      <button className="text-button back-link" onClick={onBack}>
-        <ArrowLeft size={17} />
-        {backLabel ??
-          `Tillbaka till ${exercise.category === "school" ? "schackskolan" : "utmaningarna"}`}
-      </button>
-      <div className="page-heading">
-        <div>
-          <div className="eyebrow">{exercise.tag}</div>
-          <h1 ref={heading} tabIndex={-1}>
-            {exercise.title}
-          </h1>
+      <div className="exercise-heading">
+        <button
+          className="text-button back-link"
+          onClick={onBack}
+          aria-label={backText}
+          title={backText}
+        >
+          <ArrowLeft size={17} />
+          <span className="back-link-text">{backText}</span>
+        </button>
+        <div className="page-heading">
+          <div>
+            <div className="eyebrow">{exercise.tag}</div>
+            <h1 ref={heading} tabIndex={-1}>
+              {exercise.title}
+            </h1>
+          </div>
+          {completed && (
+            <span className="completed-tag">
+              <CheckCircle2 size={18} /> Avklarad
+            </span>
+          )}
         </div>
-        {completed && (
-          <span className="completed-tag">
-            <CheckCircle2 size={18} /> Avklarad
-          </span>
-        )}
       </div>
       <div className="exercise-layout">
         <div className="exercise-board">

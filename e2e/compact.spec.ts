@@ -1,6 +1,146 @@
 import { test, expect, type Page } from "@playwright/test";
 import { friendFixture } from "./friend-fixture";
 
+for (const viewport of [
+  { width: 1366, height: 600 },
+  { width: 1280, height: 720 },
+  { width: 1024, height: 600 },
+  { width: 800, height: 600 },
+]) {
+  test(`större bräde och oförändrat parti när spelvyn växlas, ${viewport.width} × ${viewport.height}`, async ({
+    page,
+  }) => {
+    await page.setViewportSize(viewport);
+    await page.goto("/#play");
+    await page
+      .getByRole("button", { name: "Starta ett parti", exact: true })
+      .tap();
+    await page.getByLabel("Vill du spela med klocka?").selectOption("10");
+    await page.getByRole("button", { name: "Nu spelar vi", exact: true }).tap();
+    const toggle = page.getByRole("button", {
+      name: "Kompakt spelvy",
+      exact: true,
+    });
+    await expect(toggle).toHaveAttribute("aria-pressed", "true");
+    await boardFits(page);
+    const large = (await page.locator(".board").boundingBox())!;
+    expect(large.width).toBeGreaterThanOrEqual(
+      viewport.height === 720 ? 530 : 400,
+    );
+    const clock = (await page
+      .getByRole("timer", { name: /^Din tid:/ })
+      .boundingBox())!;
+    expect(clock.y + clock.height).toBeLessThanOrEqual(viewport.height);
+    await page.getByRole("button", { name: /^e2, vit bonde/ }).tap();
+    await page.getByRole("button", { name: /^e4,/ }).tap();
+    await expect(page.locator(".move-description").nth(1)).not.toHaveText("—", {
+      timeout: 20000,
+    });
+    const saved = await page.evaluate(
+      () => JSON.parse(localStorage.getItem("schacklabbet.game.v1")!).pgn,
+    );
+    await toggle.tap();
+    await expect(toggle).toHaveAttribute("aria-pressed", "false");
+    expect((await page.locator(".board").boundingBox())!.width).toBeLessThan(
+      large.width - 35,
+    );
+    expect(
+      await page.evaluate(
+        () => JSON.parse(localStorage.getItem("schacklabbet.game.v1")!).pgn,
+      ),
+    ).toBe(saved);
+    await page.reload();
+    await expect(toggle).toHaveAttribute("aria-pressed", "false");
+    expect(
+      await page.evaluate(
+        () => JSON.parse(localStorage.getItem("schacklabbet.game.v1")!).pgn,
+      ),
+    ).toBe(saved);
+    await toggle.tap();
+    await expect(toggle).toHaveAttribute("aria-pressed", "true");
+    await boardFits(page);
+    await noOverflow(page);
+  });
+}
+
+test("sidomenyn kan döljas, användas med tangentbord och visas igen på en bred laptop", async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 1366, height: 768 });
+  await page.goto("/");
+  const before = (await page.locator(".main-shell").boundingBox())!.width;
+  await page
+    .getByRole("button", { name: "Dölj sidomenyn", exact: true })
+    .click();
+  expect(
+    (await page.locator(".main-shell").boundingBox())!.width,
+  ).toBeGreaterThan(before + 200);
+  await page.reload();
+  const opener = page.getByRole("button", { name: "Öppna meny", exact: true });
+  await opener.click();
+  const menu = page.getByRole("dialog", { name: "Meny", exact: true });
+  await expect(
+    menu.getByRole("button", { name: "Stäng meny", exact: true }),
+  ).toBeFocused();
+  await page.keyboard.press("Escape");
+  await expect(opener).toBeFocused();
+  await opener.click();
+  await menu.getByRole("link", { name: "Schackskolan", exact: true }).click();
+  await expect(menu).toHaveCount(0);
+  await page
+    .getByRole("button", { name: "Visa sidomenyn", exact: true })
+    .click();
+  await expect(opener).not.toBeVisible();
+  await expect(
+    page.getByRole("link", { name: "Schackskolan", exact: true }),
+  ).toBeVisible();
+  await page.reload();
+  await expect(
+    page.getByRole("button", { name: "Dölj sidomenyn", exact: true }),
+  ).toBeVisible();
+  await noOverflow(page);
+});
+
+test("dragloggen har tätare läsbara rader och kan visa fullständiga rutvägar", async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 1024, height: 600 });
+  await page.addInitScript(() =>
+    localStorage.setItem(
+      "schacklabbet.game.v1",
+      JSON.stringify({
+        version: 1,
+        pgn: "1. d4 e6 2. a4 Nf6 3. Nh3 c5 4. Nc3 Nc6 5. dxc5 Bxc5 6. b3 Bb4 7. Qd2 Qa5 8. Nf4 Bxc3 9. b4 Qxb4 10. Ra2 Bxd2+ 11. Bxd2 Qb1+ 12. Bc1 Qxc1# 0-1",
+        color: "w",
+        level: 0,
+        profile: "beginner",
+        ended: null,
+        id: "compact-log",
+      }),
+    ),
+  );
+  await page.goto("/#play");
+  await expect(page.locator(".move-pair")).toHaveCount(12);
+  await expect(page.locator(".move-route").last()).not.toBeVisible();
+  await expect(page.locator(".move-pair").last()).toContainText("Schackmatt");
+  const concise = (await page.locator(".move-pair").first().boundingBox())!
+    .height;
+  const list = page.getByRole("region", { name: "Draglista", exact: true });
+  expect(await list.evaluate((el) => el.scrollHeight > el.clientHeight)).toBe(
+    true,
+  );
+  await page.getByRole("button", { name: "Fler detaljer", exact: true }).tap();
+  await page.locator(".move-route").last().scrollIntoViewIfNeeded();
+  await expect(page.locator(".move-route").last()).toBeVisible();
+  await expect(page.locator(".move-route").last()).toHaveText("B1 → C1");
+  expect(
+    (await page.locator(".move-pair").first().boundingBox())!.height,
+  ).toBeGreaterThan(concise);
+  await page.getByRole("button", { name: "Färre detaljer", exact: true }).tap();
+  await expect(page.locator(".move-route").last()).not.toBeVisible();
+  await noOverflow(page);
+});
+
 async function noOverflow(page: Page) {
   expect(
     await page.evaluate(

@@ -3,10 +3,12 @@ import { useEffect, useRef, type ReactNode } from "react";
 /** The same labelled navigation is used on desktop and in the compact drawer. */
 export function NavigationDrawer({
   open,
+  drawer,
   onClose,
   children,
 }: {
   open: boolean;
+  drawer: boolean;
   onClose: () => void;
   children: ReactNode;
 }) {
@@ -14,7 +16,7 @@ export function NavigationDrawer({
   const close = useRef(onClose);
   close.current = onClose;
   useEffect(() => {
-    if (!open) return;
+    if (!open || !drawer) return;
     const previous = document.activeElement as HTMLElement | null;
     const overflow = document.body.style.overflow;
     document.body.style.overflow = "hidden";
@@ -43,19 +45,16 @@ export function NavigationDrawer({
         first?.focus();
       }
     };
-    const media = window.matchMedia("(max-width: 1100px)");
-    const resize = () => {
-      if (!media.matches) close.current();
-    };
     document.addEventListener("keydown", key);
-    media.addEventListener("change", resize);
     return () => {
       document.body.style.overflow = overflow;
       document.removeEventListener("keydown", key);
-      media.removeEventListener("change", resize);
       if (previous?.isConnected) previous.focus({ preventScroll: true });
     };
-  }, [open]);
+  }, [open, drawer]);
+  useEffect(() => {
+    if (!drawer && open) close.current();
+  }, [drawer, open]);
   return (
     <>
       {open && (

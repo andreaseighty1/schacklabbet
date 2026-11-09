@@ -22,7 +22,7 @@ import {
 import { Board } from "./Board";
 import { Piece } from "./Piece";
 import { SquareNamesToggle } from "./SquareNamesToggle";
-import { MoveLabel } from "./MoveLabel";
+import { MoveLog } from "./MoveLog";
 import { pieceNames, type Promotion } from "../chess/model";
 import { FriendClock, MatchLimit } from "./FriendClock";
 import { useBotProtection } from "./BotProtection";
@@ -693,21 +693,7 @@ export function Multiplayer({
                 </section>
               )}
               <section className="panel-section friend-history">
-                <h3>Era senaste drag</h3>
-                {history.length ? (
-                  <ol start={Math.max(0, history.length - 6) + 1}>
-                    {history.slice(-6).map((move, index) => (
-                      <li key={`${index}-${move.lan}`}>
-                        <span className="subtle-tag">
-                          {move.color === "w" ? "VIT" : "SVART"}
-                        </span>
-                        <MoveLabel move={move} />
-                      </li>
-                    ))}
-                  </ol>
-                ) : (
-                  <p>Inget drag ännu. Vit börjar.</p>
-                )}
+                <MoveLog moves={history} />
               </section>
               {!finished && (
                 <section

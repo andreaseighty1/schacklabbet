@@ -1610,6 +1610,42 @@ a {
   color: #315d44;
   font-size: 11px;
 }
+.move-log-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+.move-log-heading h3 {
+  margin: 0;
+  flex: 1;
+}
+.move-log-details {
+  min-height: 44px;
+  font-size: 11px;
+  flex-shrink: 0;
+}
+.move-log {
+  max-height: min(200px, 32dvh);
+  overscroll-behavior: contain;
+  scrollbar-width: thin;
+}
+.move-log .move-table-head,
+.move-log .move-pair {
+  padding: 6px 8px;
+  gap: 6px;
+  grid-template-columns: 20px minmax(0, 1fr) minmax(0, 1fr);
+}
+.move-log .move-description {
+  gap: 1px;
+  line-height: 1.4;
+}
+.move-log.is-concise .move-route {
+  display: none;
+}
+.move-log .move-table-head {
+  z-index: 1;
+}
 .moves-empty {
   padding: 16px;
   text-align: center;
@@ -3959,5 +3995,348 @@ a {
   .game-panel .hint-text,
   .board-controls .text-button {
     font-size: 12px;
+  }
+}
+
+/* The board gets the available height; secondary information scrolls beside it. */
+.sidebar-visibility,
+.layout-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  min-height: 44px;
+  flex-shrink: 0;
+}
+.sidebar-visibility {
+  font-size: 11px;
+}
+.layout-toggle {
+  padding: 8px 12px;
+  border: 1px solid var(--border);
+  background: #fffef9;
+  border-radius: 8px;
+  color: #52664e;
+  font-size: 12px;
+}
+.layout-toggle[aria-pressed="true"] {
+  background: #e8efdf;
+  border-color: #91a480;
+  color: #254e3c;
+}
+.is-nav-drawer .main-shell {
+  margin-left: 0;
+  width: 100%;
+}
+.is-nav-drawer .mobile-toggle {
+  display: inline-flex !important;
+}
+.is-nav-drawer .sidebar {
+  display: none;
+  width: min(280px, calc(100vw - 40px));
+  padding: 12px 16px 20px;
+  z-index: 50;
+  overscroll-behavior: contain;
+}
+.is-nav-drawer .sidebar.is-open {
+  display: flex;
+}
+.is-nav-drawer .sidebar.is-open .brand > span:last-child,
+.is-nav-drawer .sidebar.is-open .nav-eyebrow,
+.is-nav-drawer .sidebar.is-open .nav-item > span {
+  display: initial;
+}
+.is-nav-drawer .sidebar.is-open .brand-link {
+  margin: 4px 4px 20px;
+}
+.is-nav-drawer .sidebar.is-open .nav-item {
+  justify-content: flex-start;
+  padding: 10px 12px;
+  min-height: 44px;
+  font-size: 13px;
+}
+.is-nav-drawer .sidebar.is-open nav {
+  gap: 3px;
+}
+.is-nav-drawer .sidebar-note,
+.is-nav-drawer .sidebar-footer {
+  display: none;
+}
+.is-nav-drawer .sidebar.is-open .sidebar-bottom {
+  display: block;
+  padding-top: 12px;
+}
+.is-nav-drawer .menu-close {
+  display: inline-flex;
+  align-self: flex-end;
+  flex-shrink: 0;
+}
+.is-nav-drawer .menu-backdrop {
+  display: block;
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+  background: #102e2866;
+}
+.compact-play .main-content {
+  padding: 8px 12px 20px;
+}
+.compact-play .topbar {
+  height: 52px;
+  padding: 0 12px;
+  gap: 8px;
+}
+.compact-play .topbar-right,
+.compact-play .voice-controls {
+  gap: 6px;
+}
+.compact-play .local-status,
+.compact-play .profile-avatar,
+.compact-play .breadcrumb > span,
+.compact-play .breadcrumb > svg,
+.compact-play .sidebar-visibility span {
+  display: none;
+}
+.compact-play .game-heading,
+.compact-play .friend-page > .page-heading {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+.compact-play .game-layout {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 16px;
+  max-width: 1200px;
+}
+.compact-play .board-column,
+.compact-play .board-column.has-clock,
+.compact-play .friend-game .board-column {
+  width: clamp(300px, calc(100dvh - 164px), 760px);
+  min-width: 300px;
+  max-width: calc(100% - 276px);
+  flex: 0 1 auto;
+}
+.compact-play .game-panel {
+  flex: 1 1 260px;
+  min-width: 260px;
+  max-width: 360px;
+  margin-top: 0;
+  max-height: calc(100dvh - 72px);
+  overflow: auto;
+  overscroll-behavior: contain;
+  scrollbar-width: thin;
+}
+.compact-play .turn-card {
+  padding: 12px;
+  position: sticky;
+  top: 0;
+  z-index: 2;
+}
+.compact-play .turn-card .eyebrow {
+  display: none;
+}
+.compact-play .turn-card h2 {
+  font-size: 15px;
+  margin: 0;
+}
+.compact-play .panel-section {
+  padding: 10px 12px 0;
+}
+.compact-play .coach-note {
+  margin: 10px 12px 0;
+  padding: 10px;
+}
+.compact-play .coach-note p,
+.compact-play .game-panel .fine-print {
+  font-size: 12px;
+  line-height: 1.5;
+}
+.compact-play .player-row,
+.compact-play .has-clock .player-row {
+  min-height: 44px;
+  padding: 0;
+  gap: 6px;
+}
+.compact-play .player-icon {
+  width: 28px;
+  height: 28px;
+}
+.compact-play .player-row strong {
+  font-size: 12px;
+}
+.compact-play .player-row div > span:not(.subtle-tag) {
+  font-size: 11px;
+}
+.compact-play .chess-clock {
+  padding: 6px 8px;
+  font-size: 22px;
+  min-width: 80px;
+}
+.compact-play .captured-strip {
+  flex-wrap: nowrap;
+  max-width: 96px;
+  overflow: auto;
+  max-height: 26px;
+}
+.compact-play .captured-strip .piece {
+  flex-shrink: 0;
+}
+.compact-play .board-controls {
+  gap: 4px 12px;
+}
+.compact-play .board-controls .text-button {
+  font-size: 12px;
+}
+.compact-play .exercise-heading {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 44px;
+  margin-bottom: 8px;
+}
+.compact-play .exercise-heading .back-link {
+  width: 44px;
+  height: 44px;
+  min-width: 44px;
+  margin: 0;
+  justify-content: center;
+}
+.compact-play .exercise-heading .back-link-text,
+.compact-play .exercise-heading .eyebrow {
+  display: none;
+}
+.compact-play .exercise-heading .page-heading {
+  margin: 0;
+  flex: 1;
+  min-width: 0;
+}
+.compact-play .exercise-heading h1 {
+  font-size: 20px;
+  line-height: 1.25;
+  margin: 0;
+}
+.compact-play .exercise-layout {
+  grid-template-columns: minmax(
+      0,
+      clamp(300px, calc(100dvh - 140px), 760px)
+    ) minmax(260px, 1fr);
+  gap: 16px;
+  max-width: 1200px;
+  margin: auto;
+}
+.compact-play .exercise-board {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  width: auto;
+}
+.compact-play .exercise-board > .board-frame {
+  order: 0;
+}
+.compact-play .lesson-board-options {
+  order: 1;
+  margin-top: 8px;
+}
+.compact-play .board-perspective {
+  order: 2;
+}
+.compact-play .board-help-legend {
+  order: 3;
+}
+.compact-play .exercise-panel {
+  padding: 16px;
+  max-height: calc(100dvh - 124px);
+  overflow: auto;
+  overscroll-behavior: contain;
+  scrollbar-width: thin;
+}
+.compact-play .exercise-panel > .card-icon {
+  display: none;
+}
+.compact-play .exercise-panel h2 {
+  font-size: 22px;
+}
+.compact-play .exercise-panel > p {
+  font-size: 14px;
+}
+.compact-play .training-step-status {
+  font-size: 12px;
+  padding: 8px;
+  margin-bottom: 8px;
+}
+.compact-play .training-step-status ~ .exercise-layout {
+  grid-template-columns: minmax(
+      0,
+      clamp(300px, calc(100dvh - 184px), 760px)
+    ) minmax(260px, 1fr);
+}
+.compact-play .training-step-status ~ .exercise-layout .exercise-panel {
+  max-height: calc(100dvh - 164px);
+}
+.compact-play .friend-invite {
+  padding: 12px;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+.compact-play .friend-time-info {
+  padding: 8px 12px;
+}
+.compact-play .move-log {
+  max-height: min(170px, 29dvh);
+}
+@media (max-width: 900px) {
+  .compact-new-game span {
+    display: none;
+  }
+}
+@media (max-width: 690px) {
+  .layout-toggle {
+    min-width: 44px;
+    padding: 8px;
+  }
+  .layout-toggle > span {
+    display: none;
+  }
+  .compact-play .topbar {
+    height: auto;
+    min-height: 52px;
+    flex-wrap: wrap;
+    padding: 4px 12px;
+  }
+  .compact-play .game-layout {
+    display: block;
+  }
+  .compact-play .board-column,
+  .compact-play .board-column.has-clock,
+  .compact-play .friend-game .board-column {
+    width: 100%;
+    max-width: 490px;
+    min-width: 0;
+  }
+  .compact-play .game-panel {
+    max-height: none;
+    max-width: 490px;
+    min-width: 0;
+    margin: 16px auto 0;
+  }
+  .compact-play .exercise-layout,
+  .compact-play .training-step-status ~ .exercise-layout {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .compact-play .exercise-board {
+    max-width: 490px;
+    margin: auto;
+    width: 100%;
+  }
+  .compact-play .exercise-panel,
+  .compact-play .training-step-status ~ .exercise-layout .exercise-panel {
+    max-height: none;
   }
 }
