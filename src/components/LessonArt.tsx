@@ -15,7 +15,7 @@ function ScenePiece({
 }) {
   return (
     <svg x={x - 27} y={y - 33} width="54" height="62" viewBox="0 0 80 80">
-      <Piece type={type} color={color} />
+      <Piece type={type} color={color} inSvg />
     </svg>
   );
 }
@@ -77,6 +77,7 @@ export function LessonArt({
                     viewBox="0 0 80 80"
                   >
                     <Piece
+                      inSvg
                       type={piece.toLowerCase() as PieceSymbol}
                       color={piece === piece.toUpperCase() ? "w" : "b"}
                     />

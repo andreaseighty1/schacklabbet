@@ -4,11 +4,28 @@ import { VisualContext } from "./VisualPreferences";
 
 type Props = { type: PieceSymbol; color: Color; className?: string };
 
-export function Piece(props: Props) {
+export function Piece({
+  inSvg = false,
+  ...props
+}: Props & { inSvg?: boolean }) {
   const { pieceSet } = useContext(VisualContext);
   const [failed, setFailed] = useState<string | null>(null);
   const source = `${import.meta.env.BASE_URL}pieces/sculpted-v1/${props.color}${props.type}.png`;
-  if (pieceSet === "sculpted" && failed !== source)
+  if (pieceSet === "sculpted" && failed !== source) {
+    // HTML <img> does not paint inside an SVG illustration. Use its native image element.
+    if (inSvg)
+      return (
+        <image
+          className={`piece sculpted-piece ${props.className ?? ""}`}
+          href={source}
+          width={80}
+          height={80}
+          preserveAspectRatio="xMidYMid meet"
+          aria-hidden="true"
+          focusable="false"
+          onError={() => setFailed(source)}
+        />
+      );
     return (
       <img
         className={`piece sculpted-piece ${props.className ?? ""}`}
@@ -22,6 +39,7 @@ export function Piece(props: Props) {
         onError={() => setFailed(source)}
       />
     );
+  }
   return <SimplePiece {...props} />;
 }
 

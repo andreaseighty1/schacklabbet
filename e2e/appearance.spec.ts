@@ -6,6 +6,93 @@ async function navigate(page: Page, label: string) {
   await page.getByRole("link", { name: label, exact: true }).click();
 }
 
+test("lektionskort visar skulpterade pjäser i SVG för både rörelser och hela ställningar", async ({
+  page,
+}) => {
+  const loaded = new Set<string>();
+  page.on("response", (response) => {
+    const path = new URL(response.url()).pathname;
+    if (path.includes("/pieces/sculpted-v1/") && response.ok())
+      loaded.add(path);
+  });
+  await page.goto("/#school");
+  for (const [title, piece] of [
+    ["Raka vägen med tornet", "wr"],
+    ["Löparens diagonaler", "wb"],
+    ["Springarens hemliga hopp", "wn"],
+    ["Damen går rakt och snett", "wq"],
+    ["Kungen tar ett säkert steg", "wk"],
+  ]) {
+    const card = page.getByRole("button", { name: new RegExp(title) });
+    const image = card.locator("image.sculpted-piece");
+    await expect(image).toHaveCount(1);
+    await expect(image).toHaveAttribute(
+      "href",
+      `/pieces/sculpted-v1/${piece}.png`,
+    );
+    await expect
+      .poll(() => loaded.has(`/pieces/sculpted-v1/${piece}.png`))
+      .toBe(true);
+    expect(
+      await image.evaluate(
+        (el) =>
+          el instanceof SVGImageElement &&
+          el.getBBox().width > 0 &&
+          el.getBoundingClientRect().height > 0,
+      ),
+    ).toBe(true);
+  }
+  await expect(page.locator(".lesson-scene img")).toHaveCount(0);
+  await page.getByRole("tab", { name: /^Nästa nivå/ }).click();
+  const position = page.getByRole("button", {
+    name: /Morphys operaparti: damen visar vägen/,
+  });
+  expect(
+    await position.locator("image.sculpted-piece").count(),
+  ).toBeGreaterThan(2);
+  expect(
+    await position
+      .locator("image.sculpted-piece")
+      .evaluateAll((images) =>
+        images.every(
+          (el) => el instanceof SVGImageElement && el.getBBox().width > 0,
+        ),
+      ),
+  ).toBe(true);
+  await expect(page.locator(".lesson-scene img")).toHaveCount(0);
+  await navigate(page, "Inställningar");
+  await page
+    .getByLabel("Pjäsernas utseende", { exact: true })
+    .selectOption("simple");
+  await navigate(page, "Schackskolan");
+  await expect(page.locator(".lesson-scene image")).toHaveCount(0);
+  expect(await page.locator(".lesson-scene svg.piece").count()).toBeGreaterThan(
+    2,
+  );
+  await navigate(page, "Inställningar");
+  await page
+    .getByLabel("Pjäsernas utseende", { exact: true })
+    .selectOption("sculpted");
+  await page.reload();
+  await navigate(page, "Schackskolan");
+  expect(
+    await page.locator(".lesson-scene image.sculpted-piece").count(),
+  ).toBeGreaterThan(2);
+});
+
+test("en saknad pjäsbild på lektionskort ersätts av den ritade pjäsen", async ({
+  page,
+}) => {
+  await page.route("**/pieces/sculpted-v1/wr.png", (route) => route.abort());
+  await page.goto("/#school");
+  const rook = page.getByRole("button", { name: /Raka vägen med tornet/ });
+  await expect(rook.locator("svg.piece")).toHaveCount(1);
+  await expect(rook.locator("image.sculpted-piece")).toHaveCount(0);
+  const bishop = page.getByRole("button", { name: /Löparens diagonaler/ });
+  await expect(bishop.locator("image.sculpted-piece")).toHaveCount(1);
+  await expect(page.locator(".lesson-scene img")).toHaveCount(0);
+});
+
 test("inställningar nås i menyn, minns färger och behåller parti och framsteg", async ({
   page,
 }) => {

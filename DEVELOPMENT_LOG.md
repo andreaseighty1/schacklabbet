@@ -1,5 +1,10 @@
 # Utvecklingslogg
 
+## 2026-11-09 – pjäser på lektionskort
+
+- Rättat en regression från grafikbytet: Piece returnerade HTML-elementet `img` även inuti lektionskortens SVG, där det inte ritades. SVG-illustrationerna använder nu det egna elementet `image`. Både dekorativa rörelsebilder och fulla FEN-ställningar omfattas. Den tecknade stilen och bildfelsreserven behålls.
+- Två nya webbläsarprov kontrollerar de fem pjäslektionernas bilder, korrekt SVG-namnrymd och bildhämtning, en historisk positionsbild, stilväxling och saknad bildfil med reservpjäs. Proven körs på desktop, mobil och pekskärm i GitHub Actions. Lokalt passerade lint, TypeScript, produktionsbygge och distkontroll; publicerings- och visuellt resultat kompletteras efter körningen.
+
 ## 2026-11-09 – Dagens utmaning
 
 - Nytt dagligt kort under Utmaningar, separat spelvy och lokal sparning. Första paketet omfattar 30 fasta svenska kalenderdagar, 9 november–8 december, med 18 egna uppgifter, 10 verkliga nätpartiavslut och två historiska slutställningar. Tio frivilliga extrauppgifter, varav två historiska matt-i-två-kombinationer. Efter paketets datum visas tydligt märkta träningsrepriser tills fler dagar publiceras.
