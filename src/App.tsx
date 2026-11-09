@@ -976,7 +976,7 @@ export default function App() {
                 <span>Nytt parti</span>
               </button>
             )}
-            {boardView && !layout.focus && (
+            {boardView && !layout.mobile && !layout.focus && (
               <button
                 className="layout-toggle"
                 aria-label="Kompakt spelvy"
@@ -988,7 +988,7 @@ export default function App() {
                 <span>Kompakt spelvy</span>
               </button>
             )}
-            {boardView && (
+            {boardView && !layout.mobile && (
               <button
                 className="layout-toggle focus-view-toggle"
                 aria-label={layout.focus ? "Avsluta brädesläge" : "Stort bräde"}

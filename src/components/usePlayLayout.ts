@@ -32,9 +32,10 @@ function useMedia(query: string) {
 export function usePlayLayout(boardView: boolean) {
   const [preferences, setPreferences] = useState(readPreferences);
   const narrow = useMedia("(max-width: 1100px)");
+  const mobile = useMedia("(max-width: 690px)");
   const short = useMedia("(min-width: 691px) and (max-height: 800px)");
-  const compact = boardView && (preferences.compact ?? short);
-  const focus = boardView && preferences.focus;
+  const compact = boardView && !mobile && (preferences.compact ?? short);
+  const focus = boardView && !mobile && preferences.focus;
   const drawer = focus || narrow || (preferences.sidebarHidden ?? compact);
   useEffect(() => {
     try {
@@ -47,6 +48,7 @@ export function usePlayLayout(boardView: boolean) {
     compact,
     drawer,
     narrow,
+    mobile,
     focus,
     toggleFocus: () => setPreferences((value) => ({ ...value, focus: !focus })),
     toggleCompact: () =>

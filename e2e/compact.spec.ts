@@ -1,6 +1,74 @@
 import { test, expect, type Page } from "@playwright/test";
 import { friendFixture } from "./friend-fixture";
 
+test("mobilen har inga vyval och behåller både information och sparade datorval", async ({
+  page,
+}) => {
+  await page.addInitScript(() => {
+    if (!localStorage.getItem("schacklabbet.layout.v1"))
+      localStorage.setItem(
+        "schacklabbet.layout.v1",
+        JSON.stringify({ focus: true, compact: true, sidebarHidden: true }),
+      );
+    if (!localStorage.getItem("schacklabbet.game.v1"))
+      localStorage.setItem(
+        "schacklabbet.game.v1",
+        JSON.stringify({
+          version: 1,
+          pgn: "1. f3 e5 2. g4 Qh4# 0-1",
+          color: "w",
+          level: 0,
+          profile: "training",
+          ended: null,
+          id: "mobile-view",
+        }),
+      );
+  });
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto("/#play");
+  const choices = page.getByRole("button", {
+    name: /^(Stort bräde|Avsluta brädesläge|Kompakt spelvy)$/,
+  });
+  await expect(choices).toHaveCount(0);
+  await expect(page.locator(".focus-tools-dialog")).toHaveCount(0);
+  await expect(
+    page.getByRole("heading", { name: /Svart vinner med schackmatt/ }),
+  ).toBeVisible();
+  await expect(page.locator(".move-description")).toHaveCount(4);
+  const mobileSize = (await page.locator(".board").boundingBox())!.width;
+  expect(mobileSize).toBeGreaterThanOrEqual(280);
+  const pgn = await page.evaluate(
+    () => JSON.parse(localStorage.getItem("schacklabbet.game.v1")!).pgn,
+  );
+  await noOverflow(page);
+  await page.goto("/#school");
+  await page.getByRole("button", { name: /Raka vägen med tornet/ }).tap();
+  await expect(choices).toHaveCount(0);
+  await expect(
+    page.getByRole("heading", { name: "Ditt uppdrag", exact: true }),
+  ).toBeVisible();
+  await expect(page.locator(".focus-tools-dialog")).toHaveCount(0);
+  await noOverflow(page);
+  await page.goto("/#play");
+  await page.setViewportSize({ width: 1024, height: 768 });
+  await expect(
+    page.getByRole("button", { name: "Avsluta brädesläge", exact: true }),
+  ).toHaveAttribute("aria-pressed", "true");
+  expect((await page.locator(".board").boundingBox())!.width).toBeGreaterThan(
+    mobileSize + 100,
+  );
+  await page.getByRole("button", { name: "Drag & spelval", exact: true }).tap();
+  await expect(
+    page.getByRole("dialog", { name: "Drag och spelval", exact: true }),
+  ).toBeVisible();
+  await expect(page.locator(".move-description")).toHaveCount(4);
+  expect(
+    await page.evaluate(
+      () => JSON.parse(localStorage.getItem("schacklabbet.game.v1")!).pgn,
+    ),
+  ).toBe(pgn);
+});
+
 for (const viewport of [
   { width: 1366, height: 900 },
   { width: 1024, height: 768 },
