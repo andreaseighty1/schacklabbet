@@ -59,6 +59,9 @@ for (const action of ["create", "join"] as const) {
         ).toHaveValue("ABC-234");
       }
       await page.goto("/#friends");
+      await expect(
+        page.getByRole("heading", { name: "Skapa ett parti", exact: true }),
+      ).toBeVisible();
       const before = await soloSnapshot(page);
       const signups = fixture.signups;
       const start = page.getByRole("button", {
