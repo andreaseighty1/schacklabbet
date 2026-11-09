@@ -100,7 +100,7 @@ Inga namn, e-postadresser, annonser, analysverktyg eller chattfunktioner. Solopa
 
 ## Grafik och motorlicens
 
-Logotyp, favicon och samtliga pjäser är egna SVG-former. Ikoner: Lucide, ISC. Stockfish är GPL-3.0. Oförändrade motorfiler kopieras från den låsta npm-versionen vid bygge. Licenstext, motsvarande källkodsarkiv och nödvändig nätverksfil distribueras tillsammans med webbplatsen. Se `THIRD_PARTY_NOTICES.md` och `public/licenses/README.md`.
+Logotyp, favicon och tecknade pjäser är lokala SVG-resurser. De skulpterade pjäserna är tolv lokala PNG-bilder skapade med Imagegen; stil och glidande förflyttningar väljs i Inställningar. Se [pjäser och rörelser](docs/PIECES_AND_MOTION.md). Ikoner: Lucide, ISC. Stockfish är GPL-3.0. Oförändrade motorfiler kopieras från den låsta npm-versionen vid bygge. Licenstext, motsvarande källkodsarkiv och nödvändig nätverksfil distribueras tillsammans med webbplatsen. Se `THIRD_PARTY_NOTICES.md` och `public/licenses/README.md`.
 
 ## Röstinstruktioner
 

@@ -1,5 +1,16 @@
 # Utvecklingsplan
 
+## Aktuell todo – 9 november 2026
+
+- [ ] Bygg Dagens utmaning under Utmaningar enligt [research och genomförandeplan](docs/DAILY_CHALLENGE_PLAN.md): granskad problembank, dagkalender, ledtrådar, alternativa lösningar och lokal klarstatus.
+- [ ] Privat klass-/gruppfunktion med topplista, tydliga poängregler och serververifierade resultat. Förslaget nedan är ännu inte implementerat.
+- [ ] Engelsk textversion som valbart språk. Tidigare önskemål; inte påbörjad. Röstfilerna översätts inte i detta förslag.
+- [ ] De 219 manusreplikerna till fortsättningslektionerna behöver spelas in och levereras. Aktuell genererad ljudlista innehåller 0 av dessa; de tidigare 79 ljuden är inkopplade.
+- [ ] Samlat klassrumsprov på skolnätet: samtidiga kompispartier/förstagångsinloggningar, enklare elevdatorer, upplevd nybörjarsvårighet och pedagogisk lyssningsgranskning. Fortsatt tillgänglighetsgranskning ingår i kvalitetsarbetet.
+- [ ] Ta ställning till flera lokala elevprofiler om datorerna delas. Detta är ett senare behovsbeslut.
+
+Senast klart: skulpterade pjäser, valbara glidningar, större datorbräde, tät draglogg, förenklad mobilvy och bekräftat byte från tidsatt datorparti till kompisparti. Kompispartiernas klockor/remianbud och daglig gallring av inaktiva anonyma konton är också implementerade. Senaste mobilpubliceringen passerade 279 enhets- och 214 webbläsartester. Researchplanen för dagsutmaningar är klar, men själva funktionen är inte byggd.
+
 ## Pedagogikutbyggnad 3 november 2026
 
 - [x] 35 nya lektioner. Schackskolan har nu 57 lektioner: Grunderna 30 och Nästa nivå 27, plus två separata mattutmaningar.
@@ -59,13 +70,14 @@ Implementerade klockval: utan klocka som standard, 15 minuter per spelare för l
 ## Fas 3 – multiplayer
 
 - [x] Databasmigrationer, RLS-policyer och 24 timmars giltighet med automatisk gallring.
-- [x] Anonym klientinloggning, privat kodlobby och 50-bitars slumpade koder.
+- [x] Anonym klientinloggning, privat kodlobby och korta sexteckenskoder med skydd mot upprepade försök.
 - [x] Servervaliderade drag och atomisk versionskontroll.
 - [x] Realtime, återanslutning, återupptagning och ge upp på servern. Första versionen utan klocka.
 - [x] Tvåanvändarprov mot riktig Supabase, obehörighetstester och samtidighetsprov. Se docs/MULTIPLAYER.md.
 - [ ] Klassrumsprov med två elevdatorer och många samtidiga förstagångsinloggningar på skolans nätverk.
-- [ ] Remianbud, schackklocka och närvaropuls för kompispartier.
-- [ ] Långsiktig gallringsrutin för anonyma Auth-konton.
+- [x] Remianbud, serverstyrda spelarklockor (5/10/15 minuter), gemensam maxtid och avslut i kompispartier.
+- [ ] Eventuell närvaropuls eller tydligare närvarostatus för kompispartier. Återanslutning och nätverksfel hanteras redan.
+- [x] Daglig gallringsrutin för inaktiva anonyma Auth-konton utan pågående giltigt parti, med ålders- och aktivitetsgräns samt batchbegränsning. Se docs/SECURITY.md.
 
 ### Förslag: privata topplistor
 
