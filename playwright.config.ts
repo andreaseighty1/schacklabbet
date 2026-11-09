@@ -39,6 +39,7 @@ export default defineConfig({
         "**/touch.spec.ts",
         "**/review.spec.ts",
         "**/appearance.spec.ts",
+        "**/motion.spec.ts",
         "**/tactics.spec.ts",
         "**/learning.spec.ts",
         "**/multiplayer.spec.ts",

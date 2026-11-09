@@ -1074,6 +1074,7 @@ a {
     0 12px 23px #193f3712;
 }
 .board {
+  position: relative;
   width: 100%;
   aspect-ratio: 1;
   display: grid;
@@ -1120,6 +1121,25 @@ a {
   z-index: 2;
   filter: drop-shadow(0 2px 1px #223e392b);
   transition: transform 0.15s ease;
+}
+.sculpted-piece {
+  object-fit: contain;
+  user-select: none;
+}
+.piece-flight {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2px;
+  pointer-events: none;
+  z-index: 6;
+  will-change: transform;
+}
+.piece-flight > .piece {
+  width: 90%;
+  height: 90%;
+  filter: drop-shadow(0 2px 1px #223e392b);
 }
 @media (hover: hover) {
   .square[aria-disabled="false"]:hover .piece {

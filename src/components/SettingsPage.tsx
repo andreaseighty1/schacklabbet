@@ -4,6 +4,7 @@ import { ChessThemePicker, type ChessTheme } from "./ChessTheme";
 import { Piece } from "./Piece";
 import { useSquareNames } from "./SquareNamesToggle";
 import type { Voice } from "../audio/useVoice";
+import type { VisualPreferences } from "./VisualPreferences";
 
 export function SettingsPage({
   theme,
@@ -11,12 +12,18 @@ export function SettingsPage({
   gameNames,
   onGameNames,
   voice,
+  visuals,
+  onVisuals,
+  reducedMotion,
 }: {
   theme: ChessTheme;
   onTheme: (theme: ChessTheme) => void;
   gameNames: boolean;
   onGameNames: () => void;
   voice: Voice;
+  visuals: VisualPreferences;
+  onVisuals: (value: VisualPreferences) => void;
+  reducedMotion: boolean;
 }) {
   const [lessonNames, toggleLessonNames] = useSquareNames("lesson");
   const heading = useRef<HTMLHeadingElement>(null);
@@ -58,6 +65,25 @@ export function SettingsPage({
           <h2 id="appearance-heading">Bräde och pjäser</h2>
           <p>Välj ett klassiskt träbräde eller det gröna temat.</p>
           <ChessThemePicker theme={theme} onChange={onTheme} />
+          <div className="chess-theme-picker">
+            <label htmlFor="piece-set">Pjäsernas utseende</label>
+            <select
+              id="piece-set"
+              value={visuals.pieceSet}
+              onChange={(event) =>
+                onVisuals({
+                  ...visuals,
+                  pieceSet:
+                    event.target.value === "simple" ? "simple" : "sculpted",
+                })
+              }
+            >
+              <option value="sculpted">
+                Skulpterade · elfenben och valnöt
+              </option>
+              <option value="simple">Enkla · tydliga tecknade pjäser</option>
+            </select>
+          </div>
           <div
             className="theme-preview"
             role="img"
@@ -73,11 +99,33 @@ export function SettingsPage({
             ))}
           </div>
           <p className="fine-print">
-            Spelarna heter vit och svart. I trätemat är svarts pjäser bruna.
-            Ditt färgval sparas på den här datorn.
+            Spelarna heter vit och svart. De skulpterade pjäserna är alltid
+            elfenbensvita och bruna. Dina val sparas på den här datorn.
           </p>
         </section>
         <div className="settings-stack">
+          <section className="settings-card" aria-labelledby="motion-heading">
+            <h2 id="motion-heading">Pjäsernas rörelser</h2>
+            <p>
+              Låt pjäserna glida från en ruta till nästa, så att draget blir
+              lättare att följa.
+            </p>
+            <label className="settings-check">
+              <input
+                type="checkbox"
+                checked={visuals.animateMoves}
+                onChange={() =>
+                  onVisuals({ ...visuals, animateMoves: !visuals.animateMoves })
+                }
+              />
+              Glidande förflyttningar
+            </label>
+            <p className="fine-print">
+              {reducedMotion
+                ? "Datorn har valt minskad rörelse. Därför visas dragen direkt, även om rutan är ikryssad."
+                : "Avmarkera för att visa dragen direkt. Valet gäller i både partier och lektioner."}
+            </p>
+          </section>
           <section
             className="settings-card"
             aria-labelledby="coordinates-heading"

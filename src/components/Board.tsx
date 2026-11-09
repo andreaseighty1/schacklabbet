@@ -1,7 +1,9 @@
-import { useRef } from "react";
+import { useContext, useRef } from "react";
 import { type Chess, type Square, type Color, type Move } from "chess.js";
 import { Piece } from "./Piece";
 import { kingSquare, pieceNames } from "../chess/model";
+import { VisualContext } from "./VisualPreferences";
+import { useBoardMotion } from "./useBoardMotion";
 export function Board({
   game,
   orientation = "w",
@@ -26,6 +28,16 @@ export function Board({
   showSquareNames?: boolean;
 }) {
   const buttons = useRef<(HTMLButtonElement | null)[]>([]);
+  const board = useRef<HTMLDivElement>(null);
+  const visuals = useContext(VisualContext);
+  useBoardMotion(
+    board,
+    game.fen(),
+    last,
+    orientation,
+    visuals.pieceSet,
+    visuals.animateMoves,
+  );
   const files = (orientation === "w" ? "abcdefgh" : "hgfedcba").split("");
   const ranks =
     orientation === "w" ? [8, 7, 6, 5, 4, 3, 2, 1] : [1, 2, 3, 4, 5, 6, 7, 8];
@@ -41,6 +53,7 @@ export function Board({
   return (
     <div className="board-frame">
       <div
+        ref={board}
         className={`board ${showSquareNames ? "with-square-names" : ""}`}
         role="group"
         aria-label="Schackbräde. Använd piltangenter för att flytta fokus och Enter för att välja pjäs och destination."
@@ -56,6 +69,7 @@ export function Board({
             return (
               <button
                 key={square}
+                data-square={square}
                 ref={(el) => {
                   buttons.current[index] = el;
                 }}

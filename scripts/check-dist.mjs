@@ -18,6 +18,23 @@ assert.ok(
 );
 assert.ok(policy[1].includes("worker-src 'self'"));
 const base = process.env.VITE_BASE_PATH || "/";
+const pieceAssets = JSON.parse(
+  await readFile("docs/PIECE_ASSETS.json", "utf8"),
+);
+assert.equal(pieceAssets.assets.length, 12);
+for (const { file } of pieceAssets.assets) {
+  assert.match(file, /^[wb][kqrbnp]\.png$/);
+  const path = `pieces/sculpted-v1/${file}`;
+  const source = await readFile(`public/${path}`);
+  const built = await readFile(`dist/${path}`);
+  assert.equal(source.readUInt32BE(0), 0x89504e47, `PNG saknas: ${file}`);
+  assert.equal(source[25], 6, `Alfakanal saknas: ${file}`);
+  assert.equal(
+    createHash("sha256").update(built).digest("hex"),
+    createHash("sha256").update(source).digest("hex"),
+    `Ändrad pjäsbild: ${file}`,
+  );
+}
 for (const path of [...index.matchAll(/(?:src|href)="([^"]+)"/g)].map(
   (m) => m[1],
 )) {

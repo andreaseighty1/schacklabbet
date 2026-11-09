@@ -10,6 +10,11 @@ test("inställningar nås i menyn, minns färger och behåller parti och framste
   page,
 }) => {
   await page.addInitScript(() => {
+    // This test inspects the existing SVG palette; raster styles have separate coverage.
+    localStorage.setItem(
+      "schacklabbet.visuals.v1",
+      JSON.stringify({ pieceSet: "simple", animateMoves: true }),
+    );
     if (!localStorage.getItem("schacklabbet.game.v1"))
       localStorage.setItem(
         "schacklabbet.game.v1",
@@ -67,7 +72,7 @@ test("inställningar nås i menyn, minns färger och behåller parti och framste
     page.getByRole("img", { name: "Förhandsvisning av valt bräde och pjäser" }),
   ).toBeVisible();
   const picker = page.getByRole("combobox", {
-    name: "Bräde och pjäser",
+    name: "Brädets färger",
     exact: true,
   });
   await expect(picker).toHaveValue("classic");
@@ -103,6 +108,76 @@ test("inställningar nås i menyn, minns färger och behåller parti och framste
       () => document.documentElement.scrollWidth <= window.innerWidth,
     ),
   ).toBe(true);
+});
+
+test("tolv skulpterade pjäser laddas och utseendet sparas utan att ändra partiet", async ({
+  page,
+}) => {
+  await page.addInitScript(() => {
+    if (!localStorage.getItem("schacklabbet.game.v1"))
+      localStorage.setItem(
+        "schacklabbet.game.v1",
+        JSON.stringify({
+          version: 1,
+          pgn: "*",
+          color: "w",
+          level: 0,
+          profile: "training",
+          ended: null,
+          id: "piece-style-game",
+        }),
+      );
+  });
+  await page.goto("/#play");
+  const loaded = () =>
+    page
+      .locator(".board img.sculpted-piece")
+      .evaluateAll(
+        (images) =>
+          images.length === 32 &&
+          images.every(
+            (image) =>
+              (image as HTMLImageElement).complete &&
+              (image as HTMLImageElement).naturalWidth > 0,
+          ),
+      );
+  await expect.poll(loaded).toBe(true);
+  expect(
+    await page
+      .locator(".board img")
+      .evaluateAll(
+        (images) =>
+          new Set(images.map((image) => (image as HTMLImageElement).src)).size,
+      ),
+  ).toBe(12);
+  const saved = await page.evaluate(() => [
+    localStorage.getItem("schacklabbet.game.v1"),
+    localStorage.getItem("schacklabbet.progress.v1"),
+  ]);
+  await navigate(page, "Inställningar");
+  const picker = page.getByLabel("Pjäsernas utseende", { exact: true });
+  await expect(picker).toHaveValue("sculpted");
+  await picker.selectOption("simple");
+  await page.reload();
+  await expect(picker).toHaveValue("simple");
+  await navigate(page, "Spela schack");
+  await expect(page.locator(".board svg.piece")).toHaveCount(32);
+  await expect(page.locator(".board img.piece")).toHaveCount(0);
+  await navigate(page, "Inställningar");
+  await picker.selectOption("sculpted");
+  await page
+    .getByLabel("Brädets färger", { exact: true })
+    .selectOption("green");
+  await page.reload();
+  await expect(picker).toHaveValue("sculpted");
+  await navigate(page, "Spela schack");
+  await expect.poll(loaded).toBe(true);
+  expect(
+    await page.evaluate(() => [
+      localStorage.getItem("schacklabbet.game.v1"),
+      localStorage.getItem("schacklabbet.progress.v1"),
+    ]),
+  ).toEqual(saved);
 });
 
 test("inställningar för rutnamn och röst fungerar med tryck och sparas enligt sitt syfte", async ({

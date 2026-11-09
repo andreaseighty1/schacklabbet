@@ -31,7 +31,7 @@ export function ChessThemePicker({
   const id = useId();
   return (
     <div className="chess-theme-picker">
-      <label htmlFor={id}>Bräde och pjäser</label>
+      <label htmlFor={id}>Brädets färger</label>
       <select
         id={id}
         value={theme}
@@ -39,8 +39,8 @@ export function ChessThemePicker({
           onChange(event.target.value === "green" ? "green" : "classic")
         }
       >
-        <option value="classic">Klassiskt trä · vita och bruna</option>
-        <option value="green">Grönt · ljusa och mörkgröna</option>
+        <option value="classic">Klassiskt trä</option>
+        <option value="green">Grönt</option>
       </select>
     </div>
   );

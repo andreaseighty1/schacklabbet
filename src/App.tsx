@@ -62,6 +62,10 @@ import { LessonCatalog } from "./components/LessonCatalog";
 import { MoveLog } from "./components/MoveLog";
 import { usePlayLayout } from "./components/usePlayLayout";
 import { BoardFocusContext, FocusPanel } from "./components/FocusPanel";
+import {
+  VisualContext,
+  useVisualPreferences,
+} from "./components/VisualPreferences";
 import { PostGameReview } from "./components/PostGameReview";
 import {
   AchievementArt,
@@ -305,6 +309,7 @@ export default function App() {
   const engineAbort = useRef<AbortController | null>(null);
   const voice = useVoice();
   const [chessTheme, setChessTheme] = useChessTheme();
+  const visuals = useVisualPreferences();
   const voicePlayer = voice.player;
   const [initial] = useState(loadInitial);
   const gameRef = useRef<Chess | null>(null);
@@ -1331,6 +1336,7 @@ export default function App() {
                     />
                   </div>
                   <Board
+                    key={id}
                     game={displayedGame}
                     showSquareNames={showSquareNames}
                     orientation={orientation}
@@ -1858,6 +1864,9 @@ export default function App() {
           )}
           {view === "settings" && (
             <SettingsPage
+              visuals={visuals.preferences}
+              onVisuals={visuals.setPreferences}
+              reducedMotion={visuals.reducedMotion}
               theme={chessTheme}
               onTheme={setChessTheme}
               gameNames={showSquareNames}
@@ -2300,14 +2309,22 @@ export default function App() {
     </div>
   );
   return (
-    <BoardFocusContext.Provider
+    <VisualContext.Provider
       value={{
-        enabled: layout.focus,
-        open: focusPanelOpen,
-        setOpen: setFocusPanelOpen,
+        ...visuals.preferences,
+        animateMoves:
+          visuals.preferences.animateMoves && !visuals.reducedMotion,
       }}
     >
-      {content}
-    </BoardFocusContext.Provider>
+      <BoardFocusContext.Provider
+        value={{
+          enabled: layout.focus,
+          open: focusPanelOpen,
+          setOpen: setFocusPanelOpen,
+        }}
+      >
+        {content}
+      </BoardFocusContext.Provider>
+    </VisualContext.Provider>
   );
 }

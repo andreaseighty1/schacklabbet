@@ -1,16 +1,32 @@
-import { useId } from "react";
+import { useContext, useId, useState } from "react";
 import type { Color, PieceSymbol } from "chess.js";
+import { VisualContext } from "./VisualPreferences";
+
+type Props = { type: PieceSymbol; color: Color; className?: string };
+
+export function Piece(props: Props) {
+  const { pieceSet } = useContext(VisualContext);
+  const [failed, setFailed] = useState<string | null>(null);
+  const source = `${import.meta.env.BASE_URL}pieces/sculpted-v1/${props.color}${props.type}.png`;
+  if (pieceSet === "sculpted" && failed !== source)
+    return (
+      <img
+        className={`piece sculpted-piece ${props.className ?? ""}`}
+        src={source}
+        alt=""
+        aria-hidden="true"
+        draggable={false}
+        decoding="async"
+        width={128}
+        height={128}
+        onError={() => setFailed(source)}
+      />
+    );
+  return <SimplePiece {...props} />;
+}
 
 /** A shared Staunton-inspired silhouette set, drawn for small board squares. */
-export function Piece({
-  type,
-  color,
-  className = "",
-}: {
-  type: PieceSymbol;
-  color: Color;
-  className?: string;
-}) {
+function SimplePiece({ type, color, className = "" }: Props) {
   const gradientId = useId();
   const ivory = color === "w";
   const edge = ivory
