@@ -1774,6 +1774,125 @@ a {
   padding: 5px 9px;
   z-index: 1;
 }
+.daily-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 22px;
+  padding: clamp(20px, 3vw, 32px);
+  margin: 0 0 28px;
+  border: 1px solid #c4d5c2;
+  border-radius: 20px;
+  background: linear-gradient(125deg, #e9efdf, #faf9f2);
+}
+.daily-card-mark {
+  flex: 0 0 auto;
+  display: grid;
+  place-items: center;
+  width: 58px;
+  height: 58px;
+  border-radius: 18px;
+  color: #3f6148;
+  background: #fffaf0;
+}
+.daily-card-content {
+  min-width: 0;
+}
+.daily-card h2 {
+  margin: 8px 0;
+  font-size: clamp(24px, 3vw, 32px);
+}
+.daily-card p {
+  max-width: 70ch;
+  line-height: 1.6;
+}
+.daily-card .fine-print {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.daily-card-actions {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin: 18px 0 12px;
+}
+.daily-status {
+  border-radius: 20px;
+  padding: 6px 12px;
+  background: #eef1e7;
+  color: #405740;
+  font-size: 12px;
+  font-weight: 700;
+}
+.daily-previous summary,
+.daily-solution-list summary {
+  cursor: pointer;
+  padding: 12px 0;
+  min-height: 44px;
+}
+.daily-previous .text-button {
+  display: block;
+  text-align: left;
+  min-height: 44px;
+}
+.daily-warning,
+.daily-date-note {
+  padding: 12px;
+  background: #fff1d6;
+  border-radius: 10px;
+  line-height: 1.5;
+}
+.daily-source {
+  border-top: 1px solid #e1e3d9;
+  margin-top: 18px;
+  padding-top: 8px;
+}
+.daily-source p,
+.daily-solution-list li {
+  line-height: 1.6;
+}
+.daily-panel > .button {
+  margin-top: 12px;
+}
+.daily-solution-list ol {
+  padding-left: 24px;
+}
+.daily-board-summary {
+  display: none;
+}
+.daily-solution-confirm {
+  padding: 14px;
+  border-radius: 12px;
+  background: #f4f1e9;
+}
+.board-focus .daily-date-note {
+  display: none;
+}
+.board-focus .lesson-board-tools .daily-date-note {
+  display: block;
+}
+@media (max-width: 690px) {
+  .daily-card {
+    gap: 12px;
+    padding: 20px 16px;
+  }
+  .daily-card-mark {
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+  }
+  .daily-card-mark svg {
+    width: 23px;
+  }
+  .daily-card .eyebrow {
+    line-height: 1.5;
+  }
+  .daily-card-actions .button {
+    white-space: normal;
+    min-height: 44px;
+  }
+}
 .catalog-note {
   margin-top: 25px;
 }

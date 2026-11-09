@@ -1,5 +1,13 @@
 # Utvecklingslogg
 
+## 2026-11-09 – Dagens utmaning
+
+- Nytt dagligt kort under Utmaningar, separat spelvy och lokal sparning. Första paketet omfattar 30 fasta svenska kalenderdagar, 9 november–8 december, med 18 egna uppgifter, 10 verkliga nätpartiavslut och två historiska slutställningar. Tio frivilliga extrauppgifter, varav två historiska matt-i-två-kombinationer. Efter paketets datum visas tydligt märkta träningsrepriser tills fler dagar publiceras.
+- Barnvänligt språk med ”Det är vits tur”/”Det är svarts tur”, tre ledtrådar, förvandlingsval, omstart, explicit motståndarsvar och lösningsvisning skild från egen klarstatus. Alla korrekta drag som uppfyller det angivna målet accepteras. Ett aktivt problem behåller sitt datum över midnatt. Sparningen validerar ställningsföljd, revision och slutförande och begränsas till 120 poster; lagringsfel hindrar inte träning.
+- Alla tio Lichess-problem korskontrollerade mot primärkällans API och hela spelprotokoll. Start-FEN stämmer exakt efter normalisering. Historiska startställningar rekonstrueras från lagliga partiföljder. CC0 avser Lichess problemdata, inte projektets egna svenska texter. Inga Lichess-anrop görs i elevflödet. Se docs/DAILY_CHALLENGE.md för underlag, licenser och verifieringsmodell.
+- Gemensamt bräde med touch, tangentbord, befintliga pjäser/rörelser, koordinater, kompakt datorvy och stort bräde. Inga ändringar i Supabase eller i enspelarmotorn. Skol- och partiframsteg behåller sina egna lagringsnycklar.
+- Lokalt passerade lint, TypeScript, 335 enhetstester, produktionsbygge, distkontroll inklusive 79 oförändrade röstfiler och deterministisk omgenerering av alla 40 kontrollerade uppgifter. Playwrights testinventering innehåller 229 flöden; själva browserkörningen görs i GitHub Actions före publicering. Resultat och visuell produktionskontroll kompletteras efter körningen.
+
 ## 2026-11-04 – fem minuter i kompispartier
 
 - Nytt val: 5 minuter per spelare, utan tillägg. Valet gäller båda spelarna och tiden startar när kompisen ansluter. Utan klocka, 10 och 15 minuter finns kvar. Gemensam maxtid fungerar som tidigare.

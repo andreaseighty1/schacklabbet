@@ -40,6 +40,11 @@ import {
 } from "lucide-react";
 import { useVoice } from "./audio/useVoice";
 import { ExercisePlayer } from "./components/ExercisePlayer";
+import { DailyCard } from "./daily/DailyCard";
+import { DailyPlayer } from "./daily/DailyPlayer";
+import { dailyById, type DailyPick } from "./daily/content";
+import { resetDaily } from "./daily/model";
+import { useDaily } from "./daily/useDaily";
 import {
   VoiceControls,
   VoiceStatus,
@@ -365,6 +370,19 @@ export default function App() {
   const [progress, setProgress] = useState<Progress>(initial.progress);
   const [training, setTraining] = useState<TrainingState>(initial.training);
   const [exercise, setExercise] = useState<Exercise | null>(null);
+  const daily = useDaily();
+  const [dailyPick, setDailyPick] = useState<DailyPick | null>(null);
+  const dailyPuzzle = dailyPick ? dailyById.get(dailyPick.puzzleId) : undefined;
+  function startDaily(pick: DailyPick) {
+    const puzzle = dailyById.get(pick.puzzleId)!;
+    const state = daily.progress(pick.day, puzzle);
+    if (state.solvedLine || state.solutionShown)
+      daily.update(pick.day, puzzle, resetDaily);
+    voicePlayer.reset();
+    setFocusPanelOpen(false);
+    setExercise(null);
+    setDailyPick(pick);
+  }
   const [completedReview, setCompletedReview] = useState<{
     id: string;
     result: GameReview;
@@ -380,6 +398,7 @@ export default function App() {
     (view === "play" && hasGame) ||
     (view === "friends" && friendBoard) ||
     (view === "session" && trainingBoard) ||
+    Boolean(view === "challenges" && dailyPick) ||
     Boolean(exercise && (view === "school" || view === "challenges"));
   const layout = usePlayLayout(boardView);
   const terminal = ended || resultText(game);
@@ -447,6 +466,7 @@ export default function App() {
     location.hash = next;
     setMobileMenu(false);
     setExercise(null);
+    setDailyPick(null);
     setSelected(null);
   }
   useEffect(() => {
@@ -460,6 +480,7 @@ export default function App() {
         viewRef.current = next;
         setView(next);
         setExercise(null);
+        setDailyPick(null);
         setSelected(null);
       }
     };
@@ -955,6 +976,7 @@ export default function App() {
                   setFocusPanelOpen(false);
                   if (reviewLesson) navigate("play");
                   else if (view === "session") navigate("home");
+                  else if (dailyPick) setDailyPick(null);
                   else setExercise(null);
                 }}
               >
@@ -1690,7 +1712,32 @@ export default function App() {
           )}
           {(view === "school" || view === "challenges") && (
             <>
-              {exercise ? (
+              {view === "challenges" && dailyPick && dailyPuzzle ? (
+                <DailyPlayer
+                  key={`${dailyPick.day}|${dailyPuzzle.id}`}
+                  puzzle={dailyPuzzle}
+                  day={dailyPick.day}
+                  today={daily.day}
+                  progress={daily.progress(dailyPick.day, dailyPuzzle)}
+                  onChange={(change) =>
+                    daily.update(dailyPick.day, dailyPuzzle, change)
+                  }
+                  onBack={() => {
+                    setFocusPanelOpen(false);
+                    setDailyPick(null);
+                  }}
+                  onExtra={
+                    dailyPuzzle.extraId
+                      ? () =>
+                          startDaily({
+                            ...dailyPick,
+                            puzzleId: dailyPuzzle.extraId!,
+                          })
+                      : undefined
+                  }
+                  warning={daily.warning}
+                />
+              ) : exercise ? (
                 <>
                   {reviewLesson && (
                     <section
@@ -1743,6 +1790,15 @@ export default function App() {
                       </p>
                     </div>
                   </div>
+                  {view === "challenges" && (
+                    <DailyCard
+                      day={daily.day}
+                      progress={daily.progress}
+                      onStart={startDaily}
+                      warning={daily.warning}
+                      entries={daily.entries}
+                    />
+                  )}
                   <LessonCatalog
                     category={view === "school" ? "school" : "challenge"}
                     completed={progress.completed}

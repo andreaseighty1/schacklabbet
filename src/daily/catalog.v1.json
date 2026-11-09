@@ -1,0 +1,1047 @@
+[
+  {
+    "id": "roof",
+    "revision": 1,
+    "title": "Stäng sista raden",
+    "theme": "Schackmatt",
+    "fen": "k7/8/K7/8/8/8/8/7R w - - 0 1",
+    "goal": { "kind": "mate", "ownMoves": 1 },
+    "instruction": "Gör schackmatt i ett drag.",
+    "hints": [
+      "Tornet kan stänga en hel rad.",
+      "Din kung hjälper till med flyktrutorna.",
+      "Leta efter ett tornschack på rad 8."
+    ],
+    "success": "Tornet ger schack längs rad 8. Din kung hindrar flykten till A7 och B7.",
+    "takeaway": "Vid matt måste kungen både vara hotad och sakna ett lagligt sätt att komma undan.",
+    "source": {
+      "kind": "authored",
+      "label": "Schacklabbets egen uppgift",
+      "license": "© 2026 42 Improbable Owls & Andreas Jonsson",
+      "credit": "42 Improbable Owls & Andreas Jonsson"
+    },
+    "tree": { "moves": { "h1h8": { "done": true } } },
+    "extraId": "extra-knight-mate"
+  },
+  {
+    "id": "pawn-queen",
+    "revision": 1,
+    "title": "Liten pjäs, stort fynd",
+    "theme": "Slå en pjäs",
+    "fen": "7k/8/8/3q4/4P3/8/8/K7 w - - 0 1",
+    "goal": { "kind": "capture", "square": "d5", "piece": "q" },
+    "instruction": "Ta svarts dam med bonden.",
+    "hints": [
+      "Bonden tar snett framåt.",
+      "Titta på bonden på E4.",
+      "Vilken pjäs står snett framför bonden?"
+    ],
+    "success": "Bonden från E4 tar damen på D5!",
+    "takeaway": "En bonde går rakt fram men tar en ruta snett framåt.",
+    "source": {
+      "kind": "authored",
+      "label": "Schacklabbets egen uppgift",
+      "license": "© 2026 42 Improbable Owls & Andreas Jonsson",
+      "credit": "42 Improbable Owls & Andreas Jonsson"
+    },
+    "tree": { "moves": { "e4d5": { "done": true } } },
+    "extraId": "extra-pawn-fork"
+  },
+  {
+    "id": "knight-fork",
+    "revision": 1,
+    "title": "Två hot på en gång",
+    "theme": "Gaffel",
+    "fen": "4k3/1q6/8/8/4N3/8/8/K7 w - - 0 1",
+    "goal": { "kind": "fork", "piece": "n", "targets": ["e8", "b7"] },
+    "instruction": "Flytta springaren så att den hotar både kungen på E8 och damen på B7.",
+    "hints": [
+      "En springare kan hota två pjäser samtidigt. Det kallas gaffel.",
+      "Springaren på E4 hoppar två rutor åt ett håll och en åt sidan.",
+      "Prova att sikta på D6."
+    ],
+    "success": "Från D6 hotar springaren både E8 och B7. Kungen måste först komma undan schacken.",
+    "takeaway": "Leta efter två hot som samma pjäs kan skapa.",
+    "source": {
+      "kind": "authored",
+      "label": "Schacklabbets egen uppgift",
+      "license": "© 2026 42 Improbable Owls & Andreas Jonsson",
+      "credit": "42 Improbable Owls & Andreas Jonsson"
+    },
+    "tree": { "moves": { "e4d6": { "done": true } } }
+  },
+  {
+    "id": "bishop-road",
+    "revision": 1,
+    "title": "Hela diagonalen",
+    "theme": "Löparen",
+    "fen": "r7/7k/8/8/8/8/6B1/K7 w - - 0 1",
+    "goal": { "kind": "capture", "square": "a8", "piece": "r" },
+    "instruction": "Ta det svarta tornet med löparen.",
+    "hints": [
+      "Löparen följer diagonaler.",
+      "Följ de ljusa rutorna från G2.",
+      "Diagonalen går genom F3, E4, D5, C6 och B7."
+    ],
+    "success": "Löparen gick längs hela diagonalen till A8 och tog tornet.",
+    "takeaway": "Titta längs hela diagonalen, även när målet är långt bort.",
+    "source": {
+      "kind": "authored",
+      "label": "Schacklabbets egen uppgift",
+      "license": "© 2026 42 Improbable Owls & Andreas Jonsson",
+      "credit": "42 Improbable Owls & Andreas Jonsson"
+    },
+    "tree": { "moves": { "g2a8": { "done": true } } },
+    "extraId": "extra-bishop-fork"
+  },
+  {
+    "id": "king-safe",
+    "revision": 1,
+    "title": "Kungen behöver en utväg",
+    "theme": "Ur schack",
+    "fen": "4r2k/8/8/8/8/8/8/R3K3 w - - 0 1",
+    "goal": { "kind": "escape" },
+    "instruction": "Du är i schack. Flytta kungen till en säker ruta.",
+    "hints": [
+      "Tornet hotar din kung längs E-linjen.",
+      "Kungen får gå en ruta, men aldrig till en hotad ruta.",
+      "Undersök D1 och F1. Det finns fler rätta svar."
+    ],
+    "success": "Kungen lämnade tornets linje och står säkert.",
+    "takeaway": "När kungen är i schack måste nästa drag ta bort hotet.",
+    "source": {
+      "kind": "authored",
+      "label": "Schacklabbets egen uppgift",
+      "license": "© 2026 42 Improbable Owls & Andreas Jonsson",
+      "credit": "42 Improbable Owls & Andreas Jonsson"
+    },
+    "tree": {
+      "moves": {
+        "e1d2": { "done": true },
+        "e1f2": { "done": true },
+        "e1f1": { "done": true },
+        "e1d1": { "done": true }
+      }
+    },
+    "extraId": "extra-king-capture"
+  },
+  {
+    "id": "castle-safe",
+    "revision": 1,
+    "title": "Två pjäser i ett drag",
+    "theme": "Rockad",
+    "fen": "4k3/8/8/8/8/8/8/4K2R w K - 0 1",
+    "goal": { "kind": "castle" },
+    "instruction": "Gör kort rockad. Välj kungen och flytta den två rutor åt höger.",
+    "hints": [
+      "Vid rockad flyttas både kung och torn.",
+      "Inga pjäser får stå mellan kungen och tornet.",
+      "Flytta kungen från E1 till G1."
+    ],
+    "success": "Kungen hamnade på G1 och tornet på F1.",
+    "takeaway": "Rockad kräver bland annat att kung och torn inte har flyttats och att kungen inte går genom schack.",
+    "source": {
+      "kind": "authored",
+      "label": "Schacklabbets egen uppgift",
+      "license": "© 2026 42 Improbable Owls & Andreas Jonsson",
+      "credit": "42 Improbable Owls & Andreas Jonsson"
+    },
+    "rights": "K",
+    "tree": { "moves": { "e1g1": { "done": true } } },
+    "extraId": "extra-black-castle"
+  },
+  {
+    "id": "promotion",
+    "revision": 1,
+    "title": "Bonden når fram",
+    "theme": "Förvandling",
+    "fen": "8/1P6/7k/8/8/8/8/K7 w - - 0 1",
+    "goal": { "kind": "promotion" },
+    "instruction": "Förvandla bonden till en pjäs som kan fortsätta partiet utan remi.",
+    "hints": [
+      "Bonden förvandlas när den når sista raden.",
+      "Välj en pjäs som kan hjälpa kungen att sätta matt senare.",
+      "Flytta B7 till B8 och välj dam eller torn."
+    ],
+    "success": "Din bonde blev en starkare pjäs!",
+    "takeaway": "Du får välja dam, torn, löpare eller springare. Här skulle ensam löpare eller springare ge remi.",
+    "source": {
+      "kind": "authored",
+      "label": "Schacklabbets egen uppgift",
+      "license": "© 2026 42 Improbable Owls & Andreas Jonsson",
+      "credit": "42 Improbable Owls & Andreas Jonsson"
+    },
+    "tree": {
+      "moves": { "b7b8r": { "done": true }, "b7b8q": { "done": true } }
+    },
+    "extraId": "extra-black-promotion"
+  },
+  {
+    "id": "pawn-diagonal",
+    "revision": 1,
+    "title": "Svarts bonde hittar rätt",
+    "theme": "Bonden",
+    "fen": "7k/8/8/4p3/3Q4/8/8/K7 b - - 0 1",
+    "goal": { "kind": "capture", "square": "d4", "piece": "q" },
+    "instruction": "Ta vits dam med den svarta bonden.",
+    "hints": [
+      "Svarta bönder går mot lägre radnummer.",
+      "Bonden tar en ruta snett framåt.",
+      "Bonden på E5 kan ta på D4."
+    ],
+    "success": "Svarts bonde tog damen på D4.",
+    "takeaway": "Kontrollera åt vilket håll bönderna går när du byter färg.",
+    "source": {
+      "kind": "authored",
+      "label": "Schacklabbets egen uppgift",
+      "license": "© 2026 42 Improbable Owls & Andreas Jonsson",
+      "credit": "42 Improbable Owls & Andreas Jonsson"
+    },
+    "turn": "b",
+    "tree": { "moves": { "e5d4": { "done": true } } }
+  },
+  {
+    "id": "rook-capture",
+    "revision": 1,
+    "title": "Leta längs linjen",
+    "theme": "Tornet",
+    "fen": "7k/2q5/8/8/8/8/2R5/K7 w - - 0 1",
+    "goal": { "kind": "capture", "square": "c7", "piece": "q" },
+    "instruction": "Ta den svarta damen med tornet.",
+    "hints": [
+      "Tornet går rakt längs linjer och rader.",
+      "Det är fritt mellan C2 och C7.",
+      "Följ C-linjen uppåt."
+    ],
+    "success": "Tornet hittade damen på samma linje.",
+    "takeaway": "Kontrollera långa linjer innan du bestämmer dig.",
+    "source": {
+      "kind": "authored",
+      "label": "Schacklabbets egen uppgift",
+      "license": "© 2026 42 Improbable Owls & Andreas Jonsson",
+      "credit": "42 Improbable Owls & Andreas Jonsson"
+    },
+    "tree": { "moves": { "c2c7": { "done": true } } }
+  },
+  {
+    "id": "queen-diagonal",
+    "revision": 1,
+    "title": "Damens sneda väg",
+    "theme": "Damen",
+    "fen": "7k/8/6r1/8/8/8/2Q5/K7 w - - 0 1",
+    "goal": { "kind": "capture", "square": "g6", "piece": "r" },
+    "instruction": "Ta det svarta tornet med damen.",
+    "hints": [
+      "Damen kan gå både rakt och diagonalt.",
+      "D2 är inte på samma diagonal som tornet. Börja på C2.",
+      "Följ C2–D3–E4–F5–G6."
+    ],
+    "success": "Damen tog tornet på G6 längs diagonalen.",
+    "takeaway": "Damen förenar tornets raka vägar och löparens diagonaler.",
+    "source": {
+      "kind": "authored",
+      "label": "Schacklabbets egen uppgift",
+      "license": "© 2026 42 Improbable Owls & Andreas Jonsson",
+      "credit": "42 Improbable Owls & Andreas Jonsson"
+    },
+    "tree": { "moves": { "c2g6": { "done": true } } }
+  },
+  {
+    "id": "knight-jump",
+    "revision": 1,
+    "title": "Hoppa över kön",
+    "theme": "Springaren",
+    "fen": "7k/8/8/2PPPq2/3N4/8/8/K7 w - - 0 1",
+    "goal": { "kind": "capture", "square": "f5", "piece": "q" },
+    "instruction": "Ta damen med springaren. Bönderna står i vägen för andra pjäser.",
+    "hints": [
+      "Springaren får hoppa över pjäser.",
+      "Från D4 kan den nå F5.",
+      "Två rutor åt höger och en uppåt."
+    ],
+    "success": "Springaren hoppade över till F5 och tog damen.",
+    "takeaway": "Springaren är den enda pjäsen som kan hoppa över andra pjäser.",
+    "source": {
+      "kind": "authored",
+      "label": "Schacklabbets egen uppgift",
+      "license": "© 2026 42 Improbable Owls & Andreas Jonsson",
+      "credit": "42 Improbable Owls & Andreas Jonsson"
+    },
+    "tree": { "moves": { "d4f5": { "done": true } } }
+  },
+  {
+    "id": "black-safe",
+    "revision": 1,
+    "title": "Svarts kung i schack",
+    "theme": "Ur schack",
+    "fen": "4k2r/8/8/8/8/8/8/K3R3 b - - 0 1",
+    "goal": { "kind": "escape" },
+    "instruction": "Flytta svarts kung till en säker ruta.",
+    "hints": [
+      "Tornet hotar längs E-linjen.",
+      "Kungen behöver lämna den linjen.",
+      "Undersök D8 och F8. Flera svar fungerar."
+    ],
+    "success": "Kungen kom undan tornets schack.",
+    "takeaway": "En kung får aldrig stå kvar i schack.",
+    "source": {
+      "kind": "authored",
+      "label": "Schacklabbets egen uppgift",
+      "license": "© 2026 42 Improbable Owls & Andreas Jonsson",
+      "credit": "42 Improbable Owls & Andreas Jonsson"
+    },
+    "turn": "b",
+    "tree": {
+      "moves": {
+        "e8f8": { "done": true },
+        "e8f7": { "done": true },
+        "e8d7": { "done": true },
+        "e8d8": { "done": true }
+      }
+    },
+    "extraId": "extra-block"
+  },
+  {
+    "id": "bishop-black",
+    "revision": 1,
+    "title": "Svarts långa diagonal",
+    "theme": "Löparen",
+    "fen": "k7/1b6/8/8/8/8/6R1/7K b - - 0 1",
+    "goal": { "kind": "capture", "square": "g2", "piece": "r" },
+    "instruction": "Ta vits torn med den svarta löparen.",
+    "hints": [
+      "Löparen byter aldrig färg på rutorna.",
+      "Följ diagonalen från B7.",
+      "Vägen går via C6, D5, E4 och F3."
+    ],
+    "success": "Löparen tog tornet på G2.",
+    "takeaway": "Titta också bakåt längs diagonalerna när du letar efter hot.",
+    "source": {
+      "kind": "authored",
+      "label": "Schacklabbets egen uppgift",
+      "license": "© 2026 42 Improbable Owls & Andreas Jonsson",
+      "credit": "42 Improbable Owls & Andreas Jonsson"
+    },
+    "turn": "b",
+    "tree": { "moves": { "b7g2": { "done": true } } }
+  },
+  {
+    "id": "rook-fork",
+    "revision": 1,
+    "title": "Tornet hotar åt två håll",
+    "theme": "Gaffel",
+    "fen": "4k3/8/8/1q5R/5P2/8/8/7K w - - 0 1",
+    "goal": { "kind": "fork", "piece": "r", "targets": ["e8", "b5"] },
+    "instruction": "Flytta tornet så att det hotar både kungen på E8 och damen på B5.",
+    "hints": [
+      "Tornet kan hota längs en rad och en linje samtidigt.",
+      "Tornet behöver stå på E-linjen.",
+      "Undersök rutan E5."
+    ],
+    "success": "Tornet på E5 ger schack och hotar damen på B5. Bonden på F4 skyddar tornet.",
+    "takeaway": "Leta efter en ruta där två linjer möts.",
+    "source": {
+      "kind": "authored",
+      "label": "Schacklabbets egen uppgift",
+      "license": "© 2026 42 Improbable Owls & Andreas Jonsson",
+      "credit": "42 Improbable Owls & Andreas Jonsson"
+    },
+    "tree": { "moves": { "h5e5": { "done": true } } }
+  },
+  {
+    "id": "en-passant",
+    "revision": 1,
+    "title": "Ta i förbifarten",
+    "theme": "En passant",
+    "fen": "7k/8/8/3pP3/8/8/8/K7 w - d6 0 1",
+    "goal": { "kind": "capture", "square": "d6", "piece": "p" },
+    "instruction": "Svart har just flyttat bonden från D7 till D5. Ta den i förbifarten.",
+    "hints": [
+      "Det speciella slaget heter en passant.",
+      "Din bonde står bredvid bonden som tog två steg.",
+      "Flytta E5 till D6. Bonden på D5 tas bort."
+    ],
+    "success": "Bonden från E5 tog på D6. Bonden på D5 försvann.",
+    "takeaway": "En passant får bara göras direkt efter motståndarens dubbelsteg.",
+    "source": {
+      "kind": "authored",
+      "label": "Schacklabbets egen uppgift",
+      "license": "© 2026 42 Improbable Owls & Andreas Jonsson",
+      "credit": "42 Improbable Owls & Andreas Jonsson"
+    },
+    "tree": { "moves": { "e5d6": { "done": true } } }
+  },
+  {
+    "id": "queen-mate",
+    "revision": 1,
+    "title": "Damen och kungen samarbetar",
+    "theme": "Schackmatt",
+    "fen": "k7/2K5/8/8/8/8/8/4Q3 w - - 0 1",
+    "goal": { "kind": "mate", "ownMoves": 1 },
+    "instruction": "Sätt matt i ett drag. Din kung hjälper till med flyktrutorna.",
+    "hints": [
+      "Kungen på C7 stänger rutorna B7 och B8.",
+      "Damen kan stänga hela A-linjen.",
+      "Undersök A1 eller A5. Båda kan fungera."
+    ],
+    "success": "Damen satte matt med hjälp av kungen!",
+    "takeaway": "Damen kan stänga en hel linje medan kungen hindrar flykten åt sidan.",
+    "source": {
+      "kind": "authored",
+      "label": "Schacklabbets egen uppgift",
+      "license": "© 2026 42 Improbable Owls & Andreas Jonsson",
+      "credit": "42 Improbable Owls & Andreas Jonsson"
+    },
+    "tree": { "moves": { "e1a5": { "done": true }, "e1a1": { "done": true } } },
+    "extraId": "extra-queen-fork"
+  },
+  {
+    "id": "underpromotion",
+    "revision": 1,
+    "title": "Alltid dam?",
+    "theme": "Undvik patt",
+    "fen": "8/k1P5/2K5/8/8/8/8/8 w - - 0 1",
+    "goal": { "kind": "promotion" },
+    "instruction": "Förvandla bonden utan att partiet slutar i remi.",
+    "hints": [
+      "Patt är remi: kungen är inte i schack men inga lagliga drag finns.",
+      "En dam skulle stänga för många rutor här.",
+      "Prova ett torn när bonden når C8."
+    ],
+    "success": "Tornet lämnar ett lagligt drag åt svart. Med dam hade det blivit patt.",
+    "takeaway": "Välj förvandlingspjäs efter ställningen. Dam är inte alltid rätt.",
+    "source": {
+      "kind": "authored",
+      "label": "Schacklabbets egen uppgift",
+      "license": "© 2026 42 Improbable Owls & Andreas Jonsson",
+      "credit": "42 Improbable Owls & Andreas Jonsson"
+    },
+    "tree": { "moves": { "c7c8r": { "done": true } } }
+  },
+  {
+    "id": "black-knight",
+    "revision": 1,
+    "title": "Gaffeln från andra sidan",
+    "theme": "Gaffel",
+    "fen": "8/7k/8/4n3/8/8/1Q6/4K3 b - - 0 1",
+    "goal": { "kind": "fork", "piece": "n", "targets": ["e1", "b2"] },
+    "instruction": "Flytta svarts springare så att den hotar kungen på E1 och damen på B2.",
+    "hints": [
+      "En gaffel skapar två hot samtidigt.",
+      "Springaren kan hoppa till en ruta nära D-linjen.",
+      "Undersök D3."
+    ],
+    "success": "Springaren på D3 ger schack och hotar damen på B2.",
+    "takeaway": "Springarens hopp är lika användbara från båda sidor av brädet.",
+    "source": {
+      "kind": "authored",
+      "label": "Schacklabbets egen uppgift",
+      "license": "© 2026 42 Improbable Owls & Andreas Jonsson",
+      "credit": "42 Improbable Owls & Andreas Jonsson"
+    },
+    "turn": "b",
+    "tree": { "moves": { "e5d3": { "done": true } } }
+  },
+  {
+    "id": "lichess-j472i",
+    "revision": 1,
+    "title": "Stäng flyktvägen",
+    "theme": "Från ett riktigt parti",
+    "fen": "6r1/5K1k/8/8/8/8/8/R7 w - - 39 78",
+    "goal": { "kind": "mate", "ownMoves": 1 },
+    "instruction": "Hitta schackmatt i ett drag.",
+    "hints": [
+      "Leta efter schackar med ditt torn eller din dam.",
+      "Vilka rutor kan kungen fly till? Ditt drag måste stänga dem.",
+      "Titta på linjen eller raden vid kanten där kungen står."
+    ],
+    "success": "Schackmatt! Kungen är hotad och har inget lagligt sätt att komma undan.",
+    "takeaway": "Kontrollera både schacken och alla kungens flyktvägar.",
+    "mainline": ["a1h1"],
+    "source": {
+      "kind": "lichess",
+      "label": "Lichess – problem j472i",
+      "url": "https://lichess.org/training/j472i",
+      "gameUrl": "https://lichess.org/YHt3t0i7",
+      "license": "CC0-1.0",
+      "credit": "Lichess öppna problemdatabas. Svensk förklaring: Schacklabbet.",
+      "story": "Ställningen kommer från ett riktigt nätparti. Vi har valt ut ett kort avslut att undersöka.",
+      "originalFen": "8/5K1k/6r1/8/8/8/8/R7 b - - 38 77",
+      "setupMove": "g6g8"
+    },
+    "tree": { "moves": { "a1h1": { "done": true } } }
+  },
+  {
+    "id": "lichess-Fg709",
+    "revision": 1,
+    "title": "En dam hittar sista raden",
+    "theme": "Från ett riktigt parti",
+    "fen": "1QK5/q7/2k5/8/8/8/8/8 b - - 0 77",
+    "goal": { "kind": "mate", "ownMoves": 1 },
+    "instruction": "Hitta schackmatt i ett drag.",
+    "hints": [
+      "Leta efter schackar med ditt torn eller din dam.",
+      "Vilka rutor kan kungen fly till? Ditt drag måste stänga dem.",
+      "Titta på linjen eller raden vid kanten där kungen står."
+    ],
+    "success": "Schackmatt! Kungen är hotad och har inget lagligt sätt att komma undan.",
+    "takeaway": "Kontrollera både schacken och alla kungens flyktvägar.",
+    "mainline": ["a7d7"],
+    "source": {
+      "kind": "lichess",
+      "label": "Lichess – problem Fg709",
+      "url": "https://lichess.org/training/Fg709",
+      "gameUrl": "https://lichess.org/yFD0ZcAp",
+      "license": "CC0-1.0",
+      "credit": "Lichess öppna problemdatabas. Svensk förklaring: Schacklabbet.",
+      "story": "Ställningen kommer från ett riktigt nätparti. Vi har valt ut ett kort avslut att undersöka.",
+      "originalFen": "2K5/qP6/2k5/8/8/8/8/8 w - - 23 77",
+      "setupMove": "b7b8q"
+    },
+    "tree": { "moves": { "a7d7": { "done": true } } }
+  },
+  {
+    "id": "lichess-R8JmQ",
+    "revision": 1,
+    "title": "Två hotfulla torn",
+    "theme": "Från ett riktigt parti",
+    "fen": "6R1/8/8/8/8/5K2/7k/6q1 w - - 0 60",
+    "goal": { "kind": "mate", "ownMoves": 1 },
+    "instruction": "Hitta schackmatt i ett drag.",
+    "hints": [
+      "Leta efter schackar med ditt torn eller din dam.",
+      "Vilka rutor kan kungen fly till? Ditt drag måste stänga dem.",
+      "Titta på linjen eller raden vid kanten där kungen står."
+    ],
+    "success": "Schackmatt! Kungen är hotad och har inget lagligt sätt att komma undan.",
+    "takeaway": "Kontrollera både schacken och alla kungens flyktvägar.",
+    "mainline": ["g8h8"],
+    "source": {
+      "kind": "lichess",
+      "label": "Lichess – problem R8JmQ",
+      "url": "https://lichess.org/training/R8JmQ",
+      "gameUrl": "https://lichess.org/LM5wKZJm",
+      "license": "CC0-1.0",
+      "credit": "Lichess öppna problemdatabas. Svensk förklaring: Schacklabbet.",
+      "story": "Ställningen kommer från ett riktigt nätparti. Vi har valt ut ett kort avslut att undersöka.",
+      "originalFen": "6R1/8/8/8/8/5K2/6pk/8 b - - 5 59",
+      "setupMove": "g2g1q"
+    },
+    "tree": { "moves": { "g8h8": { "done": true } } }
+  },
+  {
+    "id": "lichess-MxeDO",
+    "revision": 1,
+    "title": "Kungen vid kanten",
+    "theme": "Från ett riktigt parti",
+    "fen": "6r1/8/8/5k1K/8/4R3/8/8 b - - 0 67",
+    "goal": { "kind": "mate", "ownMoves": 1 },
+    "instruction": "Hitta schackmatt i ett drag.",
+    "hints": [
+      "Leta efter schackar med ditt torn eller din dam.",
+      "Vilka rutor kan kungen fly till? Ditt drag måste stänga dem.",
+      "Titta på linjen eller raden vid kanten där kungen står."
+    ],
+    "success": "Schackmatt! Kungen är hotad och har inget lagligt sätt att komma undan.",
+    "takeaway": "Kontrollera både schacken och alla kungens flyktvägar.",
+    "mainline": ["g8h8"],
+    "source": {
+      "kind": "lichess",
+      "label": "Lichess – problem MxeDO",
+      "url": "https://lichess.org/training/MxeDO",
+      "gameUrl": "https://lichess.org/jV8mxxH6",
+      "license": "CC0-1.0",
+      "credit": "Lichess öppna problemdatabas. Svensk förklaring: Schacklabbet.",
+      "story": "Ställningen kommer från ett riktigt nätparti. Vi har valt ut ett kort avslut att undersöka.",
+      "originalFen": "6r1/8/4R3/5k1K/8/4p3/8/8 w - - 12 67",
+      "setupMove": "e6e3"
+    },
+    "tree": { "moves": { "g8h8": { "done": true } } }
+  },
+  {
+    "id": "lichess-PSLCE",
+    "revision": 1,
+    "title": "Tornet och kungen",
+    "theme": "Från ett riktigt parti",
+    "fen": "5k2/1R6/1pp2K2/8/r7/8/8/8 w - - 0 53",
+    "goal": { "kind": "mate", "ownMoves": 1 },
+    "instruction": "Hitta schackmatt i ett drag.",
+    "hints": [
+      "Leta efter schackar med ditt torn eller din dam.",
+      "Vilka rutor kan kungen fly till? Ditt drag måste stänga dem.",
+      "Titta på linjen eller raden vid kanten där kungen står."
+    ],
+    "success": "Schackmatt! Kungen är hotad och har inget lagligt sätt att komma undan.",
+    "takeaway": "Kontrollera både schacken och alla kungens flyktvägar.",
+    "mainline": ["b7b8"],
+    "source": {
+      "kind": "lichess",
+      "label": "Lichess – problem PSLCE",
+      "url": "https://lichess.org/training/PSLCE",
+      "gameUrl": "https://lichess.org/6TvHkJJm",
+      "license": "CC0-1.0",
+      "credit": "Lichess öppna problemdatabas. Svensk förklaring: Schacklabbet.",
+      "story": "Ställningen kommer från ett riktigt nätparti. Vi har valt ut ett kort avslut att undersöka.",
+      "originalFen": "5k2/1R6/1pp2K2/8/Pr6/8/8/8 b - - 2 52",
+      "setupMove": "b4a4"
+    },
+    "tree": { "moves": { "b7b8": { "done": true } } }
+  },
+  {
+    "id": "lichess-o7RI0",
+    "revision": 1,
+    "title": "Sista raden avgör",
+    "theme": "Från ett riktigt parti",
+    "fen": "3K4/8/3k3r/8/8/8/8/R7 b - - 81 69",
+    "goal": { "kind": "mate", "ownMoves": 1 },
+    "instruction": "Hitta schackmatt i ett drag.",
+    "hints": [
+      "Leta efter schackar med ditt torn eller din dam.",
+      "Vilka rutor kan kungen fly till? Ditt drag måste stänga dem.",
+      "Titta på linjen eller raden vid kanten där kungen står."
+    ],
+    "success": "Schackmatt! Kungen är hotad och har inget lagligt sätt att komma undan.",
+    "takeaway": "Kontrollera både schacken och alla kungens flyktvägar.",
+    "mainline": ["h6h8"],
+    "source": {
+      "kind": "lichess",
+      "label": "Lichess – problem o7RI0",
+      "url": "https://lichess.org/training/o7RI0",
+      "gameUrl": "https://lichess.org/7FuWm28F",
+      "license": "CC0-1.0",
+      "credit": "Lichess öppna problemdatabas. Svensk förklaring: Schacklabbet.",
+      "story": "Ställningen kommer från ett riktigt nätparti. Vi har valt ut ett kort avslut att undersöka.",
+      "originalFen": "3K4/8/3k3r/8/8/8/8/2R5 w - - 80 69",
+      "setupMove": "c1a1"
+    },
+    "tree": { "moves": { "h6h8": { "done": true } } }
+  },
+  {
+    "id": "lichess-rZ17X",
+    "revision": 1,
+    "title": "Tornets långa väg",
+    "theme": "Från ett riktigt parti",
+    "fen": "8/6R1/8/k1K2P2/6br/8/8/8 w - - 0 53",
+    "goal": { "kind": "mate", "ownMoves": 1 },
+    "instruction": "Hitta schackmatt i ett drag.",
+    "hints": [
+      "Leta efter schackar med ditt torn eller din dam.",
+      "Vilka rutor kan kungen fly till? Ditt drag måste stänga dem.",
+      "Titta på linjen eller raden vid kanten där kungen står."
+    ],
+    "success": "Schackmatt! Kungen är hotad och har inget lagligt sätt att komma undan.",
+    "takeaway": "Kontrollera både schacken och alla kungens flyktvägar.",
+    "mainline": ["g7a7"],
+    "source": {
+      "kind": "lichess",
+      "label": "Lichess – problem rZ17X",
+      "url": "https://lichess.org/training/rZ17X",
+      "gameUrl": "https://lichess.org/IFeT3KYQ",
+      "license": "CC0-1.0",
+      "credit": "Lichess öppna problemdatabas. Svensk förklaring: Schacklabbet.",
+      "story": "Ställningen kommer från ett riktigt nätparti. Vi har valt ut ett kort avslut att undersöka.",
+      "originalFen": "8/6R1/8/k1K2P2/6Nr/5b2/8/8 b - - 2 52",
+      "setupMove": "f3g4"
+    },
+    "tree": { "moves": { "g7a7": { "done": true } } }
+  },
+  {
+    "id": "lichess-UiQjB",
+    "revision": 1,
+    "title": "Bonden hann fram – men…",
+    "theme": "Från ett riktigt parti",
+    "fen": "6KQ/1r6/1P4k1/8/8/8/8/8 b - - 0 71",
+    "goal": { "kind": "mate", "ownMoves": 1 },
+    "instruction": "Hitta schackmatt i ett drag.",
+    "hints": [
+      "Leta efter schackar med ditt torn eller din dam.",
+      "Vilka rutor kan kungen fly till? Ditt drag måste stänga dem.",
+      "Titta på linjen eller raden vid kanten där kungen står."
+    ],
+    "success": "Schackmatt! Kungen är hotad och har inget lagligt sätt att komma undan.",
+    "takeaway": "Kontrollera både schacken och alla kungens flyktvägar.",
+    "mainline": ["b7b8"],
+    "source": {
+      "kind": "lichess",
+      "label": "Lichess – problem UiQjB",
+      "url": "https://lichess.org/training/UiQjB",
+      "gameUrl": "https://lichess.org/LLoNJ9W5",
+      "license": "CC0-1.0",
+      "credit": "Lichess öppna problemdatabas. Svensk förklaring: Schacklabbet.",
+      "story": "Ställningen kommer från ett riktigt nätparti. Vi har valt ut ett kort avslut att undersöka.",
+      "originalFen": "6K1/1r5P/1P4k1/8/8/8/8/8 w - - 5 71",
+      "setupMove": "h7h8q"
+    },
+    "tree": { "moves": { "b7b8": { "done": true } } }
+  },
+  {
+    "id": "lichess-uEQpt",
+    "revision": 1,
+    "title": "Hitta mattlinjen",
+    "theme": "Från ett riktigt parti",
+    "fen": "1k6/5R2/1K6/2P5/5p2/8/8/7r w - - 10 56",
+    "goal": { "kind": "mate", "ownMoves": 1 },
+    "instruction": "Hitta schackmatt i ett drag.",
+    "hints": [
+      "Leta efter schackar med ditt torn eller din dam.",
+      "Vilka rutor kan kungen fly till? Ditt drag måste stänga dem.",
+      "Titta på linjen eller raden vid kanten där kungen står."
+    ],
+    "success": "Schackmatt! Kungen är hotad och har inget lagligt sätt att komma undan.",
+    "takeaway": "Kontrollera både schacken och alla kungens flyktvägar.",
+    "mainline": ["f7f8"],
+    "source": {
+      "kind": "lichess",
+      "label": "Lichess – problem uEQpt",
+      "url": "https://lichess.org/training/uEQpt",
+      "gameUrl": "https://lichess.org/lkKBynmw",
+      "license": "CC0-1.0",
+      "credit": "Lichess öppna problemdatabas. Svensk förklaring: Schacklabbet.",
+      "story": "Ställningen kommer från ett riktigt nätparti. Vi har valt ut ett kort avslut att undersöka.",
+      "originalFen": "1k6/5R2/1K6/2P5/5p1r/8/8/8 b - - 9 55",
+      "setupMove": "h4h1"
+    },
+    "tree": { "moves": { "f7f8": { "done": true } } }
+  },
+  {
+    "id": "lichess-yIsFx",
+    "revision": 1,
+    "title": "Ett enda torn räcker",
+    "theme": "Från ett riktigt parti",
+    "fen": "5K2/r4PR1/5k2/8/8/8/8/8 b - - 8 100",
+    "goal": { "kind": "mate", "ownMoves": 1 },
+    "instruction": "Hitta schackmatt i ett drag.",
+    "hints": [
+      "Leta efter schackar med ditt torn eller din dam.",
+      "Vilka rutor kan kungen fly till? Ditt drag måste stänga dem.",
+      "Titta på linjen eller raden vid kanten där kungen står."
+    ],
+    "success": "Schackmatt! Kungen är hotad och har inget lagligt sätt att komma undan.",
+    "takeaway": "Kontrollera både schacken och alla kungens flyktvägar.",
+    "mainline": ["a7a8"],
+    "source": {
+      "kind": "lichess",
+      "label": "Lichess – problem yIsFx",
+      "url": "https://lichess.org/training/yIsFx",
+      "gameUrl": "https://lichess.org/0AdpG0wp",
+      "license": "CC0-1.0",
+      "credit": "Lichess öppna problemdatabas. Svensk förklaring: Schacklabbet.",
+      "story": "Ställningen kommer från ett riktigt nätparti. Vi har valt ut ett kort avslut att undersöka.",
+      "originalFen": "5K2/r4P2/5k2/8/8/8/8/6R1 w - - 7 100",
+      "setupMove": "g1g7"
+    },
+    "tree": { "moves": { "a7a8": { "done": true } } }
+  },
+  {
+    "id": "opera-last",
+    "revision": 1,
+    "title": "Morphys sista tornschack",
+    "theme": "Mästarnas idéer",
+    "fen": "1n2kb1r/p4ppp/4q3/4p1B1/4P3/8/PPP2PPP/2KR4 w k - 0 17",
+    "goal": { "kind": "mate", "ownMoves": 1 },
+    "instruction": "Gör schackmatt i ett drag.",
+    "mainline": ["d1d8"],
+    "hints": [
+      "Tornet och löparen hjälper varandra.",
+      "Löparen på G5 skyddar D8.",
+      "Kan tornet nå D8?"
+    ],
+    "success": "Tornet satte matt på D8! Löparen skyddar tornet.",
+    "takeaway": "Pjäser som samarbetar kan bli starkare än många ensamma pjäser.",
+    "source": {
+      "kind": "historical",
+      "label": "Morphys sista tornschack",
+      "url": "https://www.chess.com/terms/opera-game-chess",
+      "license": "Historiska partifakta; svensk förklaring © 2026 42 Improbable Owls & Andreas Jonsson",
+      "credit": "Historiskt partiprotokoll. Förklaring: Schacklabbet.",
+      "story": "Paris 1858: Paul Morphy spelade vit mot hertigen av Braunschweig och greve Isouard, som hjälptes åt med svart. Här börjar vi precis före det sista draget."
+    },
+    "tree": { "moves": { "d1d8": { "done": true } } },
+    "extraId": "opera-two"
+  },
+  {
+    "id": "immortal-last",
+    "revision": 1,
+    "title": "Tre pjäser hjälps åt",
+    "theme": "Mästarnas idéer",
+    "fen": "r1bk3r/p2p1pNp/n2B1n2/1p1NP2P/6P1/3P4/P1P1K3/q5b1 w - - 0 23",
+    "goal": { "kind": "mate", "ownMoves": 1 },
+    "instruction": "Gör schackmatt i ett drag.",
+    "mainline": ["d6e7"],
+    "hints": [
+      "Springarna stänger flera flyktrutor.",
+      "Löparen kan ge schack längs en diagonal.",
+      "Undersök E7 med löparen på D6."
+    ],
+    "success": "Löparen satte matt på E7 med hjälp av springarna!",
+    "takeaway": "En bra mattplan kan behöva flera samarbetande pjäser.",
+    "source": {
+      "kind": "historical",
+      "label": "Tre pjäser hjälps åt",
+      "url": "https://www.chess.com/terms/immortal-game-chess",
+      "license": "Historiska partifakta; svensk förklaring © 2026 42 Improbable Owls & Andreas Jonsson",
+      "credit": "Historiskt partiprotokoll. Förklaring: Schacklabbet.",
+      "story": "London 1851: Adolf Anderssen spelade vit mot Lionel Kieseritzky. Detta är sista ställningen före den berömda mattbilden i Det odödliga partiet."
+    },
+    "tree": { "moves": { "d6e7": { "done": true } } },
+    "extraId": "immortal-two"
+  },
+  {
+    "id": "opera-two",
+    "revision": 1,
+    "title": "Operapartiet: räkna ett steg till",
+    "theme": "Mästarnas idéer",
+    "fen": "4kb1r/p2n1ppp/4q3/4p1B1/4P3/1Q6/PPP2PPP/2KR4 w k - 0 16",
+    "goal": { "kind": "mate", "ownMoves": 2 },
+    "instruction": "Gör schackmatt i högst två av dina egna drag.",
+    "mainline": ["b3b8", "d7b8", "d1d8"],
+    "hints": [
+      "Vad hindrar tornet från att sätta matt på D8?",
+      "Springaren på D7 behöver lockas bort.",
+      "Damen kan ge schack på B8."
+    ],
+    "success": "Du hittade en mattplan! I partiet gick damen till B8, springaren tog på B8 och tornet satte matt på D8.",
+    "takeaway": "Räkna också på motståndarens svar innan du offrar en pjäs.",
+    "source": {
+      "kind": "historical",
+      "label": "Operapartiet: räkna ett steg till",
+      "url": "https://www.chess.com/terms/opera-game-chess",
+      "license": "Historiska partifakta; svensk förklaring © 2026 42 Improbable Owls & Andreas Jonsson",
+      "credit": "Historiskt partiprotokoll. Förklaring: Schacklabbet.",
+      "story": "I Morphys operaparti i Paris 1858 lockades springaren bort med ett damoffer. Vi visar den spelade fortsättningen när den passar dina drag. Andra korrekta mattlösningar godkänns också."
+    },
+    "tree": {
+      "moves": {
+        "b3b8": {
+          "moves": { "d7b8": { "moves": { "d1d8": { "done": true } } } }
+        }
+      }
+    }
+  },
+  {
+    "id": "immortal-two",
+    "revision": 1,
+    "title": "Det odödliga partiet: damoffret",
+    "theme": "Mästarnas idéer",
+    "fen": "r1bk2nr/p2p1pNp/n2B4/1p1NP2P/6P1/3P1Q2/P1P1K3/q5b1 w - - 1 22",
+    "goal": { "kind": "mate", "ownMoves": 2 },
+    "instruction": "Gör schackmatt i högst två av dina egna drag.",
+    "mainline": ["f3f6", "g8f6", "d6e7"],
+    "hints": [
+      "Vilken pjäs hindrar löparen från att sätta matt på E7?",
+      "Springaren på G8 kan lockas bort med schack.",
+      "Undersök damens schack på F6."
+    ],
+    "success": "Du hittade en mattplan! I partiet gick damen till F6, springaren tog på F6 och löparen satte matt på E7.",
+    "takeaway": "Ett offer fungerar först när hela fortsättningen håller.",
+    "source": {
+      "kind": "historical",
+      "label": "Det odödliga partiet: damoffret",
+      "url": "https://www.chess.com/terms/immortal-game-chess",
+      "license": "Historiska partifakta; svensk förklaring © 2026 42 Improbable Owls & Andreas Jonsson",
+      "credit": "Historiskt partiprotokoll. Förklaring: Schacklabbet.",
+      "story": "Anderssen–Kieseritzky, London 1851. Den kända avslutningen innehåller ett damoffer och ett löparschack. Andra korrekta mattlösningar godkänns också."
+    },
+    "tree": {
+      "moves": {
+        "f3f6": {
+          "moves": {
+            "g8f6": { "moves": { "d6e7": { "done": true } } },
+            "g8e7": {
+              "moves": { "d6e7": { "done": true }, "f6e7": { "done": true } }
+            }
+          }
+        }
+      }
+    }
+  },
+  {
+    "id": "extra-black-castle",
+    "revision": 1,
+    "title": "Rockad från svarts sida",
+    "theme": "Rockad",
+    "fen": "r3k3/8/8/8/8/8/8/4K3 b q - 0 1",
+    "goal": { "kind": "castle" },
+    "instruction": "Gör lång rockad med svart.",
+    "hints": [
+      "Kungen går två rutor mot tornet.",
+      "Tornet på A8 flyttar till D8.",
+      "Flytta kungen från E8 till C8."
+    ],
+    "success": "Svarts kung gick till C8 och tornet till D8.",
+    "takeaway": "Lång rockad har samma grundkrav som kort rockad.",
+    "source": {
+      "kind": "authored",
+      "label": "Schacklabbets egen uppgift",
+      "license": "© 2026 42 Improbable Owls & Andreas Jonsson",
+      "credit": "42 Improbable Owls & Andreas Jonsson"
+    },
+    "turn": "b",
+    "rights": "q",
+    "tree": { "moves": { "e8c8": { "done": true } } }
+  },
+  {
+    "id": "extra-black-promotion",
+    "revision": 1,
+    "title": "Svarts sista steg",
+    "theme": "Förvandling",
+    "fen": "8/8/k7/7K/8/8/6p1/8 b - - 0 1",
+    "goal": { "kind": "promotion" },
+    "instruction": "Förvandla svarts bonde utan att partiet slutar i remi.",
+    "hints": [
+      "Svart förvandlar på rad 1.",
+      "En ensam löpare eller springare räcker inte till matt.",
+      "Flytta G2 till G1 och välj dam eller torn."
+    ],
+    "success": "Bonden nådde sista raden och blev en ny pjäs.",
+    "takeaway": "Svart och vit har samma fyra val vid förvandling.",
+    "source": {
+      "kind": "authored",
+      "label": "Schacklabbets egen uppgift",
+      "license": "© 2026 42 Improbable Owls & Andreas Jonsson",
+      "credit": "42 Improbable Owls & Andreas Jonsson"
+    },
+    "turn": "b",
+    "tree": {
+      "moves": { "g2g1r": { "done": true }, "g2g1q": { "done": true } }
+    }
+  },
+  {
+    "id": "extra-bishop-fork",
+    "revision": 1,
+    "title": "Löparens två hot",
+    "theme": "Gaffel",
+    "fen": "5B1k/8/7q/7N/8/8/8/K7 w - - 0 1",
+    "goal": { "kind": "fork", "piece": "b", "targets": ["h8", "h6"] },
+    "instruction": "Flytta löparen så att den hotar både kungen på H8 och damen på H6.",
+    "hints": [
+      "Löparen kan hota åt två håll längs diagonaler.",
+      "Leta efter mötet mellan kungens och damens diagonaler.",
+      "Undersök G7."
+    ],
+    "success": "Löparen på G7 hotar både kungen och damen.",
+    "takeaway": "Gafflar kan göras med fler pjäser än springaren.",
+    "source": {
+      "kind": "authored",
+      "label": "Schacklabbets egen uppgift",
+      "license": "© 2026 42 Improbable Owls & Andreas Jonsson",
+      "credit": "42 Improbable Owls & Andreas Jonsson"
+    },
+    "tree": { "moves": { "f8g7": { "done": true } } }
+  },
+  {
+    "id": "extra-king-capture",
+    "revision": 1,
+    "title": "Kungen kan också ta",
+    "theme": "Ur schack",
+    "fen": "7k/8/8/8/8/8/4r3/4K3 w - - 0 1",
+    "goal": { "kind": "capture", "square": "e2", "piece": "r" },
+    "instruction": "Du är i schack. Ta tornet med kungen om rutan är säker.",
+    "hints": [
+      "En kung får ta en oskyddad pjäs.",
+      "Kontrollera om svart skyddar E2.",
+      "Den svarta kungen är långt borta."
+    ],
+    "success": "Kungen tog det oskyddade tornet och kom ur schack.",
+    "takeaway": "Ta bara med kungen om målrutan inte är hotad.",
+    "source": {
+      "kind": "authored",
+      "label": "Schacklabbets egen uppgift",
+      "license": "© 2026 42 Improbable Owls & Andreas Jonsson",
+      "credit": "42 Improbable Owls & Andreas Jonsson"
+    },
+    "tree": { "moves": { "e1e2": { "done": true } } }
+  },
+  {
+    "id": "extra-pawn-fork",
+    "revision": 1,
+    "title": "Den lilla gaffeln",
+    "theme": "Gaffel",
+    "fen": "7k/8/2r1q3/8/2PP4/8/8/K7 w - - 0 1",
+    "goal": { "kind": "fork", "piece": "p", "targets": ["c6", "e6"] },
+    "instruction": "Flytta bonden så att den hotar både tornet på C6 och damen på E6.",
+    "hints": [
+      "Bonden hotar två diagonala rutor framför sig.",
+      "Den behöver stå på samma rad strax under pjäserna.",
+      "Undersök D5."
+    ],
+    "success": "Bonden på D5 hotar både C6 och E6.",
+    "takeaway": "Även en bonde kan skapa en gaffel.",
+    "source": {
+      "kind": "authored",
+      "label": "Schacklabbets egen uppgift",
+      "license": "© 2026 42 Improbable Owls & Andreas Jonsson",
+      "credit": "42 Improbable Owls & Andreas Jonsson"
+    },
+    "tree": { "moves": { "d4d5": { "done": true } } }
+  },
+  {
+    "id": "extra-block",
+    "revision": 1,
+    "title": "Löparen skyddar kungen",
+    "theme": "Slå bort schacken",
+    "fen": "4r2k/8/8/7B/8/8/8/4K3 w - - 0 1",
+    "goal": { "kind": "capture", "square": "e8", "piece": "r" },
+    "instruction": "Du är i schack. Ta den pjäs som hotar kungen med din löpare.",
+    "hints": [
+      "Du behöver inte alltid flytta kungen för att komma ur schack.",
+      "Följ diagonalen från H5.",
+      "Löparen kan nå E8."
+    ],
+    "success": "Löparen tog tornet. Nu är din kung inte längre i schack.",
+    "takeaway": "Schack kan stoppas genom att ta den hotande pjäsen.",
+    "source": {
+      "kind": "authored",
+      "label": "Schacklabbets egen uppgift",
+      "license": "© 2026 42 Improbable Owls & Andreas Jonsson",
+      "credit": "42 Improbable Owls & Andreas Jonsson"
+    },
+    "tree": { "moves": { "h5e8": { "done": true } } }
+  },
+  {
+    "id": "extra-knight-mate",
+    "revision": 1,
+    "title": "Springaren stänger dörren",
+    "theme": "Schackmatt",
+    "fen": "6rk/6pp/8/6N1/8/8/8/K7 w - - 0 1",
+    "goal": { "kind": "mate", "ownMoves": 1 },
+    "instruction": "Sätt matt med springaren i ett drag.",
+    "hints": [
+      "Svarts egna pjäser står i vägen för kungen.",
+      "Springaren kan hoppa förbi skyddet.",
+      "Undersök F7."
+    ],
+    "success": "Springaren gav matt medan svarts egna pjäser stängde flykten.",
+    "takeaway": "En instängd kung kan vara sårbar för springarschack.",
+    "source": {
+      "kind": "authored",
+      "label": "Schacklabbets egen uppgift",
+      "license": "© 2026 42 Improbable Owls & Andreas Jonsson",
+      "credit": "42 Improbable Owls & Andreas Jonsson"
+    },
+    "tree": { "moves": { "g5f7": { "done": true } } }
+  },
+  {
+    "id": "extra-queen-fork",
+    "revision": 1,
+    "title": "Damens dubbla hot",
+    "theme": "Gaffel",
+    "fen": "7k/1r6/8/8/8/8/8/K2Q4 w - - 0 1",
+    "goal": { "kind": "fork", "piece": "q", "targets": ["h8", "b7"] },
+    "instruction": "Flytta damen så att den hotar både kungen på H8 och tornet på B7.",
+    "hints": [
+      "Damen kombinerar raka vägar och diagonaler.",
+      "Sök på diagonalen mot H8.",
+      "Undersök H1."
+    ],
+    "success": "Damen hotar två pjäser samtidigt. Kungen behöver först svara på schacken.",
+    "takeaway": "En gaffel med schack tvingar motståndaren att ta hand om kungen först.",
+    "source": {
+      "kind": "authored",
+      "label": "Schacklabbets egen uppgift",
+      "license": "© 2026 42 Improbable Owls & Andreas Jonsson",
+      "credit": "42 Improbable Owls & Andreas Jonsson"
+    },
+    "tree": { "moves": { "d1h1": { "done": true } } }
+  }
+]

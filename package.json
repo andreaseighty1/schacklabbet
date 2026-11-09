@@ -9,6 +9,8 @@
     "build": "node scripts/prepare-learning-voiceover.mjs && node scripts/prepare-engine.mjs && tsc -b && vite build",
     "preview": "vite preview --host 127.0.0.1",
     "test": "vitest run",
+    "prepare:daily": "node --experimental-strip-types scripts/prepare-daily-content.mjs",
+    "check:daily": "node --experimental-strip-types scripts/prepare-daily-content.mjs --check",
     "test:e2e": "playwright test",
     "test:engine": "node scripts/live-engine-check.mjs",
     "benchmark:engine": "node scripts/benchmark-engine.mjs",

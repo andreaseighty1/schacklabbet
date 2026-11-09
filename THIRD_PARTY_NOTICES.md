@@ -13,6 +13,10 @@ Stockfish.js © 2026 Chess.com, LLC. Baserat på Stockfish av T. Romstad, M. Cos
 
 Källkod och nätverk distribueras på samma webbplats som motorn, utan inloggning och utan extra kostnad. UI:ns hjälpdialog länkar dit. Förändras motorversionen måste både källarkiv, nätverk, licenstext och kontrollsummor uppdateras. Se `public/licenses/README.md` för ombyggnad.
 
+## Lichess-problem i Dagens utmaning
+
+Tio utvalda ställningar och drag från [Lichess öppna problemdatabas](https://database.lichess.org/#puzzles), **CC0-1.0**. Varje post har problem-id, källänk och länk till det ursprungliga partiet. Inga externa annoteringar eller bilder ingår. Svenska instruktioner och förklaringar är Schacklabbets egna och omfattas inte av datakällans CC0-märkning. Se [källunderlag och verifiering](docs/DAILY_CHALLENGE.md).
+
 ## Övriga bibliotek
 
 - React och React DOM: Meta Platforms, MIT.

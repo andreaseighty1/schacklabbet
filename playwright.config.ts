@@ -42,6 +42,7 @@ export default defineConfig({
         "**/motion.spec.ts",
         "**/tactics.spec.ts",
         "**/learning.spec.ts",
+        "**/daily.spec.ts",
         "**/multiplayer.spec.ts",
       ],
       use: {

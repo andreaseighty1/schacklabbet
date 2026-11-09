@@ -2,14 +2,15 @@
 
 ## Aktuell todo – 9 november 2026
 
-- [ ] Bygg Dagens utmaning under Utmaningar enligt [research och genomförandeplan](docs/DAILY_CHALLENGE_PLAN.md): granskad problembank, dagkalender, ledtrådar, alternativa lösningar och lokal klarstatus.
+- [x] Dagens utmaning under Utmaningar: 30 dagsproblem, 10 frivilliga fördjupningar, fasta svenska kalenderdatum, stegvisa ledtrådar, alternativa korrekta drag och separat lokal sparning. Se [innehåll och verifiering](docs/DAILY_CHALLENGE.md).
+- [ ] Fyll på Dagens utmaning med fler granskade kalenderdagar efter 8 december 2026. Därefter fungerar tydligt märkta träningsrepriser tills nya dagar publiceras. Klassrumsgranska språk, svårighet och variation i första paketet.
 - [ ] Privat klass-/gruppfunktion med topplista, tydliga poängregler och serververifierade resultat. Förslaget nedan är ännu inte implementerat.
 - [ ] Engelsk textversion som valbart språk. Tidigare önskemål; inte påbörjad. Röstfilerna översätts inte i detta förslag.
 - [ ] De 219 manusreplikerna till fortsättningslektionerna behöver spelas in och levereras. Aktuell genererad ljudlista innehåller 0 av dessa; de tidigare 79 ljuden är inkopplade.
 - [ ] Samlat klassrumsprov på skolnätet: samtidiga kompispartier/förstagångsinloggningar, enklare elevdatorer, upplevd nybörjarsvårighet och pedagogisk lyssningsgranskning. Fortsatt tillgänglighetsgranskning ingår i kvalitetsarbetet.
 - [ ] Ta ställning till flera lokala elevprofiler om datorerna delas. Detta är ett senare behovsbeslut.
 
-Senast klart: skulpterade pjäser, valbara glidningar, större datorbräde, tät draglogg, förenklad mobilvy och bekräftat byte från tidsatt datorparti till kompisparti. Kompispartiernas klockor/remianbud och daglig gallring av inaktiva anonyma konton är också implementerade. Senaste mobilpubliceringen passerade 279 enhets- och 214 webbläsartester. Researchplanen för dagsutmaningar är klar, men själva funktionen är inte byggd.
+Senast byggt: Dagens utmaning med egna övningar, verkliga nätpartier och historiska avslut, explicita motståndarsvar och förklaringar. Tidigare levererat: skulpterade pjäser, valbara glidningar, större datorbräde, tät draglogg, förenklad mobilvy och bekräftat byte från tidsatt datorparti till kompisparti. Kompispartiernas klockor/remianbud och daglig gallring av inaktiva anonyma konton är också implementerade. Se DEVELOPMENT_LOG.md för verifierad publiceringsstatus och testresultat.
 
 ## Pedagogikutbyggnad 3 november 2026
 

@@ -1,0 +1,107 @@
+{
+  "upstream": "https://database.lichess.org/#puzzles",
+  "mirror": "https://raw.githubusercontent.com/pwenker/chessli2/main/puzzles/mateIn1.csv",
+  "license": "CC0-1.0",
+  "selected": [
+    {
+      "id": "j472i",
+      "fen": "6r1/5K1k/8/8/8/8/8/R7 w - - 39 78",
+      "originalFen": "8/5K1k/6r1/8/8/8/8/R7 b - - 38 77",
+      "setupMove": "g6g8",
+      "answer": "a1h1",
+      "pieces": 4,
+      "color": "w",
+      "themes": "endgame mate mateIn1 oneMove rookEndgame"
+    },
+    {
+      "id": "Fg709",
+      "fen": "1QK5/q7/2k5/8/8/8/8/8 b - - 0 77",
+      "originalFen": "2K5/qP6/2k5/8/8/8/8/8 w - - 23 77",
+      "setupMove": "b7b8q",
+      "answer": "a7d7",
+      "pieces": 4,
+      "color": "b",
+      "themes": "endgame mate mateIn1 oneMove queenEndgame"
+    },
+    {
+      "id": "R8JmQ",
+      "fen": "6R1/8/8/8/8/5K2/7k/6q1 w - - 0 60",
+      "originalFen": "6R1/8/8/8/8/5K2/6pk/8 b - - 5 59",
+      "setupMove": "g2g1q",
+      "answer": "g8h8",
+      "pieces": 4,
+      "color": "w",
+      "themes": "endgame mate mateIn1 oneMove queenRookEndgame"
+    },
+    {
+      "id": "MxeDO",
+      "fen": "6r1/8/8/5k1K/8/4R3/8/8 b - - 0 67",
+      "originalFen": "6r1/8/4R3/5k1K/8/4p3/8/8 w - - 12 67",
+      "setupMove": "e6e3",
+      "answer": "g8h8",
+      "pieces": 4,
+      "color": "b",
+      "themes": "endgame mate mateIn1 oneMove rookEndgame"
+    },
+    {
+      "id": "PSLCE",
+      "fen": "5k2/1R6/1pp2K2/8/r7/8/8/8 w - - 0 53",
+      "originalFen": "5k2/1R6/1pp2K2/8/Pr6/8/8/8 b - - 2 52",
+      "setupMove": "b4a4",
+      "answer": "b7b8",
+      "pieces": 6,
+      "color": "w",
+      "themes": "endgame mate mateIn1 oneMove rookEndgame"
+    },
+    {
+      "id": "o7RI0",
+      "fen": "3K4/8/3k3r/8/8/8/8/R7 b - - 81 69",
+      "originalFen": "3K4/8/3k3r/8/8/8/8/2R5 w - - 80 69",
+      "setupMove": "c1a1",
+      "answer": "h6h8",
+      "pieces": 4,
+      "color": "b",
+      "themes": "endgame mate mateIn1 oneMove rookEndgame"
+    },
+    {
+      "id": "rZ17X",
+      "fen": "8/6R1/8/k1K2P2/6br/8/8/8 w - - 0 53",
+      "originalFen": "8/6R1/8/k1K2P2/6Nr/5b2/8/8 b - - 2 52",
+      "setupMove": "f3g4",
+      "answer": "g7a7",
+      "pieces": 6,
+      "color": "w",
+      "themes": "endgame master mate mateIn1 oneMove"
+    },
+    {
+      "id": "UiQjB",
+      "fen": "6KQ/1r6/1P4k1/8/8/8/8/8 b - - 0 71",
+      "originalFen": "6K1/1r5P/1P4k1/8/8/8/8/8 w - - 5 71",
+      "setupMove": "h7h8q",
+      "answer": "b7b8",
+      "pieces": 5,
+      "color": "b",
+      "themes": "endgame mate mateIn1 oneMove queenRookEndgame"
+    },
+    {
+      "id": "uEQpt",
+      "fen": "1k6/5R2/1K6/2P5/5p2/8/8/7r w - - 10 56",
+      "originalFen": "1k6/5R2/1K6/2P5/5p1r/8/8/8 b - - 9 55",
+      "setupMove": "h4h1",
+      "answer": "f7f8",
+      "pieces": 6,
+      "color": "w",
+      "themes": "endgame master mate mateIn1 oneMove rookEndgame"
+    },
+    {
+      "id": "yIsFx",
+      "fen": "5K2/r4PR1/5k2/8/8/8/8/8 b - - 8 100",
+      "originalFen": "5K2/r4P2/5k2/8/8/8/8/6R1 w - - 7 100",
+      "setupMove": "g1g7",
+      "answer": "a7a8",
+      "pieces": 5,
+      "color": "b",
+      "themes": "endgame mate mateIn1 oneMove rookEndgame"
+    }
+  ]
+}

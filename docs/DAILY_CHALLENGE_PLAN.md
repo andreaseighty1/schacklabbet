@@ -1,6 +1,6 @@
 # Plan: Dagens utmaning
 
-Research och förslag, 9 november 2026. Funktionen är inte implementerad eller aktiverad. Mobilens vyval hanteras i en separat ändring.
+Research och ursprungligt förslag, 9 november 2026. Version 1 är nu implementerad enligt [leveransbeskrivningen](DAILY_CHALLENGE.md). Texten nedan bevarar research och ursprungliga genomförandeförslag; dess dåtida statusbeskrivningar är inte den aktuella leveransstatusen.
 
 ## Rekommenderat upplägg
 
