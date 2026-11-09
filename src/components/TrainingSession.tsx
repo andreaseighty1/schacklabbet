@@ -24,17 +24,24 @@ export function TrainingSession({
   voice,
   onCompleteExercise,
   onPause,
+  onBoardViewChange,
 }: {
   state: TrainingState;
   update: (change: (state: TrainingState) => TrainingState) => void;
   voice: Voice;
   onCompleteExercise: (exercise: Exercise) => void;
   onPause: () => void;
+  onBoardViewChange: (active: boolean) => void;
 }) {
   const [running, setRunning] = useState(false);
   const heading = useRef<HTMLHeadingElement>(null);
   const run = state.current;
   const finished = Boolean(run && run.finishedAt !== null);
+  const activeBoard = Boolean(running && run && !finished);
+  useEffect(() => {
+    onBoardViewChange(activeBoard);
+    return () => onBoardViewChange(false);
+  }, [activeBoard, onBoardViewChange]);
   useEffect(() => {
     voice.player.reset();
   }, [voice.player, run?.id, run?.step]);

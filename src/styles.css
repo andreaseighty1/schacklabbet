@@ -4346,3 +4346,348 @@ a {
     max-height: none;
   }
 }
+
+/* Board-first workspace: the square uses almost the full browser height. */
+.board-focus-status {
+  display: none;
+}
+.board-focus {
+  --focus-rail: clamp(144px, calc(100vw - 100dvh - 48px), 240px);
+  --focus-size: min(
+    calc(100dvh - 72px),
+    calc(100vw - var(--focus-rail) - 40px)
+  );
+}
+.board-focus .main-content:has(> .notice) {
+  --focus-size: min(
+    calc(100dvh - 132px),
+    calc(100vw - var(--focus-rail) - 40px)
+  );
+}
+.board-focus .main-content:has(> .notice ~ .notice) {
+  --focus-size: min(
+    calc(100dvh - 192px),
+    calc(100vw - var(--focus-rail) - 40px)
+  );
+}
+.board-focus .main-content {
+  padding: 8px;
+}
+.board-focus .voice-status:not(.voice-error) {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+}
+.board-focus .main-content:has(> .voice-error) {
+  --focus-size: min(
+    calc(100dvh - 132px),
+    calc(100vw - var(--focus-rail) - 40px)
+  );
+}
+.board-focus .game-layout,
+.board-focus .exercise-layout,
+.board-focus .training-step-status ~ .exercise-layout {
+  display: block;
+  max-width: none;
+}
+.board-focus .exercise-heading,
+.board-focus .training-step-status {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  margin: 0;
+  padding: 0;
+}
+.board-focus .exercise-heading .back-link {
+  display: none;
+}
+.board-focus .board-column,
+.board-focus .board-column.has-clock,
+.board-focus .friend-game .board-column,
+.board-focus .exercise-board {
+  display: grid;
+  grid-template-columns: var(--focus-size) var(--focus-rail);
+  grid-template-rows: auto auto minmax(0, 1fr) auto auto;
+  column-gap: 12px;
+  width: calc(var(--focus-size) + var(--focus-rail) + 12px);
+  height: var(--focus-size);
+  min-width: 0;
+  max-width: none;
+  margin: 0 auto;
+  flex: none;
+}
+.board-focus .board-column > .board-frame,
+.board-focus .exercise-board > .board-frame {
+  grid-column: 1;
+  grid-row: 1 / 6;
+  width: var(--focus-size);
+  height: var(--focus-size);
+  align-self: start;
+}
+.board-focus .board-column > .player-row {
+  grid-column: 2;
+  grid-row: 1;
+  align-self: start;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 6px;
+  min-height: 0;
+  padding: 8px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: #fffef9;
+}
+.board-focus .board-column > .own-player {
+  grid-row: 4;
+  align-self: end;
+}
+.board-focus .board-column > .board-focus-status {
+  display: block;
+  grid-column: 2;
+  grid-row: 2;
+  margin-top: 8px;
+  padding: 10px;
+  border: 1px solid #cbd8bd;
+  border-radius: 8px;
+  background: #e9f0df;
+  color: #284f3d;
+  font-size: 13px;
+  font-weight: 650;
+  line-height: 1.4;
+  max-height: 20dvh;
+  overflow: auto;
+}
+.board-focus .player-row > div:not(.captured-strip) {
+  flex: 1;
+}
+.board-focus .chess-clock,
+.board-focus .friend-clock {
+  flex: 1 0 100%;
+  min-width: 0;
+  font-size: 24px;
+  margin-top: 4px;
+}
+.board-focus .captured-strip {
+  margin-left: 0;
+  flex-basis: 100%;
+}
+.board-focus .board-focus-status p {
+  font-weight: 450;
+  margin: 10px 0 0;
+}
+.board-focus .board-focus-status .button {
+  margin-top: 10px;
+  width: 100%;
+  white-space: normal;
+}
+.board-focus-status:has(.focus-invite-code) {
+  max-height: none;
+}
+.focus-invite-code {
+  display: grid;
+  gap: 6px;
+  margin-top: 12px;
+}
+.focus-invite-code input {
+  width: 100%;
+  min-width: 0;
+  font-weight: 700;
+  font-size: 17px;
+  padding: 8px 4px;
+}
+.focus-invite-code small {
+  font-weight: 450;
+  font-size: 12px;
+}
+.board-focus .board-controls {
+  grid-column: 2;
+  grid-row: 5;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  max-height: min(184px, 30dvh);
+  overflow: auto;
+  padding-top: 4px;
+  gap: 2px;
+}
+.board-focus .board-controls .text-button {
+  justify-content: flex-start;
+  min-height: 44px;
+  text-align: left;
+}
+.board-focus .board-control-spacer {
+  display: none;
+}
+.board-focus .board-column > .square-names-toggle {
+  grid-column: 2;
+  grid-row: 5;
+}
+.board-focus .lesson-board-tools {
+  grid-column: 2;
+  grid-row: 1 / 6;
+  height: var(--focus-size);
+  overflow: auto;
+  overscroll-behavior: contain;
+  scrollbar-width: thin;
+  padding: 8px;
+  background: #fffef9;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+}
+.board-focus .lesson-board-tools p {
+  font-size: 13px;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+.board-focus .focus-lesson-summary strong {
+  font-size: 14px;
+}
+.board-focus .focus-lesson-summary > p {
+  margin: 10px 0;
+  color: #465c49;
+}
+.board-focus .focus-lesson-summary .button {
+  width: 100%;
+  padding: 8px;
+  min-height: 44px;
+  font-size: 12px;
+  margin: 8px 0;
+}
+.board-focus .lesson-board-options {
+  margin: 12px 0 0;
+  gap: 6px;
+}
+.board-focus .lesson-board-options > span {
+  font-size: 11px;
+  line-height: 1.5;
+}
+.board-focus .board-perspective,
+.board-focus .board-help-legend {
+  margin-top: 12px;
+}
+.board-focus .focus-tools-dialog {
+  position: fixed;
+  inset: 0 0 0 auto;
+  margin: 0;
+  padding: 16px;
+  width: min(440px, calc(100vw - 24px));
+  min-width: 0;
+  max-width: none;
+  height: 100dvh;
+  max-height: 100dvh;
+  overflow: auto;
+  overscroll-behavior: contain;
+  border: 0;
+  border-left: 1px solid var(--border);
+  border-radius: 0;
+  background: #fffef9;
+  color: var(--green);
+  box-shadow: -12px 0 40px #153b3b33;
+}
+.focus-tools-dialog::backdrop {
+  background: #102e2877;
+}
+.focus-tools-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+.focus-tools-heading h2 {
+  font-size: 20px;
+  margin: 0;
+}
+.focus-tools-heading > button {
+  flex-shrink: 0;
+}
+.board-focus .focus-tools-dialog .turn-card {
+  position: static;
+  border-radius: 8px;
+}
+.board-focus .focus-tools-dialog .move-log {
+  max-height: 32dvh;
+}
+.board-focus .focus-tools-toggle > span {
+  display: inline;
+}
+.board-focus .friend-invite {
+  margin-bottom: 12px;
+}
+@media (max-width: 690px) {
+  .board-focus .breadcrumb strong {
+    display: none;
+  }
+  .topbar {
+    height: auto;
+    min-height: 60px;
+    padding: 4px 12px;
+    gap: 4px;
+    flex-wrap: wrap;
+  }
+  .topbar-right {
+    gap: 4px;
+    max-width: 100%;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+  }
+  .voice-controls {
+    gap: 4px;
+  }
+}
+@media (max-width: 600px) {
+  .board-focus {
+    --focus-size: min(calc(100vw - 24px), calc(100dvh - 160px));
+  }
+  .board-focus .board-column,
+  .board-focus .board-column.has-clock,
+  .board-focus .friend-game .board-column {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: auto;
+    max-width: var(--focus-size);
+  }
+  .board-focus .board-column > .board-frame {
+    order: 1;
+    flex-shrink: 0;
+  }
+  .board-focus .board-column > .player-row {
+    order: 0;
+    width: 100%;
+  }
+  .board-focus .board-column > .own-player {
+    order: 2;
+  }
+  .board-focus .board-column > .board-focus-status {
+    order: 3;
+    width: 100%;
+  }
+  .board-focus .board-controls,
+  .board-focus .board-column > .square-names-toggle {
+    order: 4;
+    width: 100%;
+    max-height: none;
+    display: flex;
+    flex-wrap: wrap;
+  }
+  .board-focus .chess-clock,
+  .board-focus .friend-clock {
+    flex: 0 0 auto;
+    margin: 0;
+  }
+  .board-focus .exercise-board {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: auto;
+    max-width: var(--focus-size);
+  }
+  .board-focus .lesson-board-tools {
+    height: auto;
+    margin-top: 12px;
+  }
+}

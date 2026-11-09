@@ -1,4 +1,11 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import {
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import type { Color, Square } from "chess.js";
 import {
   ArrowRight,
@@ -23,6 +30,7 @@ import { Board } from "./Board";
 import { Piece } from "./Piece";
 import { SquareNamesToggle } from "./SquareNamesToggle";
 import { MoveLog } from "./MoveLog";
+import { BoardFocusContext, FocusPanel } from "./FocusPanel";
 import { pieceNames, type Promotion } from "../chess/model";
 import { FriendClock, MatchLimit } from "./FriendClock";
 import { useBotProtection } from "./BotProtection";
@@ -63,12 +71,15 @@ export function Multiplayer({
   onToggleNames,
   soloRunning,
   onSolo,
+  onBoardViewChange,
 }: {
   showSquareNames: boolean;
   onToggleNames: () => void;
   soloRunning: boolean;
   onSolo: () => void;
+  onBoardViewChange: (active: boolean) => void;
 }) {
+  const focus = useContext(BoardFocusContext);
   const [answer, setAnswer] = useState<Answer>({ room: null });
   const [loading, setLoading] = useState(true);
   const [busy, setBusy] = useState(false);
@@ -98,6 +109,10 @@ export function Multiplayer({
   const heading = useRef<HTMLHeadingElement>(null);
   const room = answer.room;
   const id = room?.id;
+  useEffect(() => {
+    onBoardViewChange(Boolean(id));
+    return () => onBoardViewChange(false);
+  }, [id, onBoardViewChange]);
   const game = useMemo(() => replay(room?.moves ?? []), [room?.moves]);
   const history = game.history({ verbose: true });
   const ownColor = answer.color ?? "w";
@@ -485,7 +500,7 @@ export function Multiplayer({
         </>
       ) : (
         <>
-          {waiting && (
+          {waiting && !focus.enabled && (
             <section className="friend-invite" aria-labelledby="invite-title">
               <div>
                 <div className="eyebrow">GE KODEN TILL DIN KOMPIS</div>
@@ -585,12 +600,54 @@ export function Multiplayer({
                   refresh={refresh}
                 />
               </div>
+              <div className="board-focus-status" role="status">
+                {!reachable
+                  ? "Väntar på kontakt. Brädet är låst."
+                  : playing && game.isCheck()
+                    ? `Schack! ${status}`
+                    : status}
+                {focus.enabled && (
+                  <>
+                    {waiting && (
+                      <div className="focus-invite-code">
+                        <label htmlFor="focus-own-code">Partiets kod</label>
+                        <input
+                          id="focus-own-code"
+                          readOnly
+                          value={
+                            answer.code
+                              ? `${answer.code.slice(0, 3)}-${answer.code.slice(3)}`
+                              : ""
+                          }
+                          onFocus={(event) => event.target.select()}
+                        />
+                        <small>Ge koden till din kompis.</small>
+                      </div>
+                    )}
+                    <MatchLimit
+                      room={room}
+                      anchor={clockAnchor.current}
+                      refresh={refresh}
+                    />
+                    {playing && room.draw_offer && (
+                      <button
+                        className="button outline small"
+                        onClick={() => focus.setOpen(true)}
+                      >
+                        {room.draw_offer === ownColor
+                          ? "Remi föreslagen"
+                          : "Kompisen föreslår remi"}
+                      </button>
+                    )}
+                  </>
+                )}
+              </div>
               <SquareNamesToggle
                 enabled={showSquareNames}
                 onToggle={onToggleNames}
               />
             </section>
-            <aside className="game-panel">
+            <FocusPanel className="game-panel" title="Drag och spelval">
               <div
                 className={`turn-card ${finished ? "finished" : ""}`}
                 role="status"
@@ -612,11 +669,13 @@ export function Multiplayer({
                     : "Utan spelarklocka"}
                   {waiting ? " · börjar när ni är två" : ""}
                 </p>
-                <MatchLimit
-                  room={room}
-                  anchor={clockAnchor.current}
-                  refresh={refresh}
-                />
+                {!focus.enabled && (
+                  <MatchLimit
+                    room={room}
+                    anchor={clockAnchor.current}
+                    refresh={refresh}
+                  />
+                )}
               </div>
               {!reachable && (
                 <p className="friend-network">
@@ -760,7 +819,7 @@ export function Multiplayer({
                   )}
                 </section>
               )}
-            </aside>
+            </FocusPanel>
           </div>
           <p className="friend-privacy">
             Partiet gäller i 24 timmar från att det skapades. Använd samma

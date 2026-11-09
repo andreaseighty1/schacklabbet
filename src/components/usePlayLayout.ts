@@ -1,6 +1,10 @@
 import { useEffect, useState } from "react";
 
-type Preferences = { compact: boolean | null; sidebarHidden: boolean | null };
+type Preferences = {
+  compact: boolean | null;
+  sidebarHidden: boolean | null;
+  focus: boolean;
+};
 const key = "schacklabbet.layout.v1";
 function readPreferences(): Preferences {
   try {
@@ -9,9 +13,10 @@ function readPreferences(): Preferences {
       compact: typeof saved?.compact === "boolean" ? saved.compact : null,
       sidebarHidden:
         typeof saved?.sidebarHidden === "boolean" ? saved.sidebarHidden : null,
+      focus: saved?.focus === true,
     };
   } catch {
-    return { compact: null, sidebarHidden: null };
+    return { compact: null, sidebarHidden: null, focus: false };
   }
 }
 function useMedia(query: string) {
@@ -29,7 +34,8 @@ export function usePlayLayout(boardView: boolean) {
   const narrow = useMedia("(max-width: 1100px)");
   const short = useMedia("(min-width: 691px) and (max-height: 800px)");
   const compact = boardView && (preferences.compact ?? short);
-  const drawer = narrow || (preferences.sidebarHidden ?? compact);
+  const focus = boardView && preferences.focus;
+  const drawer = focus || narrow || (preferences.sidebarHidden ?? compact);
   useEffect(() => {
     try {
       localStorage.setItem(key, JSON.stringify(preferences));
@@ -41,6 +47,8 @@ export function usePlayLayout(boardView: boolean) {
     compact,
     drawer,
     narrow,
+    focus,
+    toggleFocus: () => setPreferences((value) => ({ ...value, focus: !focus })),
     toggleCompact: () =>
       setPreferences((value) => ({ ...value, compact: !compact })),
     toggleSidebar: () =>

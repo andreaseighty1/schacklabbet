@@ -24,6 +24,8 @@ import {
   PanelLeftClose,
   PanelLeftOpen,
   Maximize2,
+  Minimize2,
+  List,
   RotateCcw,
   Settings2,
   ShieldCheck,
@@ -59,6 +61,7 @@ import type { TrainingRecommendation } from "./chess/recommendation";
 import { LessonCatalog } from "./components/LessonCatalog";
 import { MoveLog } from "./components/MoveLog";
 import { usePlayLayout } from "./components/usePlayLayout";
+import { BoardFocusContext, FocusPanel } from "./components/FocusPanel";
 import { PostGameReview } from "./components/PostGameReview";
 import {
   AchievementArt,
@@ -365,10 +368,13 @@ export default function App() {
     useState<TrainingRecommendation | null>(null);
   const [replay, setReplay] = useState<number | null>(null);
   const [mobileMenu, setMobileMenu] = useState(false);
+  const [focusPanelOpen, setFocusPanelOpen] = useState(false);
+  const [friendBoard, setFriendBoard] = useState(false);
+  const [trainingBoard, setTrainingBoard] = useState(false);
   const boardView =
     (view === "play" && hasGame) ||
-    view === "friends" ||
-    view === "session" ||
+    (view === "friends" && friendBoard) ||
+    (view === "session" && trainingBoard) ||
     Boolean(exercise && (view === "school" || view === "challenges"));
   const layout = usePlayLayout(boardView);
   const terminal = ended || resultText(game);
@@ -427,6 +433,7 @@ export default function App() {
     voicePlayer,
   ]);
   function navigate(next: View) {
+    setFocusPanelOpen(false);
     setReviewLesson(null);
     voicePlayer.reset();
     hintAbort.current?.abort();
@@ -441,6 +448,7 @@ export default function App() {
     const handler = () => {
       const next = initialView();
       if (next !== viewRef.current) {
+        setFocusPanelOpen(false);
         setReviewLesson(null);
         voicePlayer.reset();
         hintAbort.current?.abort();
@@ -624,6 +632,7 @@ export default function App() {
     navigate("play");
   }
   function openNew(profile?: Profile) {
+    setFocusPanelOpen(false);
     voicePlayer.reset();
     setDraft({ ...config, profile: profile ?? config.profile });
     setModal("new");
@@ -824,9 +833,9 @@ export default function App() {
       to: risk.to,
       promotion: risk.promotion,
     });
-  return (
+  const content = (
     <div
-      className={`app-shell ${layout.drawer ? "is-nav-drawer" : ""} ${layout.compact ? "compact-play" : ""}`}
+      className={`app-shell ${layout.drawer ? "is-nav-drawer" : ""} ${layout.compact || layout.focus ? "compact-play" : ""} ${layout.focus ? "board-focus" : ""}`}
       data-chess-theme={chessTheme}
     >
       <NavigationDrawer
@@ -899,7 +908,7 @@ export default function App() {
             >
               <Menu />
             </button>
-            {!layout.narrow && (
+            {!layout.narrow && !layout.focus && (
               <button
                 className="text-button sidebar-visibility"
                 aria-label={layout.drawer ? "Visa sidomenyn" : "Dölj sidomenyn"}
@@ -914,12 +923,26 @@ export default function App() {
                 <span>{layout.drawer ? "Visa sidomeny" : "Dölj meny"}</span>
               </button>
             )}
+            {layout.focus && view !== "play" && view !== "friends" && (
+              <button
+                className="icon-button"
+                aria-label="Tillbaka från övningen"
+                onClick={() => {
+                  setFocusPanelOpen(false);
+                  if (reviewLesson) navigate("play");
+                  else if (view === "session") navigate("home");
+                  else setExercise(null);
+                }}
+              >
+                <ChevronLeft />
+              </button>
+            )}
             <span>Schacklabbet</span>
             <ChevronRight size={14} />
             <strong>{pageTitle}</strong>
           </div>
           <div className="topbar-right">
-            {view === "play" && hasGame && layout.compact && (
+            {view === "play" && hasGame && (layout.compact || layout.focus) && (
               <button
                 className="button outline small compact-new-game"
                 onClick={() => openNew()}
@@ -929,7 +952,7 @@ export default function App() {
                 <span>Nytt parti</span>
               </button>
             )}
-            {boardView && (
+            {boardView && !layout.focus && (
               <button
                 className="layout-toggle"
                 aria-label="Kompakt spelvy"
@@ -939,6 +962,39 @@ export default function App() {
               >
                 <Maximize2 size={17} />
                 <span>Kompakt spelvy</span>
+              </button>
+            )}
+            {boardView && (
+              <button
+                className="layout-toggle focus-view-toggle"
+                aria-label={layout.focus ? "Avsluta brädesläge" : "Stort bräde"}
+                aria-pressed={layout.focus}
+                onClick={() => {
+                  setFocusPanelOpen(false);
+                  setMobileMenu(false);
+                  layout.toggleFocus();
+                }}
+              >
+                {layout.focus ? (
+                  <Minimize2 size={17} />
+                ) : (
+                  <Maximize2 size={17} />
+                )}
+                <span>{layout.focus ? "Normal vy" : "Stort bräde"}</span>
+              </button>
+            )}
+            {layout.focus && (
+              <button
+                className="layout-toggle focus-tools-toggle"
+                aria-expanded={focusPanelOpen}
+                onClick={() => setFocusPanelOpen(true)}
+              >
+                <List size={17} />
+                <span>
+                  {view === "play" || view === "friends"
+                    ? "Drag & spelval"
+                    : "Uppdrag & hjälp"}
+                </span>
               </button>
             )}
             <VoiceControls voice={voice} />
@@ -1173,7 +1229,9 @@ export default function App() {
                   <ChevronRight size={21} />
                   <span className="progress-track">
                     <span
-                      style={{ width: `${(played / exercises.length) * 100}%` }}
+                      style={{
+                        width: `${(played / exercises.length) * 100}%`,
+                      }}
                     />
                   </span>
                 </button>
@@ -1210,7 +1268,7 @@ export default function App() {
                     </span>
                   </h1>
                 </div>
-                {!layout.compact && (
+                {!layout.compact && !layout.focus && (
                   <button
                     className="button outline small"
                     onClick={() => openNew()}
@@ -1308,6 +1366,17 @@ export default function App() {
                       label="Din tid"
                     />
                   </div>
+                  <div className="board-focus-status" role="status">
+                    {engineError ||
+                      terminal ||
+                      (game.isCheck()
+                        ? "Schack – skydda kungen!"
+                        : busy
+                          ? "Datorn tänker…"
+                          : playerTurn
+                            ? "Din tur"
+                            : "Datorns tur")}
+                  </div>
                   <div className="board-controls">
                     <button
                       className="text-button"
@@ -1357,7 +1426,7 @@ export default function App() {
                     )}
                   </div>
                 </section>
-                <aside className="game-panel">
+                <FocusPanel className="game-panel" title="Drag och spelval">
                   <div
                     className={`turn-card ${terminal ? "finished" : ""}`}
                     aria-live="polite"
@@ -1554,7 +1623,7 @@ export default function App() {
                         ? "Tävlingsprofil · utan schackklocka"
                         : "Ditt parti sparas automatiskt på datorn"}
                   </div>
-                </aside>
+                </FocusPanel>
               </div>
               {terminal && (
                 <PostGameReview
@@ -1584,6 +1653,7 @@ export default function App() {
           )}
           {view === "session" && (
             <TrainingSession
+              onBoardViewChange={setTrainingBoard}
               state={training}
               update={setTraining}
               voice={voice}
@@ -1864,6 +1934,7 @@ export default function App() {
             <FriendBoundary>
               <Suspense fallback={<p role="status">Öppnar kompispartier…</p>}>
                 <Multiplayer
+                  onBoardViewChange={setFriendBoard}
                   showSquareNames={showSquareNames}
                   onToggleNames={toggleSquareNames}
                   soloRunning={Boolean(clockState?.running)}
@@ -1972,7 +2043,10 @@ export default function App() {
               id="profile"
               value={draft.profile}
               onChange={(e) =>
-                setDraft((v) => ({ ...v, profile: e.target.value as Profile }))
+                setDraft((v) => ({
+                  ...v,
+                  profile: e.target.value as Profile,
+                }))
               }
             >
               <option value="beginner">
@@ -2215,5 +2289,16 @@ export default function App() {
         </Modal>
       )}
     </div>
+  );
+  return (
+    <BoardFocusContext.Provider
+      value={{
+        enabled: layout.focus,
+        open: focusPanelOpen,
+        setOpen: setFocusPanelOpen,
+      }}
+    >
+      {content}
+    </BoardFocusContext.Provider>
   );
 }

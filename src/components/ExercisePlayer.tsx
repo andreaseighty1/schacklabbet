@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { type Square } from "chess.js";
 import {
   ArrowLeft,
@@ -21,6 +21,7 @@ import { Board } from "./Board";
 import { Piece } from "./Piece";
 import { ListenButton, PlaybackControls } from "./VoiceControls";
 import { SquareNamesToggle, useSquareNames } from "./SquareNamesToggle";
+import { BoardFocusContext, FocusPanel } from "./FocusPanel";
 
 export function ExercisePlayer({
   exercise,
@@ -45,6 +46,7 @@ export function ExercisePlayer({
   backLabel?: string;
   doneLabel?: string;
 }) {
+  const focus = useContext(BoardFocusContext);
   const restoredSolution = exercise.solutions.includes(savedSolution ?? "")
     ? savedSolution
     : undefined;
@@ -166,6 +168,16 @@ export function ExercisePlayer({
   const backText =
     backLabel ??
     `Tillbaka till ${exercise.category === "school" ? "schackskolan" : "utmaningarna"}`;
+  function showReply() {
+    focus.setOpen(false);
+    voice.player.reset();
+    setSession(revealLessonReply(exercise, session));
+    setFeedback(reply!.explanation);
+    const responseClip = learningClip(exercise.id, `reply-${session.step}`);
+    if (responseClip) voice.player.play(responseClip);
+    setSelected(null);
+    setShowHint(false);
+  }
   return (
     <>
       <div className="exercise-heading">
@@ -194,13 +206,6 @@ export function ExercisePlayer({
       </div>
       <div className="exercise-layout">
         <div className="exercise-board">
-          <div className="lesson-board-options">
-            <SquareNamesToggle
-              enabled={showSquareNames}
-              onToggle={toggleSquareNames}
-            />
-            <span>D4 betyder D-linjen, rad 4.</span>
-          </div>
           <Board
             game={game}
             showSquareNames={showSquareNames}
@@ -222,21 +227,71 @@ export function ExercisePlayer({
               Boolean(exercise.question)
             }
           />
-          <p className="board-perspective">
-            {exercise.orientation === "b"
-              ? "Du ser brädet från svarts sida."
-              : "Du ser brädet från vits sida."}
-          </p>
-          {!exercise.question && !solved && (
-            <p className="board-help-legend">
-              Välj en pjäs. Punkter visar möjliga drag. En ring visar var du kan
-              ta en pjäs.
-              {exercise.tryAgain &&
-                " Markeringarna visar hur pjäsen får gå. Undersök själv om den kan tas efteråt."}
+          <div className="lesson-board-tools">
+            {focus.enabled && (
+              <div className="focus-lesson-summary" role="status">
+                <strong>
+                  {solved
+                    ? "Avklarat!"
+                    : awaitingReply
+                      ? "Motståndarens tur"
+                      : "Ditt uppdrag"}
+                </strong>
+                <p>
+                  {solved
+                    ? exercise.success
+                    : awaitingReply
+                      ? "Visa svaret när du har tittat på ditt drag."
+                      : (currentStep?.instruction ?? exercise.description)}
+                </p>
+                <p className="fine-print">{feedback}</p>
+                {showHint && !solved && !awaitingReply && (
+                  <p className="hint-text">{currentStep.hint}</p>
+                )}
+                {awaitingReply && (
+                  <button className="button primary" onClick={showReply}>
+                    Visa motståndarens svar
+                  </button>
+                )}
+                <button
+                  className="button outline"
+                  onClick={() => focus.setOpen(true)}
+                >
+                  {exercise.question
+                    ? "Visa svarsalternativ"
+                    : solved
+                      ? "Nästa steg"
+                      : "Uppdrag & hjälp"}
+                </button>
+              </div>
+            )}
+            <div className="lesson-board-options">
+              <SquareNamesToggle
+                enabled={showSquareNames}
+                onToggle={toggleSquareNames}
+              />
+              <span>D4 betyder D-linjen, rad 4.</span>
+            </div>
+            <p className="board-perspective">
+              {exercise.orientation === "b"
+                ? "Du ser brädet från svarts sida."
+                : "Du ser brädet från vits sida."}
             </p>
-          )}
+            {!exercise.question && !solved && (
+              <p className="board-help-legend">
+                Välj en pjäs. Punkter visar möjliga drag. En ring visar var du
+                kan ta en pjäs.
+                {exercise.tryAgain &&
+                  " Markeringarna visar hur pjäsen får gå. Undersök själv om den kan tas efteråt."}
+              </p>
+            )}
+          </div>
         </div>
-        <section className="exercise-panel">
+        <FocusPanel
+          className="exercise-panel"
+          title="Uppdrag och hjälp"
+          attention={Boolean(promotion) || solved}
+        >
           <span className="card-icon sage">
             {solved ? <CheckCircle2 /> : <Lightbulb />}
           </span>
@@ -333,21 +388,7 @@ export function ExercisePlayer({
             <p>{feedback}</p>
           </div>
           {awaitingReply && (
-            <button
-              className="button primary lesson-reply"
-              onClick={() => {
-                voice.player.reset();
-                setSession(revealLessonReply(exercise, session));
-                setFeedback(reply!.explanation);
-                const responseClip = learningClip(
-                  exercise.id,
-                  `reply-${session.step}`,
-                );
-                if (responseClip) voice.player.play(responseClip);
-                setSelected(null);
-                setShowHint(false);
-              }}
-            >
+            <button className="button primary lesson-reply" onClick={showReply}>
               Visa motståndarens svar <ArrowRight size={17} />
             </button>
           )}
@@ -387,6 +428,7 @@ export function ExercisePlayer({
                     if (hintClip) voice.player.play(hintClip);
                   } else voice.player.reset();
                   setShowHint((v) => !v);
+                  focus.setOpen(false);
                 }}
               >
                 <Lightbulb size={17} />
@@ -414,7 +456,11 @@ export function ExercisePlayer({
               <>
                 <button
                   className="button primary"
-                  onClick={nextExercise ? onNext : onBack}
+                  onClick={() => {
+                    focus.setOpen(false);
+                    if (nextExercise) onNext();
+                    else onBack();
+                  }}
                 >
                   {nextExercise
                     ? `Nästa: ${nextExercise.title}`
@@ -424,6 +470,7 @@ export function ExercisePlayer({
                 <button
                   className="text-button"
                   onClick={() => {
+                    focus.setOpen(false);
                     voice.player.reset();
                     setSession(startLesson(exercise));
                     setSolved(false);
@@ -443,7 +490,7 @@ export function ExercisePlayer({
               </>
             )}
           </div>
-        </section>
+        </FocusPanel>
       </div>
     </>
   );
